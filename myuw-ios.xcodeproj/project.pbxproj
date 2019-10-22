@@ -14,7 +14,8 @@
 		854EE09822F0F9A30042381A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 854EE09622F0F9A30042381A /* LaunchScreen.storyboard */; };
 		854EE0A322F0F9A30042381A /* myuw_testTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 854EE0A222F0F9A30042381A /* myuw_testTests.swift */; };
 		854EE0AE22F0F9A30042381A /* myuw_testUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 854EE0AD22F0F9A30042381A /* myuw_testUITests.swift */; };
-		85F901A7235E34AE00DA0083 /* ModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F901A6235E34AE00DA0083 /* ModalViewController.swift */; };
+		85F901A7235E34AE00DA0083 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F901A6235E34AE00DA0083 /* ProfileViewController.swift */; };
+		85F901AF235F927600DA0083 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F901AE235F927600DA0083 /* WebViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,20 +36,21 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		854EE08A22F0F9A20042381A /* myuw-test.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "myuw-test.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		854EE08A22F0F9A20042381A /* myuw-ios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "myuw-ios.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		854EE08D22F0F9A20042381A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		854EE08F22F0F9A20042381A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		854EE09222F0F9A20042381A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		854EE09422F0F9A30042381A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		854EE09722F0F9A30042381A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		854EE09922F0F9A30042381A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		854EE09E22F0F9A30042381A /* myuw-testTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "myuw-testTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		854EE09E22F0F9A30042381A /* myuw-iosTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "myuw-iosTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		854EE0A222F0F9A30042381A /* myuw_testTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = myuw_testTests.swift; sourceTree = "<group>"; };
 		854EE0A422F0F9A30042381A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		854EE0A922F0F9A30042381A /* myuw-testUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "myuw-testUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		854EE0A922F0F9A30042381A /* myuw-iosUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "myuw-iosUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		854EE0AD22F0F9A30042381A /* myuw_testUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = myuw_testUITests.swift; sourceTree = "<group>"; };
 		854EE0AF22F0F9A30042381A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		85F901A6235E34AE00DA0083 /* ModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalViewController.swift; sourceTree = "<group>"; };
+		85F901A6235E34AE00DA0083 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		85F901AE235F927600DA0083 /* WebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,9 +81,9 @@
 		854EE08122F0F9A20042381A = {
 			isa = PBXGroup;
 			children = (
-				854EE08C22F0F9A20042381A /* myuw-test */,
-				854EE0A122F0F9A30042381A /* myuw-testTests */,
-				854EE0AC22F0F9A30042381A /* myuw-testUITests */,
+				854EE08C22F0F9A20042381A /* myuw-ios */,
+				854EE0A122F0F9A30042381A /* myuw-iosTests */,
+				854EE0AC22F0F9A30042381A /* myuw-iosUITests */,
 				854EE08B22F0F9A20042381A /* Products */,
 			);
 			sourceTree = "<group>";
@@ -89,51 +91,52 @@
 		854EE08B22F0F9A20042381A /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				854EE08A22F0F9A20042381A /* myuw-test.app */,
-				854EE09E22F0F9A30042381A /* myuw-testTests.xctest */,
-				854EE0A922F0F9A30042381A /* myuw-testUITests.xctest */,
+				854EE08A22F0F9A20042381A /* myuw-ios.app */,
+				854EE09E22F0F9A30042381A /* myuw-iosTests.xctest */,
+				854EE0A922F0F9A30042381A /* myuw-iosUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		854EE08C22F0F9A20042381A /* myuw-test */ = {
+		854EE08C22F0F9A20042381A /* myuw-ios */ = {
 			isa = PBXGroup;
 			children = (
 				854EE08D22F0F9A20042381A /* AppDelegate.swift */,
 				854EE08F22F0F9A20042381A /* ViewController.swift */,
-				85F901A6235E34AE00DA0083 /* ModalViewController.swift */,
+				85F901A6235E34AE00DA0083 /* ProfileViewController.swift */,
+				85F901AE235F927600DA0083 /* WebViewController.swift */,
 				854EE09122F0F9A20042381A /* Main.storyboard */,
 				854EE09422F0F9A30042381A /* Assets.xcassets */,
 				854EE09622F0F9A30042381A /* LaunchScreen.storyboard */,
 				854EE09922F0F9A30042381A /* Info.plist */,
 			);
-			path = "myuw-test";
+			path = "myuw-ios";
 			sourceTree = "<group>";
 		};
-		854EE0A122F0F9A30042381A /* myuw-testTests */ = {
+		854EE0A122F0F9A30042381A /* myuw-iosTests */ = {
 			isa = PBXGroup;
 			children = (
 				854EE0A222F0F9A30042381A /* myuw_testTests.swift */,
 				854EE0A422F0F9A30042381A /* Info.plist */,
 			);
-			path = "myuw-testTests";
+			path = "myuw-iosTests";
 			sourceTree = "<group>";
 		};
-		854EE0AC22F0F9A30042381A /* myuw-testUITests */ = {
+		854EE0AC22F0F9A30042381A /* myuw-iosUITests */ = {
 			isa = PBXGroup;
 			children = (
 				854EE0AD22F0F9A30042381A /* myuw_testUITests.swift */,
 				854EE0AF22F0F9A30042381A /* Info.plist */,
 			);
-			path = "myuw-testUITests";
+			path = "myuw-iosUITests";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		854EE08922F0F9A20042381A /* myuw-test */ = {
+		854EE08922F0F9A20042381A /* myuw-ios */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 854EE0B222F0F9A30042381A /* Build configuration list for PBXNativeTarget "myuw-test" */;
+			buildConfigurationList = 854EE0B222F0F9A30042381A /* Build configuration list for PBXNativeTarget "myuw-ios" */;
 			buildPhases = (
 				854EE08622F0F9A20042381A /* Sources */,
 				854EE08722F0F9A20042381A /* Frameworks */,
@@ -143,14 +146,14 @@
 			);
 			dependencies = (
 			);
-			name = "myuw-test";
+			name = "myuw-ios";
 			productName = "myuw-test";
-			productReference = 854EE08A22F0F9A20042381A /* myuw-test.app */;
+			productReference = 854EE08A22F0F9A20042381A /* myuw-ios.app */;
 			productType = "com.apple.product-type.application";
 		};
-		854EE09D22F0F9A30042381A /* myuw-testTests */ = {
+		854EE09D22F0F9A30042381A /* myuw-iosTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 854EE0B522F0F9A30042381A /* Build configuration list for PBXNativeTarget "myuw-testTests" */;
+			buildConfigurationList = 854EE0B522F0F9A30042381A /* Build configuration list for PBXNativeTarget "myuw-iosTests" */;
 			buildPhases = (
 				854EE09A22F0F9A30042381A /* Sources */,
 				854EE09B22F0F9A30042381A /* Frameworks */,
@@ -161,14 +164,14 @@
 			dependencies = (
 				854EE0A022F0F9A30042381A /* PBXTargetDependency */,
 			);
-			name = "myuw-testTests";
+			name = "myuw-iosTests";
 			productName = "myuw-testTests";
-			productReference = 854EE09E22F0F9A30042381A /* myuw-testTests.xctest */;
+			productReference = 854EE09E22F0F9A30042381A /* myuw-iosTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		854EE0A822F0F9A30042381A /* myuw-testUITests */ = {
+		854EE0A822F0F9A30042381A /* myuw-iosUITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 854EE0B822F0F9A30042381A /* Build configuration list for PBXNativeTarget "myuw-testUITests" */;
+			buildConfigurationList = 854EE0B822F0F9A30042381A /* Build configuration list for PBXNativeTarget "myuw-iosUITests" */;
 			buildPhases = (
 				854EE0A522F0F9A30042381A /* Sources */,
 				854EE0A622F0F9A30042381A /* Frameworks */,
@@ -179,9 +182,9 @@
 			dependencies = (
 				854EE0AB22F0F9A30042381A /* PBXTargetDependency */,
 			);
-			name = "myuw-testUITests";
+			name = "myuw-iosUITests";
 			productName = "myuw-testUITests";
-			productReference = 854EE0A922F0F9A30042381A /* myuw-testUITests.xctest */;
+			productReference = 854EE0A922F0F9A30042381A /* myuw-iosUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
@@ -207,7 +210,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 854EE08522F0F9A20042381A /* Build configuration list for PBXProject "myuw-test" */;
+			buildConfigurationList = 854EE08522F0F9A20042381A /* Build configuration list for PBXProject "myuw-ios" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -220,9 +223,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				854EE08922F0F9A20042381A /* myuw-test */,
-				854EE09D22F0F9A30042381A /* myuw-testTests */,
-				854EE0A822F0F9A30042381A /* myuw-testUITests */,
+				854EE08922F0F9A20042381A /* myuw-ios */,
+				854EE09D22F0F9A30042381A /* myuw-iosTests */,
+				854EE0A822F0F9A30042381A /* myuw-iosUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -260,8 +263,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				854EE09022F0F9A20042381A /* ViewController.swift in Sources */,
-				85F901A7235E34AE00DA0083 /* ModalViewController.swift in Sources */,
+				85F901A7235E34AE00DA0083 /* ProfileViewController.swift in Sources */,
 				854EE08E22F0F9A20042381A /* AppDelegate.swift in Sources */,
+				85F901AF235F927600DA0083 /* WebViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -286,12 +290,12 @@
 /* Begin PBXTargetDependency section */
 		854EE0A022F0F9A30042381A /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 854EE08922F0F9A20042381A /* myuw-test */;
+			target = 854EE08922F0F9A20042381A /* myuw-ios */;
 			targetProxy = 854EE09F22F0F9A30042381A /* PBXContainerItemProxy */;
 		};
 		854EE0AB22F0F9A30042381A /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 854EE08922F0F9A20042381A /* myuw-test */;
+			target = 854EE08922F0F9A20042381A /* myuw-ios */;
 			targetProxy = 854EE0AA22F0F9A30042381A /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -437,13 +441,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = "myuw-test/Info.plist";
+				INFOPLIST_FILE = "myuw-ios/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "axdd.myuw-test";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = "axdd.myuw-ios";
+				PRODUCT_NAME = "myuw-ios";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -454,13 +458,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = "myuw-test/Info.plist";
+				INFOPLIST_FILE = "myuw-ios/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "axdd.myuw-test";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = "axdd.myuw-ios";
+				PRODUCT_NAME = "myuw-ios";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -472,17 +476,17 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = "myuw-testTests/Info.plist";
+				INFOPLIST_FILE = "myuw-iosTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "axdd.myuw-testTests";
+				PRODUCT_BUNDLE_IDENTIFIER = "axdd.myuw-iosTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/myuw-test.app/myuw-test";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/myuw-ios.app/myuw-ios";
 			};
 			name = Debug;
 		};
@@ -492,17 +496,17 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = "myuw-testTests/Info.plist";
+				INFOPLIST_FILE = "myuw-iosTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "axdd.myuw-testTests";
+				PRODUCT_BUNDLE_IDENTIFIER = "axdd.myuw-iosTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/myuw-test.app/myuw-test";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/myuw-ios.app/myuw-ios";
 			};
 			name = Release;
 		};
@@ -511,17 +515,17 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = "myuw-testUITests/Info.plist";
+				INFOPLIST_FILE = "myuw-iosUITests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "axdd.myuw-testUITests";
+				PRODUCT_BUNDLE_IDENTIFIER = "axdd.myuw-iosUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = "myuw-test";
+				TEST_TARGET_NAME = "myuw-ios";
 			};
 			name = Debug;
 		};
@@ -530,24 +534,24 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = "myuw-testUITests/Info.plist";
+				INFOPLIST_FILE = "myuw-iosUITests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "axdd.myuw-testUITests";
+				PRODUCT_BUNDLE_IDENTIFIER = "axdd.myuw-iosUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = "myuw-test";
+				TEST_TARGET_NAME = "myuw-ios";
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		854EE08522F0F9A20042381A /* Build configuration list for PBXProject "myuw-test" */ = {
+		854EE08522F0F9A20042381A /* Build configuration list for PBXProject "myuw-ios" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				854EE0B022F0F9A30042381A /* Debug */,
@@ -556,7 +560,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		854EE0B222F0F9A30042381A /* Build configuration list for PBXNativeTarget "myuw-test" */ = {
+		854EE0B222F0F9A30042381A /* Build configuration list for PBXNativeTarget "myuw-ios" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				854EE0B322F0F9A30042381A /* Debug */,
@@ -565,7 +569,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		854EE0B522F0F9A30042381A /* Build configuration list for PBXNativeTarget "myuw-testTests" */ = {
+		854EE0B522F0F9A30042381A /* Build configuration list for PBXNativeTarget "myuw-iosTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				854EE0B622F0F9A30042381A /* Debug */,
@@ -574,7 +578,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		854EE0B822F0F9A30042381A /* Build configuration list for PBXNativeTarget "myuw-testUITests" */ = {
+		854EE0B822F0F9A30042381A /* Build configuration list for PBXNativeTarget "myuw-iosUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				854EE0B922F0F9A30042381A /* Debug */,
