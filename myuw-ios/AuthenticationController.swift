@@ -1,20 +1,22 @@
 //
-//  WebViewController.swift
+//  AuthenticationController.swift
 //  myuw-test
 //
-//  Created by Charlon Palacay on 10/22/19.
+//  Created by Charlon Palacay on 7/30/19.
 //  Copyright © 2019 Charlon Palacay. All rights reserved.
 //
 
 import UIKit
 import WebKit
 
-class WebViewController: UIViewController, WKNavigationDelegate {
+
+class AuthenticationController: UINavigationController, WKNavigationDelegate {
     
     var webView: WKWebView!
 
     override func viewDidLoad() {
-        let url = URL(string: "override in the view controller")!
+        view.backgroundColor = .brown
+        let url = URL(string: "https://my-test.s.uw.edu/")!
         webView.load(URLRequest(url: url))
     }
     
@@ -38,31 +40,13 @@ class WebViewController: UIViewController, WKNavigationDelegate {
      
     }
     
-    /*
-    func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
-        if let url = navigationAction.request.url {
-            
-            print(url.host)
-            /*
-            if url.host != "my-test.s.uw.edu" || url.host != "idp.u.washington.edu" {
-                UIApplication.shared.open(url)
-                decisionHandler(.cancel)
-                return
-            }
-             */
-        }
-
-        decisionHandler(.allow)
-    }
-    */
-    
     // get the cookies
     func webView(_ webView: WKWebView, decidePolicyFor navigationResponse: WKNavigationResponse, decisionHandler: @escaping (WKNavigationResponsePolicy) -> Void) {
         
         webView.configuration.websiteDataStore.httpCookieStore.getAllCookies { cookies in
             
             //debugPrint(cookies.debugDescription)
-            
+            print("**********")
             for cookie in cookies {
                 print("name: \(cookie.name) value: \(cookie.value)")
             }

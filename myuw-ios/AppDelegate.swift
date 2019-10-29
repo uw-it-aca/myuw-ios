@@ -18,12 +18,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         
         
+        let mainViewController = AuthenticationController()
+        //let mainTabBarController = MainTabBarController()
+        
+        //let mainNavigationController =  MainNavigationController()
+        //let secondaryViewController = SecondaryViewController()
+        
         window = UIWindow(frame: UIScreen.main.bounds)
 
-        var mainViewController = ViewController(nibName: "ViewController", bundle: nil)
-        window?.rootViewController = mainViewController
-        
         window?.makeKeyAndVisible()
+        
+        window?.rootViewController = mainViewController
+        //window?.rootViewController = mainTabBarController
+        
         return true
     }
 
