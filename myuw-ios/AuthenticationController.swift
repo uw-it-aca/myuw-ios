@@ -33,11 +33,16 @@ class AuthenticationController: UINavigationController, WKNavigationDelegate {
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         
         // set the title using the webpage title
-        //title = webView.title
-        // set the title manually
-        title = "some title here"
+        title = webView.title
         
-     
+        print(self.title);
+        
+        // check to see if webview is loading myuw
+        if (self.title == "MyUW: Home") {
+            print("on myuw")
+        }
+
+            
     }
     
     // get the cookies

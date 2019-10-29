@@ -25,7 +25,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         window?.makeKeyAndVisible()
         
-        window?.rootViewController = tabController
+        window?.rootViewController = authController
         
         return true
     }
