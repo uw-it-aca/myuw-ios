@@ -10,21 +10,41 @@ import UIKit
 import WebKit
 
 
-class ViewController: WebViewController {
+class ViewController: UINavigationController {
     
     override func viewDidLoad() {
 
         // Do any additional setup after loading the view.
          
-        let url = URL(string: "https://my-test.s.uw.edu/")!
-        webView.load(URLRequest(url: url))
+        
+        if #available(iOS 13.0, *) {
+            let appearance = UINavigationBarAppearance()
+            appearance.backgroundColor = .systemPink
+            appearance.titleTextAttributes = [.foregroundColor: UIColor.white]
+            appearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
+        
+            UINavigationBar.appearance().tintColor = .white
+            UINavigationBar.appearance().standardAppearance = appearance
+            UINavigationBar.appearance().compactAppearance = appearance
+            UINavigationBar.appearance().scrollEdgeAppearance = appearance
+        } else {
+            UINavigationBar.appearance().tintColor = .white
+            UINavigationBar.appearance().barTintColor = .systemPink
+            UINavigationBar.appearance().isTranslucent = false
+        }
+        
+        
+        //let url = URL(string: "https://my-test.s.uw.edu/")!
+        //webView.load(URLRequest(url: url))
         
         // add a right button in navbar programatically
         let testUIBarButtonItem = UIBarButtonItem(title: "Profile", style: .plain, target: self, action: #selector(showProfile))
         self.navigationItem.rightBarButtonItem  = testUIBarButtonItem
         
+        self.title = "Login"
     }
-
+    
+    /*
     override func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
            
         // set the title using the webpage title
@@ -35,6 +55,7 @@ class ViewController: WebViewController {
         //webView.evaluateJavaScript("alert('hello');")
                 
     }
+    */
     
     @objc func showProfile() {
         
