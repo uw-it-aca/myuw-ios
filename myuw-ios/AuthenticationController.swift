@@ -18,6 +18,8 @@ class AuthenticationController: UINavigationController, WKNavigationDelegate {
         view.backgroundColor = .brown
         let url = URL(string: "https://my-test.s.uw.edu/")!
         webView.load(URLRequest(url: url))
+        
+        print("viewDidLoad")
     }
     
     override func loadView() {
@@ -35,11 +37,25 @@ class AuthenticationController: UINavigationController, WKNavigationDelegate {
         // set the title using the webpage title
         title = webView.title
         
-        print(self.title);
+        print(self.title as Any);
         
         // check to see if webview is loading myuw
         if (self.title == "MyUW: Home") {
             print("on myuw")
+            
+            /*
+            self.dismiss(animated: true, completion: nil)
+            let tabController = TabViewController()
+            present(tabController, animated: false)
+            */
+            
+            let tabController = TabViewController()
+            
+            window.rootViewController = tabController
+            
+            // try popping to root view controller
+            popToRootViewController(animated: false)
+                    
         }
 
             

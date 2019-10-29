@@ -19,7 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         
         let authController = AuthenticationController()
-        let tabController = TabController()
+        let tabController = TabViewController()
                 
         window = UIWindow(frame: UIScreen.main.bounds)
 

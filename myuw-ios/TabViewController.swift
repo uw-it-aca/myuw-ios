@@ -1,5 +1,5 @@
 //
-//  TabController.swift
+//  TabViewController.swift
 //  myuw-ios
 //
 //  Created by Charlon Palacay on 10/29/19.
@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class TabController: UITabBarController, UITabBarControllerDelegate {
+class TabViewController: UITabBarController, UITabBarControllerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
