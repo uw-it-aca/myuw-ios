@@ -51,10 +51,6 @@ class AuthenticationController: UINavigationController, WKNavigationDelegate, SF
             // set tabControlleer as rootViewController after login
             appDelegate.window!.rootViewController = tabController
     
-        } else {
-            
-            // present the safari controller
-            
         }
 
             
