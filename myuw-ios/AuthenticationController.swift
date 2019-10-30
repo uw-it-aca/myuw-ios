@@ -1,21 +1,25 @@
 //
-//  WebViewController.swift
+//  AuthenticationController.swift
 //  myuw-test
 //
-//  Created by Charlon Palacay on 10/22/19.
+//  Created by Charlon Palacay on 7/30/19.
 //  Copyright © 2019 Charlon Palacay. All rights reserved.
 //
 
 import UIKit
 import WebKit
 
-class WebViewController: UIViewController, WKNavigationDelegate {
+
+class AuthenticationController: UINavigationController, WKNavigationDelegate {
     
     var webView: WKWebView!
 
     override func viewDidLoad() {
-        let url = URL(string: "override in the view controller")!
+        view.backgroundColor = .brown
+        let url = URL(string: "https://my-test.s.uw.edu/")!
         webView.load(URLRequest(url: url))
+        
+        print("viewDidLoad")
     }
     
     override func loadView() {
@@ -31,30 +35,25 @@ class WebViewController: UIViewController, WKNavigationDelegate {
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         
         // set the title using the webpage title
-        //title = webView.title
-        // set the title manually
-        title = "some title here"
+        title = webView.title
         
-     
-    }
-    
-    /*
-    func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
-        if let url = navigationAction.request.url {
+        print(self.title as Any);
+        
+        // check to see if webview is loading myuw
+        if (self.title == "MyUW: Home") {
+            print("on myuw")
             
-            print(url.host)
-            /*
-            if url.host != "my-test.s.uw.edu" || url.host != "idp.u.washington.edu" {
-                UIApplication.shared.open(url)
-                decisionHandler(.cancel)
-                return
-            }
-             */
+            // tabController (main) and appDelegate instance
+            let tabController = TabViewController()
+            let appDelegate = UIApplication.shared.delegate as! AppDelegate
+            
+            // set tabControlleer as rootViewController after login
+            appDelegate.window!.rootViewController = tabController
+    
         }
 
-        decisionHandler(.allow)
+            
     }
-    */
     
     // get the cookies
     func webView(_ webView: WKWebView, decidePolicyFor navigationResponse: WKNavigationResponse, decisionHandler: @escaping (WKNavigationResponsePolicy) -> Void) {
@@ -62,7 +61,7 @@ class WebViewController: UIViewController, WKNavigationDelegate {
         webView.configuration.websiteDataStore.httpCookieStore.getAllCookies { cookies in
             
             //debugPrint(cookies.debugDescription)
-            
+            print("**********")
             for cookie in cookies {
                 print("name: \(cookie.name) value: \(cookie.value)")
             }

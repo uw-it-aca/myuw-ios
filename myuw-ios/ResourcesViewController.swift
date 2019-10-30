@@ -1,21 +1,21 @@
 //
-//  ProfileViewController.swift
-//  myuw-test
+//  ResourcesViewController.swift
+//  myuw-ios
 //
-//  Created by Charlon Palacay on 10/21/19.
+//  Created by Charlon Palacay on 10/29/19.
 //  Copyright © 2019 Charlon Palacay. All rights reserved.
 //
 
-import UIKit
+import Foundation
 import WebKit
 
-class ProfileViewController: UIViewController, WKNavigationDelegate {
+class ResourcesViewController: UIViewController, WKNavigationDelegate {
     
     var webView: WKWebView!
 
     override func viewDidLoad() {
         view.backgroundColor = .brown
-        let url = URL(string: "https://my-test.s.uw.edu/profile/")!
+        let url = URL(string: "https://my-test.s.uw.edu/resources/")!
         webView.load(URLRequest(url: url))
     }
     
@@ -50,3 +50,4 @@ class ProfileViewController: UIViewController, WKNavigationDelegate {
     }
     
 }
+
