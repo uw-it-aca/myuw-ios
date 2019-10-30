@@ -8,9 +8,10 @@
 
 import UIKit
 import WebKit
+import SafariServices
 
 
-class AuthenticationController: UINavigationController, WKNavigationDelegate {
+class AuthenticationController: UINavigationController, WKNavigationDelegate, SFSafariViewControllerDelegate {
     
     var webView: WKWebView!
 
@@ -50,6 +51,10 @@ class AuthenticationController: UINavigationController, WKNavigationDelegate {
             // set tabControlleer as rootViewController after login
             appDelegate.window!.rootViewController = tabController
     
+        } else {
+            
+            // present the safari controller
+            
         }
 
             
@@ -70,5 +75,7 @@ class AuthenticationController: UINavigationController, WKNavigationDelegate {
 
         decisionHandler(.allow)
     }
+    
+
     
 }

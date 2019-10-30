@@ -20,12 +20,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let authController = AuthenticationController()
         let tabController = TabViewController()
-                
+        let safariController = SafariController()
+        
         window = UIWindow(frame: UIScreen.main.bounds)
 
         window?.makeKeyAndVisible()
         
-        window?.rootViewController = authController
+        window?.rootViewController = safariController
         
         return true
     }
