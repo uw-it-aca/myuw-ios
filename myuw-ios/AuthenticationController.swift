@@ -43,10 +43,11 @@ class AuthenticationController: UINavigationController, WKNavigationDelegate {
         if (self.title == "MyUW: Home") {
             print("on myuw")
             
-            
+            // tabController (main) and appDelegate instance
             let tabController = TabViewController()
             let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        
+            
+            // set tabControlleer as rootViewController after login
             appDelegate.window!.rootViewController = tabController
     
         }
