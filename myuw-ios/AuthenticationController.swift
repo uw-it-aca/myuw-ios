@@ -43,19 +43,12 @@ class AuthenticationController: UINavigationController, WKNavigationDelegate {
         if (self.title == "MyUW: Home") {
             print("on myuw")
             
-            /*
-            self.dismiss(animated: true, completion: nil)
-            let tabController = TabViewController()
-            present(tabController, animated: false)
-            */
             
             let tabController = TabViewController()
-            
-            window.rootViewController = tabController
-            
-            // try popping to root view controller
-            popToRootViewController(animated: false)
-                    
+            let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        
+            appDelegate.window!.rootViewController = tabController
+    
         }
 
             
