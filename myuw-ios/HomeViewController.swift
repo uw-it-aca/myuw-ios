@@ -52,7 +52,7 @@ class HomeViewController: UIViewController, WKNavigationDelegate {
         webView.configuration.websiteDataStore.httpCookieStore.getAllCookies { cookies in
             
             //debugPrint(cookies.debugDescription)
-            print("**********")
+            print("** home view **********")
             for cookie in cookies {
                 print("name: \(cookie.name) value: \(cookie.value)")
             }
