@@ -8,6 +8,8 @@
 
 import UIKit
 
+var userAffiliation = ""
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 

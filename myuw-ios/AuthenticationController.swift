@@ -42,16 +42,22 @@ class AuthenticationController: UINavigationController, WKNavigationDelegate, SF
         title = webView.title
         print("webview title: ", self.title as Any);
         
-        // check to see if webview is loading myuw
+        // check to see if webview is loading myuw (simulates being "logged" into myuw)
         if (self.title == "MyUW: Home") {
             
             print("on myuw")
+            
+            // once user is logged into myuw, we need to pass the user's affiliation
+            // back to the native app - so it knows how to build the tab navigation
+            
+            userAffiliation = "teaching"
+            
             
             // tabController (main) and appDelegate instance
             let tabController = TabViewController()
             let appDelegate = UIApplication.shared.delegate as! AppDelegate
             
-            // set tabControlleer as rootViewController after simulating the user login
+            // set tabControlleer as rootViewController after simulating the user logged in
             appDelegate.window!.rootViewController = tabController
     
         }

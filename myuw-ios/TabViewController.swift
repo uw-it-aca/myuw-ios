@@ -24,45 +24,46 @@ class TabViewController: UITabBarController, UITabBarControllerDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        // Create Tab one
-        let tabOne = UINavigationController(rootViewController: HomeViewController())
-        let tabOneBarItem = UITabBarItem(title: "Home", image: UIImage(named: "defaultImage.png"), selectedImage: UIImage(named: "selectedImage.png"))
-        tabOne.tabBarItem = tabOneBarItem
+        // Home tab
+        let tabHome = UINavigationController(rootViewController: HomeViewController())
+        let tabHomeBarItem = UITabBarItem(title: "Home", image: UIImage(named: "defaultImage.png"), selectedImage: UIImage(named: "selectedImage.png"))
+        tabHome.tabBarItem = tabHomeBarItem
 
-        // Create Tab two
-        let tabTwo = UINavigationController(rootViewController: AcademicsViewController())
-        let tabTwoBarItem2 = UITabBarItem(title: "Academics", image: UIImage(named: "defaultImage2.png"), selectedImage: UIImage(named: "selectedImage2.png"))
-        tabTwo.tabBarItem = tabTwoBarItem2
+        // Academics tab
+        let tabAcademics = UINavigationController(rootViewController: AcademicsViewController())
+        let tabAcademicsBarItem = UITabBarItem(title: "Academics", image: UIImage(named: "defaultImage2.png"), selectedImage: UIImage(named: "selectedImage2.png"))
+        tabAcademics.tabBarItem = tabAcademicsBarItem
         
-        // Create Tab three
-        let tabThree = UINavigationController(rootViewController: TeachingViewController())
-        let tabThreeBarItem2 = UITabBarItem(title: "Teaching", image: UIImage(named: "defaultImage2.png"), selectedImage: UIImage(named: "selectedImage2.png"))
-        tabThree.tabBarItem = tabThreeBarItem2
+        // Teaching tab
+        let tabTeaching = UINavigationController(rootViewController: TeachingViewController())
+        let tabTeachingBarItem = UITabBarItem(title: "Teaching", image: UIImage(named: "defaultImage2.png"), selectedImage: UIImage(named: "selectedImage2.png"))
+        tabTeaching.tabBarItem = tabTeachingBarItem
         
-        // Create Tab four
-        let tabFour = UINavigationController(rootViewController: ProfileViewController())
-        let tabFourBarItem2 = UITabBarItem(title: "Profile", image: UIImage(named: "defaultImage2.png"), selectedImage: UIImage(named: "selectedImage2.png"))
-        tabFour.tabBarItem = tabFourBarItem2
+        // Accounts tab
+        let tabAccounts = UINavigationController(rootViewController: AccountsViewController())
+        let tabAccountsBarItem = UITabBarItem(title: "Accounts", image: UIImage(named: "defaultImage2.png"), selectedImage: UIImage(named: "selectedImage2.png"))
+        tabAccounts.tabBarItem = tabAccountsBarItem
         
-        // Create Tab five
-        let tabFive = UINavigationController(rootViewController: AccountsViewController())
-        let tabFiveBarItem2 = UITabBarItem(title: "Accounts", image: UIImage(named: "defaultImage2.png"), selectedImage: UIImage(named: "selectedImage2.png"))
-        tabFive.tabBarItem = tabFiveBarItem2
+        // Calendar tab
+        let tabCalendar = UINavigationController(rootViewController: CalendarViewController())
+        let tabCalendarBarItem = UITabBarItem(title: "Calendar", image: UIImage(named: "defaultImage2.png"), selectedImage: UIImage(named: "selectedImage2.png"))
+        tabCalendar.tabBarItem = tabCalendarBarItem
         
-        // Create Tab six
-        let tabSix = UINavigationController(rootViewController: CalendarViewController())
-        let tabSixBarItem2 = UITabBarItem(title: "Calendar", image: UIImage(named: "defaultImage2.png"), selectedImage: UIImage(named: "selectedImage2.png"))
-        tabSix.tabBarItem = tabSixBarItem2
+        // Resources tab
+        let tabResources = UINavigationController(rootViewController: ResourcesViewController())
+        let tabResourcesBarItem = UITabBarItem(title: "Resources", image: UIImage(named: "defaultImage2.png"), selectedImage: UIImage(named: "selectedImage2.png"))
+        tabResources.tabBarItem = tabResourcesBarItem
         
-        // Create Tab seven
-        let tabSeven = UINavigationController(rootViewController: ResourcesViewController())
-        let tabSevenBarItem2 = UITabBarItem(title: "Resources", image: UIImage(named: "defaultImage2.png"), selectedImage: UIImage(named: "selectedImage2.png"))
-        tabSeven.tabBarItem = tabSevenBarItem2
+        var controllers: NSArray = []
         
+        if userAffiliation == "student" {
+            controllers = [tabHome, tabAcademics, tabAccounts, tabCalendar, tabResources]
+        }
+        else {
+            controllers = [tabHome, tabTeaching, tabAccounts, tabCalendar, tabResources]
+        }
         
-        let controllers = [tabOne, tabTwo, tabThree, tabFour, tabFive, tabSix, tabSeven]
-        
-        self.viewControllers = controllers
+        self.viewControllers = controllers as! [UIViewController]
    
     }
     
