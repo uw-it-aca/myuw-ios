@@ -17,6 +17,13 @@ class ProfileViewController: UIViewController, WKNavigationDelegate {
         view.backgroundColor = .brown
         let url = URL(string: "https://my-test.s.uw.edu/profile/")!
         webView.load(URLRequest(url: url))
+        
+        self.title = "Profile"
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.navigationBar.prefersLargeTitles = true
     }
     
     override func loadView() {
