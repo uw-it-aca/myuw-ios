@@ -69,17 +69,6 @@ class TabViewController: UITabBarController, UITabBarControllerDelegate {
     
     // UITabBarControllerDelegate method
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
-        
-        print(viewController)
-        
-        if (viewController.isKind(of: ProfileViewController.self)) {
-            self.title = "MYUW"
-        }
-        
-        if (viewController.isKind(of: ProfileViewController.self)) {
-            self.title = "PROFILE"
-        }
-        
-  
+          
     }
 }
