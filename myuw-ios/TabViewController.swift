@@ -59,7 +59,10 @@ class TabViewController: UITabBarController, UITabBarControllerDelegate {
         let tabSevenBarItem2 = UITabBarItem(title: "Resources", image: UIImage(named: "defaultImage2.png"), selectedImage: UIImage(named: "selectedImage2.png"))
         tabSeven.tabBarItem = tabSevenBarItem2
         
-        self.viewControllers = [tabOne, tabTwo, tabThree, tabFour, tabFive, tabSix, tabSeven]
+        
+        let controllers = [tabOne, tabTwo, tabThree, tabFour, tabFive, tabSix, tabSeven]
+        
+        self.viewControllers = controllers
    
     }
     
