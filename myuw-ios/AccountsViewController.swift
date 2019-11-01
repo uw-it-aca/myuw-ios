@@ -17,6 +17,13 @@ class AccountsViewController: UIViewController, WKNavigationDelegate {
         view.backgroundColor = .brown
         let url = URL(string: "https://my-test.s.uw.edu/accounts/")!
         webView.load(URLRequest(url: url))
+        
+        self.title = "Accounts"
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.navigationBar.prefersLargeTitles = true
     }
     
     override func loadView() {

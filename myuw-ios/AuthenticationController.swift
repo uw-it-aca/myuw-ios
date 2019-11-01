@@ -38,10 +38,11 @@ class AuthenticationController: UINavigationController, WKNavigationDelegate, SF
         // set the title using the webpage title
         title = webView.title
         
-        print(self.title as Any);
+        print("webview title: ", self.title as Any);
         
         // check to see if webview is loading myuw
         if (self.title == "MyUW: Home") {
+            
             print("on myuw")
             
             // tabController (main) and appDelegate instance

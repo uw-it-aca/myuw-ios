@@ -17,7 +17,20 @@ class HomeViewController: UIViewController, WKNavigationDelegate {
         view.backgroundColor = .brown
         let url = URL(string: "https://my-test.s.uw.edu/")!
         webView.load(URLRequest(url: url))
+        
+        self.title = "Home"
+        
+        // add a right button in navbar programatically
+        let testUIBarButtonItem = UIBarButtonItem(title: "Profile", style: .plain, target: self, action: #selector(showProfile))
+        self.navigationItem.rightBarButtonItem  = testUIBarButtonItem
+        
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.navigationBar.prefersLargeTitles = true
+    }
+    
     
     override func loadView() {
         let configuration = WKWebViewConfiguration()
@@ -47,6 +60,24 @@ class HomeViewController: UIViewController, WKNavigationDelegate {
         }
 
         decisionHandler(.allow)
+    }
+    
+    @objc func showProfile() {
+        
+        // instantiate instance of ProfileViewController
+        let profileViewController = ProfileViewController()
+                
+        // set style of how view controller is to be presented
+        if #available(iOS 13.0, *) {
+            profileViewController.modalPresentationStyle = .automatic
+        } else {
+            // fallback on earlier versions
+            profileViewController.modalPresentationStyle = .formSheet
+        }
+        
+        // present the profile view controller
+        present(profileViewController, animated: true, completion: nil)
+
     }
     
 }

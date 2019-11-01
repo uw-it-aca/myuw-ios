@@ -17,6 +17,13 @@ class TeachingViewController: UIViewController, WKNavigationDelegate {
         view.backgroundColor = .brown
         let url = URL(string: "https://my-test.s.uw.edu/teaching/")!
         webView.load(URLRequest(url: url))
+        
+        self.title = "Teaching"
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.navigationBar.prefersLargeTitles = true
     }
     
     override func loadView() {
