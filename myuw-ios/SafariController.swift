@@ -25,11 +25,14 @@ class SafariController: UIViewController, SFSafariViewControllerDelegate {
         print("isLogged", isLogged)
         
         if isLogged {
+            
             // tabController (main) and appDelegate instance
             let tabController = TabViewController()
             let appDelegate = UIApplication.shared.delegate as! AppDelegate
-            // set tabControlleer as rootViewController after login
+            
+            // set tabControlleer as rootViewController after simulating the user login
             appDelegate.window!.rootViewController = tabController
+            
         } else {
             let url = URL(string: "https://my-test.s.uw.edu/")!
             let svc = SFSafariViewController(url: url)

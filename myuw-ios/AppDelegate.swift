@@ -15,8 +15,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        
         // Override point for customization after application launch.
-    
+        
+        // setup navbar appearance globally
         if #available(iOS 13.0, *) {
             let appearance = UINavigationBarAppearance()
             appearance.backgroundColor = .systemPink
@@ -33,15 +35,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             UINavigationBar.appearance().isTranslucent = false
         }
         
-        
+        // playing around with 2 implementations of auth controllers
         let authController = AuthenticationController()
-        let tabController = TabViewController()
         let safariController = SafariController()
-        
+               
         window = UIWindow(frame: UIScreen.main.bounds)
-
         window?.makeKeyAndVisible()
         
+        // set the auth controller as the root controller on app load
         window?.rootViewController = authController
         
         return true

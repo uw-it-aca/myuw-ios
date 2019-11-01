@@ -37,7 +37,6 @@ class AuthenticationController: UINavigationController, WKNavigationDelegate, SF
         
         // set the title using the webpage title
         title = webView.title
-        
         print("webview title: ", self.title as Any);
         
         // check to see if webview is loading myuw
@@ -49,11 +48,10 @@ class AuthenticationController: UINavigationController, WKNavigationDelegate, SF
             let tabController = TabViewController()
             let appDelegate = UIApplication.shared.delegate as! AppDelegate
             
-            // set tabControlleer as rootViewController after login
+            // set tabControlleer as rootViewController after simulating the user login
             appDelegate.window!.rootViewController = tabController
     
         }
-
             
     }
     
