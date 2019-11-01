@@ -8,19 +8,17 @@
 
 import UIKit
 import WebKit
-import SafariServices
 
 // singleton class for a shared WKProcessPool
 class ProcessPool {
     static var sharedPool = WKProcessPool()
 }
 
-class AuthenticationController: UINavigationController, WKNavigationDelegate, SFSafariViewControllerDelegate {
+class AuthenticationController: UINavigationController, WKNavigationDelegate {
     
     var webView: WKWebView!
 
     override func viewDidLoad() {
-        view.backgroundColor = .brown
         let url = URL(string: "https://my-test.s.uw.edu/")!
         webView.load(URLRequest(url: url))
         

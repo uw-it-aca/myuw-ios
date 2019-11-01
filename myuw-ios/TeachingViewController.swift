@@ -14,7 +14,6 @@ class TeachingViewController: UIViewController, WKNavigationDelegate {
     var webView: WKWebView!
 
     override func viewDidLoad() {
-        view.backgroundColor = .brown
         let url = URL(string: "https://my-test.s.uw.edu/teaching/")!
         webView.load(URLRequest(url: url))
         
