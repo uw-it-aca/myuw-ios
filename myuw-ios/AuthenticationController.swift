@@ -10,6 +10,10 @@ import UIKit
 import WebKit
 import SafariServices
 
+// singleton class for a shared WKProcessPool
+class ProcessPool {
+    static var sharedPool = WKProcessPool()
+}
 
 class AuthenticationController: UINavigationController, WKNavigationDelegate, SFSafariViewControllerDelegate {
     
@@ -25,11 +29,10 @@ class AuthenticationController: UINavigationController, WKNavigationDelegate, SF
     
     override func loadView() {
         let configuration = WKWebViewConfiguration()
-        
-        configuration.websiteDataStore = WKWebsiteDataStore.default()
-        configuration.processPool = WKProcessPool()
-        webView = WKWebView(frame: CGRect.zero, configuration: configuration)
+        configuration.processPool = ProcessPool.sharedPool
+        webView = WKWebView(frame: .zero, configuration: configuration)
         webView.navigationDelegate = self
+        
         self.view = webView
     }
     

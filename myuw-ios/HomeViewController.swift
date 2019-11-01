@@ -36,7 +36,8 @@ class HomeViewController: UIViewController, WKNavigationDelegate {
         let configuration = WKWebViewConfiguration()
         
         configuration.websiteDataStore = WKWebsiteDataStore.default()
-        configuration.processPool = WKProcessPool()
+        configuration.processPool = ProcessPool.sharedPool
+        
         webView = WKWebView(frame: CGRect.zero, configuration: configuration)
         webView.navigationDelegate = self
         self.view = webView

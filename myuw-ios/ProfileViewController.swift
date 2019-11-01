@@ -14,7 +14,6 @@ class ProfileViewController: UIViewController, WKNavigationDelegate {
     var webView: WKWebView!
 
     override func viewDidLoad() {
-        view.backgroundColor = .brown
         let url = URL(string: "https://my-test.s.uw.edu/profile/")!
         webView.load(URLRequest(url: url))
         
@@ -30,7 +29,8 @@ class ProfileViewController: UIViewController, WKNavigationDelegate {
         let configuration = WKWebViewConfiguration()
         
         configuration.websiteDataStore = WKWebsiteDataStore.default()
-        configuration.processPool = WKProcessPool()
+        configuration.processPool = ProcessPool.sharedPool
+        
         webView = WKWebView(frame: CGRect.zero, configuration: configuration)
         webView.navigationDelegate = self
         self.view = webView
