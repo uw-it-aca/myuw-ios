@@ -18,6 +18,7 @@ class HomeViewController: UIViewController, WKNavigationDelegate {
         webView.load(URLRequest(url: url))
         
         self.title = "Home"
+        self.navigationItem.title = "MyUW"
         
         // add a right button in navbar programatically
         let testUIBarButtonItem = UIBarButtonItem(title: "Profile", style: .plain, target: self, action: #selector(showProfile))
