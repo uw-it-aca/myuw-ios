@@ -14,10 +14,21 @@ class ProfileViewController: UIViewController, WKNavigationDelegate {
     var webView: WKWebView!
 
     override func viewDidLoad() {
+        
+        //addNavigationBar()
+        
         let url = URL(string: "https://my-test.s.uw.edu/profile/")!
         webView.load(URLRequest(url: url))
         
         self.title = "Profile"
+        
+        // prefer small titles
+        self.navigationItem.largeTitleDisplayMode = .never
+        
+        // add a right button in navbar programatically
+        let testUIBarButtonItem = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(dismissProfile))
+        self.navigationItem.rightBarButtonItem  = testUIBarButtonItem
+                
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -26,17 +37,19 @@ class ProfileViewController: UIViewController, WKNavigationDelegate {
     }
     
     override func loadView() {
+        
         let configuration = WKWebViewConfiguration()
         
         configuration.websiteDataStore = WKWebsiteDataStore.default()
         configuration.processPool = ProcessPool.sharedPool
-        
+                
         webView = WKWebView(frame: CGRect.zero, configuration: configuration)
         webView.navigationDelegate = self
         self.view = webView
     }
     
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+        //webView.frame = CGRect(x: 0, y: 50, width: self.view.frame.width, height: self.view.frame.height)
         
     }
     
@@ -55,5 +68,11 @@ class ProfileViewController: UIViewController, WKNavigationDelegate {
 
         decisionHandler(.allow)
     }
+        
+    @objc private func dismissProfile(){
+        self.dismiss(animated: true, completion: nil)
+    }
+
+    
     
 }

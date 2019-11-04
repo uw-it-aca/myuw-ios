@@ -65,8 +65,8 @@ class HomeViewController: UIViewController, WKNavigationDelegate {
     @objc func showProfile() {
         
         // instantiate instance of ProfileViewController
-        let profileViewController = ProfileViewController()
-                
+        let profileViewController = UINavigationController(rootViewController: ProfileViewController())
+                        
         // set style of how view controller is to be presented
         if #available(iOS 13.0, *) {
             profileViewController.modalPresentationStyle = .automatic
@@ -74,10 +74,10 @@ class HomeViewController: UIViewController, WKNavigationDelegate {
             // fallback on earlier versions
             profileViewController.modalPresentationStyle = .formSheet
         }
-        
+                
         // present the profile view controller
         present(profileViewController, animated: true, completion: nil)
 
     }
-    
+
 }

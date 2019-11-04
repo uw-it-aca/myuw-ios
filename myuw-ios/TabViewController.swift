@@ -63,7 +63,7 @@ class TabViewController: UITabBarController, UITabBarControllerDelegate {
             controllers = [tabHome, tabTeaching, tabAccounts, tabCalendar, tabResources]
         }
         
-        self.viewControllers = controllers as! [UIViewController]
+        self.viewControllers = controllers as? [UIViewController]
    
     }
     
