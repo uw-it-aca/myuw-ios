@@ -88,8 +88,18 @@ class HomeViewController: UIViewController, WKNavigationDelegate {
                 decisionHandler(.cancel)
                 
             } else {
-                print("open it locall in webview")
-                decisionHandler(.allow)
+                
+                // open links by pushing a new view controller
+                print("open it locally in webview: ", navigationAction.request.url!)
+                
+                let newViewController = NaviController()
+                newViewController.visitUrl = navigationAction.request.url!.absoluteString
+                                
+                self.navigationController?.pushViewController(newViewController, animated: true)
+                decisionHandler(.cancel)
+                
+                //decisionHandler(.allow)
+                
             }
             
         } else {
