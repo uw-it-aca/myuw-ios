@@ -17,12 +17,24 @@ class HomeViewController: UIViewController, WKNavigationDelegate {
         let url = URL(string: "https://my-test.s.uw.edu/")!
         webView.load(URLRequest(url: url))
         
+        // override titles
         self.title = "Home"
         self.navigationItem.title = "MyUW"
         
         // add a right button in navbar programatically
         let testUIBarButtonItem = UIBarButtonItem(title: "Profile", style: .plain, target: self, action: #selector(showProfile))
         self.navigationItem.rightBarButtonItem  = testUIBarButtonItem
+        
+        // pull to refresh setup
+        let refreshControl = UIRefreshControl()
+        refreshControl.tintColor = .white
+        let attributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+        refreshControl.attributedTitle = NSAttributedString(string: "Refreshing...", attributes: attributes)
+        refreshControl.addTarget(self, action: #selector(refreshWebView), for: UIControl.Event.valueChanged)
+        refreshControl.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+        webView.scrollView.alwaysBounceVertical = true
+        webView.scrollView.bounces = true
+        webView.scrollView.refreshControl = refreshControl
         
     }
     
@@ -40,6 +52,7 @@ class HomeViewController: UIViewController, WKNavigationDelegate {
         
         webView = WKWebView(frame: CGRect.zero, configuration: configuration)
         webView.navigationDelegate = self
+                
         self.view = webView
     }
     
@@ -79,6 +92,11 @@ class HomeViewController: UIViewController, WKNavigationDelegate {
         // present the profile view controller
         present(profileViewController, animated: true, completion: nil)
 
+    }
+    
+    @objc func refreshWebView(_ sender: UIRefreshControl) {
+        webView?.reload()
+        sender.endRefreshing()
     }
 
 }
