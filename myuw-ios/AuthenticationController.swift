@@ -49,7 +49,7 @@ class AuthenticationController: UINavigationController, WKNavigationDelegate {
             // back to the native app - so it knows how to build the tab navigation
             
             userAffiliation = "teaching"
-            
+            userNetID = "javerage"
             
             // tabController (main) and appDelegate instance
             let tabController = TabViewController()

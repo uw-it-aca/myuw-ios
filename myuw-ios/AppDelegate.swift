@@ -9,6 +9,7 @@
 import UIKit
 
 var userAffiliation = ""
+var userNetID = "NetID"
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {

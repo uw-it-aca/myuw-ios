@@ -20,9 +20,9 @@ class HomeViewController: UIViewController, WKNavigationDelegate {
         // override titles
         self.title = "Home"
         self.navigationItem.title = "MyUW"
-        
+                
         // add a right button in navbar programatically
-        let testUIBarButtonItem = UIBarButtonItem(title: "Profile", style: .plain, target: self, action: #selector(showProfile))
+        let testUIBarButtonItem = UIBarButtonItem(title: userNetID, style: .plain, target: self, action: #selector(showProfile))
         self.navigationItem.rightBarButtonItem  = testUIBarButtonItem
         
         // pull to refresh setup
