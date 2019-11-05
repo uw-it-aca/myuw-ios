@@ -23,6 +23,7 @@ class HomeViewController: UIViewController, WKNavigationDelegate {
         // add a right button in navbar programatically
         let testUIBarButtonItem = UIBarButtonItem(title: userNetID, style: .plain, target: self, action: #selector(showProfile))
         self.navigationItem.rightBarButtonItem  = testUIBarButtonItem
+    
         
         // pull to refresh setup
         let refreshControl = UIRefreshControl()
@@ -59,20 +60,42 @@ class HomeViewController: UIViewController, WKNavigationDelegate {
         
     }
     
-    // get the cookies
+    // webview response handler
     func webView(_ webView: WKWebView, decidePolicyFor navigationResponse: WKNavigationResponse, decisionHandler: @escaping (WKNavigationResponsePolicy) -> Void) {
         
+        // get the cookies
         webView.configuration.websiteDataStore.httpCookieStore.getAllCookies { cookies in
-            
             //debugPrint(cookies.debugDescription)
             print("** home view **********")
             for cookie in cookies {
                 print("name: \(cookie.name) value: \(cookie.value)")
             }
-            
         }
 
         decisionHandler(.allow)
+    }
+    
+    // webview action handler
+    func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
+        
+        // handle links and navigation
+        if navigationAction.navigationType == .linkActivated  {
+            // check to see if the URL prefix is still myuw
+            if let url = navigationAction.request.url, let host = url.host, !host.hasPrefix("my-test.s.uw.edu"), UIApplication.shared.canOpenURL(url) {
+                UIApplication.shared.open(url)
+                print(url)
+                print("redirect to safari")
+                decisionHandler(.cancel)
+                
+            } else {
+                print("open it locall in webview")
+                decisionHandler(.allow)
+            }
+            
+        } else {
+            print("not a user click, stay in webview")
+            decisionHandler(.allow)
+        }
     }
     
     @objc func showProfile() {
