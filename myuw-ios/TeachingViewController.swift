@@ -17,7 +17,8 @@ class TeachingViewController: UIViewController, WKNavigationDelegate {
         let url = URL(string: "https://my-test.s.uw.edu/teaching/")!
         webView.load(URLRequest(url: url))
         
-        self.title = "Teaching"
+        // override navigation title
+        self.navigationItem.title = "Teaching"
     }
     
     override func viewWillAppear(_ animated: Bool) {

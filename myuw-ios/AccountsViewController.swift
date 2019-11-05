@@ -17,7 +17,8 @@ class AccountsViewController: UIViewController, WKNavigationDelegate {
         let url = URL(string: "https://my-test.s.uw.edu/accounts/")!
         webView.load(URLRequest(url: url))
         
-        self.title = "Accounts"
+        // override navigation title
+        self.navigationItem.title = "Accounts"
     }
     
     override func viewWillAppear(_ animated: Bool) {

@@ -17,7 +17,8 @@ class ResourcesViewController: UIViewController, WKNavigationDelegate {
         let url = URL(string: "https://my-test.s.uw.edu/resources/")!
         webView.load(URLRequest(url: url))
         
-        self.title = "Resources"
+        // override navigation title
+        self.navigationItem.title = "Resources"
     }
     
     override func viewWillAppear(_ animated: Bool) {

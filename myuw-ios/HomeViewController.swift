@@ -17,8 +17,7 @@ class HomeViewController: UIViewController, WKNavigationDelegate {
         let url = URL(string: "https://my-test.s.uw.edu/")!
         webView.load(URLRequest(url: url))
         
-        // override titles
-        self.title = "Home"
+        // override navigation title
         self.navigationItem.title = "MyUW"
                 
         // add a right button in navbar programatically

@@ -17,7 +17,8 @@ class CalendarViewController: UIViewController, WKNavigationDelegate {
         let url = URL(string: "https://my-test.s.uw.edu/academic_calendar/")!
         webView.load(URLRequest(url: url))
         
-        self.title = "Calendar"
+        // override navigation title
+        self.navigationItem.title = "Calendar"
     }
     
     override func viewWillAppear(_ animated: Bool) {
