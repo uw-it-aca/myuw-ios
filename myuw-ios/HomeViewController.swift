@@ -24,7 +24,7 @@ class HomeViewController: UIViewController, WKNavigationDelegate {
         let testUIBarButtonItem = UIBarButtonItem(title: userNetID, style: .plain, target: self, action: #selector(showProfile))
         self.navigationItem.rightBarButtonItem  = testUIBarButtonItem
     
-        
+    
         // pull to refresh setup
         let refreshControl = UIRefreshControl()
         refreshControl.tintColor = .white
@@ -35,7 +35,7 @@ class HomeViewController: UIViewController, WKNavigationDelegate {
         webView.scrollView.alwaysBounceVertical = true
         webView.scrollView.bounces = true
         webView.scrollView.refreshControl = refreshControl
-        
+
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -118,7 +118,12 @@ class HomeViewController: UIViewController, WKNavigationDelegate {
     
     @objc func refreshWebView(_ sender: UIRefreshControl) {
         webView?.reload()
-        sender.endRefreshing()
+        
+        // wait 2 seconds before ending refresh
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+            sender.endRefreshing()
+        }
+        
     }
 
 }
