@@ -27,34 +27,38 @@ class TabViewController: UITabBarController, UITabBarControllerDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        // set tabbar icon and title color
+        UITabBar.appearance().tintColor = UIColor.systemPink
+        UITabBarItem.appearance().setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.systemPink], for: .selected)
+
         // Home tab
         let tabHome = UINavigationController(rootViewController: HomeViewController())
-        let tabHomeBarItem = UITabBarItem(title: "Home", image: UIImage(named: "defaultImage.png"), selectedImage: UIImage(named: "selectedImage.png"))
+        let tabHomeBarItem = UITabBarItem(title: "Home", image: UIImage(named: "ic_home"), selectedImage: UIImage(named: "selectedImage.png"))
         tabHome.tabBarItem = tabHomeBarItem
 
         // Academics tab
         let tabAcademics = UINavigationController(rootViewController: AcademicsViewController())
-        let tabAcademicsBarItem = UITabBarItem(title: "Academics", image: UIImage(named: "defaultImage2.png"), selectedImage: UIImage(named: "selectedImage2.png"))
+        let tabAcademicsBarItem = UITabBarItem(title: "Academics", image: UIImage(named: "ic_academics"), selectedImage: UIImage(named: "selectedImage2.png"))
         tabAcademics.tabBarItem = tabAcademicsBarItem
         
         // Teaching tab
         let tabTeaching = UINavigationController(rootViewController: TeachingViewController())
-        let tabTeachingBarItem = UITabBarItem(title: "Teaching", image: UIImage(named: "defaultImage2.png"), selectedImage: UIImage(named: "selectedImage2.png"))
+        let tabTeachingBarItem = UITabBarItem(title: "Teaching", image: UIImage(named: "ic_teaching"), selectedImage: UIImage(named: "selectedImage2.png"))
         tabTeaching.tabBarItem = tabTeachingBarItem
         
         // Accounts tab
         let tabAccounts = UINavigationController(rootViewController: AccountsViewController())
-        let tabAccountsBarItem = UITabBarItem(title: "Accounts", image: UIImage(named: "defaultImage2.png"), selectedImage: UIImage(named: "selectedImage2.png"))
+        let tabAccountsBarItem = UITabBarItem(title: "Accounts", image: UIImage(named: "ic_accounts"), selectedImage: UIImage(named: "selectedImage2.png"))
         tabAccounts.tabBarItem = tabAccountsBarItem
         
         // Calendar tab
         let tabCalendar = UINavigationController(rootViewController: CalendarViewController())
-        let tabCalendarBarItem = UITabBarItem(title: "Calendar", image: UIImage(named: "defaultImage2.png"), selectedImage: UIImage(named: "selectedImage2.png"))
+        let tabCalendarBarItem = UITabBarItem(title: "Calendar", image: UIImage(named: "ic_calendar"), selectedImage: UIImage(named: "selectedImage2.png"))
         tabCalendar.tabBarItem = tabCalendarBarItem
         
         // Resources tab
         let tabResources = UINavigationController(rootViewController: ResourcesViewController())
-        let tabResourcesBarItem = UITabBarItem(title: "Resources", image: UIImage(named: "defaultImage2.png"), selectedImage: UIImage(named: "selectedImage2.png"))
+        let tabResourcesBarItem = UITabBarItem(title: "Resources", image: UIImage(named: "ic_resources"), selectedImage: UIImage(named: "selectedImage2.png"))
         tabResources.tabBarItem = tabResourcesBarItem
         
         var controllers: NSArray = []
@@ -65,9 +69,9 @@ class TabViewController: UITabBarController, UITabBarControllerDelegate {
         else {
             controllers = [tabHome, tabTeaching, tabAccounts, tabCalendar, tabResources]
         }
-        
+                
         self.viewControllers = controllers as? [UIViewController]
-   
+
     }
     
     // UITabBarControllerDelegate method
