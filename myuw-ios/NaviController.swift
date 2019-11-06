@@ -18,11 +18,9 @@ class NaviController: UIViewController, WKNavigationDelegate {
         
         let url = URL(string: visitUrl)!
         webView.load(URLRequest(url: url))
-        
-        print("weburl: ", url)
-        
+                
         // override navigation title
-        self.navigationItem.title = webView.title
+        self.navigationItem.title = "NaviControl"
     }
     
     override func viewWillAppear(_ animated: Bool) {
