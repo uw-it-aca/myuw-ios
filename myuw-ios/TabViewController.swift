@@ -17,7 +17,10 @@ class TabViewController: UITabBarController, UITabBarControllerDelegate {
         
         //Assign self for delegate for that ViewController can respond to UITabBarControllerDelegate methods
         self.delegate = self        
-                
+        
+        let notificationCenter = NotificationCenter.default
+        notificationCenter.addObserver(self, selector: #selector(appMovedToForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
+       
     }
     
     
@@ -71,4 +74,18 @@ class TabViewController: UITabBarController, UITabBarControllerDelegate {
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
           
     }
+    
+    @objc func appMovedToForeground() {
+        print("App moved to ForeGround!")
+        
+        // force auth workflow if app is coming back to the foreground
+        // this should handle the case if session timeouts after 8hrs
+        let authController = AuthenticationController()
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        
+        // set authController as rootViewController
+        appDelegate.window!.rootViewController = authController
+        
+    }
+        
 }
