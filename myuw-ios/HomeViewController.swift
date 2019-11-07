@@ -12,7 +12,7 @@ import WebKit
 class HomeViewController: UIViewController, WKNavigationDelegate {
     
     var webView: WKWebView!
-
+    
     override func viewDidLoad() {
         let url = URL(string: "https://my-test.s.uw.edu/")!
         webView.load(URLRequest(url: url))
@@ -23,11 +23,18 @@ class HomeViewController: UIViewController, WKNavigationDelegate {
         // add a right button in navbar programatically
         let userBarButtonItem = UIBarButtonItem(title: userNetID, style: .plain, target: self, action: #selector(showProfile))
         let emailBarButtonItem = UIBarButtonItem(title: "Email", style: .plain, target: self, action: #selector(showProfile))
-        let searchBarButtonItem = UIBarButtonItem(title: "Search", style: .plain, target: self, action: #selector(showProfile))
         
         self.navigationItem.leftBarButtonItem = userBarButtonItem
-        self.navigationItem.rightBarButtonItems = [searchBarButtonItem, emailBarButtonItem]
-    
+        self.navigationItem.rightBarButtonItem = emailBarButtonItem
+        
+        // search controler and bar setup
+        let mySearchController = UISearchController()
+        self.navigationItem.searchController = mySearchController
+        self.navigationItem.hidesSearchBarWhenScrolling = false
+        mySearchController.searchBar.placeholder = "Search"
+        mySearchController.searchBar.tintColor = .white
+        
+        
         // pull to refresh setup
         let refreshControl = UIRefreshControl()
         refreshControl.tintColor = .white
