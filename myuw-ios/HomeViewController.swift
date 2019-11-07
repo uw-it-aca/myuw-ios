@@ -21,9 +21,12 @@ class HomeViewController: UIViewController, WKNavigationDelegate {
         self.navigationItem.title = "MyUW"
                 
         // add a right button in navbar programatically
-        let testUIBarButtonItem = UIBarButtonItem(title: userNetID, style: .plain, target: self, action: #selector(showProfile))
-        self.navigationItem.rightBarButtonItem  = testUIBarButtonItem
-    
+        let userBarButtonItem = UIBarButtonItem(title: userNetID, style: .plain, target: self, action: #selector(showProfile))
+        let emailBarButtonItem = UIBarButtonItem(title: "Email", style: .plain, target: self, action: #selector(showProfile))
+        let searchBarButtonItem = UIBarButtonItem(title: "Search", style: .plain, target: self, action: #selector(showProfile))
+        
+        self.navigationItem.leftBarButtonItem = userBarButtonItem
+        self.navigationItem.rightBarButtonItems = [searchBarButtonItem, emailBarButtonItem]
     
         // pull to refresh setup
         let refreshControl = UIRefreshControl()
