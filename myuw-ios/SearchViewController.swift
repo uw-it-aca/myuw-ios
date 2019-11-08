@@ -57,7 +57,12 @@ class SearchViewController: UIViewController, WKNavigationDelegate {
     }
     
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-        //webView.frame = CGRect(x: 0, y: 50, width: self.view.frame.width, height: self.view.frame.height)
+
+        // dynamically inject css file into webview
+        guard let path = Bundle.main.path(forResource: "search", ofType: "css") else { return }
+        let css = try! String(contentsOfFile: path).replacingOccurrences(of: "\\n", with: "", options: .regularExpression)
+        let js = "var style = document.createElement('style'); style.innerHTML = '\(css)'; document.head.appendChild(style);"
+        webView.evaluateJavaScript(js)
         
     }
     
@@ -83,4 +88,15 @@ class SearchViewController: UIViewController, WKNavigationDelegate {
 
     
     
+}
+
+extension WKWebView {
+    
+    func loadHTML(fromString: String, colorHEX: String = "#757575", fontFamily: String = "Gotham-Book", fontSize: String = "14") {
+        let htmlString = """
+        <link rel="stylesheet" type="text/css" href="myCSSFile.css">
+        <span style="font-family: '\(fontFamily)'; font-weight: normal; font-size: \(fontSize); color: \(colorHEX)">\(fromString)</span>
+        """
+        self.loadHTMLString(htmlString, baseURL: Bundle.main.bundleURL)
+    }
 }
