@@ -36,7 +36,7 @@ class AuthenticationController: UIViewController, WKNavigationDelegate {
         let url = URL(string: "https://my-test.s.uw.edu/")!
         webView.load(URLRequest(url: url))
         
-        print("viewDidLoad")
+        print("auth viewDidLoad")
     }
     
     override func loadView() {
@@ -52,7 +52,7 @@ class AuthenticationController: UIViewController, WKNavigationDelegate {
         
         activityIndicator.isHidden = false
         activityIndicator.startAnimating()
-            }
+    }
     
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         
