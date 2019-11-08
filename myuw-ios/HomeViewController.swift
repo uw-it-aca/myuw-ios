@@ -23,18 +23,10 @@ class HomeViewController: UIViewController, WKNavigationDelegate {
         // add a right button in navbar programatically
         let userBarButtonItem = UIBarButtonItem(title: userNetID, style: .plain, target: self, action: #selector(showProfile))
         let emailBarButtonItem = UIBarButtonItem(title: "Email", style: .plain, target: self, action: #selector(showProfile))
-        let searchBarButtonItem = UIBarButtonItem(title: "Search", style: .plain, target: self, action: #selector(showProfile))
+        let searchBarButtonItem = UIBarButtonItem(title: "Search", style: .plain, target: self, action: #selector(showSearch))
         
         self.navigationItem.leftBarButtonItem = userBarButtonItem
         self.navigationItem.rightBarButtonItems = [searchBarButtonItem, emailBarButtonItem]
-        
-        // search controler and bar setup
-        let mySearchController = UISearchController()
-        self.navigationItem.searchController = mySearchController
-        self.navigationItem.hidesSearchBarWhenScrolling = false
-        mySearchController.searchBar.placeholder = "Search"
-        mySearchController.searchBar.tintColor = .white
-        
         
         // pull to refresh setup
         let refreshControl = UIRefreshControl()
@@ -134,6 +126,24 @@ class HomeViewController: UIViewController, WKNavigationDelegate {
                 
         // present the profile view controller
         present(profileViewController, animated: true, completion: nil)
+
+    }
+    
+    @objc func showSearch() {
+        
+        // instantiate instance of SearchViewController
+        let searchViewController = UINavigationController(rootViewController: SearchViewController())
+                        
+        // set style of how view controller is to be presented
+        if #available(iOS 13.0, *) {
+            searchViewController.modalPresentationStyle = .automatic
+        } else {
+            // fallback on earlier versions
+            searchViewController.modalPresentationStyle = .formSheet
+        }
+                
+        // present the search view controller
+        present(searchViewController, animated: true, completion: nil)
 
     }
     

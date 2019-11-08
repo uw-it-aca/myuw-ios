@@ -21,6 +21,7 @@
 		85B147AC2368CDF200DE3BFA /* ResourcesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B147AB2368CDF200DE3BFA /* ResourcesViewController.swift */; };
 		85B147AE2368CE7600DE3BFA /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B147AD2368CE7600DE3BFA /* HomeViewController.swift */; };
 		85B147B02369FDC300DE3BFA /* SafariController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B147AF2369FDC300DE3BFA /* SafariController.swift */; };
+		85CC319C2375E38D00F38903 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85CC319B2375E38D00F38903 /* SearchViewController.swift */; };
 		85CDD4E323723A4900A3CBBA /* NaviController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85CDD4E223723A4900A3CBBA /* NaviController.swift */; };
 		85F901A7235E34AE00DA0083 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F901A6235E34AE00DA0083 /* ProfileViewController.swift */; };
 /* End PBXBuildFile section */
@@ -64,6 +65,7 @@
 		85B147AD2368CE7600DE3BFA /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		85B147AF2369FDC300DE3BFA /* SafariController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafariController.swift; sourceTree = "<group>"; };
 		85B15BA0236CDF7B00857D13 /* myuw-ios.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "myuw-ios.entitlements"; sourceTree = "<group>"; };
+		85CC319B2375E38D00F38903 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		85CDD4E223723A4900A3CBBA /* NaviController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NaviController.swift; sourceTree = "<group>"; };
 		85F901A6235E34AE00DA0083 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -132,6 +134,7 @@
 				85B147A72368CD3800DE3BFA /* TeachingViewController.swift */,
 				85B147A92368CD6E00DE3BFA /* AcademicsViewController.swift */,
 				85B147AB2368CDF200DE3BFA /* ResourcesViewController.swift */,
+				85CC319B2375E38D00F38903 /* SearchViewController.swift */,
 			);
 			path = "myuw-ios";
 			sourceTree = "<group>";
@@ -292,6 +295,7 @@
 				85B147B02369FDC300DE3BFA /* SafariController.swift in Sources */,
 				85B147A42368CC6500DE3BFA /* AccountsViewController.swift in Sources */,
 				85B147AE2368CE7600DE3BFA /* HomeViewController.swift in Sources */,
+				85CC319C2375E38D00F38903 /* SearchViewController.swift in Sources */,
 				85B147A82368CD3800DE3BFA /* TeachingViewController.swift in Sources */,
 				85B147AC2368CDF200DE3BFA /* ResourcesViewController.swift in Sources */,
 				85F901A7235E34AE00DA0083 /* ProfileViewController.swift in Sources */,

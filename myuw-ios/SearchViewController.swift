@@ -1,15 +1,15 @@
 //
-//  ProfileViewController.swift
-//  myuw-test
+//  SearchViewController.swift
+//  myuw-ios
 //
-//  Created by Charlon Palacay on 10/21/19.
+//  Created by Charlon Palacay on 11/8/19.
 //  Copyright © 2019 Charlon Palacay. All rights reserved.
 //
 
-import UIKit
+import Foundation
 import WebKit
 
-class ProfileViewController: UIViewController, WKNavigationDelegate {
+class SearchViewController: UIViewController, WKNavigationDelegate {
     
     var webView: WKWebView!
 
@@ -17,11 +17,11 @@ class ProfileViewController: UIViewController, WKNavigationDelegate {
         
         //addNavigationBar()
         
-        let url = URL(string: "https://my-test.s.uw.edu/profile/")!
+        let url = URL(string: "https://www.washington.edu/search/?q=tuition")!
         webView.load(URLRequest(url: url))
         
         // override navigation title
-        self.navigationItem.title = "Profile"
+        self.navigationItem.title = "Search"
         
         // prefer small titles
         self.navigationItem.largeTitleDisplayMode = .never
@@ -29,6 +29,13 @@ class ProfileViewController: UIViewController, WKNavigationDelegate {
         // add a right button in navbar programatically
         let testUIBarButtonItem = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(dismissProfile))
         self.navigationItem.rightBarButtonItem  = testUIBarButtonItem
+        
+        // search controler and bar setup
+        let mySearchController = UISearchController()
+        self.navigationItem.searchController = mySearchController
+        self.navigationItem.hidesSearchBarWhenScrolling = false
+        mySearchController.searchBar.placeholder = "Search"
+        mySearchController.searchBar.tintColor = .white
                 
     }
     
