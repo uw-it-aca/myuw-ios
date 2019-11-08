@@ -132,19 +132,9 @@ class HomeViewController: UIViewController, WKNavigationDelegate {
     @objc func showSearch() {
         
         // instantiate instance of SearchViewController
-        let searchViewController = UINavigationController(rootViewController: SearchViewController())
-                        
-        // set style of how view controller is to be presented
-        if #available(iOS 13.0, *) {
-            searchViewController.modalPresentationStyle = .automatic
-        } else {
-            // fallback on earlier versions
-            searchViewController.modalPresentationStyle = .formSheet
-        }
-                
-        // present the search view controller
-        present(searchViewController, animated: true, completion: nil)
-
+        let searchViewController = SearchViewController()
+        // push view controller onto the stack
+        self.navigationController?.pushViewController(searchViewController, animated: true)
     }
     
     @objc func refreshWebView(_ sender: UIRefreshControl) {
