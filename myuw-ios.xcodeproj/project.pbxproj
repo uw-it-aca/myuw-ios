@@ -23,6 +23,7 @@
 		85B147B02369FDC300DE3BFA /* SafariController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B147AF2369FDC300DE3BFA /* SafariController.swift */; };
 		85CC319C2375E38D00F38903 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85CC319B2375E38D00F38903 /* SearchViewController.swift */; };
 		85CC319E2375E7D400F38903 /* search.css in Resources */ = {isa = PBXBuildFile; fileRef = 85CC319D2375E7D400F38903 /* search.css */; };
+		85CC31A02375F7FC00F38903 /* myuw.css in Resources */ = {isa = PBXBuildFile; fileRef = 85CC319F2375F7FC00F38903 /* myuw.css */; };
 		85CDD4E323723A4900A3CBBA /* NaviController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85CDD4E223723A4900A3CBBA /* NaviController.swift */; };
 		85F901A7235E34AE00DA0083 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F901A6235E34AE00DA0083 /* ProfileViewController.swift */; };
 /* End PBXBuildFile section */
@@ -68,6 +69,7 @@
 		85B15BA0236CDF7B00857D13 /* myuw-ios.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "myuw-ios.entitlements"; sourceTree = "<group>"; };
 		85CC319B2375E38D00F38903 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		85CC319D2375E7D400F38903 /* search.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = search.css; sourceTree = "<group>"; };
+		85CC319F2375F7FC00F38903 /* myuw.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = myuw.css; sourceTree = "<group>"; };
 		85CDD4E223723A4900A3CBBA /* NaviController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NaviController.swift; sourceTree = "<group>"; };
 		85F901A6235E34AE00DA0083 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -138,6 +140,7 @@
 				85B147AB2368CDF200DE3BFA /* ResourcesViewController.swift */,
 				85CC319B2375E38D00F38903 /* SearchViewController.swift */,
 				85CC319D2375E7D400F38903 /* search.css */,
+				85CC319F2375F7FC00F38903 /* myuw.css */,
 			);
 			path = "myuw-ios";
 			sourceTree = "<group>";
@@ -265,6 +268,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				854EE09822F0F9A30042381A /* LaunchScreen.storyboard in Resources */,
+				85CC31A02375F7FC00F38903 /* myuw.css in Resources */,
 				85CC319E2375E7D400F38903 /* search.css in Resources */,
 				854EE09522F0F9A30042381A /* Assets.xcassets in Resources */,
 			);

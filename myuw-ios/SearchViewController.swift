@@ -12,10 +12,9 @@ import WebKit
 class SearchViewController: UIViewController, WKNavigationDelegate {
     
     var webView: WKWebView!
+    
 
     override func viewDidLoad() {
-        
-        //addNavigationBar()
         
         let url = URL(string: "https://www.washington.edu/search/?q=tuition")!
         webView.load(URLRequest(url: url))
@@ -36,6 +35,8 @@ class SearchViewController: UIViewController, WKNavigationDelegate {
         self.navigationItem.hidesSearchBarWhenScrolling = false
         mySearchController.searchBar.placeholder = "Search"
         mySearchController.searchBar.tintColor = .white
+        
+        
                 
     }
     
@@ -56,8 +57,10 @@ class SearchViewController: UIViewController, WKNavigationDelegate {
         self.view = webView
     }
     
+    
+    
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-
+            
         // dynamically inject css file into webview
         guard let path = Bundle.main.path(forResource: "search", ofType: "css") else { return }
         let css = try! String(contentsOfFile: path).replacingOccurrences(of: "\\n", with: "", options: .regularExpression)
