@@ -1,6 +1,4 @@
 /* override myuw styling for native */
 
 .myuw-thin-bar { display: none !important; }
-.myuw-navigation { display: none !important}
-
-#QuickLinksCard { margin: 16px !important; }
+.myuw-navigation { display: none !important; }
