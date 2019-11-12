@@ -71,17 +71,6 @@ class SearchViewController: UIViewController, WKNavigationDelegate {
     
     // get the cookies
     func webView(_ webView: WKWebView, decidePolicyFor navigationResponse: WKNavigationResponse, decisionHandler: @escaping (WKNavigationResponsePolicy) -> Void) {
-        
-        webView.configuration.websiteDataStore.httpCookieStore.getAllCookies { cookies in
-            
-            //debugPrint(cookies.debugDescription)
-            print("**********")
-            for cookie in cookies {
-                print("name: \(cookie.name) value: \(cookie.value)")
-            }
-            
-        }
-
         decisionHandler(.allow)
     }
         
