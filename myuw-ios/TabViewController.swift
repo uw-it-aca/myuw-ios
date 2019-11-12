@@ -87,7 +87,7 @@ class TabViewController: UITabBarController, UITabBarControllerDelegate {
         let authController = AuthenticationController()
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         
-        // set authController as rootViewController
+        // re-set authController as rootViewController
         appDelegate.window!.rootViewController = authController
         
     }

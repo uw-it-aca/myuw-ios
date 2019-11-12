@@ -22,7 +22,7 @@ class AuthenticationController: UIViewController, WKNavigationDelegate {
     override func viewDidLoad() {
         
         super.viewDidLoad()
-        
+                
         // activity indicator
         activityIndicator = UIActivityIndicatorView()
         activityIndicator.center = self.view.center
@@ -59,8 +59,6 @@ class AuthenticationController: UIViewController, WKNavigationDelegate {
         activityIndicator.stopAnimating()
         activityIndicator.isHidden = true
         
-        webView.reload()
-        
         // set the title using the webpage title
         title = webView.title
         print("webview title: ", self.title as Any);
@@ -73,7 +71,7 @@ class AuthenticationController: UIViewController, WKNavigationDelegate {
             // once user is logged into myuw, we need to pass the user's affiliation
             // back to the native app - so it knows how to build the tab navigation
             
-            userAffiliation = "teaching"
+            userAffiliation = "student"
             userNetID = "javerage"
             
             // tabController (main) and appDelegate instance
