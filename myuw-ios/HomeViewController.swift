@@ -14,7 +14,7 @@ class HomeViewController: UIViewController, WKNavigationDelegate {
     var webView: WKWebView!
     
     override func viewDidLoad() {
-        let url = URL(string: "https://my-test.s.uw.edu/")!
+        let url = URL(string: "https://my-test.s.uw.edu/#uwalert-red")!
         webView.load(URLRequest(url: url))
         
         // override navigation title
