@@ -19,13 +19,25 @@ class HomeViewController: UIViewController, WKNavigationDelegate {
         
         // override navigation title
         self.navigationItem.title = "MyUW"
-                
-        // add a right button in navbar programatically
-        let userBarButtonItem = UIBarButtonItem(title: userNetID, style: .plain, target: self, action: #selector(showProfile))
+        
+        // define custom user button
+        let button = UIButton(type: .system)
+        button.setImage(UIImage(named: "ic_user_18"), for: .normal)
+        button.imageEdgeInsets = UIEdgeInsets(top: 0, left: -8, bottom: 0, right: 0);
+        //button.titleEdgeInsets = UIEdgeInsets(top: 0, left: 2, bottom: 0, right: 0);
+        button.setTitle(userNetID, for: .normal)
+        button.sizeToFit()
+        button.addTarget(self, action: #selector(showProfile), for: .touchUpInside)
+                        
+        // add a user button in navbar programatically
+        //let userBarButtonItem = UIBarButtonItem(title: userNetID, style: .plain,  target: self, action: #selector(showProfile))
+        let userBarButtonItem = UIBarButtonItem(customView: button)
+        
         let emailBarButtonItem = UIBarButtonItem(title: "Email", style: .plain, target: self, action: #selector(showProfile))
         let searchBarButtonItem = UIBarButtonItem(title: "Search", style: .plain, target: self, action: #selector(showSearch))
         
         self.navigationItem.leftBarButtonItem = userBarButtonItem
+            
         self.navigationItem.rightBarButtonItems = [searchBarButtonItem, emailBarButtonItem]
         
         // pull to refresh setup
