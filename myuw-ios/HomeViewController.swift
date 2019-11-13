@@ -40,8 +40,8 @@ class HomeViewController: UIViewController, WKNavigationDelegate {
         // define custom email button
         let emailButton = UIButton(type: .system)
         emailButton.setImage(UIImage(named: "ic_email_18"), for: .normal)
-        emailButton.imageEdgeInsets = UIEdgeInsets(top: 0, left: -20, bottom: 0, right: 0);
-        emailButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: -18, bottom: 0, right: 0);
+        emailButton.imageEdgeInsets = UIEdgeInsets(top: 0, left: -10, bottom: 0, right: 0);
+        emailButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: -8, bottom: 0, right: 0);
         emailButton.setTitle("Email", for: .normal)
         emailButton.sizeToFit()
         emailButton.addTarget(self, action: #selector(showSearch), for: .touchUpInside)
