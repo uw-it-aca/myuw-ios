@@ -14,13 +14,16 @@ class TabViewController: UITabBarController, UITabBarControllerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
         //Assign self for delegate for that ViewController can respond to UITabBarControllerDelegate methods
         self.delegate = self        
         
         let notificationCenter = NotificationCenter.default
+        
+        // observe various phone state changes and re-auth if needed
         notificationCenter.addObserver(self, selector: #selector(appMovedToForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
-       
+        notificationCenter.addObserver(self, selector: #selector(appMovedToForeground), name: UIApplication.didBecomeActiveNotification, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(appMovedToForeground), name: UIApplication.didEnterBackgroundNotification, object: nil)
+
     }
     
     
