@@ -17,22 +17,11 @@ class ProcessPool {
 class AuthenticationController: UIViewController, WKNavigationDelegate {
     
     var webView: WKWebView!
-    var activityIndicator: UIActivityIndicatorView!
 
     override func viewDidLoad() {
         
         super.viewDidLoad()
                 
-        // activity indicator
-        activityIndicator = UIActivityIndicatorView()
-        activityIndicator.center = self.view.center
-        activityIndicator.hidesWhenStopped = true
-        activityIndicator.style = .gray
-        activityIndicator.isHidden = true
-        activityIndicator.color = .black
-
-        view.addSubview(activityIndicator)
-        
         let url = URL(string: "https://my-test.s.uw.edu/")!
         webView.load(URLRequest(url: url))
         
@@ -50,14 +39,9 @@ class AuthenticationController: UIViewController, WKNavigationDelegate {
     
     func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
         
-        activityIndicator.isHidden = false
-        activityIndicator.startAnimating()
     }
     
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-        
-        activityIndicator.stopAnimating()
-        activityIndicator.isHidden = true
         
         // set the title using the webpage title
         title = webView.title
