@@ -56,6 +56,11 @@ class TabViewController: UITabBarController, UITabBarControllerDelegate {
         let tabAccountsBarItem = UITabBarItem(title: "Accounts", image: UIImage(named: "ic_accounts"), selectedImage: UIImage(named: "selectedImage2.png"))
         tabAccounts.tabBarItem = tabAccountsBarItem
         
+        // Notices tab
+        let tabNotices = UINavigationController(rootViewController: NoticesViewController())
+        let tabNoticesBarItem = UITabBarItem(title: "Notices", image: UIImage(named: "ic_warning"), selectedImage: UIImage(named: "selectedImage2.png"))
+        tabNotices.tabBarItem = tabNoticesBarItem
+        
         // Calendar tab
         let tabCalendar = UINavigationController(rootViewController: CalendarViewController())
         let tabCalendarBarItem = UITabBarItem(title: "Calendar", image: UIImage(named: "ic_calendar"), selectedImage: UIImage(named: "selectedImage2.png"))
@@ -69,7 +74,7 @@ class TabViewController: UITabBarController, UITabBarControllerDelegate {
         var controllers: NSArray = []
         
         if userAffiliation == "student" {
-            controllers = [tabHome, tabAcademics, tabHuskyExp, tabAccounts, tabCalendar, tabResources]
+            controllers = [tabHome, tabAcademics, tabHuskyExp, tabAccounts, tabNotices, tabCalendar, tabResources]
         }
         else {
             controllers = [tabHome, tabTeaching, tabAccounts, tabCalendar, tabResources]
