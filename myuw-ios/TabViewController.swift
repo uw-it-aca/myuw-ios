@@ -41,6 +41,11 @@ class TabViewController: UITabBarController, UITabBarControllerDelegate {
         let tabAcademicsBarItem = UITabBarItem(title: "Academics", image: UIImage(named: "ic_academics"), selectedImage: UIImage(named: "selectedImage2.png"))
         tabAcademics.tabBarItem = tabAcademicsBarItem
         
+        // Husky Experience tab
+        let tabHuskyExp = UINavigationController(rootViewController: HuskyExpViewController())
+        let tabHuskyExpBarItem = UITabBarItem(title: "Husky Exp", image: UIImage(named: "ic_paw"), selectedImage: UIImage(named: "selectedImage2.png"))
+        tabHuskyExp.tabBarItem = tabHuskyExpBarItem
+        
         // Teaching tab
         let tabTeaching = UINavigationController(rootViewController: TeachingViewController())
         let tabTeachingBarItem = UITabBarItem(title: "Teaching", image: UIImage(named: "ic_teaching"), selectedImage: UIImage(named: "selectedImage2.png"))
@@ -64,7 +69,7 @@ class TabViewController: UITabBarController, UITabBarControllerDelegate {
         var controllers: NSArray = []
         
         if userAffiliation == "student" {
-            controllers = [tabHome, tabAcademics, tabAccounts, tabCalendar, tabResources]
+            controllers = [tabHome, tabAcademics, tabHuskyExp, tabAccounts, tabCalendar, tabResources]
         }
         else {
             controllers = [tabHome, tabTeaching, tabAccounts, tabCalendar, tabResources]

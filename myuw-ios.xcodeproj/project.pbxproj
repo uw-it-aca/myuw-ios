@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		852EB76E237C956A002A2357 /* HuskyExpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 852EB76D237C956A002A2357 /* HuskyExpViewController.swift */; };
 		854EE08E22F0F9A20042381A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 854EE08D22F0F9A20042381A /* AppDelegate.swift */; };
 		854EE09022F0F9A20042381A /* AuthenticationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 854EE08F22F0F9A20042381A /* AuthenticationController.swift */; };
 		854EE09522F0F9A30042381A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 854EE09422F0F9A30042381A /* Assets.xcassets */; };
@@ -46,6 +47,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		852EB76D237C956A002A2357 /* HuskyExpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HuskyExpViewController.swift; sourceTree = "<group>"; };
 		854EE08A22F0F9A20042381A /* myuw-ios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "myuw-ios.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		854EE08D22F0F9A20042381A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		854EE08F22F0F9A20042381A /* AuthenticationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationController.swift; sourceTree = "<group>"; };
@@ -137,6 +139,7 @@
 				85B147A52368CCF200DE3BFA /* CalendarViewController.swift */,
 				85B147A72368CD3800DE3BFA /* TeachingViewController.swift */,
 				85B147A92368CD6E00DE3BFA /* AcademicsViewController.swift */,
+				852EB76D237C956A002A2357 /* HuskyExpViewController.swift */,
 				85B147AB2368CDF200DE3BFA /* ResourcesViewController.swift */,
 				85CC319B2375E38D00F38903 /* SearchViewController.swift */,
 				85CC319D2375E7D400F38903 /* search.css */,
@@ -306,6 +309,7 @@
 				85CC319C2375E38D00F38903 /* SearchViewController.swift in Sources */,
 				85B147A82368CD3800DE3BFA /* TeachingViewController.swift in Sources */,
 				85B147AC2368CDF200DE3BFA /* ResourcesViewController.swift in Sources */,
+				852EB76E237C956A002A2357 /* HuskyExpViewController.swift in Sources */,
 				85F901A7235E34AE00DA0083 /* ProfileViewController.swift in Sources */,
 				854EE08E22F0F9A20042381A /* AppDelegate.swift in Sources */,
 			);
