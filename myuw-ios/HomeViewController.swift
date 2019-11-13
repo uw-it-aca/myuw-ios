@@ -21,20 +21,39 @@ class HomeViewController: UIViewController, WKNavigationDelegate {
         self.navigationItem.title = "MyUW"
         
         // define custom user button
-        let button = UIButton(type: .system)
-        button.setImage(UIImage(named: "ic_user_18"), for: .normal)
-        button.imageEdgeInsets = UIEdgeInsets(top: 0, left: -8, bottom: 0, right: 0);
+        let userButton = UIButton(type: .system)
+        userButton.setImage(UIImage(named: "ic_user_18"), for: .normal)
+        userButton.imageEdgeInsets = UIEdgeInsets(top: 0, left: -5, bottom: 0, right: 0);
         //button.titleEdgeInsets = UIEdgeInsets(top: 0, left: 2, bottom: 0, right: 0);
-        button.setTitle(userNetID, for: .normal)
-        button.sizeToFit()
-        button.addTarget(self, action: #selector(showProfile), for: .touchUpInside)
+        userButton.setTitle(userNetID, for: .normal)
+        userButton.sizeToFit()
+        userButton.addTarget(self, action: #selector(showProfile), for: .touchUpInside)
+        
+        // define custom search button
+        let searchButton = UIButton(type: .system)
+        searchButton.setImage(UIImage(named: "ic_search_18"), for: .normal)
+        searchButton.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0);
+        searchButton.setTitle("Search", for: .normal)
+        searchButton.sizeToFit()
+        searchButton.addTarget(self, action: #selector(showSearch), for: .touchUpInside)
+        
+        // define custom email button
+        let emailButton = UIButton(type: .system)
+        emailButton.setImage(UIImage(named: "ic_email_18"), for: .normal)
+        emailButton.imageEdgeInsets = UIEdgeInsets(top: 0, left: -5, bottom: 0, right: 0);
+        emailButton.setTitle("Email", for: .normal)
+        emailButton.sizeToFit()
+        emailButton.addTarget(self, action: #selector(showSearch), for: .touchUpInside)
                         
         // add a user button in navbar programatically
         //let userBarButtonItem = UIBarButtonItem(title: userNetID, style: .plain,  target: self, action: #selector(showProfile))
-        let userBarButtonItem = UIBarButtonItem(customView: button)
+        let userBarButtonItem = UIBarButtonItem(customView: userButton)
         
-        let emailBarButtonItem = UIBarButtonItem(title: "Email", style: .plain, target: self, action: #selector(showProfile))
-        let searchBarButtonItem = UIBarButtonItem(title: "Search", style: .plain, target: self, action: #selector(showSearch))
+        //let emailBarButtonItem = UIBarButtonItem(title: "Email", style: .plain, target: self, action: #selector(showProfile))
+        let emailBarButtonItem = UIBarButtonItem(customView: emailButton)
+        
+        //let searchBarButtonItem = UIBarButtonItem(title: "Search", style: .plain, target: self, action: #selector(showSearch))
+        let searchBarButtonItem = UIBarButtonItem(customView: searchButton)
         
         self.navigationItem.leftBarButtonItem = userBarButtonItem
             
