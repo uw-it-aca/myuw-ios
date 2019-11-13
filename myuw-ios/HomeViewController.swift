@@ -23,8 +23,8 @@ class HomeViewController: UIViewController, WKNavigationDelegate {
         // define custom user button
         let userButton = UIButton(type: .system)
         userButton.setImage(UIImage(named: "ic_user_18"), for: .normal)
-        userButton.imageEdgeInsets = UIEdgeInsets(top: 0, left: -5, bottom: 0, right: 0);
-        //button.titleEdgeInsets = UIEdgeInsets(top: 0, left: 2, bottom: 0, right: 0);
+        userButton.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0);
+        userButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: -5);
         userButton.setTitle(userNetID, for: .normal)
         userButton.sizeToFit()
         userButton.addTarget(self, action: #selector(showProfile), for: .touchUpInside)
