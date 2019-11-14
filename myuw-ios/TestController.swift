@@ -12,35 +12,40 @@ import WebKit
 class TestController: UIViewController, WKNavigationDelegate {
     
     var webView : WKWebView!
-    var containerView: UIView? = nil
     var activityIndicator: UIActivityIndicatorView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        activityIndicator = UIActivityIndicatorView()
-        activityIndicator.center = self.view.center
-        activityIndicator.hidesWhenStopped = true
-        activityIndicator.style = .gray
-        activityIndicator.isHidden = true
-
-        self.view.addSubview(activityIndicator)
-
+        print("viewDidLoad")
+        
         guard let url = URL(string: "https://my-test.s.uw.edu") else { return }
-
-        webView = WKWebView(frame: self.view.frame)
+        
+        let webConfiguraton = WKWebViewConfiguration()
+        webView = WKWebView(frame: self.view.frame, configuration: webConfiguraton)
+        //webView = WKWebView(frame: self.view.frame)
         webView.translatesAutoresizingMaskIntoConstraints = false
         webView.isUserInteractionEnabled = true
         webView.navigationDelegate = self
 
-        self.view.addSubview(webView)
+        view.addSubview(webView)
 
         let request = URLRequest(url: url)
         webView.load(request)
         
+        // setup loading indicator
+        activityIndicator = UIActivityIndicatorView()
+        activityIndicator.center = self.view.center
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.style = .gray
+        activityIndicator.isHidden = false
+
+        view.addSubview(activityIndicator)
+        
     }
 
     func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
+        print("didStartProvisionalNavigation")
         activityIndicator.isHidden = false
         activityIndicator.startAnimating()
     }
