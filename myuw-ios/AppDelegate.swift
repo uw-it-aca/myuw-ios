@@ -39,14 +39,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         // playing around with 2 implementations of auth controllers
-        let authController = AuthenticationController()
-        //let safariController = SafariController()
+        //let authController = AuthenticationController()
+        let testController = TestController()
                
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.makeKeyAndVisible()
         
         // set the auth controller as the root controller on app load
-        window?.rootViewController = authController
+        window?.rootViewController = testController
         
         return true
     }
