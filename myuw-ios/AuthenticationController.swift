@@ -51,11 +51,11 @@ class AuthenticationController: UIViewController, WKNavigationDelegate {
         if (self.title == "MyUW: Home") {
             
             print("on myuw")
-
+            
             // once user is logged into myuw, we need to pass the user's affiliation
             // back to the native app - so it knows how to build the tab navigation
             
-            userAffiliation = "student"
+            userAffiliations = ["student", "seattle", "undergrad"]
             userNetID = "javerage"
             
             // tabController (main) and appDelegate instance

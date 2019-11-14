@@ -8,7 +8,7 @@
 
 import UIKit
 
-var userAffiliation = ""
+var userAffiliations = [] as NSArray
 var userNetID = "NetID"
 
 @UIApplicationMain

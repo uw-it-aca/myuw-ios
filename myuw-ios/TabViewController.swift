@@ -20,10 +20,9 @@ class TabViewController: UITabBarController, UITabBarControllerDelegate {
         let notificationCenter = NotificationCenter.default
         
         // observe various phone state changes and re-auth if needed
-        notificationCenter.addObserver(self, selector: #selector(appMovedToForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
-        notificationCenter.addObserver(self, selector: #selector(appMovedToForeground), name: UIApplication.didBecomeActiveNotification, object: nil)
-        notificationCenter.addObserver(self, selector: #selector(appMovedToForeground), name: UIApplication.didEnterBackgroundNotification, object: nil)
-
+        //notificationCenter.addObserver(self, selector: #selector(appMovedToForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(appBecameActive), name: UIApplication.didBecomeActiveNotification, object: nil)
+        //notificationCenter.addObserver(self, selector: #selector(appMovedToForeground), name: UIApplication.didEnterBackgroundNotification, object: nil)
     }
     
     
@@ -74,19 +73,26 @@ class TabViewController: UITabBarController, UITabBarControllerDelegate {
         let tabResourcesBarItem = UITabBarItem(title: "Resources", image: UIImage(named: "ic_resources"), selectedImage: UIImage(named: "selectedImage2.png"))
         tabResources.tabBarItem = tabResourcesBarItem
         
-        var controllers = [tabHome, tabHuskyExp, tabAccounts, tabCalendar, tabResources]
+        // build bottom tab navigation based on user affiliations
+        var controllers = [tabHome, tabAccounts, tabCalendar, tabResources]
         
         // insert academics tab for students or applicant
-        if (userAffiliation == "student" || userAffiliation == "applicant") {
+        if userAffiliations.contains("student") || userAffiliations.contains("applicant") {
             controllers.insert(tabAcademics, at: 1)
         }
+        
         // insert teaching tab for instructor
-        else if (userAffiliation == "instructor") {
+        if userAffiliations.contains("instructor") {
             controllers.insert(tabTeaching, at: 1)
         }
         
+        // insert husky exp tab for seattle undergrad
+        if userAffiliations.contains("undergrad") && userAffiliations.contains("seattle") {
+            controllers.insert(tabHuskyExp, at: 2)
+        }
+        
         // insert notices tab for student
-        if (userAffiliation == "student") {
+        if userAffiliations.contains("student") {
             controllers.insert(tabNotices, at: 4)
         }
         
@@ -99,8 +105,8 @@ class TabViewController: UITabBarController, UITabBarControllerDelegate {
           
     }
     
-    @objc func appMovedToForeground() {
-        print("App moved to ForeGround!")
+    @objc func appBecameActive() {
+        print("App became active!")
         
         // force auth workflow if app is coming back to the foreground
         // this should handle the case if session timeouts after 8hrs
@@ -111,5 +117,5 @@ class TabViewController: UITabBarController, UITabBarControllerDelegate {
         appDelegate.window!.rootViewController = authController
         
     }
-        
+            
 }
