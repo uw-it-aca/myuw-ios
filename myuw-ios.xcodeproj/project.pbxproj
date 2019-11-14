@@ -131,6 +131,7 @@
 				85B15BA0236CDF7B00857D13 /* myuw-ios.entitlements */,
 				854EE08D22F0F9A20042381A /* AppDelegate.swift */,
 				854EE08F22F0F9A20042381A /* AuthenticationController.swift */,
+				852EB771237DD450002A2357 /* TestController.swift */,
 				85B147AF2369FDC300DE3BFA /* SafariController.swift */,
 				85B147A12368CB0700DE3BFA /* TabViewController.swift */,
 				854EE09422F0F9A30042381A /* Assets.xcassets */,
@@ -149,7 +150,6 @@
 				85CC319B2375E38D00F38903 /* SearchViewController.swift */,
 				85CC319D2375E7D400F38903 /* search.css */,
 				85CC319F2375F7FC00F38903 /* myuw.css */,
-				852EB771237DD450002A2357 /* TestController.swift */,
 			);
 			path = "myuw-ios";
 			sourceTree = "<group>";

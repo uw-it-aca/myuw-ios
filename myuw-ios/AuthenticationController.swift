@@ -17,31 +17,50 @@ class ProcessPool {
 class AuthenticationController: UIViewController, WKNavigationDelegate {
     
     var webView: WKWebView!
+    var activityIndicator: UIActivityIndicatorView!
 
     override func viewDidLoad() {
         
         super.viewDidLoad()
                 
+        let configuration = WKWebViewConfiguration()
+        configuration.websiteDataStore = WKWebsiteDataStore.default()
+        configuration.processPool = ProcessPool.sharedPool
+        
+        webView = WKWebView(frame: self.view.frame, configuration: configuration)
+        webView.translatesAutoresizingMaskIntoConstraints = false
+        webView.isUserInteractionEnabled = true
+        webView.navigationDelegate = self
+
+        view.addSubview(webView)
+        
         let url = URL(string: "https://my-test.s.uw.edu/")!
         webView.load(URLRequest(url: url))
         
-        print("auth viewDidLoad")
-    }
-    
-    override func loadView() {
-        let configuration = WKWebViewConfiguration()
-        configuration.processPool = ProcessPool.sharedPool
-        webView = WKWebView(frame: .zero, configuration: configuration)
-        webView.navigationDelegate = self
-        
-        self.view = webView
+        // setup loading indicator
+        activityIndicator = UIActivityIndicatorView()
+        activityIndicator.center = self.view.center
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.style = .gray
+        activityIndicator.isHidden = true
+
+        view.addSubview(activityIndicator)
     }
     
     func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
-        
+        print("didStartProvisionalNavigation")
+        activityIndicator.isHidden = false
+        activityIndicator.startAnimating()
+    }
+
+    func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
+        activityIndicator.stopAnimating()
     }
     
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+        
+        activityIndicator.stopAnimating()
+        activityIndicator.isHidden = true
         
         // set the title using the webpage title
         title = webView.title
