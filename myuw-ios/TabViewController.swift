@@ -74,13 +74,22 @@ class TabViewController: UITabBarController, UITabBarControllerDelegate {
         let tabResourcesBarItem = UITabBarItem(title: "Resources", image: UIImage(named: "ic_resources"), selectedImage: UIImage(named: "selectedImage2.png"))
         tabResources.tabBarItem = tabResourcesBarItem
         
-        var controllers = [tabHome, tabHuskyExp, tabAccounts, tabNotices, tabCalendar, tabResources]
+        var controllers = [tabHome, tabHuskyExp, tabAccounts, tabCalendar, tabResources]
         
-        // insert academics tab for students
-        if userAffiliation == "student" {
+        // insert academics tab for students or applicant
+        if (userAffiliation == "student" || userAffiliation == "applicant") {
             controllers.insert(tabAcademics, at: 1)
         }
-                
+        // insert teaching tab for instructor
+        else if (userAffiliation == "instructor") {
+            controllers.insert(tabTeaching, at: 1)
+        }
+        
+        // insert notices tab for student
+        if (userAffiliation == "student") {
+            controllers.insert(tabNotices, at: 4)
+        }
+        
         self.viewControllers = controllers
 
     }
