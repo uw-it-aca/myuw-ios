@@ -23,7 +23,6 @@ class TestController: UIViewController, WKNavigationDelegate {
         
         let webConfiguraton = WKWebViewConfiguration()
         webView = WKWebView(frame: self.view.frame, configuration: webConfiguraton)
-        //webView = WKWebView(frame: self.view.frame)
         webView.translatesAutoresizingMaskIntoConstraints = false
         webView.isUserInteractionEnabled = true
         webView.navigationDelegate = self
