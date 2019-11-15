@@ -38,10 +38,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             UINavigationBar.appearance().isTranslucent = false
         }
         
+        // mock user information... assume this would come from auth token
+        userAffiliations = ["student", "seattle", "undergrad"]
+        userNetID = "charlon"
+        
         // playing around with 2 implementations of auth controllers
         let authController = AuthenticationController()
-        //let testController = TestController()
-               
+
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.makeKeyAndVisible()
         

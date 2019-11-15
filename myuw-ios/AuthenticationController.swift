@@ -74,8 +74,8 @@ class AuthenticationController: UIViewController, WKNavigationDelegate {
             // once user is logged into myuw, we need to pass the user's affiliation
             // back to the native app - so it knows how to build the tab navigation
             
-            userAffiliations = ["student", "seattle", "undergrad"]
-            userNetID = "javerage"
+            //userAffiliations = ["student", "seattle", "undergrad"]
+            //userNetID = "javerage"
             
             // tabController (main) and appDelegate instance
             let tabController = TabViewController()
