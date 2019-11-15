@@ -6,15 +6,14 @@
 //  Copyright © 2019 Charlon Palacay. All rights reserved.
 //
 
-import Foundation
+import UIKit
 import WebKit
 
-class SearchViewController: UIViewController, WKNavigationDelegate {
-    
-    var webView: WKWebView!
-    
+class SearchViewController: CustomWebViewController {
 
     override func viewDidLoad() {
+        super.viewDidLoad()
+        
         
         let url = URL(string: "https://www.washington.edu/search/?q=tuition")!
         webView.load(URLRequest(url: url))
@@ -25,10 +24,6 @@ class SearchViewController: UIViewController, WKNavigationDelegate {
         // prefer small titles
         self.navigationItem.largeTitleDisplayMode = .never
         
-        // add a right button in navbar programatically
-        let testUIBarButtonItem = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(dismissProfile))
-        self.navigationItem.rightBarButtonItem  = testUIBarButtonItem
-        
         // search controler and bar setup
         let mySearchController = UISearchController()
         self.navigationItem.searchController = mySearchController
@@ -36,31 +31,14 @@ class SearchViewController: UIViewController, WKNavigationDelegate {
         mySearchController.searchBar.placeholder = "Search"
         mySearchController.searchBar.tintColor = .white
         
-        
-                
+    
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        self.navigationController?.navigationBar.prefersLargeTitles = true
-    }
-    
-    override func loadView() {
+    // override the original webview didFinish and replace with custom search.css
+    override func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         
-        let configuration = WKWebViewConfiguration()
+        showActivityIndicator(show: false)
         
-        configuration.websiteDataStore = WKWebsiteDataStore.default()
-        configuration.processPool = ProcessPool.sharedPool
-                
-        webView = WKWebView(frame: CGRect.zero, configuration: configuration)
-        webView.navigationDelegate = self
-        self.view = webView
-    }
-    
-    
-    
-    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-            
         // dynamically inject css file into webview
         guard let path = Bundle.main.path(forResource: "search", ofType: "css") else { return }
         let css = try! String(contentsOfFile: path).replacingOccurrences(of: "\\n", with: "", options: .regularExpression)
@@ -69,26 +47,4 @@ class SearchViewController: UIViewController, WKNavigationDelegate {
         
     }
     
-    // get the cookies
-    func webView(_ webView: WKWebView, decidePolicyFor navigationResponse: WKNavigationResponse, decisionHandler: @escaping (WKNavigationResponsePolicy) -> Void) {
-        decisionHandler(.allow)
-    }
-        
-    @objc private func dismissProfile(){
-        self.dismiss(animated: true, completion: nil)
-    }
-
-    
-    
-}
-
-extension WKWebView {
-    
-    func loadHTML(fromString: String, colorHEX: String = "#757575", fontFamily: String = "Gotham-Book", fontSize: String = "14") {
-        let htmlString = """
-        <link rel="stylesheet" type="text/css" href="myCSSFile.css">
-        <span style="font-family: '\(fontFamily)'; font-weight: normal; font-size: \(fontSize); color: \(colorHEX)">\(fromString)</span>
-        """
-        self.loadHTMLString(htmlString, baseURL: Bundle.main.bundleURL)
-    }
 }

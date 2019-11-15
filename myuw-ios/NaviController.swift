@@ -6,7 +6,7 @@
 //  Copyright © 2019 Charlon Palacay. All rights reserved.
 //
 
-import Foundation
+import UIKit
 import WebKit
 
 class NaviController: UIViewController, WKNavigationDelegate {
