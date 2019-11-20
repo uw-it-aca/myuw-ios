@@ -69,3 +69,6 @@ fastlane/test_output
 
 # mac
 .DS_Store
+
+# MyUW specific
+Carthage
