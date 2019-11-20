@@ -17,9 +17,6 @@ class HomeViewController: CustomWebViewController {
         let url = URL(string: "https://my-test.s.uw.edu/#uwalert-red")!
         webView.load(URLRequest(url: url))
         
-        // override navigation title
-        self.navigationItem.title = "MyUW"
-        
         // define custom user button
         let userButton = UIButton(type: .system)
         userButton.setImage(UIImage(named: "ic_user_18"), for: .normal)
@@ -73,6 +70,12 @@ class HomeViewController: CustomWebViewController {
 
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        // override navigation title
+        self.navigationItem.title = "MyUW"
+    }
    
     
     // webview response handler
