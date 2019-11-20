@@ -94,13 +94,13 @@ class HomeViewController: CustomWebViewController {
             if let url = navigationAction.request.url, let host = url.host, !host.hasPrefix("my-test.s.uw.edu"), UIApplication.shared.canOpenURL(url) {
                 UIApplication.shared.open(url)
                 print(url)
-                print("redirect to safari")
+                print("navi: redirect to safari")
                 decisionHandler(.cancel)
                 
             } else {
                 
                 // open links by pushing a new view controller
-                print("open it locally in webview: ", navigationAction.request.url!)
+                print("navi: push view controller: ", navigationAction.request.url!)
                 
                 let newViewController = NaviController()
                 newViewController.visitUrl = navigationAction.request.url!.absoluteString
@@ -113,7 +113,7 @@ class HomeViewController: CustomWebViewController {
             }
             
         } else {
-            print("not a user click, stay in webview")
+            print("navi: not a user click, stay in webview")
             decisionHandler(.allow)
         }
     }
