@@ -71,6 +71,10 @@ class NaviController: UIViewController, WKNavigationDelegate {
         // override navigation title
         self.navigationItem.title = webView.title
         
+        // mocking this for now
+        //self.navigationItem.title = "Page Title"
+        //self.navigationController?.navigationBar.backItem?.title = "Back"
+        
         // dynamically inject css file into webview
         guard let path = Bundle.main.path(forResource: "myuw", ofType: "css") else { return }
         let css = try! String(contentsOfFile: path).replacingOccurrences(of: "\\n", with: "", options: .regularExpression)

@@ -48,9 +48,17 @@ class AuthenticationController: UIViewController, WKNavigationDelegate {
     }
     
     func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
-        print("didStartProvisionalNavigation")
-        activityIndicator.isHidden = false
-        activityIndicator.startAnimating()
+
+        // set the title using the webpage title
+        title = webView.title
+        
+        // hide the activity indictor on the IDP redirect screen to
+        // avoid multiple loaders... IDP has a purple loading indicator
+        if (self.title != "UW NetID sign-in") {
+            activityIndicator.isHidden = false
+            activityIndicator.startAnimating()
+        }
+        
     }
 
     func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {

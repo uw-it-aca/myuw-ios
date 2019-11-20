@@ -14,7 +14,8 @@ class HomeViewController: CustomWebViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let url = URL(string: "https://my-test.s.uw.edu/#uwalert-red")!
+        //let url = URL(string: "https://my-test.s.uw.edu/#uwalert-red")!
+        let url = URL(string: "https://my-test.s.uw.edu/")!
         webView.load(URLRequest(url: url))
         
         // define custom user button
