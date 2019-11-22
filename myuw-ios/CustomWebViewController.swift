@@ -132,10 +132,10 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
                 // open links by pushing a new view controller
                 print("navi: push view controller")
     
-                let newViewController = NaviController()
-                newViewController.visitUrl = navigationAction.request.url!.absoluteString
+                let newVisit = CustomVisitController()
+                newVisit.visitUrl = navigationAction.request.url!.absoluteString
                                
-                self.navigationController?.pushViewController(newViewController, animated: true)
+                self.navigationController?.pushViewController(newVisit, animated: true)
                 decisionHandler(.cancel)
                
             }

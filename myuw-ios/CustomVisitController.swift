@@ -1,5 +1,5 @@
 //
-//  NaviController.swift
+//  CustomVisitController.swift
 //  myuw-ios
 //
 //  Created by Charlon Palacay on 11/5/19.
@@ -9,7 +9,7 @@
 import UIKit
 import WebKit
 
-class NaviController: CustomWebViewController {
+class CustomVisitController: CustomWebViewController {
     
     var visitUrl:String = ""
 
@@ -21,22 +21,16 @@ class NaviController: CustomWebViewController {
 
     }
     
-    /*
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        self.navigationController?.navigationBar.prefersLargeTitles = true
-    }*/
-    
     override func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         
         showActivityIndicator(show: false)
         
-        // override navigation title
+        // override navigation title by getting the navigated webview's page title
         self.navigationItem.title = webView.title
         
         // mocking this for now
-        //self.navigationItem.title = "Page Title"
-        //self.navigationController?.navigationBar.backItem?.title = "Back"
+        // self.navigationItem.title = "Page Title"
+        // self.navigationController?.navigationBar.backItem?.title = "Prev"
         
         // dynamically inject css file into webview
         guard let path = Bundle.main.path(forResource: "myuw", ofType: "css") else { return }
@@ -44,10 +38,7 @@ class NaviController: CustomWebViewController {
         let js = "var style = document.createElement('style'); style.innerHTML = '\(css)'; document.head.appendChild(style);"
         webView.evaluateJavaScript(js)
         
- 
     }
-    
-
-    
+        
 }
 

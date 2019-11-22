@@ -26,7 +26,7 @@
 		85CC319C2375E38D00F38903 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85CC319B2375E38D00F38903 /* SearchViewController.swift */; };
 		85CC319E2375E7D400F38903 /* search.css in Resources */ = {isa = PBXBuildFile; fileRef = 85CC319D2375E7D400F38903 /* search.css */; };
 		85CC31A02375F7FC00F38903 /* myuw.css in Resources */ = {isa = PBXBuildFile; fileRef = 85CC319F2375F7FC00F38903 /* myuw.css */; };
-		85CDD4E323723A4900A3CBBA /* NaviController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85CDD4E223723A4900A3CBBA /* NaviController.swift */; };
+		85CDD4E323723A4900A3CBBA /* CustomVisitController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85CDD4E223723A4900A3CBBA /* CustomVisitController.swift */; };
 		85F901A7235E34AE00DA0083 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F901A6235E34AE00DA0083 /* ProfileViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -74,7 +74,7 @@
 		85CC319B2375E38D00F38903 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		85CC319D2375E7D400F38903 /* search.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = search.css; sourceTree = "<group>"; };
 		85CC319F2375F7FC00F38903 /* myuw.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = myuw.css; sourceTree = "<group>"; };
-		85CDD4E223723A4900A3CBBA /* NaviController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NaviController.swift; sourceTree = "<group>"; };
+		85CDD4E223723A4900A3CBBA /* CustomVisitController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomVisitController.swift; sourceTree = "<group>"; };
 		85F901A6235E34AE00DA0083 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -131,7 +131,7 @@
 				854EE08F22F0F9A20042381A /* AuthenticationController.swift */,
 				85B147A12368CB0700DE3BFA /* TabViewController.swift */,
 				8534DCD9237F27E100914045 /* CustomWebViewController.swift */,
-				85CDD4E223723A4900A3CBBA /* NaviController.swift */,
+				85CDD4E223723A4900A3CBBA /* CustomVisitController.swift */,
 				854EE09422F0F9A30042381A /* Assets.xcassets */,
 				854EE09622F0F9A30042381A /* LaunchScreen.storyboard */,
 				854EE09922F0F9A30042381A /* Info.plist */,
@@ -305,7 +305,7 @@
 				852EB770237C97C7002A2357 /* NoticesViewController.swift in Sources */,
 				8534DCDA237F27E100914045 /* CustomWebViewController.swift in Sources */,
 				85B147AA2368CD6E00DE3BFA /* AcademicsViewController.swift in Sources */,
-				85CDD4E323723A4900A3CBBA /* NaviController.swift in Sources */,
+				85CDD4E323723A4900A3CBBA /* CustomVisitController.swift in Sources */,
 				85B147A22368CB0700DE3BFA /* TabViewController.swift in Sources */,
 				854EE09022F0F9A20042381A /* AuthenticationController.swift in Sources */,
 				85B147A42368CC6500DE3BFA /* AccountsViewController.swift in Sources */,
