@@ -33,8 +33,19 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
         activityIndicator.hidesWhenStopped = true
         activityIndicator.style = .gray
         activityIndicator.isHidden = true
-
+        
         view.addSubview(activityIndicator)
+        
+        // pull to refresh setup
+        let refreshControl = UIRefreshControl()
+        refreshControl.tintColor = .white
+        let attributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+        refreshControl.attributedTitle = NSAttributedString(string: "Refreshing...", attributes: attributes)
+        refreshControl.addTarget(self, action: #selector(refreshWebView), for: UIControl.Event.valueChanged)
+        refreshControl.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+        webView.scrollView.alwaysBounceVertical = true
+        webView.scrollView.bounces = true
+        webView.scrollView.refreshControl = refreshControl
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -51,7 +62,13 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
             activityIndicator.isHidden = true
         }
     }
-
+    
+    @objc func refreshWebView(_ sender: UIRefreshControl) {
+        webView?.reload()
+        sender.endRefreshing()
+    }
+    
+    // webview navigation handlers
     func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
         showActivityIndicator(show: true)
     }
@@ -72,5 +89,54 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
         
     }
     
+    // webview policy response handler
+    func webView(_ webView: WKWebView, decidePolicyFor navigationResponse: WKNavigationResponse, decisionHandler: @escaping (WKNavigationResponsePolicy) -> Void) {
+        decisionHandler(.allow)
+    }
+    
+    // webview policty action handler
+    func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
+       
+        // handle links and navigation
+        if navigationAction.navigationType == .linkActivated  {
+            
+            let url = navigationAction.request.url
+            let host = url?.host
+            
+            print("navi url: ", url as Any)
+            print("navi host: ", host as Any)
+            
+            // check to see if the URL prefix is still myuw
+            if !host!.hasPrefix("my-test.s.uw.edu"), UIApplication.shared.canOpenURL(url!) {
+                
+                UIApplication.shared.open(url!)
+                print("navi: redirect to safari")
+                decisionHandler(.cancel)
+                
+            } else if (url?.absoluteString.contains("out?u="))! {
+                
+                // check for outbound myuw links
+                UIApplication.shared.open(url!)
+                print("navi: redirect to safari")
+                decisionHandler(.cancel)
+                
+            } else {
+                        
+                // open links by pushing a new view controller
+                print("navi: push view controller")
+    
+                let newViewController = NaviController()
+                newViewController.visitUrl = navigationAction.request.url!.absoluteString
+                               
+                self.navigationController?.pushViewController(newViewController, animated: true)
+                decisionHandler(.cancel)
+               
+            }
+           
+        }
+        else {
+           decisionHandler(.allow)
+        }
+    }
     
 }

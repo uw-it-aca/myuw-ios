@@ -18,6 +18,9 @@ class HomeViewController: CustomWebViewController {
         let url = URL(string: "https://my-test.s.uw.edu/")!
         webView.load(URLRequest(url: url))
         
+        // override navigation title
+        self.navigationItem.title = "MyUW"
+        
         // define custom user button
         let userButton = UIButton(type: .system)
         userButton.setImage(UIImage(named: "ic_user_18"), for: .normal)
@@ -58,65 +61,11 @@ class HomeViewController: CustomWebViewController {
             
         self.navigationItem.rightBarButtonItems = [searchBarButtonItem, emailBarButtonItem]
         
-        // pull to refresh setup
-        let refreshControl = UIRefreshControl()
-        refreshControl.tintColor = .white
-        let attributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
-        refreshControl.attributedTitle = NSAttributedString(string: "Refreshing...", attributes: attributes)
-        refreshControl.addTarget(self, action: #selector(refreshWebView), for: UIControl.Event.valueChanged)
-        refreshControl.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
-        webView.scrollView.alwaysBounceVertical = true
-        webView.scrollView.bounces = true
-        webView.scrollView.refreshControl = refreshControl
+        
 
     }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
         
-        // override navigation title
-        self.navigationItem.title = "MyUW"
-    }
-   
     
-    // webview response handler
-    func webView(_ webView: WKWebView, decidePolicyFor navigationResponse: WKNavigationResponse, decisionHandler: @escaping (WKNavigationResponsePolicy) -> Void) {
-        decisionHandler(.allow)
-        
-    }
-    
-    // webview action handler
-    func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
-        
-        // handle links and navigation
-        if navigationAction.navigationType == .linkActivated  {
-            // check to see if the URL prefix is still myuw
-            if let url = navigationAction.request.url, let host = url.host, !host.hasPrefix("my-test.s.uw.edu"), UIApplication.shared.canOpenURL(url) {
-                UIApplication.shared.open(url)
-                print(url)
-                print("navi: redirect to safari")
-                decisionHandler(.cancel)
-                
-            } else {
-                
-                // open links by pushing a new view controller
-                print("navi: push view controller: ", navigationAction.request.url!)
-                
-                let newViewController = NaviController()
-                newViewController.visitUrl = navigationAction.request.url!.absoluteString
-                                
-                self.navigationController?.pushViewController(newViewController, animated: true)
-                decisionHandler(.cancel)
-                
-                //decisionHandler(.allow)
-                
-            }
-            
-        } else {
-            print("navi: not a user click, stay in webview")
-            decisionHandler(.allow)
-        }
-    }
     
 
     @objc func showProfile() {
@@ -144,9 +93,4 @@ class HomeViewController: CustomWebViewController {
         self.navigationController?.pushViewController(searchViewController, animated: true)
     }
     
-    @objc func refreshWebView(_ sender: UIRefreshControl) {
-        webView?.reload()
-        sender.endRefreshing()
-    }
-
 }
