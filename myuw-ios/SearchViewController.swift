@@ -46,9 +46,7 @@ class SearchViewController: CustomWebViewController {
         let css = try! String(contentsOfFile: path).replacingOccurrences(of: "\\n", with: "", options: .regularExpression)
         let js = "var style = document.createElement('style'); style.innerHTML = '\(css)'; document.head.appendChild(style);"
         webView.evaluateJavaScript(js)
-        
-        //webView.loadHTMLString("<p>Hello!</p>", baseURL: nil)
-        
+                
         
     }
     

@@ -81,7 +81,7 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
         
         showActivityIndicator(show: false)
         
-        // dynamically inject css file into webview
+        // dynamically inject myuw.css file into webview
         guard let path = Bundle.main.path(forResource: "myuw", ofType: "css") else { return }
         let css = try! String(contentsOfFile: path).replacingOccurrences(of: "\\n", with: "", options: .regularExpression)
         let js = "var style = document.createElement('style'); style.innerHTML = '\(css)'; document.head.appendChild(style);"
@@ -106,17 +106,24 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
             print("navi url: ", url as Any)
             print("navi host: ", host as Any)
             
-            // check to see if the URL prefix is still myuw
+            // check to see if the url is NOT my-test.s.uw.edu (myuw)
             if !host!.hasPrefix("my-test.s.uw.edu"), UIApplication.shared.canOpenURL(url!) {
                 
+                // open outbound url in safari
                 UIApplication.shared.open(url!)
                 print("navi: redirect to safari")
                 decisionHandler(.cancel)
                 
-            } else if (url?.absoluteString.contains("out?u="))! {
+            }
+            // check to see if the url is a "special" myuw outbound link
+            else if (url?.absoluteString.contains("out?u="))! {
+                // get the outbound url from the u param
+                let uParam = getQueryStringParameter(url: url!.absoluteString, param: "u")
+                // convert string back to url type
+                let outbound = URL(string: uParam!)
                 
-                // check for outbound myuw links
-                UIApplication.shared.open(url!)
+                // open outbound url in safari
+                UIApplication.shared.open(outbound!)
                 print("navi: redirect to safari")
                 decisionHandler(.cancel)
                 
@@ -137,6 +144,12 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
         else {
            decisionHandler(.allow)
         }
+    }
+    
+    // function to get params from a url string
+    func getQueryStringParameter(url: String, param: String) -> String? {
+        guard let url = URLComponents(string: url) else { return nil }
+        return url.queryItems?.first(where: { $0.name == param })?.value
     }
     
 }
