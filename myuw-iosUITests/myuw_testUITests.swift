@@ -33,7 +33,6 @@ class myuw_testUITests: XCTestCase {
         let app = XCUIApplication()
         app.launch()
         
-        
         // TEST: weblogin is displayed on initial load... prompting user to sign in
         let webloginMessage = app.staticTexts["Please sign in."]
         let exists = NSPredicate(format: "exists == 1")
