@@ -25,6 +25,7 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
         webView.translatesAutoresizingMaskIntoConstraints = false
         webView.isUserInteractionEnabled = true
         webView.navigationDelegate = self
+        webView.allowsLinkPreview = false
 
         view.addSubview(webView)
 
@@ -97,6 +98,7 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
     // webview policty action handler
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
        
+
         // handle links and navigation
         if navigationAction.navigationType == .linkActivated  {
             
