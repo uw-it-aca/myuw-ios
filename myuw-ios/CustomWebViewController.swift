@@ -65,7 +65,9 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
     }
     
     @objc func refreshWebView(_ sender: UIRefreshControl) {
-        webView?.reload()
+        // clear the webview body and then reload
+        webView.evaluateJavaScript("document.body.remove()")
+        webView.reload()
         sender.endRefreshing()
     }
     
