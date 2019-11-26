@@ -7,7 +7,7 @@
 //
 
 import XCTest
-@testable import myuw_test
+//@testable import myuw_test
 
 class myuw_testTests: XCTestCase {
 

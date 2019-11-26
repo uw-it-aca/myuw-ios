@@ -26,9 +26,23 @@ class myuw_testUITests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
 
-    func testExample() {
+    func testWeblogin() {
         // Use recording to get started writing UI tests.
         // Use XCTAssert and related functions to verify your tests produce the correct results.
+        
+        let app = XCUIApplication()
+        app.launch()
+        
+        
+        // TEST: weblogin is displayed on initial load... prompting user to sign in
+        let webloginMessage = app.staticTexts["Please sign in."]
+        let exists = NSPredicate(format: "exists == 1")
+        expectation(for: exists, evaluatedWith: webloginMessage, handler: nil)
+
+        waitForExpectations(timeout: 5, handler: nil)
+        XCTAssert(webloginMessage.exists)
+        
+        
     }
 
 }
