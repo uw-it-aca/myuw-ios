@@ -30,8 +30,8 @@ class TabViewController: UITabBarController, UITabBarControllerDelegate {
         super.viewWillAppear(animated)
         
         // set tabbar icon and title color
-        UITabBar.appearance().tintColor = UIColor.systemPink
-        UITabBarItem.appearance().setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.systemPink], for: .selected)
+        UITabBar.appearance().tintColor = UIColor(hex: "#4b2e83")
+        UITabBarItem.appearance().setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor(hex: "#4b2e83")], for: .selected)
 
         // Home tab
         let tabHome = UINavigationController(rootViewController: HomeViewController())
