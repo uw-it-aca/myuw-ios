@@ -25,14 +25,16 @@ class TabViewController: UITabBarController, UITabBarControllerDelegate {
         //notificationCenter.addObserver(self, selector: #selector(appMovedToForeground), name: UIApplication.didEnterBackgroundNotification, object: nil)
     }
     
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         // set tabbar icon and title color
-        UITabBar.appearance().tintColor = UIColor.systemPink
-        UITabBarItem.appearance().setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.systemPink], for: .selected)
-
+        UITabBar.appearance().tintColor = UIColor(hex: "#4b2e83")
+        UITabBarItem.appearance().setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor(hex: "#4b2e83")], for: .selected)
+        
+        // icon color for "more" menu table
+        self.moreNavigationController.view.tintColor = UIColor(hex: "#4b2e83")
+        
         // Home tab
         let tabHome = UINavigationController(rootViewController: HomeViewController())
         let tabHomeBarItem = UITabBarItem(title: "Home", image: UIImage(named: "ic_home"), selectedImage: UIImage(named: "selectedImage.png"))
@@ -100,14 +102,19 @@ class TabViewController: UITabBarController, UITabBarControllerDelegate {
 
     }
     
-    // UITabBarControllerDelegate method
-    func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
-          
+    // override the "more" menu edit screen
+    override func tabBar(_ tabBar: UITabBar, willBeginCustomizing items: [UITabBarItem]) {
+        for (index, subView) in view.subviews.enumerated() {
+            if index == 1 {
+                // icon color
+                subView.tintColor = UIColor(hex: "#4b2e83")
+            }
+        }
     }
     
     @objc func appBecameActive() {
         print("App became active!")
-        
+    
         // force auth workflow if app is coming back to the foreground
         // this should handle the case if session timeouts after 8hrs
         let authController = AuthenticationController()

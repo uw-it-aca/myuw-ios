@@ -26,7 +26,7 @@ class CustomVisitController: CustomWebViewController {
         showActivityIndicator(show: false)
         
         // override navigation title by getting the navigated webview's page title
-        self.navigationItem.title = webView.title
+        self.navigationItem.title = webView.title!.replacingOccurrences(of: "MyUW: ", with: "")
         
         // mocking this for now
         // self.navigationItem.title = "Page Title"
