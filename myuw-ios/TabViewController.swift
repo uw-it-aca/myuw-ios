@@ -17,8 +17,9 @@ class TabViewController: UITabBarController, UITabBarControllerDelegate {
         //Assign self for delegate for that ViewController can respond to UITabBarControllerDelegate methods
         self.delegate = self        
         
-        let notificationCenter = NotificationCenter.default
+        // TODO: setup app event notifications for when OIDC is configured
         
+        //let notificationCenter = NotificationCenter.default
         // observe various phone state changes and re-auth if needed
         //notificationCenter.addObserver(self, selector: #selector(appMovedToForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
         //notificationCenter.addObserver(self, selector: #selector(appBecameActive), name: UIApplication.didBecomeActiveNotification, object: nil)
