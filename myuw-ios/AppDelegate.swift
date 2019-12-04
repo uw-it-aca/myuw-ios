@@ -40,16 +40,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // mock user information... assume this would come from auth token
         userAffiliations = ["student", "instructor", "seattle", "undergrad"]
-        userNetID = "charlon"
+        userNetID = "usernetid"
         
         // playing around with 2 implementations of auth controllers
-        let authController = AuthenticationController()
+        //let mainController = AuthenticationController()
+        let mainController = TabViewController()
 
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.makeKeyAndVisible()
         
         // set the auth controller as the root controller on app load
-        window?.rootViewController = authController
+        window?.rootViewController = mainController
         
         return true
     }

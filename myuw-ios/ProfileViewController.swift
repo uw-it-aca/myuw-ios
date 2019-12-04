@@ -14,7 +14,7 @@ class ProfileViewController: CustomWebViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let url = URL(string: "https://my-test.s.uw.edu/profile/")!
+        let url = URL(string: "http://my-dev-gcp.axdd.s.uw.edu/profile/")!
         webView.load(URLRequest(url: url))
         
         // override navigation title

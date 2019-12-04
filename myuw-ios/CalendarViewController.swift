@@ -14,7 +14,7 @@ class CalendarViewController: CustomWebViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let url = URL(string: "https://my-test.s.uw.edu/academic_calendar/")!
+        let url = URL(string: "http://my-dev-gcp.axdd.s.uw.edu/academic_calendar/")!
         webView.load(URLRequest(url: url))
         
         // override navigation title

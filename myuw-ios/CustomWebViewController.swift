@@ -109,9 +109,9 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
             
             print("navi url: ", url as Any)
             print("navi host: ", host as Any)
-            
+                            
             // check to see if the url is NOT my-test.s.uw.edu (myuw)
-            if !host!.hasPrefix("my-test.s.uw.edu"), UIApplication.shared.canOpenURL(url!) {
+            if !host!.hasPrefix("my-dev-gcp.axdd.s.uw.edu"), UIApplication.shared.canOpenURL(url!) {
                 
                 // open outbound url in safari
                 UIApplication.shared.open(url!)
