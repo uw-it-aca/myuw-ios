@@ -15,7 +15,7 @@ class HomeViewController: CustomWebViewController {
         super.viewDidLoad()
         
         //let url = URL(string: "https://my-test.s.uw.edu/#uwalert-red")!
-        let url = URL(string: "http://curry.aca.uw.edu:8000/")!
+        let url = URL(string: "\(appHost)/")!
         webView.load(URLRequest(url: url))
         
         // override navigation title

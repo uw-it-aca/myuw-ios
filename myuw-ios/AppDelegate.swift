@@ -8,8 +8,9 @@
 
 import UIKit
 
+var appHost = ""
 var userAffiliations = [] as NSArray
-var userNetID = "NetID"
+var userNetID = ""
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -20,6 +21,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
         // Override point for customization after application launch.
+        
+        // read in config
+        if let path = Bundle.main.path(forResource: "myuw", ofType: "plist"), let config = NSDictionary(contentsOfFile: path) as? [String: AnyObject] {
+            appHost = config["myuw_host"] as! String
+        }
         
         // setup navbar appearance globally
         if #available(iOS 13.0, *) {
