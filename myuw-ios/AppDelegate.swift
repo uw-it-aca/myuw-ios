@@ -8,7 +8,9 @@
 
 import UIKit
 
+//  From myuw.plist
 var appHost = ""
+//  From Shibboleth iDP via OIDC
 var userAffiliations = [] as NSArray
 var userNetID = ""
 
