@@ -85,10 +85,12 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
         showActivityIndicator(show: false)
         
         // dynamically inject myuw.css file into webview
+        /*
         guard let path = Bundle.main.path(forResource: "myuw", ofType: "css") else { return }
         let css = try! String(contentsOfFile: path).replacingOccurrences(of: "\\n", with: "", options: .regularExpression)
         let js = "var style = document.createElement('style'); style.innerHTML = '\(css)'; document.head.appendChild(style);"
         webView.evaluateJavaScript(js)
+        */
         
     }
     
