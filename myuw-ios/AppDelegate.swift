@@ -39,7 +39,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         // mock user information... assume this would come from auth token
-        userAffiliations = ["student", "seattle", "undergrad"]
+        userAffiliations = ["student", "instructor", "seattle", "undergrad"]
         userNetID = "charlon"
         
         // playing around with 2 implementations of auth controllers
