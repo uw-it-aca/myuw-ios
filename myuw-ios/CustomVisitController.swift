@@ -17,7 +17,9 @@ class CustomVisitController: CustomWebViewController {
         super.viewDidLoad()
 
         let url = URL(string: visitUrl)!
-        webView.load(URLRequest(url: url))
+        var customRequest = URLRequest(url: url)
+        customRequest.setValue("True", forHTTPHeaderField: "Myuw-Hybrid")
+        webView.load(customRequest)
 
     }
     

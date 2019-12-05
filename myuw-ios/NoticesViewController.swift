@@ -15,7 +15,9 @@ class NoticesViewController: CustomWebViewController {
         super.viewDidLoad()
         
         let url = URL(string: "\(appHost)/notices/")!
-        webView.load(URLRequest(url: url))
+        var customRequest = URLRequest(url: url)
+        customRequest.setValue("True", forHTTPHeaderField: "Myuw-Hybrid")
+        webView.load(customRequest)
         
         // override navigation title
         self.navigationItem.title = "Notices"

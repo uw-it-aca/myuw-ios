@@ -16,7 +16,6 @@ class HomeViewController: CustomWebViewController {
         
         //let url = URL(string: "https://my-test.s.uw.edu/#uwalert-red")!
         let url = URL(string: "\(appHost)/")!
-        
         var customRequest = URLRequest(url: url)
         customRequest.setValue("True", forHTTPHeaderField: "Myuw-Hybrid")
         webView.load(customRequest)
