@@ -139,7 +139,7 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
                 print("navi: push view controller")
     
                 let newVisit = CustomVisitController()
-                newVisit.visitUrl = navigationAction.request.url!.absoluteString + "?hybrid=yes"
+                newVisit.visitUrl = navigationAction.request.url!.absoluteString
                 
                 print(newVisit.visitUrl)
                 

@@ -14,7 +14,7 @@ class ResourcesViewController: CustomWebViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let url = URL(string: "\(appHost)/resources/?hybrid=yes")!
+        let url = URL(string: "\(appHost)/resources/")!
         webView.load(URLRequest(url: url))
         
         // override navigation title

@@ -14,7 +14,7 @@ class SearchViewController: CustomWebViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let url = URL(string: "\(appHost)/search/?hybrid=yes")!
+        let url = URL(string: "\(appHost)/search/")!
         webView.load(URLRequest(url: url))
                 
         // prefer small titles
