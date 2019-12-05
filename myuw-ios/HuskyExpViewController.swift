@@ -14,7 +14,7 @@ class HuskyExpViewController: CustomWebViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let url = URL(string: "\(appHost)/husky_experience/")!
+        let url = URL(string: "\(appHost)/husky_experience/?hybrid=yes")!
         webView.load(URLRequest(url: url))
         
         // override navigation title

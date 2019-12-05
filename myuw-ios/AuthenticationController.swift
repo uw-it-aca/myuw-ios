@@ -34,7 +34,7 @@ class AuthenticationController: UIViewController, WKNavigationDelegate {
 
         view.addSubview(webView)
         
-        let url = URL(string: "\(appHost)/")!
+        let url = URL(string: "\(appHost)/?hybrid=yes")!
         webView.load(URLRequest(url: url))
         
         // setup loading indicator

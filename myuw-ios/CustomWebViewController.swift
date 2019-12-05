@@ -84,6 +84,9 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
         
         showActivityIndicator(show: false)
         
+        let url = webView.url
+        print("navi webview url: ", url as Any)
+        
         // dynamically inject myuw.css file into webview
         /*
         guard let path = Bundle.main.path(forResource: "myuw", ofType: "css") else { return }
@@ -136,8 +139,10 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
                 print("navi: push view controller")
     
                 let newVisit = CustomVisitController()
-                newVisit.visitUrl = navigationAction.request.url!.absoluteString
-                               
+                newVisit.visitUrl = navigationAction.request.url!.absoluteString + "?hybrid=yes"
+                
+                print(newVisit.visitUrl)
+                
                 self.navigationController?.pushViewController(newVisit, animated: true)
                 decisionHandler(.cancel)
                

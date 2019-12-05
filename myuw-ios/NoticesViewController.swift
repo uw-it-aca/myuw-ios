@@ -14,7 +14,7 @@ class NoticesViewController: CustomWebViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let url = URL(string: "\(appHost)/notices/")!
+        let url = URL(string: "\(appHost)/notices/?hybrid=yes")!
         webView.load(URLRequest(url: url))
         
         // override navigation title
