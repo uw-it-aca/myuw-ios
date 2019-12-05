@@ -18,7 +18,7 @@ class HomeViewController: CustomWebViewController {
         let url = URL(string: "\(appHost)/")!
         
         var customRequest = URLRequest(url: url)
-        customRequest.setValue("true", forHTTPHeaderField: "Myuw-X-Hybrid")
+        customRequest.setValue("true", forHTTPHeaderField: "MyUW-Hybrid")
         webView.load(customRequest)
         
         // override navigation title
