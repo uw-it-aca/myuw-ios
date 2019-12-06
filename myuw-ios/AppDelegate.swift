@@ -84,6 +84,35 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
+    
+    // Handle deep links myuwapp://page
+
+    func application(_ application: UIApplication,
+                     open url: URL,
+                     options: [UIApplication.OpenURLOptionsKey : Any] = [:] ) -> Bool {
+        
+        // Determine who sent the URL.
+        let sendingAppID = options[.sourceApplication]
+        print("source application = \(sendingAppID ?? "Unknown")")
+        
+        if let scheme = url.scheme,
+            scheme.localizedCaseInsensitiveCompare("myuwapp") == .orderedSame,
+            let tab = url.host {
+           
+            print(tab)
+            
+            
+            var parameters: [String: String] = [:]
+            URLComponents(url: url, resolvingAgainstBaseURL: false)?.queryItems?.forEach {
+                parameters[$0.name] = $0.value
+            }
+            print(parameters)
+            
+            //redirect(to: view, with: parameters)
+            
+       }
+       return true
+    }
 
 
 }

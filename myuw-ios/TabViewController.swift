@@ -19,11 +19,12 @@ class TabViewController: UITabBarController, UITabBarControllerDelegate {
         
         // TODO: setup app event notifications for when OIDC is configured
         
-        //let notificationCenter = NotificationCenter.default
+        let notificationCenter = NotificationCenter.default
         // observe various phone state changes and re-auth if needed
         //notificationCenter.addObserver(self, selector: #selector(appMovedToForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
-        //notificationCenter.addObserver(self, selector: #selector(appBecameActive), name: UIApplication.didBecomeActiveNotification, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(appBecameActive), name: UIApplication.didBecomeActiveNotification, object: nil )
         //notificationCenter.addObserver(self, selector: #selector(appMovedToForeground), name: UIApplication.didEnterBackgroundNotification, object: nil)
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -118,12 +119,12 @@ class TabViewController: UITabBarController, UITabBarControllerDelegate {
     
         // force auth workflow if app is coming back to the foreground
         // this should handle the case if session timeouts after 8hrs
-        let authController = AuthenticationController()
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        //let authController = AuthenticationController()
+        //let appDelegate = UIApplication.shared.delegate as! AppDelegate
         
         // re-set authController as rootViewController
-        appDelegate.window!.rootViewController = authController
-        
+        //appDelegate.window!.rootViewController = authController
+                
     }
-            
+                
 }
