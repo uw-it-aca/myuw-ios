@@ -11,6 +11,16 @@ import UIKit
 
 class TabViewController: UITabBarController, UITabBarControllerDelegate {
     
+    // global tab setup
+    let tabHome = UINavigationController(rootViewController: HomeViewController())
+    let tabAcademics = UINavigationController(rootViewController: AcademicsViewController())
+    let tabHuskyExp = UINavigationController(rootViewController: HuskyExpViewController())
+    let tabTeaching = UINavigationController(rootViewController: TeachingViewController())
+    let tabAccounts = UINavigationController(rootViewController: AccountsViewController())
+    let tabNotices = UINavigationController(rootViewController: NoticesViewController())
+    let tabCalendar = UINavigationController(rootViewController: CalendarViewController())
+    let tabResources = UINavigationController(rootViewController: ResourcesViewController())
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -33,7 +43,7 @@ class TabViewController: UITabBarController, UITabBarControllerDelegate {
         //notificationCenter.addObserver(self, selector: #selector(appBecameActive), name: UIApplication.didBecomeActiveNotification, object: nil )
         
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -45,42 +55,34 @@ class TabViewController: UITabBarController, UITabBarControllerDelegate {
         self.moreNavigationController.view.tintColor = UIColor(hex: "#4b2e83")
         
         // Home tab
-        let tabHome = UINavigationController(rootViewController: HomeViewController())
         let tabHomeBarItem = UITabBarItem(title: "Home", image: UIImage(named: "ic_home"), selectedImage: UIImage(named: "selectedImage.png"))
         tabHome.tabBarItem = tabHomeBarItem
 
         // Academics tab
-        let tabAcademics = UINavigationController(rootViewController: AcademicsViewController())
         let tabAcademicsBarItem = UITabBarItem(title: "Academics", image: UIImage(named: "ic_academics"), selectedImage: UIImage(named: "selectedImage2.png"))
         tabAcademics.tabBarItem = tabAcademicsBarItem
         
         // Husky Experience tab
-        let tabHuskyExp = UINavigationController(rootViewController: HuskyExpViewController())
         let tabHuskyExpBarItem = UITabBarItem(title: "Husky Exp", image: UIImage(named: "ic_paw"), selectedImage: UIImage(named: "selectedImage2.png"))
         tabHuskyExp.tabBarItem = tabHuskyExpBarItem
         
         // Teaching tab
-        let tabTeaching = UINavigationController(rootViewController: TeachingViewController())
         let tabTeachingBarItem = UITabBarItem(title: "Teaching", image: UIImage(named: "ic_teaching"), selectedImage: UIImage(named: "selectedImage2.png"))
         tabTeaching.tabBarItem = tabTeachingBarItem
         
         // Accounts tab
-        let tabAccounts = UINavigationController(rootViewController: AccountsViewController())
         let tabAccountsBarItem = UITabBarItem(title: "Accounts", image: UIImage(named: "ic_accounts"), selectedImage: UIImage(named: "selectedImage2.png"))
         tabAccounts.tabBarItem = tabAccountsBarItem
         
         // Notices tab
-        let tabNotices = UINavigationController(rootViewController: NoticesViewController())
         let tabNoticesBarItem = UITabBarItem(title: "Notices", image: UIImage(named: "ic_warning"), selectedImage: UIImage(named: "selectedImage2.png"))
         tabNotices.tabBarItem = tabNoticesBarItem
         
         // Calendar tab
-        let tabCalendar = UINavigationController(rootViewController: CalendarViewController())
         let tabCalendarBarItem = UITabBarItem(title: "Calendar", image: UIImage(named: "ic_calendar"), selectedImage: UIImage(named: "selectedImage2.png"))
         tabCalendar.tabBarItem = tabCalendarBarItem
         
         // Resources tab
-        let tabResources = UINavigationController(rootViewController: ResourcesViewController())
         let tabResourcesBarItem = UITabBarItem(title: "Resources", image: UIImage(named: "ic_resources"), selectedImage: UIImage(named: "selectedImage2.png"))
         tabResources.tabBarItem = tabResourcesBarItem
         
@@ -108,7 +110,7 @@ class TabViewController: UITabBarController, UITabBarControllerDelegate {
         }
         
         self.viewControllers = controllers
-
+        
     }
     
     // override the "more" menu edit screen
@@ -132,8 +134,9 @@ class TabViewController: UITabBarController, UITabBarControllerDelegate {
         // re-set authController as rootViewController
         //appDelegate.window!.rootViewController = authController
                         
-        // when app is foregrounded... start at specific tab index
-        self.selectedIndex = 6
+        // when app is foregrounded... start at specific tab index        
+        self.selectedViewController = self.tabCalendar
+        
                 
     }
                 
