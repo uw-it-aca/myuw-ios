@@ -20,10 +20,17 @@ class TabViewController: UITabBarController, UITabBarControllerDelegate {
         // TODO: setup app event notifications for when OIDC is configured
         
         let notificationCenter = NotificationCenter.default
+        
         // observe various phone state changes and re-auth if needed
-        //notificationCenter.addObserver(self, selector: #selector(appMovedToForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
-        notificationCenter.addObserver(self, selector: #selector(appBecameActive), name: UIApplication.didBecomeActiveNotification, object: nil )
+        
+        // app foregrounded
+        notificationCenter.addObserver(self, selector: #selector(appBecameActive), name: UIApplication.willEnterForegroundNotification, object: nil)
+        
+        // app backgrounded
         //notificationCenter.addObserver(self, selector: #selector(appMovedToForeground), name: UIApplication.didEnterBackgroundNotification, object: nil)
+        
+        // app became active (called every time)
+        //notificationCenter.addObserver(self, selector: #selector(appBecameActive), name: UIApplication.didBecomeActiveNotification, object: nil )
         
     }
     
@@ -124,6 +131,9 @@ class TabViewController: UITabBarController, UITabBarControllerDelegate {
         
         // re-set authController as rootViewController
         //appDelegate.window!.rootViewController = authController
+                        
+        // when app is foregrounded... start at specific tab index
+        self.selectedIndex = 6
                 
     }
                 

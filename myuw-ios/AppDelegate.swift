@@ -99,9 +99,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             scheme.localizedCaseInsensitiveCompare("myuwapp") == .orderedSame,
             let tab = url.host {
            
+            // translate the tab into a specific tabindex
             print(tab)
             
-            
+            // grab any query params 
             var parameters: [String: String] = [:]
             URLComponents(url: url, resolvingAgainstBaseURL: false)?.queryItems?.forEach {
                 parameters[$0.name] = $0.value
