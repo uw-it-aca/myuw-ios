@@ -134,10 +134,13 @@ class TabViewController: UITabBarController, UITabBarControllerDelegate {
         // re-set authController as rootViewController
         //appDelegate.window!.rootViewController = authController
                         
-        // when app is foregrounded... start at specific tab index        
-        self.selectedViewController = self.tabCalendar
-        
-                
     }
+    
+    func openDeepLink() {
+
+        // when app is foregrounded... start at specific tab index
+        self.selectedViewController = self.tabTeaching
+    }
+    
                 
 }

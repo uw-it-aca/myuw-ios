@@ -23,6 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
         // Override point for customization after application launch.
+        print("app delegate launch")
         
         // read in config
         if let path = Bundle.main.path(forResource: "myuw", ofType: "plist"), let config = NSDictionary(contentsOfFile: path) as? [String: AnyObject] {
@@ -91,6 +92,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                      open url: URL,
                      options: [UIApplication.OpenURLOptionsKey : Any] = [:] ) -> Bool {
         
+        print("app delegate deep link activated")
+        
         // Determine who sent the URL.
         let sendingAppID = options[.sourceApplication]
         print("source application = \(sendingAppID ?? "Unknown")")
@@ -110,6 +113,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             print(parameters)
             
             //redirect(to: view, with: parameters)
+            
+            // navigate to deeplink via tab view controller by calling openDeepLink method
+            (window!.rootViewController as? TabViewController)?.openDeepLink()
             
        }
        return true
