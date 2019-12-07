@@ -115,7 +115,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             //redirect(to: view, with: parameters)
             
             // navigate to deeplink via tab view controller by calling openDeepLink method
-            (window!.rootViewController as? TabViewController)?.openDeepLink()
+            (window!.rootViewController as? TabViewController)?.openDeepLink(page: tab)
             
        }
        return true
