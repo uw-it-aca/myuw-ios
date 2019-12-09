@@ -164,7 +164,7 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
 // extensions
 extension WKWebView {
     
-    // custome load extension that sets custom header
+    // custom load extension that sets custom header
     func load(_ urlString: String) {
         if let url = URL(string: urlString) {
             var request = URLRequest(url: url)

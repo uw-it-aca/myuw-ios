@@ -13,11 +13,9 @@ class ProfileViewController: CustomWebViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        let url = URL(string: "\(appHost)/profile/")!
-        var customRequest = URLRequest(url: url)
-        customRequest.setValue("True", forHTTPHeaderField: "Myuw-Hybrid")
-        webView.load(customRequest)
+                
+        // load the webview
+        webView.load("\(appHost)/profile/")
         
         // override navigation title
         self.navigationItem.title = "Profile"
