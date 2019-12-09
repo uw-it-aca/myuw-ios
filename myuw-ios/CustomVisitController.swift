@@ -15,12 +15,10 @@ class CustomVisitController: CustomWebViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        let url = URL(string: visitUrl)!
-        var customRequest = URLRequest(url: url)
-        customRequest.setValue("True", forHTTPHeaderField: "Myuw-Hybrid")
-        webView.load(customRequest)
-
+        
+        // load the webview
+        webView.load(visitUrl)
+        
     }
     
     override func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
