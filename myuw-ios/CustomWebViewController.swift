@@ -26,7 +26,7 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
         webView.isUserInteractionEnabled = true
         webView.navigationDelegate = self
         webView.allowsLinkPreview = false
-
+        
         view.addSubview(webView)
 
         activityIndicator = UIActivityIndicatorView()
@@ -104,8 +104,7 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
     
     // webview policty action handler
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
-       
-
+    
         // handle links and navigation
         if navigationAction.navigationType == .linkActivated  {
             
@@ -160,4 +159,17 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
         return url.queryItems?.first(where: { $0.name == param })?.value
     }
     
+}
+
+// extensions
+extension WKWebView {
+    
+    // custome load extension that sets custom header
+    func load(_ urlString: String) {
+        if let url = URL(string: urlString) {
+            var request = URLRequest(url: url)
+            request.setValue("True", forHTTPHeaderField: "Myuw-Hybrid")
+            load(request)
+        }
+    }
 }
