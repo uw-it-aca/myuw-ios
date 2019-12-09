@@ -136,15 +136,30 @@ class TabViewController: UITabBarController, UITabBarControllerDelegate {
                         
     }
     
-    func openDeepLink(page: String) {
+    func openDeepLink(page: String, params: [String:String]) {
         
         print(page)
+        print(params)
         
-        // TODO: get the page string and convert it to the corresponding controller
-        // e.g. "teaching" --> tabTeaching
-        
-        // when app is foregrounded... start at specific tab index
-        self.selectedViewController = self.tabTeaching
+        // match the page param to its corresponding tabController
+        switch page {
+        case "academics":
+            self.selectedViewController = self.tabAcademics
+        case "huskyexp":
+            self.selectedViewController = self.tabHuskyExp
+        case "teaching":
+            self.selectedViewController = self.tabTeaching
+        case "accounts":
+            self.selectedViewController = self.tabAccounts
+        case "notices":
+            self.selectedViewController = self.tabNotices
+        case "calendar":
+            self.selectedViewController = self.tabCalendar
+        case "resources":
+            self.selectedViewController = self.tabResources
+        default:
+            self.selectedViewController = self.tabHome
+        }
     }
     
                 
