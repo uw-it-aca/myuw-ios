@@ -63,6 +63,35 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         return true
     }
+    
+    // Handle deep links myuwapp://page
+    func application(_ application: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:] ) -> Bool {
+        
+        print("app delegate deep link activated")
+        
+        // Determine who sent the URL.
+        let sendingAppID = options[.sourceApplication]
+        print("source application = \(sendingAppID ?? "Unknown")")
+        
+        if let scheme = url.scheme,
+            scheme.localizedCaseInsensitiveCompare("myuwapp") == .orderedSame,
+            let tab = url.host {
+           
+            print(tab)
+            
+            // grab any query params
+            var parameters: [String: String] = [:]
+            URLComponents(url: url, resolvingAgainstBaseURL: false)?.queryItems?.forEach {
+                parameters[$0.name] = $0.value
+            }
+            print(parameters)
+                        
+            // navigate to deeplink via tab view controller by calling openDeepLink method
+            (window!.rootViewController as? TabViewController)?.openDeepLink(page: tab, params: parameters)
+            
+       }
+       return true
+    }
 
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
@@ -85,42 +114,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
-    
-    // Handle deep links myuwapp://page
-
-    func application(_ application: UIApplication,
-                     open url: URL,
-                     options: [UIApplication.OpenURLOptionsKey : Any] = [:] ) -> Bool {
-        
-        print("app delegate deep link activated")
-        
-        // Determine who sent the URL.
-        let sendingAppID = options[.sourceApplication]
-        print("source application = \(sendingAppID ?? "Unknown")")
-        
-        if let scheme = url.scheme,
-            scheme.localizedCaseInsensitiveCompare("myuwapp") == .orderedSame,
-            let tab = url.host {
-           
-            // translate the tab into a specific tabindex
-            print(tab)
-            
-            // grab any query params 
-            var parameters: [String: String] = [:]
-            URLComponents(url: url, resolvingAgainstBaseURL: false)?.queryItems?.forEach {
-                parameters[$0.name] = $0.value
-            }
-            print(parameters)
-            
-            //redirect(to: view, with: parameters)
-            
-            // navigate to deeplink via tab view controller by calling openDeepLink method
-            (window!.rootViewController as? TabViewController)?.openDeepLink(page: tab, params: parameters)
-            
-       }
-       return true
-    }
-
 
 }
 

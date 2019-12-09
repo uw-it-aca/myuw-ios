@@ -27,11 +27,11 @@ class TabViewController: UITabBarController, UITabBarControllerDelegate {
         //Assign self for delegate for that ViewController can respond to UITabBarControllerDelegate methods
         self.delegate = self        
         
-        // TODO: setup app event notifications for when OIDC is configured
+        // MARK: - Notification Center
         
         let notificationCenter = NotificationCenter.default
         
-        // observe various phone state changes and re-auth if needed
+        // TODO: observe various phone state changes and re-auth if needed
         
         // app foregrounded
         notificationCenter.addObserver(self, selector: #selector(appBecameActive), name: UIApplication.willEnterForegroundNotification, object: nil)
@@ -46,6 +46,8 @@ class TabViewController: UITabBarController, UITabBarControllerDelegate {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        // MARK: - Tab Bar Setup
         
         // set tabbar icon and title color
         UITabBar.appearance().tintColor = UIColor(hex: "#4b2e83")
@@ -85,6 +87,8 @@ class TabViewController: UITabBarController, UITabBarControllerDelegate {
         // Resources tab
         let tabResourcesBarItem = UITabBarItem(title: "Resources", image: UIImage(named: "ic_resources"), selectedImage: UIImage(named: "selectedImage2.png"))
         tabResources.tabBarItem = tabResourcesBarItem
+        
+        // MARK: - Tab View Controllers
         
         // build bottom tab navigation based on user affiliations
         var controllers = [tabHome, tabAccounts, tabCalendar, tabResources]
@@ -135,6 +139,8 @@ class TabViewController: UITabBarController, UITabBarControllerDelegate {
         //appDelegate.window!.rootViewController = authController
                         
     }
+    
+    // MARK: - Handle deep links
     
     func openDeepLink(page: String, params: [String:String]) {
         
