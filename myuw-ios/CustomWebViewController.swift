@@ -50,6 +50,7 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
         webView.scrollView.alwaysBounceVertical = true
         webView.scrollView.bounces = true
         webView.scrollView.refreshControl = refreshControl
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -68,10 +69,15 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
     }
     
     @objc func refreshWebView(_ sender: UIRefreshControl) {
+        
         // clear the webview body and then reload
         webView.evaluateJavaScript("document.body.remove()")
         webView.reload()
+        // set scroll behavior back to .never while refreshing
+        webView.scrollView.contentInsetAdjustmentBehavior = .never
+        
         sender.endRefreshing()
+        
     }
     
     // webview navigation handlers
