@@ -23,6 +23,9 @@ class CustomVisitController: CustomWebViewController {
     
     override func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         
+        // on webview finish... set scroll behavior back to automatic
+        webView.scrollView.contentInsetAdjustmentBehavior = .automatic
+        
         showActivityIndicator(show: false)
         
         // override navigation title by getting the navigated webview's page title

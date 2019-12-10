@@ -27,6 +27,9 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
         webView.navigationDelegate = self
         webView.allowsLinkPreview = false
         
+        // initially set to .never to prevent webview auto scrolling
+        webView.scrollView.contentInsetAdjustmentBehavior = .never
+        
         view.addSubview(webView)
 
         activityIndicator = UIActivityIndicatorView()
@@ -47,6 +50,7 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
         webView.scrollView.alwaysBounceVertical = true
         webView.scrollView.bounces = true
         webView.scrollView.refreshControl = refreshControl
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -65,10 +69,15 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
     }
     
     @objc func refreshWebView(_ sender: UIRefreshControl) {
+        
         // clear the webview body and then reload
         webView.evaluateJavaScript("document.body.remove()")
         webView.reload()
+        // set scroll behavior back to .never while refreshing
+        webView.scrollView.contentInsetAdjustmentBehavior = .never
+        
         sender.endRefreshing()
+        
     }
     
     // webview navigation handlers
@@ -81,6 +90,9 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
     }
     
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+        
+        // on webview finish... set scroll behavior back to automatic
+        webView.scrollView.contentInsetAdjustmentBehavior = .automatic
         
         showActivityIndicator(show: false)
         
