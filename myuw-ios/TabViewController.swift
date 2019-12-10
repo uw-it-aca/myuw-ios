@@ -11,23 +11,43 @@ import UIKit
 
 class TabViewController: UITabBarController, UITabBarControllerDelegate {
     
+    // global tab setup
+    let tabHome = UINavigationController(rootViewController: HomeViewController())
+    let tabAcademics = UINavigationController(rootViewController: AcademicsViewController())
+    let tabHuskyExp = UINavigationController(rootViewController: HuskyExpViewController())
+    let tabTeaching = UINavigationController(rootViewController: TeachingViewController())
+    let tabAccounts = UINavigationController(rootViewController: AccountsViewController())
+    let tabNotices = UINavigationController(rootViewController: NoticesViewController())
+    let tabCalendar = UINavigationController(rootViewController: CalendarViewController())
+    let tabResources = UINavigationController(rootViewController: ResourcesViewController())
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         //Assign self for delegate for that ViewController can respond to UITabBarControllerDelegate methods
         self.delegate = self        
         
-        // TODO: setup app event notifications for when OIDC is configured
+        // MARK: - Notification Center
         
-        //let notificationCenter = NotificationCenter.default
-        // observe various phone state changes and re-auth if needed
-        //notificationCenter.addObserver(self, selector: #selector(appMovedToForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
-        //notificationCenter.addObserver(self, selector: #selector(appBecameActive), name: UIApplication.didBecomeActiveNotification, object: nil)
+        let notificationCenter = NotificationCenter.default
+        
+        // TODO: observe various phone state changes and re-auth if needed
+        
+        // app foregrounded
+        notificationCenter.addObserver(self, selector: #selector(appBecameActive), name: UIApplication.willEnterForegroundNotification, object: nil)
+        
+        // app backgrounded
         //notificationCenter.addObserver(self, selector: #selector(appMovedToForeground), name: UIApplication.didEnterBackgroundNotification, object: nil)
+        
+        // app became active (called every time)
+        //notificationCenter.addObserver(self, selector: #selector(appBecameActive), name: UIApplication.didBecomeActiveNotification, object: nil )
+        
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        // MARK: - Tab Bar Setup
         
         // set tabbar icon and title color
         UITabBar.appearance().tintColor = UIColor(hex: "#4b2e83")
@@ -37,44 +57,38 @@ class TabViewController: UITabBarController, UITabBarControllerDelegate {
         self.moreNavigationController.view.tintColor = UIColor(hex: "#4b2e83")
         
         // Home tab
-        let tabHome = UINavigationController(rootViewController: HomeViewController())
         let tabHomeBarItem = UITabBarItem(title: "Home", image: UIImage(named: "ic_home"), selectedImage: UIImage(named: "selectedImage.png"))
         tabHome.tabBarItem = tabHomeBarItem
 
         // Academics tab
-        let tabAcademics = UINavigationController(rootViewController: AcademicsViewController())
         let tabAcademicsBarItem = UITabBarItem(title: "Academics", image: UIImage(named: "ic_academics"), selectedImage: UIImage(named: "selectedImage2.png"))
         tabAcademics.tabBarItem = tabAcademicsBarItem
         
         // Husky Experience tab
-        let tabHuskyExp = UINavigationController(rootViewController: HuskyExpViewController())
         let tabHuskyExpBarItem = UITabBarItem(title: "Husky Exp", image: UIImage(named: "ic_paw"), selectedImage: UIImage(named: "selectedImage2.png"))
         tabHuskyExp.tabBarItem = tabHuskyExpBarItem
         
         // Teaching tab
-        let tabTeaching = UINavigationController(rootViewController: TeachingViewController())
         let tabTeachingBarItem = UITabBarItem(title: "Teaching", image: UIImage(named: "ic_teaching"), selectedImage: UIImage(named: "selectedImage2.png"))
         tabTeaching.tabBarItem = tabTeachingBarItem
         
         // Accounts tab
-        let tabAccounts = UINavigationController(rootViewController: AccountsViewController())
         let tabAccountsBarItem = UITabBarItem(title: "Accounts", image: UIImage(named: "ic_accounts"), selectedImage: UIImage(named: "selectedImage2.png"))
         tabAccounts.tabBarItem = tabAccountsBarItem
         
         // Notices tab
-        let tabNotices = UINavigationController(rootViewController: NoticesViewController())
         let tabNoticesBarItem = UITabBarItem(title: "Notices", image: UIImage(named: "ic_warning"), selectedImage: UIImage(named: "selectedImage2.png"))
         tabNotices.tabBarItem = tabNoticesBarItem
         
         // Calendar tab
-        let tabCalendar = UINavigationController(rootViewController: CalendarViewController())
         let tabCalendarBarItem = UITabBarItem(title: "Calendar", image: UIImage(named: "ic_calendar"), selectedImage: UIImage(named: "selectedImage2.png"))
         tabCalendar.tabBarItem = tabCalendarBarItem
         
         // Resources tab
-        let tabResources = UINavigationController(rootViewController: ResourcesViewController())
         let tabResourcesBarItem = UITabBarItem(title: "Resources", image: UIImage(named: "ic_resources"), selectedImage: UIImage(named: "selectedImage2.png"))
         tabResources.tabBarItem = tabResourcesBarItem
+        
+        // MARK: - Tab View Controllers
         
         // build bottom tab navigation based on user affiliations
         var controllers = [tabHome, tabAccounts, tabCalendar, tabResources]
@@ -100,7 +114,7 @@ class TabViewController: UITabBarController, UITabBarControllerDelegate {
         }
         
         self.viewControllers = controllers
-
+        
     }
     
     // override the "more" menu edit screen
@@ -118,12 +132,56 @@ class TabViewController: UITabBarController, UITabBarControllerDelegate {
     
         // force auth workflow if app is coming back to the foreground
         // this should handle the case if session timeouts after 8hrs
-        let authController = AuthenticationController()
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        //let authController = AuthenticationController()
+        //let appDelegate = UIApplication.shared.delegate as! AppDelegate
         
         // re-set authController as rootViewController
-        appDelegate.window!.rootViewController = authController
+        //appDelegate.window!.rootViewController = authController
+                        
+    }
+    
+    // MARK: - Handle deep links
+    
+    func openDeepLink(url: URL) {
+        
+        // make sure correct scheme is being used
+        if let scheme = url.scheme,
+             scheme.localizedCaseInsensitiveCompare("myuwapp") == .orderedSame,
+             let tab = url.host {
+            
+             print(tab)
+             
+             // grab any query params
+             var parameters: [String: String] = [:]
+             URLComponents(url: url, resolvingAgainstBaseURL: false)?.queryItems?.forEach {
+                 parameters[$0.name] = $0.value
+             }
+             print(parameters)
+                         
+             // match the page param to its corresponding tabController
+             switch tab {
+             case "academics":
+                 self.selectedViewController = self.tabAcademics
+             case "huskyexp":
+                 self.selectedViewController = self.tabHuskyExp
+             case "teaching":
+                 self.selectedViewController = self.tabTeaching
+             case "accounts":
+                 self.selectedViewController = self.tabAccounts
+             case "notices":
+                 self.selectedViewController = self.tabNotices
+             case "calendar":
+                 self.selectedViewController = self.tabCalendar
+             case "resources":
+                 self.selectedViewController = self.tabResources
+             default:
+                 self.selectedViewController = self.tabHome
+             }
+            
+        }
+        
         
     }
-            
+    
+                
 }
