@@ -27,6 +27,9 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
         webView.navigationDelegate = self
         webView.allowsLinkPreview = false
         
+        // initially set to .never to prevent webview auto scrolling
+        webView.scrollView.contentInsetAdjustmentBehavior = .never
+        
         view.addSubview(webView)
 
         activityIndicator = UIActivityIndicatorView()
@@ -81,6 +84,9 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
     }
     
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+        
+        // on webview finish... set scroll behavior back to automatic
+        webView.scrollView.contentInsetAdjustmentBehavior = .automatic
         
         showActivityIndicator(show: false)
         
