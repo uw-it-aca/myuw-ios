@@ -14,10 +14,8 @@ class HuskyExpViewController: CustomWebViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let url = URL(string: "\(appHost)/husky_experience/")!
-        var customRequest = URLRequest(url: url)
-        customRequest.setValue("True", forHTTPHeaderField: "Myuw-Hybrid")
-        webView.load(customRequest)
+        // load the webview
+        webView.load("\(appHost)/husky_experience/")
         
         // override navigation title
         self.navigationItem.title = "Husky Experience Toolkit"
