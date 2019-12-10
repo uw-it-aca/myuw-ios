@@ -47,6 +47,9 @@ class TabViewController: UITabBarController, UITabBarControllerDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        // for the "more" tabbar controller to use large titles
+        self.moreNavigationController.navigationBar.prefersLargeTitles = true
+        
         // MARK: - Tab Bar Setup
         
         // set tabbar icon and title color
