@@ -142,30 +142,45 @@ class TabViewController: UITabBarController, UITabBarControllerDelegate {
     
     // MARK: - Handle deep links
     
-    func openDeepLink(page: String, params: [String:String]) {
+    func openDeepLink(url: URL) {
         
-        print(page)
-        print(params)
-        
-        // match the page param to its corresponding tabController
-        switch page {
-        case "academics":
-            self.selectedViewController = self.tabAcademics
-        case "huskyexp":
-            self.selectedViewController = self.tabHuskyExp
-        case "teaching":
-            self.selectedViewController = self.tabTeaching
-        case "accounts":
-            self.selectedViewController = self.tabAccounts
-        case "notices":
-            self.selectedViewController = self.tabNotices
-        case "calendar":
-            self.selectedViewController = self.tabCalendar
-        case "resources":
-            self.selectedViewController = self.tabResources
-        default:
-            self.selectedViewController = self.tabHome
+        // make sure correct scheme is being used
+        if let scheme = url.scheme,
+             scheme.localizedCaseInsensitiveCompare("myuwapp") == .orderedSame,
+             let tab = url.host {
+            
+             print(tab)
+             
+             // grab any query params
+             var parameters: [String: String] = [:]
+             URLComponents(url: url, resolvingAgainstBaseURL: false)?.queryItems?.forEach {
+                 parameters[$0.name] = $0.value
+             }
+             print(parameters)
+                         
+             // match the page param to its corresponding tabController
+             switch tab {
+             case "academics":
+                 self.selectedViewController = self.tabAcademics
+             case "huskyexp":
+                 self.selectedViewController = self.tabHuskyExp
+             case "teaching":
+                 self.selectedViewController = self.tabTeaching
+             case "accounts":
+                 self.selectedViewController = self.tabAccounts
+             case "notices":
+                 self.selectedViewController = self.tabNotices
+             case "calendar":
+                 self.selectedViewController = self.tabCalendar
+             case "resources":
+                 self.selectedViewController = self.tabResources
+             default:
+                 self.selectedViewController = self.tabHome
+             }
+            
         }
+        
+        
     }
     
                 

@@ -73,24 +73,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let sendingAppID = options[.sourceApplication]
         print("source application = \(sendingAppID ?? "Unknown")")
         
-        if let scheme = url.scheme,
-            scheme.localizedCaseInsensitiveCompare("myuwapp") == .orderedSame,
-            let tab = url.host {
-           
-            print(tab)
-            
-            // grab any query params
-            var parameters: [String: String] = [:]
-            URLComponents(url: url, resolvingAgainstBaseURL: false)?.queryItems?.forEach {
-                parameters[$0.name] = $0.value
-            }
-            print(parameters)
-                        
-            // navigate to deeplink via tab view controller by calling openDeepLink method
-            (window!.rootViewController as? TabViewController)?.openDeepLink(page: tab, params: parameters)
-            
-       }
-       return true
+        // navigate to deeplink via tab view controller by calling openDeepLink method
+        (window!.rootViewController as? TabViewController)?.openDeepLink(url: url)
+    
+        return true
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
