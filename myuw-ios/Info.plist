@@ -22,7 +22,7 @@
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLName</key>
-			<string>edu.uw.myuw</string>
+			<string>edu.uw.myuw-ios</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>myuwapp</string>
