@@ -14,11 +14,8 @@ class HomeViewController: CustomWebViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //let url = URL(string: "https://my-test.s.uw.edu/#uwalert-red")!
-        let url = URL(string: "\(appHost)/")!
-        var customRequest = URLRequest(url: url)
-        customRequest.setValue("True", forHTTPHeaderField: "Myuw-Hybrid")
-        webView.load(customRequest)
+        // load the webview
+        webView.load("\(appHost)/")
         
         // override navigation title
         self.navigationItem.title = "MyUW"
@@ -67,7 +64,6 @@ class HomeViewController: CustomWebViewController {
 
     }
         
-    
     
 
     @objc func showProfile() {

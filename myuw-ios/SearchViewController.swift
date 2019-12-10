@@ -13,12 +13,10 @@ class SearchViewController: CustomWebViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        let url = URL(string: "\(appHost)/search/")!
-        var customRequest = URLRequest(url: url)
-        customRequest.setValue("True", forHTTPHeaderField: "Myuw-Hybrid")
-        webView.load(customRequest)
                 
+        // load the webview
+        webView.load("\(appHost)/search/")
+        
         // prefer small titles
         self.navigationItem.largeTitleDisplayMode = .never
         
