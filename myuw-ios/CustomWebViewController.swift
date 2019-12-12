@@ -40,13 +40,13 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate, UIScrollV
         activityIndicator.center = self.view.center
         activityIndicator.hidesWhenStopped = true
         activityIndicator.style = .gray
-        activityIndicator.isHidden = true
-        
-        // display the activity indicator before the webview
-        view.addSubview(activityIndicator)
+        activityIndicator.isHidden = false
         
         // display the webview
         view.addSubview(webView)
+        
+        // display the activity indicator (after webview)
+        view.addSubview(activityIndicator)
         
     }
     
@@ -69,9 +69,7 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate, UIScrollV
     
     // webview navigation handlers
     func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
-        view.addSubview(activityIndicator)
-        activityIndicator.stopAnimating()
-        activityIndicator.isHidden = false
+        // TODO: need to handle stuff when webview starts
     }
 
     func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
@@ -92,7 +90,7 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate, UIScrollV
         webView.scrollView.alwaysBounceVertical = true
         webView.scrollView.bounces = true
         webView.scrollView.refreshControl = refreshControl
-
+        
         view.addSubview(webView)
         
         let url = webView.url
