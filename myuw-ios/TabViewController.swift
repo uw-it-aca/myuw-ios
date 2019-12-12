@@ -46,24 +46,12 @@ class TabViewController: UITabBarController, UITabBarControllerDelegate {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        // all controllers
-        self.navigationController?.navigationBar.prefersLargeTitles = true
-        
-        // for the "more" tabbar controller to use large titles
-        self.moreNavigationController.navigationBar.prefersLargeTitles = true
-        
-        
-        //self.navigationItem.largeTitleDisplayMode = .always
-        
+                
         // MARK: - Tab Bar Setup
         
         // set tabbar icon and title color
         UITabBar.appearance().tintColor = UIColor(hex: "#4b2e83")
         UITabBarItem.appearance().setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor(hex: "#4b2e83")], for: .selected)
-        
-        // icon color for "more" menu table
-        self.moreNavigationController.view.tintColor = UIColor(hex: "#4b2e83")
         
         // Home tab
         let tabHomeBarItem = UITabBarItem(title: "Home", image: UIImage(named: "ic_home"), selectedImage: UIImage(named: "selectedImage.png"))
@@ -96,6 +84,11 @@ class TabViewController: UITabBarController, UITabBarControllerDelegate {
         // Resources tab
         let tabResourcesBarItem = UITabBarItem(title: "Resources", image: UIImage(named: "ic_resources"), selectedImage: UIImage(named: "selectedImage2.png"))
         tabResources.tabBarItem = tabResourcesBarItem
+        
+        // "More" tab - view controller to use large titles
+        self.moreNavigationController.navigationBar.prefersLargeTitles = true
+        // icon color for "more" menu table
+        self.moreNavigationController.view.tintColor = UIColor(hex: "#4b2e83")
         
         // MARK: - Tab View Controllers
         
@@ -138,18 +131,10 @@ class TabViewController: UITabBarController, UITabBarControllerDelegate {
     
     @objc func appBecameActive() {
         print("App became active!")
-    
-        // force auth workflow if app is coming back to the foreground
-        // this should handle the case if session timeouts after 8hrs
-        //let authController = AuthenticationController()
-        //let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        
-        // re-set authController as rootViewController
-        //appDelegate.window!.rootViewController = authController
-                        
+        // TODO: handle logic for when app becomes active from foreground or something
     }
     
-    // MARK: - Handle deep links
+    // MARK: - Deep links
     
     func openDeepLink(url: URL) {
         

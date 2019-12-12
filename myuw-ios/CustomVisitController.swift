@@ -18,15 +18,11 @@ class CustomVisitController: CustomWebViewController {
         
         // load the webview
         webView.load(visitUrl)
-        
     }
     
     override func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         
-        // on webview finish... set scroll behavior back to automatic
-        //webView.scrollView.contentInsetAdjustmentBehavior = .automatic
-        
-        // pull to refresh setup
+        // MARK: - Pull to Refresh setup (duplicated on this controller since it is an override
         let refreshControl = UIRefreshControl()
         refreshControl.tintColor = .white
         let attributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
@@ -39,14 +35,9 @@ class CustomVisitController: CustomWebViewController {
         refreshControl.backgroundColor = .gray
         
         view.addSubview(webView)
-        //showActivityIndicator(show: false)
         
-        // override navigation title by getting the navigated webview's page title
+        // override navigation title by getting the navigated webview's page title - doing some text cleanup!
         self.navigationItem.title = webView.title!.replacingOccurrences(of: "MyUW: ", with: "")
-        
-        // mocking this for now
-        // self.navigationItem.title = "Page Title"
-        // self.navigationController?.navigationBar.backItem?.title = "Prev"
         
         // dynamically inject css file into webview
         /*

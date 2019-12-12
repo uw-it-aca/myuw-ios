@@ -21,9 +21,8 @@ class HomeViewController: CustomWebViewController {
         // override navigation title
         self.navigationItem.title = "MyUW"
         
-        //self.navigationItem.largeTitleDisplayMode = .always
-        //self.navigationController?.navigationBar.prefersLargeTitles = true
-    
+        // MARK: Home navbar buttons (custom)
+        
         // define custom user button
         let userButton = UIButton(type: .system)
         userButton.setImage(UIImage(named: "ic_user_18"), for: .normal)
@@ -53,29 +52,17 @@ class HomeViewController: CustomWebViewController {
         // add a user button in navbar programatically
         //let userBarButtonItem = UIBarButtonItem(title: userNetID, style: .plain,  target: self, action: #selector(showProfile))
         let userBarButtonItem = UIBarButtonItem(customView: userButton)
-        
         //let emailBarButtonItem = UIBarButtonItem(title: "Email", style: .plain, target: self, action: #selector(showProfile))
         let emailBarButtonItem = UIBarButtonItem(customView: emailButton)
-        
         //let searchBarButtonItem = UIBarButtonItem(title: "Search", style: .plain, target: self, action: #selector(showSearch))
         let searchBarButtonItem = UIBarButtonItem(customView: searchButton)
         
+        // display the buttons
         self.navigationItem.leftBarButtonItem = userBarButtonItem
-            
         self.navigationItem.rightBarButtonItems = [searchBarButtonItem, emailBarButtonItem]
-        
-        
-
+    
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        self.navigationItem.largeTitleDisplayMode = .always
-    }
-        
-    
-
     @objc func showProfile() {
         
         // instantiate instance of ProfileViewController

@@ -17,59 +17,40 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate, UIScrollV
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //self.navigationController?.navigationBar.prefersLargeTitles = true
+        // MARK: - Globally set all webview controllers to use large titles
+        self.navigationController?.navigationBar.prefersLargeTitles = true
         
         let configuration = WKWebViewConfiguration()
         configuration.websiteDataStore = WKWebsiteDataStore.default()
         configuration.processPool = ProcessPool.sharedPool
        
+        // MARK: - Webview setup
         webView = WKWebView(frame: self.view.frame, configuration: configuration)
-        // initially set to .never to prevent webview auto scrolling
-        //webView.scrollView.contentInsetAdjustmentBehavior = .never
         webView.translatesAutoresizingMaskIntoConstraints = false
         webView.isUserInteractionEnabled = true
         webView.navigationDelegate = self
         webView.allowsLinkPreview = false
-        
+        // loading observer
+        webView.addObserver(self, forKeyPath: #keyPath(WKWebView.isLoading), options: .new, context: nil)
+        // webview scrollview delegate
         webView.scrollView.delegate = self
         
+        // MARK: - Activity indicator (center loading spinner)
         activityIndicator = UIActivityIndicatorView()
         activityIndicator.center = self.view.center
         activityIndicator.hidesWhenStopped = true
         activityIndicator.style = .gray
         activityIndicator.isHidden = true
         
+        // display the activity indicator before the webview
         view.addSubview(activityIndicator)
         
-        /*
-        // pull to refresh setup
-        let refreshControl = UIRefreshControl()
-        refreshControl.tintColor = .purple
-        let attributes = [NSAttributedString.Key.foregroundColor: UIColor.purple]
-        refreshControl.attributedTitle = NSAttributedString(string: "Refreshing...", attributes: attributes)
-        refreshControl.addTarget(self, action: #selector(refreshWebView), for: UIControl.Event.valueChanged)
-        refreshControl.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
-        webView.scrollView.alwaysBounceVertical = true
-        webView.scrollView.bounces = true
-        webView.scrollView.refreshControl = refreshControl
-        refreshControl.backgroundColor = .gray
-        */
-        
-        // loading observer
-        webView.addObserver(self, forKeyPath: #keyPath(WKWebView.isLoading), options: .new, context: nil)
-                
+        // display the webview
         view.addSubview(webView)
         
-                    
-    }
-
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        //self.navigationController?.navigationBar.prefersLargeTitles = true
-        //self.navigationItem.largeTitleDisplayMode = .always
     }
     
+    // loading observer for handling when webviews are loading
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if keyPath == "loading" {
             if webView.isLoading {
@@ -80,47 +61,26 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate, UIScrollV
         }
     }
     
-    /*
-    func showActivityIndicator(show: Bool) {
-        if show {
-            activityIndicator.startAnimating()
-            activityIndicator.isHidden = false
-        } else {
-            activityIndicator.stopAnimating()
-            activityIndicator.isHidden = true
-        }
-    }*/
-    
     @objc func refreshWebView(_ sender: UIRefreshControl) {
         print("refreshWebView")
-        // clear the webview body and then reload
-        //webView.evaluateJavaScript("document.body.remove()")
-        //webView.scrollView.clearsContextBeforeDrawing = true
-        
         webView.reload()
         sender.endRefreshing()
     }
     
-    
     // webview navigation handlers
     func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
-                
-        // on webview start... set to .never to prevent webview auto scrolling
-        //webView.scrollView.contentInsetAdjustmentBehavior = .never
         view.addSubview(activityIndicator)
+        activityIndicator.stopAnimating()
         activityIndicator.isHidden = false
     }
 
     func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
-        //showActivityIndicator(show: false)
+        // TODO: need to handle when url cannot be reached
     }
     
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         
-        // on webview finish... set scroll behavior back to automatic
-        //webView.scrollView.contentInsetAdjustmentBehavior = .automatic
-        
-        // pull to refresh setup
+        // MARK: - Pull to Refresh setup
         let refreshControl = UIRefreshControl()
         refreshControl.tintColor = .white
         let attributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
@@ -134,7 +94,6 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate, UIScrollV
         webView.scrollView.refreshControl = refreshControl
 
         view.addSubview(webView)
-        //showActivityIndicator(show: false)
         
         let url = webView.url
         print("navi webview url: ", url as Any)
@@ -214,7 +173,7 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate, UIScrollV
     // TODO: - clean this up!!! handle pull-to-refresh and scrolling manually
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
         
-        // set to large titles initially
+        // MARK: - enforce large titles for when scrolling happens
         self.navigationController?.navigationBar.prefersLargeTitles = true
         
         // if scrolling upwards (negative)
