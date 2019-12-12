@@ -20,7 +20,7 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
         let configuration = WKWebViewConfiguration()
         configuration.websiteDataStore = WKWebsiteDataStore.default()
         configuration.processPool = ProcessPool.sharedPool
-        
+       
         webView = WKWebView(frame: self.view.frame, configuration: configuration)
         // initially set to .never to prevent webview auto scrolling
         webView.scrollView.contentInsetAdjustmentBehavior = .never
@@ -28,7 +28,7 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
         webView.isUserInteractionEnabled = true
         webView.navigationDelegate = self
         webView.allowsLinkPreview = false
-        
+
         view.addSubview(webView)
 
         activityIndicator = UIActivityIndicatorView()
@@ -49,12 +49,27 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
         webView.scrollView.alwaysBounceVertical = true
         webView.scrollView.bounces = true
         webView.scrollView.refreshControl = refreshControl
-                
+        
+        // loading observer
+        webView.addObserver(self, forKeyPath: #keyPath(WKWebView.isLoading), options: .new, context: nil)
+            
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.navigationBar.prefersLargeTitles = true
+    }
+    
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        if keyPath == "loading" {
+            if webView.isLoading {
+                webView.evaluateJavaScript("document.body.remove()")
+                print("isLoading")
+            } else {
+                print("done Loading")
+                webView.isHidden = false
+            }
+        }
     }
     
     func showActivityIndicator(show: Bool) {
@@ -68,8 +83,10 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
     }
     
     @objc func refreshWebView(_ sender: UIRefreshControl) {
+        print("refreshWebView")
         // clear the webview body and then reload
         webView.evaluateJavaScript("document.body.remove()")
+        webView.scrollView.clearsContextBeforeDrawing = true
         webView.reload()
         sender.endRefreshing()
     }
