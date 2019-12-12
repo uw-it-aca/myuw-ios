@@ -26,7 +26,9 @@ class CustomVisitController: CustomWebViewController {
         // on webview finish... set scroll behavior back to automatic
         webView.scrollView.contentInsetAdjustmentBehavior = .automatic
         
-        showActivityIndicator(show: false)
+        activityIndicator.isHidden = true
+        
+        //showActivityIndicator(show: false)
         
         // override navigation title by getting the navigated webview's page title
         self.navigationItem.title = webView.title!.replacingOccurrences(of: "MyUW: ", with: "")

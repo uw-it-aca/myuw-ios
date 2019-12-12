@@ -42,7 +42,7 @@ class SearchViewController: CustomWebViewController {
         // on webview finish... set scroll behavior back to automatic
         webView.scrollView.contentInsetAdjustmentBehavior = .automatic
         
-        showActivityIndicator(show: false)
+        //showActivityIndicator(show: false)
   
         // dynamically inject css file into webview
         /*

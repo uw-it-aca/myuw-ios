@@ -30,7 +30,8 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
         webView.allowsLinkPreview = false
 
         view.addSubview(webView)
-
+        
+        /*
         activityIndicator = UIActivityIndicatorView()
         activityIndicator.center = self.view.center
         activityIndicator.hidesWhenStopped = true
@@ -38,6 +39,7 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
         activityIndicator.isHidden = true
         
         view.addSubview(activityIndicator)
+         */
         
         // pull to refresh setup
         let refreshControl = UIRefreshControl()
@@ -70,6 +72,7 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
         }
     }
     
+    /*
     func showActivityIndicator(show: Bool) {
         if show {
             activityIndicator.startAnimating()
@@ -78,7 +81,7 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
             activityIndicator.stopAnimating()
             activityIndicator.isHidden = true
         }
-    }
+    }*/
     
     @objc func refreshWebView(_ sender: UIRefreshControl) {
         print("refreshWebView")
@@ -96,11 +99,19 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
         // on webview start... set to .never to prevent webview auto scrolling
         webView.scrollView.contentInsetAdjustmentBehavior = .never
         
-        showActivityIndicator(show: true)
+        //showActivityIndicator(show: true)
+        
+        activityIndicator = UIActivityIndicatorView()
+        activityIndicator.center = self.view.center
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.style = .gray
+        activityIndicator.isHidden = false
+        
+        webView.addSubview(activityIndicator)
     }
 
     func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
-        showActivityIndicator(show: false)
+        //showActivityIndicator(show: false)
     }
     
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
@@ -108,7 +119,9 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
         // on webview finish... set scroll behavior back to automatic
         webView.scrollView.contentInsetAdjustmentBehavior = .automatic
     
-        showActivityIndicator(show: false)
+        //showActivityIndicator(show: false)
+        
+        activityIndicator.isHidden = true
         
         let url = webView.url
         print("navi webview url: ", url as Any)
