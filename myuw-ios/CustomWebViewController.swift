@@ -63,11 +63,9 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if keyPath == "loading" {
             if webView.isLoading {
-                webView.evaluateJavaScript("document.body.remove()")
                 print("isLoading")
             } else {
                 print("done Loading")
-                webView.isHidden = false
             }
         }
     }
