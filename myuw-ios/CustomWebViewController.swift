@@ -23,13 +23,13 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
        
         webView = WKWebView(frame: self.view.frame, configuration: configuration)
         // initially set to .never to prevent webview auto scrolling
-        webView.scrollView.contentInsetAdjustmentBehavior = .never
+        //webView.scrollView.contentInsetAdjustmentBehavior = .never
         webView.translatesAutoresizingMaskIntoConstraints = false
         webView.isUserInteractionEnabled = true
         webView.navigationDelegate = self
         webView.allowsLinkPreview = false
 
-        view.addSubview(webView)
+        
 
         activityIndicator = UIActivityIndicatorView()
         activityIndicator.center = self.view.center
@@ -37,12 +37,12 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
         activityIndicator.style = .gray
         activityIndicator.isHidden = true
         
-        view.addSubview(activityIndicator)
+        //view.addSubview(activityIndicator)
         
         // pull to refresh setup
         let refreshControl = UIRefreshControl()
-        refreshControl.tintColor = .white
-        let attributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+        refreshControl.tintColor = .purple
+        let attributes = [NSAttributedString.Key.foregroundColor: UIColor.purple]
         refreshControl.attributedTitle = NSAttributedString(string: "Refreshing...", attributes: attributes)
         refreshControl.addTarget(self, action: #selector(refreshWebView), for: UIControl.Event.valueChanged)
         refreshControl.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
@@ -50,9 +50,16 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
         webView.scrollView.bounces = true
         webView.scrollView.refreshControl = refreshControl
         
+        
+        refreshControl.backgroundColor = .gray
+        
         // loading observer
         webView.addObserver(self, forKeyPath: #keyPath(WKWebView.isLoading), options: .new, context: nil)
-            
+        
+        view.addSubview(activityIndicator)
+        
+        view.addSubview(webView)
+                    
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -63,7 +70,7 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if keyPath == "loading" {
             if webView.isLoading {
-                webView.evaluateJavaScript("document.body.remove()")
+                //webView.evaluateJavaScript("document.body.remove()")
                 print("isLoading")
             } else {
                 print("done Loading")
@@ -85,8 +92,9 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
     @objc func refreshWebView(_ sender: UIRefreshControl) {
         print("refreshWebView")
         // clear the webview body and then reload
-        webView.evaluateJavaScript("document.body.remove()")
-        webView.scrollView.clearsContextBeforeDrawing = true
+        //webView.evaluateJavaScript("document.body.remove()")
+        //webView.scrollView.clearsContextBeforeDrawing = true
+                
         webView.reload()
         sender.endRefreshing()
     }
@@ -96,7 +104,7 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
     func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
         
         // on webview start... set to .never to prevent webview auto scrolling
-        webView.scrollView.contentInsetAdjustmentBehavior = .never
+        //webView.scrollView.contentInsetAdjustmentBehavior = .never
         
         showActivityIndicator(show: true)
     }
@@ -108,7 +116,7 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         
         // on webview finish... set scroll behavior back to automatic
-        webView.scrollView.contentInsetAdjustmentBehavior = .automatic
+        //webView.scrollView.contentInsetAdjustmentBehavior = .automatic
     
         showActivityIndicator(show: false)
         
