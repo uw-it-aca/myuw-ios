@@ -18,7 +18,7 @@ class SearchViewController: CustomWebViewController {
         webView.load("\(appHost)/search/")
         
         // prefer small titles
-        self.navigationItem.largeTitleDisplayMode = .never
+        //self.navigationItem.largeTitleDisplayMode = .never
         
         // search controler and bar setup
         let mySearchController = UISearchController()

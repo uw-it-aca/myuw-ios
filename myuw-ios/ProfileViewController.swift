@@ -21,7 +21,7 @@ class ProfileViewController: CustomWebViewController {
         self.navigationItem.title = "Profile"
         
         // prefer small titles
-        self.navigationItem.largeTitleDisplayMode = .never
+        //self.navigationItem.largeTitleDisplayMode = .never
         
         // add a right button in navbar programatically
         let testUIBarButtonItem = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(dismissProfile))
