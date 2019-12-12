@@ -22,13 +22,12 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
         configuration.processPool = ProcessPool.sharedPool
         
         webView = WKWebView(frame: self.view.frame, configuration: configuration)
+        // initially set to .never to prevent webview auto scrolling
+        webView.scrollView.contentInsetAdjustmentBehavior = .never
         webView.translatesAutoresizingMaskIntoConstraints = false
         webView.isUserInteractionEnabled = true
         webView.navigationDelegate = self
         webView.allowsLinkPreview = false
-        
-        // initially set to .never to prevent webview auto scrolling
-        webView.scrollView.contentInsetAdjustmentBehavior = .never
         
         view.addSubview(webView)
 
@@ -50,7 +49,7 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
         webView.scrollView.alwaysBounceVertical = true
         webView.scrollView.bounces = true
         webView.scrollView.refreshControl = refreshControl
-        
+                
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -69,19 +68,19 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
     }
     
     @objc func refreshWebView(_ sender: UIRefreshControl) {
-        
         // clear the webview body and then reload
         webView.evaluateJavaScript("document.body.remove()")
         webView.reload()
-        // set scroll behavior back to .never while refreshing
-        webView.scrollView.contentInsetAdjustmentBehavior = .never
-        
         sender.endRefreshing()
-        
     }
+    
     
     // webview navigation handlers
     func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
+        
+        // on webview start... set to .never to prevent webview auto scrolling
+        webView.scrollView.contentInsetAdjustmentBehavior = .never
+        
         showActivityIndicator(show: true)
     }
 
@@ -93,7 +92,7 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
         
         // on webview finish... set scroll behavior back to automatic
         webView.scrollView.contentInsetAdjustmentBehavior = .automatic
-        
+    
         showActivityIndicator(show: false)
         
         let url = webView.url
