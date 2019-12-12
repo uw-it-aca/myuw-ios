@@ -9,13 +9,15 @@
 import UIKit
 import WebKit
 
-class CustomWebViewController: UIViewController, WKNavigationDelegate {
+class CustomWebViewController: UIViewController, WKNavigationDelegate, UIScrollViewDelegate {
     
     var webView: WKWebView!
     var activityIndicator: UIActivityIndicatorView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        //self.navigationController?.navigationBar.prefersLargeTitles = true
         
         let configuration = WKWebViewConfiguration()
         configuration.websiteDataStore = WKWebsiteDataStore.default()
@@ -28,16 +30,16 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
         webView.isUserInteractionEnabled = true
         webView.navigationDelegate = self
         webView.allowsLinkPreview = false
-
         
-
+        webView.scrollView.delegate = self
+        
         activityIndicator = UIActivityIndicatorView()
         activityIndicator.center = self.view.center
         activityIndicator.hidesWhenStopped = true
         activityIndicator.style = .gray
         activityIndicator.isHidden = true
         
-        //view.addSubview(activityIndicator)
+        view.addSubview(activityIndicator)
         
         /*
         // pull to refresh setup
@@ -55,9 +57,7 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
         
         // loading observer
         webView.addObserver(self, forKeyPath: #keyPath(WKWebView.isLoading), options: .new, context: nil)
-        
-        view.addSubview(activityIndicator)
-        
+                
         view.addSubview(webView)
         
                     
@@ -65,7 +65,9 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.navigationController?.navigationBar.prefersLargeTitles = true
+        
+        //self.navigationController?.navigationBar.prefersLargeTitles = true
+        //self.navigationItem.largeTitleDisplayMode = .always
     }
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
@@ -78,6 +80,7 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
         }
     }
     
+    /*
     func showActivityIndicator(show: Bool) {
         if show {
             activityIndicator.startAnimating()
@@ -86,14 +89,14 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
             activityIndicator.stopAnimating()
             activityIndicator.isHidden = true
         }
-    }
+    }*/
     
     @objc func refreshWebView(_ sender: UIRefreshControl) {
         print("refreshWebView")
         // clear the webview body and then reload
         //webView.evaluateJavaScript("document.body.remove()")
         //webView.scrollView.clearsContextBeforeDrawing = true
-                
+        
         webView.reload()
         sender.endRefreshing()
     }
@@ -101,15 +104,15 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
     
     // webview navigation handlers
     func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
-        
+                
         // on webview start... set to .never to prevent webview auto scrolling
         //webView.scrollView.contentInsetAdjustmentBehavior = .never
         view.addSubview(activityIndicator)
-        showActivityIndicator(show: true)
+        activityIndicator.isHidden = false
     }
 
     func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
-        showActivityIndicator(show: false)
+        //showActivityIndicator(show: false)
     }
     
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
@@ -119,18 +122,19 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
         
         // pull to refresh setup
         let refreshControl = UIRefreshControl()
-        refreshControl.tintColor = .purple
-        let attributes = [NSAttributedString.Key.foregroundColor: UIColor.purple]
+        refreshControl.tintColor = .white
+        let attributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
         refreshControl.attributedTitle = NSAttributedString(string: "Refreshing...", attributes: attributes)
         refreshControl.addTarget(self, action: #selector(refreshWebView), for: UIControl.Event.valueChanged)
         refreshControl.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+        refreshControl.backgroundColor = .gray
+        
         webView.scrollView.alwaysBounceVertical = true
         webView.scrollView.bounces = true
         webView.scrollView.refreshControl = refreshControl
-        refreshControl.backgroundColor = .gray
-        
+
         view.addSubview(webView)
-        showActivityIndicator(show: false)
+        //showActivityIndicator(show: false)
         
         let url = webView.url
         print("navi webview url: ", url as Any)
@@ -205,6 +209,29 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
     func getQueryStringParameter(url: String, param: String) -> String? {
         guard let url = URLComponents(string: url) else { return nil }
         return url.queryItems?.first(where: { $0.name == param })?.value
+    }
+    
+    // TODO: - clean this up!!! handle pull-to-refresh and scrolling manually
+    public func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        
+        // set to large titles initially
+        self.navigationController?.navigationBar.prefersLargeTitles = true
+        
+        // if scrolling upwards (negative)
+        if(scrollView.panGestureRecognizer.translation(in: scrollView.superview).y < 0) {
+            
+            // negative number is scrolling under the header (up)
+            //print(scrollView.panGestureRecognizer.translation(in: scrollView.superview).y)
+        
+            if(scrollView.panGestureRecognizer.translation(in: scrollView.superview).y > -50.0) {
+                 self.navigationController?.navigationBar.prefersLargeTitles = true
+            } else {
+                //print("now shrink")
+                self.navigationController?.navigationBar.prefersLargeTitles = false
+            }
+    
+        }
+        
     }
     
 }

@@ -41,8 +41,8 @@ class SearchViewController: CustomWebViewController {
         
         // pull to refresh setup
         let refreshControl = UIRefreshControl()
-        refreshControl.tintColor = .purple
-        let attributes = [NSAttributedString.Key.foregroundColor: UIColor.purple]
+        refreshControl.tintColor = .white
+        let attributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
         refreshControl.attributedTitle = NSAttributedString(string: "Refreshing...", attributes: attributes)
         refreshControl.addTarget(self, action: #selector(refreshWebView), for: UIControl.Event.valueChanged)
         refreshControl.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
@@ -53,7 +53,7 @@ class SearchViewController: CustomWebViewController {
         
         view.addSubview(webView)
         
-        showActivityIndicator(show: false)
+        //showActivityIndicator(show: false)
   
         // dynamically inject css file into webview
         /*

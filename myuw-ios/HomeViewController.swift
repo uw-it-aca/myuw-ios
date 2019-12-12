@@ -10,6 +10,7 @@ import UIKit
 import WebKit
 
 class HomeViewController: CustomWebViewController {
+    private var lastContentOffset: CGFloat = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,6 +21,9 @@ class HomeViewController: CustomWebViewController {
         // override navigation title
         self.navigationItem.title = "MyUW"
         
+        //self.navigationItem.largeTitleDisplayMode = .always
+        //self.navigationController?.navigationBar.prefersLargeTitles = true
+    
         // define custom user button
         let userButton = UIButton(type: .system)
         userButton.setImage(UIImage(named: "ic_user_18"), for: .normal)
@@ -62,6 +66,12 @@ class HomeViewController: CustomWebViewController {
         
         
 
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        self.navigationItem.largeTitleDisplayMode = .always
     }
         
     
