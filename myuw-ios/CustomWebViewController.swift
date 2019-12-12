@@ -39,6 +39,7 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
         
         //view.addSubview(activityIndicator)
         
+        /*
         // pull to refresh setup
         let refreshControl = UIRefreshControl()
         refreshControl.tintColor = .purple
@@ -49,9 +50,8 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
         webView.scrollView.alwaysBounceVertical = true
         webView.scrollView.bounces = true
         webView.scrollView.refreshControl = refreshControl
-        
-        
         refreshControl.backgroundColor = .gray
+        */
         
         // loading observer
         webView.addObserver(self, forKeyPath: #keyPath(WKWebView.isLoading), options: .new, context: nil)
@@ -59,6 +59,7 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
         view.addSubview(activityIndicator)
         
         view.addSubview(webView)
+        
                     
     }
 
@@ -105,7 +106,7 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
         
         // on webview start... set to .never to prevent webview auto scrolling
         //webView.scrollView.contentInsetAdjustmentBehavior = .never
-        
+        view.addSubview(activityIndicator)
         showActivityIndicator(show: true)
     }
 
@@ -117,7 +118,20 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
         
         // on webview finish... set scroll behavior back to automatic
         //webView.scrollView.contentInsetAdjustmentBehavior = .automatic
-    
+        
+        // pull to refresh setup
+        let refreshControl = UIRefreshControl()
+        refreshControl.tintColor = .purple
+        let attributes = [NSAttributedString.Key.foregroundColor: UIColor.purple]
+        refreshControl.attributedTitle = NSAttributedString(string: "Refreshing...", attributes: attributes)
+        refreshControl.addTarget(self, action: #selector(refreshWebView), for: UIControl.Event.valueChanged)
+        refreshControl.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+        webView.scrollView.alwaysBounceVertical = true
+        webView.scrollView.bounces = true
+        webView.scrollView.refreshControl = refreshControl
+        refreshControl.backgroundColor = .gray
+        
+        view.addSubview(webView)
         showActivityIndicator(show: false)
         
         let url = webView.url

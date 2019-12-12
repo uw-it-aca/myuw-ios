@@ -39,8 +39,19 @@ class SearchViewController: CustomWebViewController {
     // override the original webview didFinish and replace with custom search.css
     override func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         
-        // on webview finish... set scroll behavior back to automatic
-        webView.scrollView.contentInsetAdjustmentBehavior = .automatic
+        // pull to refresh setup
+        let refreshControl = UIRefreshControl()
+        refreshControl.tintColor = .purple
+        let attributes = [NSAttributedString.Key.foregroundColor: UIColor.purple]
+        refreshControl.attributedTitle = NSAttributedString(string: "Refreshing...", attributes: attributes)
+        refreshControl.addTarget(self, action: #selector(refreshWebView), for: UIControl.Event.valueChanged)
+        refreshControl.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+        webView.scrollView.alwaysBounceVertical = true
+        webView.scrollView.bounces = true
+        webView.scrollView.refreshControl = refreshControl
+        refreshControl.backgroundColor = .gray
+        
+        view.addSubview(webView)
         
         showActivityIndicator(show: false)
   
