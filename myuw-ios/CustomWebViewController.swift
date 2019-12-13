@@ -8,6 +8,7 @@
 
 import UIKit
 import WebKit
+import AppAuth // import just to test if framework is installed
 
 class CustomWebViewController: UIViewController, WKNavigationDelegate {
     
