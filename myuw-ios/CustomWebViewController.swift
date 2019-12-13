@@ -87,10 +87,9 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
     
     @objc func refreshWebView(_ sender: UIRefreshControl) {
         print("refreshWebView")
-        // clear the webview body and then reload
-        //webView.evaluateJavaScript("document.body.remove()")
-        //webView.scrollView.clearsContextBeforeDrawing = true
         
+        // on webview reload... set to .never to prevent webview auto scrolling
+        webView.scrollView.contentInsetAdjustmentBehavior = .never
         webView.reload()
         sender.endRefreshing()
     }
@@ -214,7 +213,7 @@ extension WKWebView {
         if let url = URL(string: urlString) {
             var request = URLRequest(url: url)
             request.setValue("True", forHTTPHeaderField: "Myuw-Hybrid")
-            
+                    
             // on webview start... set to .never to prevent webview auto scrolling
             self.scrollView.contentInsetAdjustmentBehavior = .never
             
