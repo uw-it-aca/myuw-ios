@@ -15,6 +15,14 @@ $ cd myuw-ios
 $ git checkout develop
 ```
 
+MyUW plist
+```
+$ cp myuw-ios/sample.myuw.plist myuw-ios/myuw.plist
+
+ change the value for 'myuw_host' 
+
+```
+
 Bootstrap Carthage
 ```
 $ carthage bootstrap --platform iOS
