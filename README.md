@@ -11,11 +11,12 @@ https://github.com/Carthage/Carthage
 Clone this repository
 ```
 $ git clone https://github.com/uw-it-aca/myuw-ios
+$ cd myuw-ios
+$ git checkout develop
 ```
 
 Bootstrap Carthage
 ```
-$ cd myuw-ios
 $ carthage bootstrap --platform iOS
 ```
 
