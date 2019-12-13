@@ -22,8 +22,10 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
         configuration.processPool = ProcessPool.sharedPool
        
         webView = WKWebView(frame: self.view.frame, configuration: configuration)
+        
         // initially set to .never to prevent webview auto scrolling
-        webView.scrollView.contentInsetAdjustmentBehavior = .never
+        //webView.scrollView.contentInsetAdjustmentBehavior = .never
+        
         webView.translatesAutoresizingMaskIntoConstraints = false
         webView.isUserInteractionEnabled = true
         webView.navigationDelegate = self
@@ -99,8 +101,6 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
         
         print("didStartProvisionalNavigation")
         
-        
-        
         //showActivityIndicator(show: true)
         
         activityIndicator = UIActivityIndicatorView()
@@ -113,7 +113,7 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
         webView.addSubview(activityIndicator)
         
         // on webview start... set to .never to prevent webview auto scrolling
-        webView.scrollView.contentInsetAdjustmentBehavior = .never
+        //webView.scrollView.contentInsetAdjustmentBehavior = .never
     }
 
     func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
@@ -214,6 +214,10 @@ extension WKWebView {
         if let url = URL(string: urlString) {
             var request = URLRequest(url: url)
             request.setValue("True", forHTTPHeaderField: "Myuw-Hybrid")
+            
+            // on webview start... set to .never to prevent webview auto scrolling
+            self.scrollView.contentInsetAdjustmentBehavior = .never
+            
             load(request)
         }
     }
