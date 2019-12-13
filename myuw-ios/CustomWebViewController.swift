@@ -86,8 +86,9 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
     @objc func refreshWebView(_ sender: UIRefreshControl) {
         print("refreshWebView")
         // clear the webview body and then reload
-        webView.evaluateJavaScript("document.body.remove()")
-        webView.scrollView.clearsContextBeforeDrawing = true
+        //webView.evaluateJavaScript("document.body.remove()")
+        //webView.scrollView.clearsContextBeforeDrawing = true
+        
         webView.reload()
         sender.endRefreshing()
     }
@@ -96,8 +97,9 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
     // webview navigation handlers
     func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
         
-        // on webview start... set to .never to prevent webview auto scrolling
-        webView.scrollView.contentInsetAdjustmentBehavior = .never
+        print("didStartProvisionalNavigation")
+        
+        
         
         //showActivityIndicator(show: true)
         
@@ -107,7 +109,11 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
         activityIndicator.style = .gray
         activityIndicator.isHidden = false
         
+        activityIndicator.startAnimating()
         webView.addSubview(activityIndicator)
+        
+        // on webview start... set to .never to prevent webview auto scrolling
+        webView.scrollView.contentInsetAdjustmentBehavior = .never
     }
 
     func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
@@ -122,7 +128,7 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
         //showActivityIndicator(show: false)
         
         activityIndicator.isHidden = true
-        
+    
         let url = webView.url
         print("navi webview url: ", url as Any)
         
