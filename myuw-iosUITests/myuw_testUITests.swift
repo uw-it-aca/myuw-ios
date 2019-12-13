@@ -34,12 +34,12 @@ class myuw_testUITests: XCTestCase {
         app.launch()
         
         // TEST: weblogin is displayed on initial load... prompting user to sign in
-        let webloginMessage = app.staticTexts["Please sign in."]
+        let userNetidString = app.staticTexts["usernetid"]
         let exists = NSPredicate(format: "exists == 1")
-        expectation(for: exists, evaluatedWith: webloginMessage, handler: nil)
+        expectation(for: exists, evaluatedWith: userNetidString, handler: nil)
 
         waitForExpectations(timeout: 5, handler: nil)
-        XCTAssert(webloginMessage.exists)
+        XCTAssert(userNetidString.exists)
         
         
     }
