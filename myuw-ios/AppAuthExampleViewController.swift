@@ -459,9 +459,13 @@ extension AppAuthExampleViewController {
     func saveState() {
 
         var data: Data? = nil
-
-        if let authState = self.authState {
+        
+        /*if let authState = self.authState {
             data = NSKeyedArchiver.archivedData(withRootObject: authState)
+        }*/
+        
+        if let authState = self.authState {
+            data = try? NSKeyedArchiver.archivedData(withRootObject: authState, requiringSecureCoding: false)
         }
 
         UserDefaults.standard.set(data, forKey: kAppAuthExampleAuthStateKey)
@@ -473,7 +477,11 @@ extension AppAuthExampleViewController {
             return
         }
 
-        if let authState = NSKeyedUnarchiver.unarchiveObject(with: data) as? OIDAuthState {
+        /*if let authState = NSKeyedUnarchiver.unarchiveObject(with: data) as? OIDAuthState {
+            self.setAuthState(authState)
+        }*/
+        
+        if let authState = try? NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(data) as? OIDAuthState {
             self.setAuthState(authState)
         }
     }
