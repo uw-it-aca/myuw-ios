@@ -22,6 +22,7 @@
 		8591220F23A417450012749E /* AppAuth.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8591220C23A417450012749E /* AppAuth.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		8591221023A417450012749E /* AppAuthCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8591220D23A417450012749E /* AppAuthCore.framework */; };
 		8591221123A417450012749E /* AppAuthCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8591220D23A417450012749E /* AppAuthCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		8591221423A41A8E0012749E /* AppAuthExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8591221323A41A8E0012749E /* AppAuthExampleViewController.swift */; };
 		85B147A22368CB0700DE3BFA /* TabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B147A12368CB0700DE3BFA /* TabViewController.swift */; };
 		85B147A42368CC6500DE3BFA /* AccountsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B147A32368CC6500DE3BFA /* AccountsViewController.swift */; };
 		85B147A62368CCF200DE3BFA /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B147A52368CCF200DE3BFA /* CalendarViewController.swift */; };
@@ -88,6 +89,7 @@
 		854EE0AF22F0F9A30042381A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8591220C23A417450012749E /* AppAuth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppAuth.framework; path = Carthage/Build/iOS/AppAuth.framework; sourceTree = "<group>"; };
 		8591220D23A417450012749E /* AppAuthCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppAuthCore.framework; path = Carthage/Build/iOS/AppAuthCore.framework; sourceTree = "<group>"; };
+		8591221323A41A8E0012749E /* AppAuthExampleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppAuthExampleViewController.swift; sourceTree = "<group>"; };
 		85B147A12368CB0700DE3BFA /* TabViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabViewController.swift; sourceTree = "<group>"; };
 		85B147A32368CC6500DE3BFA /* AccountsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountsViewController.swift; sourceTree = "<group>"; };
 		85B147A52368CCF200DE3BFA /* CalendarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
@@ -156,6 +158,7 @@
 			children = (
 				85B15BA0236CDF7B00857D13 /* myuw-ios.entitlements */,
 				854EE08D22F0F9A20042381A /* AppDelegate.swift */,
+				8591221323A41A8E0012749E /* AppAuthExampleViewController.swift */,
 				854EE08F22F0F9A20042381A /* AuthenticationController.swift */,
 				85B147A12368CB0700DE3BFA /* TabViewController.swift */,
 				8534DCD9237F27E100914045 /* CustomWebViewController.swift */,
@@ -350,6 +353,7 @@
 				85CDD4E323723A4900A3CBBA /* CustomVisitController.swift in Sources */,
 				85B147A22368CB0700DE3BFA /* TabViewController.swift in Sources */,
 				854EE09022F0F9A20042381A /* AuthenticationController.swift in Sources */,
+				8591221423A41A8E0012749E /* AppAuthExampleViewController.swift in Sources */,
 				85B147A42368CC6500DE3BFA /* AccountsViewController.swift in Sources */,
 				85B147AE2368CE7600DE3BFA /* HomeViewController.swift in Sources */,
 				85CC319C2375E38D00F38903 /* SearchViewController.swift in Sources */,

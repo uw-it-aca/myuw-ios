@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AppAuth
 
 //  From myuw.plist
 var appHost = ""
@@ -18,7 +19,7 @@ var userNetID = ""
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
+    var currentAuthorizationFlow: OIDExternalUserAgentSession?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
