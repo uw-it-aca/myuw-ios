@@ -17,78 +17,97 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // MARK: - Large title display mode and preference
+        self.navigationItem.largeTitleDisplayMode = .always
+        self.navigationController?.navigationBar.prefersLargeTitles = true
+        
+        // MARK: - WKWebView setup and configuration
         let configuration = WKWebViewConfiguration()
         configuration.websiteDataStore = WKWebsiteDataStore.default()
         configuration.processPool = ProcessPool.sharedPool
-        
+       
         webView = WKWebView(frame: self.view.frame, configuration: configuration)
+        
         webView.translatesAutoresizingMaskIntoConstraints = false
         webView.isUserInteractionEnabled = true
         webView.navigationDelegate = self
         webView.allowsLinkPreview = false
-
+        webView.scrollView.alwaysBounceVertical = true
+        webView.scrollView.bounces = true
+        // initially set to .never to prevent webview auto scrolling
+        webView.scrollView.contentInsetAdjustmentBehavior = .never
+        // loading observer
+        webView.addObserver(self, forKeyPath: #keyPath(WKWebView.isLoading), options: .new, context: nil)
+        
         view.addSubview(webView)
-
-        activityIndicator = UIActivityIndicatorView()
-        activityIndicator.center = self.view.center
-        activityIndicator.hidesWhenStopped = true
-        activityIndicator.style = .gray
-        activityIndicator.isHidden = true
         
-        view.addSubview(activityIndicator)
-        
-        // pull to refresh setup
+        // MARK:- Pull to refresh setup
         let refreshControl = UIRefreshControl()
         refreshControl.tintColor = .white
         let attributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
         refreshControl.attributedTitle = NSAttributedString(string: "Refreshing...", attributes: attributes)
         refreshControl.addTarget(self, action: #selector(refreshWebView), for: UIControl.Event.valueChanged)
         refreshControl.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
-        webView.scrollView.alwaysBounceVertical = true
-        webView.scrollView.bounces = true
+        // assign refreshControl for the webview
         webView.scrollView.refreshControl = refreshControl
+        
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        self.navigationController?.navigationBar.prefersLargeTitles = true
-    }
-    
-    func showActivityIndicator(show: Bool) {
-        if show {
-            activityIndicator.startAnimating()
-            activityIndicator.isHidden = false
-        } else {
-            activityIndicator.stopAnimating()
-            activityIndicator.isHidden = true
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        if keyPath == "loading" {
+            if webView.isLoading {
+                print("isLoading")
+            } else {
+                print("done Loading")
+            }
         }
     }
-    
+        
     @objc func refreshWebView(_ sender: UIRefreshControl) {
-        // clear the webview body and then reload
-        webView.evaluateJavaScript("document.body.remove()")
+        print("refreshWebView")
         webView.reload()
         sender.endRefreshing()
     }
     
     // webview navigation handlers
     func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
-        showActivityIndicator(show: true)
+        
+        print("didStartProvisionalNavigation")
+        
+        // MARK: - Webview activity indicator
+        activityIndicator = UIActivityIndicatorView()
+        activityIndicator.center = self.view.center
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.style = .gray
+        
+        activityIndicator.isHidden = false
+        activityIndicator.startAnimating()
+        webView.addSubview(activityIndicator)
+
     }
 
     func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
-        showActivityIndicator(show: false)
+        // TODO: handle when website fails to load
     }
     
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         
-        showActivityIndicator(show: false)
+        // on webview finish... set scroll behavior back to automatic
+        webView.scrollView.contentInsetAdjustmentBehavior = .automatic
+        
+        activityIndicator.isHidden = true
+        activityIndicator.stopAnimating()
+    
+        let url = webView.url
+        print("navi webview url: ", url as Any)
         
         // dynamically inject myuw.css file into webview
+        /*
         guard let path = Bundle.main.path(forResource: "myuw", ofType: "css") else { return }
         let css = try! String(contentsOfFile: path).replacingOccurrences(of: "\\n", with: "", options: .regularExpression)
         let js = "var style = document.createElement('style'); style.innerHTML = '\(css)'; document.head.appendChild(style);"
         webView.evaluateJavaScript(js)
+        */
         
     }
     
@@ -99,19 +118,15 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
     
     // webview policty action handler
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
-       
-
+    
         // handle links and navigation
         if navigationAction.navigationType == .linkActivated  {
             
             let url = navigationAction.request.url
-            let host = url?.host
-            
             print("navi url: ", url as Any)
-            print("navi host: ", host as Any)
-            
+                            
             // check to see if the url is NOT my-test.s.uw.edu (myuw)
-            if !host!.hasPrefix("my-test.s.uw.edu"), UIApplication.shared.canOpenURL(url!) {
+            if !url!.absoluteString.contains("\(appHost)"), UIApplication.shared.canOpenURL(url!) {
                 
                 // open outbound url in safari
                 UIApplication.shared.open(url!)
@@ -138,7 +153,9 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
     
                 let newVisit = CustomVisitController()
                 newVisit.visitUrl = navigationAction.request.url!.absoluteString
-                               
+                
+                print(newVisit.visitUrl)
+                
                 self.navigationController?.pushViewController(newVisit, animated: true)
                 decisionHandler(.cancel)
                
@@ -156,4 +173,17 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
         return url.queryItems?.first(where: { $0.name == param })?.value
     }
     
+}
+
+// extensions
+extension WKWebView {
+    
+    // custom load extension that sets custom header
+    func load(_ urlString: String) {
+        if let url = URL(string: urlString) {
+            var request = URLRequest(url: url)
+            request.setValue("True", forHTTPHeaderField: "Myuw-Hybrid")
+            load(request)
+        }
+    }
 }

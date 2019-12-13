@@ -13,9 +13,9 @@ class AcademicsViewController: CustomWebViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        let url = URL(string: "https://my-test.s.uw.edu/academics/")!
-        webView.load(URLRequest(url: url))
+                
+        // load the webview
+        webView.load("\(appHost)/academics/")
         
         // override navigation title
         self.navigationItem.title = "Academics"

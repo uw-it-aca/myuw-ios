@@ -8,8 +8,11 @@
 
 import UIKit
 
+//  From myuw.plist
+var appHost = ""
+//  From Shibboleth iDP via OIDC
 var userAffiliations = [] as NSArray
-var userNetID = "NetID"
+var userNetID = ""
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -20,6 +23,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
         // Override point for customization after application launch.
+        print("app delegate launch")
+        
+        // read in config
+        if let path = Bundle.main.path(forResource: "myuw", ofType: "plist"), let config = NSDictionary(contentsOfFile: path) as? [String: AnyObject] {
+            appHost = config["myuw_host"] as! String
+        }
         
         // setup navbar appearance globally
         if #available(iOS 13.0, *) {
@@ -39,18 +48,34 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         // mock user information... assume this would come from auth token
-        userAffiliations = ["student", "seattle", "undergrad"]
-        userNetID = "charlon"
+        userAffiliations = ["student", "instructor", "seattle", "undergrad"]
+        userNetID = "usernetid"
         
         // playing around with 2 implementations of auth controllers
-        let authController = AuthenticationController()
+        //let mainController = AuthenticationController()
+        let mainController = TabViewController()
 
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.makeKeyAndVisible()
         
         // set the auth controller as the root controller on app load
-        window?.rootViewController = authController
+        window?.rootViewController = mainController
         
+        return true
+    }
+    
+    // Handle deep links myuwapp://page
+    func application(_ application: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:] ) -> Bool {
+        
+        print("app delegate deep link activated")
+        
+        // Determine who sent the URL.
+        let sendingAppID = options[.sourceApplication]
+        print("source application = \(sendingAppID ?? "Unknown")")
+        
+        // navigate to deeplink via tab view controller by calling openDeepLink method
+        (window!.rootViewController as? TabViewController)?.openDeepLink(url: url)
+    
         return true
     }
 
@@ -75,7 +100,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
-
 
 }
 
