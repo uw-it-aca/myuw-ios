@@ -47,17 +47,11 @@ class TabViewController: UITabBarController, UITabBarControllerDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        // for the "more" tabbar controller to use large titles
-        self.moreNavigationController.navigationBar.prefersLargeTitles = true
-        
         // MARK: - Tab Bar Setup
         
         // set tabbar icon and title color
         UITabBar.appearance().tintColor = UIColor(hex: "#4b2e83")
         UITabBarItem.appearance().setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor(hex: "#4b2e83")], for: .selected)
-        
-        // icon color for "more" menu table
-        self.moreNavigationController.view.tintColor = UIColor(hex: "#4b2e83")
         
         // Home tab
         let tabHomeBarItem = UITabBarItem(title: "Home", image: UIImage(named: "ic_home"), selectedImage: UIImage(named: "selectedImage.png"))
@@ -90,6 +84,12 @@ class TabViewController: UITabBarController, UITabBarControllerDelegate {
         // Resources tab
         let tabResourcesBarItem = UITabBarItem(title: "Resources", image: UIImage(named: "ic_resources"), selectedImage: UIImage(named: "selectedImage2.png"))
         tabResources.tabBarItem = tabResourcesBarItem
+        
+        // More tab
+        // configure large title for more tab
+        self.moreNavigationController.navigationBar.prefersLargeTitles = true
+        // icon color for "more" menu table
+        self.moreNavigationController.view.tintColor = UIColor(hex: "#4b2e83")
         
         // MARK: - Tab View Controllers
         

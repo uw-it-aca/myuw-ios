@@ -16,7 +16,7 @@ class CustomVisitController: CustomWebViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // load the webview
+        // load the webview from the visitUrl
         webView.load(visitUrl)
         
     }
@@ -25,15 +25,11 @@ class CustomVisitController: CustomWebViewController {
         
         // on webview finish... set scroll behavior back to automatic
         webView.scrollView.contentInsetAdjustmentBehavior = .automatic
-        
-        showActivityIndicator(show: false)
+        activityIndicator.isHidden = true
+        activityIndicator.stopAnimating()
         
         // override navigation title by getting the navigated webview's page title
         self.navigationItem.title = webView.title!.replacingOccurrences(of: "MyUW: ", with: "")
-        
-        // mocking this for now
-        // self.navigationItem.title = "Page Title"
-        // self.navigationController?.navigationBar.backItem?.title = "Prev"
         
         // dynamically inject css file into webview
         /*
