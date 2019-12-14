@@ -8,3 +8,7 @@ body, .myuw-body { background: #fff !important; }
 .myuw-thin-bar { display: none !important; }
 .myuw-navigation { display: none !important; }
 #app_footer { display: none !important; }
+
+
+#searchform { display: none !important;  }
+#uw-container { border: solid 5px lime !important; }
