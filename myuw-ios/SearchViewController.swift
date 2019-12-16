@@ -30,6 +30,16 @@ class SearchViewController: CustomWebViewController, UISearchBarDelegate {
         searchController.searchBar.placeholder = "Search"
         searchController.searchBar.tintColor = .white
         
+        // set color of text inside input
+        let textFieldInsideSearchBar = searchController.searchBar.value(forKey: "searchField") as? UITextField
+        textFieldInsideSearchBar?.textColor = .white
+        
+        // set color of the glass icon
+        let glassIconView = textFieldInsideSearchBar?.leftView as? UIImageView
+        glassIconView?.image = glassIconView?.image?.withRenderingMode(.alwaysTemplate)
+        glassIconView?.tintColor = .lightGray
+        
+        // search controller delegate
         searchController.searchBar.delegate = self
         
     }
@@ -40,7 +50,11 @@ class SearchViewController: CustomWebViewController, UISearchBarDelegate {
         let visitUrl:String = "https://www.washington.edu/search/?q=\(searchBar.text ?? "")"
         
         webView.load(visitUrl)
-
+        
+        searchBar.searchTextField.text = searchBar.text
+                
+        activityIndicator.isHidden = true
+        activityIndicator.stopAnimating()
     }
     
     override func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
