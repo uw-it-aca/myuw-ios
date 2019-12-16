@@ -28,6 +28,7 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
         configuration.processPool = ProcessPool.sharedPool
        
         webView = WKWebView(frame: self.view.frame, configuration: configuration)
+        webView.customUserAgent = "myuw hybrid agent"
         
         webView.translatesAutoresizingMaskIntoConstraints = false
         webView.isUserInteractionEnabled = true
