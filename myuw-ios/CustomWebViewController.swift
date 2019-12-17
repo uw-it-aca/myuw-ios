@@ -42,7 +42,7 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
         let configuration = WKWebViewConfiguration()
         configuration.websiteDataStore = WKWebsiteDataStore.default()
         configuration.processPool = ProcessPool.sharedPool
-        configuration.applicationNameForUserAgent = "MyUW-Hybrid/1.0 (iPhone)"
+        configuration.applicationNameForUserAgent = "MyUW_Hybrid/1.0 (iPhone)"
        
         webView = WKWebView(frame: self.view.frame, configuration: configuration)
         webView.navigationDelegate = self
