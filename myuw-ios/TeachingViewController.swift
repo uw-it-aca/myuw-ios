@@ -10,7 +10,7 @@ import UIKit
 import WebKit
 
 class TeachingViewController: CustomWebViewController {
-
+   
     override func viewDidLoad() {
         super.viewDidLoad()
         

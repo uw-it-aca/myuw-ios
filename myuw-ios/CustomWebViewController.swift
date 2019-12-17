@@ -14,13 +14,24 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
     
     var webView: WKWebView!
     var activityIndicator: UIActivityIndicatorView!
+    var didChange = false //Set true when we have to update navigationBar height in viewLayoutMarginsDidChange()
 
+    override func viewLayoutMarginsDidChange() {
+        if didChange {
+            print("Height changed : - \(String(describing: self.navigationController?.navigationBar.frame.size.height))")
+            // set NavigationBar Height here
+            self.navigationController!.navigationBar.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 96.0)
+            didChange.toggle()
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+            
         // MARK: - Large title display mode and preference
         self.navigationItem.largeTitleDisplayMode = .always
         self.navigationController?.navigationBar.prefersLargeTitles = true
+        self.navigationController?.navigationBar.isTranslucent = true
         
         // MARK: - WKWebView setup and configuration
         let configuration = WKWebViewConfiguration()
@@ -36,13 +47,12 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
         webView.allowsLinkPreview = false
         webView.scrollView.alwaysBounceVertical = true
         webView.scrollView.bounces = true
-        // initially set to .never to prevent webview auto scrolling
-        webView.scrollView.contentInsetAdjustmentBehavior = .never
+        
         // loading observer
         webView.addObserver(self, forKeyPath: #keyPath(WKWebView.isLoading), options: .new, context: nil)
         
         view.addSubview(webView)
-        
+                
         // MARK:- Pull to refresh setup
         let refreshControl = UIRefreshControl()
         refreshControl.tintColor = .white
@@ -50,6 +60,7 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
         refreshControl.attributedTitle = NSAttributedString(string: "Refreshing...", attributes: attributes)
         refreshControl.addTarget(self, action: #selector(refreshWebView), for: UIControl.Event.valueChanged)
         refreshControl.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+        
         // assign refreshControl for the webview
         webView.scrollView.refreshControl = refreshControl
         
@@ -75,6 +86,7 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
     func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
         
         print("didStartProvisionalNavigation")
+        didChange = true
         
         // MARK: - Webview activity indicator
         activityIndicator = UIActivityIndicatorView()
@@ -93,10 +105,7 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
     }
     
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-        
-        // on webview finish... set scroll behavior back to automatic
-        webView.scrollView.contentInsetAdjustmentBehavior = .automatic
-        
+                        
         activityIndicator.isHidden = true
         activityIndicator.stopAnimating()
     
