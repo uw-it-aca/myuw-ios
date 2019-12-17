@@ -21,11 +21,13 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
     // TODO: - this is the stackoverflow fix for the large title/webview issues
     // FYI: - this seems to work on all views EXCEPT teaching and academics tabs
     override func viewLayoutMarginsDidChange() {
+        //print("viewLayoutMarginsDidChange: ", didChange)
         if didChange {
-            print("Height : - \(String(describing: self.navigationController?.navigationBar.frame.size.height))")
+            print("old Height : - \(String(describing: self.navigationController?.navigationBar.frame.size.height))")
             // set NavigationBar Height here
             self.navigationController!.navigationBar.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 96.0)
-            didChange.toggle()
+            print("new Height : - \(String(describing: self.navigationController?.navigationBar.frame.size.height))")
+            didChange = false
         }
     }
     
@@ -40,9 +42,9 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
         let configuration = WKWebViewConfiguration()
         configuration.websiteDataStore = WKWebsiteDataStore.default()
         configuration.processPool = ProcessPool.sharedPool
+        configuration.applicationNameForUserAgent = "MyUW-Hybrid/1.0 (iPhone)"
        
         webView = WKWebView(frame: self.view.frame, configuration: configuration)
-        webView.customUserAgent = "myuw hybrid agent"
         webView.navigationDelegate = self
         
         webView.translatesAutoresizingMaskIntoConstraints = false
@@ -85,8 +87,10 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
             if webView.isLoading {
                 print("isLoading")
                 
+                
             } else {
                 print("done Loading")
+                didChange = true
             }
         }
     }
