@@ -24,7 +24,7 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
         
         // must turn off translucense to prevent auto scrolling with large titles
         //self.navigationController?.navigationBar.isTranslucent = false
-            
+    
         // MARK: - WKWebView setup and configuration
         let configuration = WKWebViewConfiguration()
         configuration.websiteDataStore = WKWebsiteDataStore.default()
@@ -47,6 +47,16 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
         //webView.scrollView.contentInsetAdjustmentBehavior = .never
                         
         view.addSubview(webView)
+        
+        // MARK: - Add activity indicator to indicate webview initial load
+        activityIndicator = UIActivityIndicatorView()
+        activityIndicator.center = self.view.center
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.style = .gray
+        activityIndicator.isHidden = false
+        activityIndicator.startAnimating()
+        
+        webView.addSubview(activityIndicator)
     
         // MARK:- Pull to refresh setup
         let refreshControl = UIRefreshControl()
@@ -83,6 +93,7 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
         print("didStartProvisionalNavigation")
  
         // MARK: - Webview activity indicator
+        /*
         activityIndicator = UIActivityIndicatorView()
         activityIndicator.center = self.view.center
         activityIndicator.hidesWhenStopped = true
@@ -91,7 +102,7 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
         activityIndicator.isHidden = false
         activityIndicator.startAnimating()
         webView.addSubview(activityIndicator)
-
+        */
     }
 
     func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
