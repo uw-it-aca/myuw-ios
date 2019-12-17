@@ -14,16 +14,6 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
     
     var webView: WKWebView!
     var activityIndicator: UIActivityIndicatorView!
-    var didChange = false //Set true when we have to update navigationBar height in viewLayoutMarginsDidChange()
-
-    override func viewLayoutMarginsDidChange() {
-        if didChange {
-            print("Height changed : - \(String(describing: self.navigationController?.navigationBar.frame.size.height))")
-            // set NavigationBar Height here
-            self.navigationController!.navigationBar.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 96.0)
-            didChange.toggle()
-        }
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,7 +21,9 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
         // MARK: - Large title display mode and preference
         self.navigationItem.largeTitleDisplayMode = .always
         self.navigationController?.navigationBar.prefersLargeTitles = true
-        self.navigationController?.navigationBar.isTranslucent = true
+        
+        // must turn off translucense to prevent auto scrolling with large titles
+        self.navigationController?.navigationBar.isTranslucent = false
         
         // MARK: - WKWebView setup and configuration
         let configuration = WKWebViewConfiguration()
@@ -51,8 +43,11 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
         // loading observer
         webView.addObserver(self, forKeyPath: #keyPath(WKWebView.isLoading), options: .new, context: nil)
         
-        view.addSubview(webView)
+        // set .never to prevent auto scrolling with large titles
+        webView.scrollView.contentInsetAdjustmentBehavior = .never
                 
+        view.addSubview(webView)
+    
         // MARK:- Pull to refresh setup
         let refreshControl = UIRefreshControl()
         refreshControl.tintColor = .white
@@ -86,8 +81,7 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
     func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
         
         print("didStartProvisionalNavigation")
-        didChange = true
-        
+ 
         // MARK: - Webview activity indicator
         activityIndicator = UIActivityIndicatorView()
         activityIndicator.center = self.view.center
@@ -108,10 +102,11 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
                         
         activityIndicator.isHidden = true
         activityIndicator.stopAnimating()
+        
     
         let url = webView.url
         print("navi webview url: ", url as Any)
-        
+                
         // dynamically inject myuw.css file into webview
         /*
         guard let path = Bundle.main.path(forResource: "myuw", ofType: "css") else { return }

@@ -60,8 +60,6 @@ class HomeViewController: CustomWebViewController {
             
         self.navigationItem.rightBarButtonItems = [searchBarButtonItem, emailBarButtonItem]
         
-        
-
     }
         
     
