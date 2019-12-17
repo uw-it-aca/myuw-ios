@@ -23,9 +23,6 @@ class SearchViewController: CustomWebViewController, UISearchBarDelegate {
         // prefer small titles
         //self.navigationItem.largeTitleDisplayMode = .never
         
-        // must turn off translucense to prevent auto scrolling with large titles
-        self.navigationController?.navigationBar.isTranslucent = false
-        
         // search controler and bar setup
         let searchController = UISearchController()
         self.navigationItem.searchController = searchController
