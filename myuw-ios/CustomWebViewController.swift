@@ -23,8 +23,8 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
         self.navigationController?.navigationBar.prefersLargeTitles = true
         
         // must turn off translucense to prevent auto scrolling with large titles
-        self.navigationController?.navigationBar.isTranslucent = false
-        
+        //self.navigationController?.navigationBar.isTranslucent = false
+            
         // MARK: - WKWebView setup and configuration
         let configuration = WKWebViewConfiguration()
         configuration.websiteDataStore = WKWebsiteDataStore.default()
@@ -44,8 +44,8 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
         webView.addObserver(self, forKeyPath: #keyPath(WKWebView.isLoading), options: .new, context: nil)
         
         // set .never to prevent auto scrolling with large titles
-        webView.scrollView.contentInsetAdjustmentBehavior = .never
-                
+        //webView.scrollView.contentInsetAdjustmentBehavior = .never
+                        
         view.addSubview(webView)
     
         // MARK:- Pull to refresh setup
@@ -58,7 +58,7 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
         
         // assign refreshControl for the webview
         webView.scrollView.refreshControl = refreshControl
-        
+      
     }
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
