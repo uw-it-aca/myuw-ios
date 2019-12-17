@@ -15,6 +15,20 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
     var webView: WKWebView!
     var activityIndicator: UIActivityIndicatorView!
     
+    //Set true when we have to update navigationBar height in viewLayoutMarginsDidChange()
+    var didChange = false
+    
+    // TODO: - this is the stackoverflow fix for the large title/webview issues
+    // FYI: - this seems to work on all views EXCEPT teaching and academics tabs
+    override func viewLayoutMarginsDidChange() {
+        if didChange {
+            print("Height : - \(String(describing: self.navigationController?.navigationBar.frame.size.height))")
+            // set NavigationBar Height here
+            self.navigationController!.navigationBar.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 96.0)
+            didChange.toggle()
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
             
@@ -22,9 +36,6 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
         self.navigationItem.largeTitleDisplayMode = .always
         self.navigationController?.navigationBar.prefersLargeTitles = true
         
-        // must turn off translucense to prevent auto scrolling with large titles
-        //self.navigationController?.navigationBar.isTranslucent = false
-    
         // MARK: - WKWebView setup and configuration
         let configuration = WKWebViewConfiguration()
         configuration.websiteDataStore = WKWebsiteDataStore.default()
@@ -32,20 +43,18 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
        
         webView = WKWebView(frame: self.view.frame, configuration: configuration)
         webView.customUserAgent = "myuw hybrid agent"
+        webView.navigationDelegate = self
         
         webView.translatesAutoresizingMaskIntoConstraints = false
+                
         webView.isUserInteractionEnabled = true
-        webView.navigationDelegate = self
         webView.allowsLinkPreview = false
         webView.scrollView.alwaysBounceVertical = true
         webView.scrollView.bounces = true
-        
+                
         // loading observer
         webView.addObserver(self, forKeyPath: #keyPath(WKWebView.isLoading), options: .new, context: nil)
-        
-        // set .never to prevent auto scrolling with large titles
-        //webView.scrollView.contentInsetAdjustmentBehavior = .never
-                        
+                
         view.addSubview(webView)
         
         // MARK: - Add activity indicator to indicate webview initial load
@@ -75,6 +84,7 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
         if keyPath == "loading" {
             if webView.isLoading {
                 print("isLoading")
+                
             } else {
                 print("done Loading")
             }
@@ -91,7 +101,8 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
     func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
         
         print("didStartProvisionalNavigation")
- 
+        didChange = true
+        
         // MARK: - Webview activity indicator
         /*
         activityIndicator = UIActivityIndicatorView()

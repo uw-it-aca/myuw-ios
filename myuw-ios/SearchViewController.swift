@@ -17,12 +17,9 @@ class SearchViewController: CustomWebViewController, UISearchBarDelegate {
         // load the webview
         webView.load("\(appHost)/search/")
         
-        // override navigation title
-        self.navigationItem.title = "Search"
-        
-        // prefer small titles
-        //self.navigationItem.largeTitleDisplayMode = .never
-        
+        // override navigation title (match UW page title)
+        self.navigationItem.title = "Search the UW"
+                
         // search controler and bar setup
         let searchController = UISearchController()
         self.navigationItem.searchController = searchController
@@ -46,15 +43,20 @@ class SearchViewController: CustomWebViewController, UISearchBarDelegate {
     
     func searchBarSearchButtonClicked( _ searchBar: UISearchBar)
     {
-        print("serach bar clicked: ", searchBar.text! )
-        let visitUrl:String = "https://www.washington.edu/search/?q=\(searchBar.text ?? "")"
+        print("search bar clicked: ", searchBar.text! )
         
+        // clean up the searchBar text before building the query param string for visitURL
+        var returnStr: String = searchBar.text!
+        returnStr = searchBar.text!.replacingOccurrences(of: " ", with: "+")
+        let visitUrl:String = "https://www.washington.edu/search/?q=\(returnStr)"
+    
+        print(visitUrl)
         webView.load(visitUrl)
         
+        // show the user's search term in the text field... while the results are frozen
+        // clicking into the results view will clear the text field automatically
         searchBar.searchTextField.text = searchBar.text
-                
-        activityIndicator.isHidden = true
-        activityIndicator.stopAnimating()
+            
     }
     
     override func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
