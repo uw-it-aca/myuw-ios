@@ -50,7 +50,7 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
         
         // MARK: - Add activity indicator to indicate webview initial load
         activityIndicator = UIActivityIndicatorView()
-        activityIndicator.center = self.view.center
+        activityIndicator.center = webView.center
         activityIndicator.hidesWhenStopped = true
         activityIndicator.style = .gray
         activityIndicator.isHidden = false
