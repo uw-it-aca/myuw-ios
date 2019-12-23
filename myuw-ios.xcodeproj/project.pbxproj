@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -16,10 +16,11 @@
 		854EE09022F0F9A20042381A /* AuthenticationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 854EE08F22F0F9A20042381A /* AuthenticationController.swift */; };
 		854EE09522F0F9A30042381A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 854EE09422F0F9A30042381A /* Assets.xcassets */; };
 		854EE09822F0F9A30042381A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 854EE09622F0F9A30042381A /* LaunchScreen.storyboard */; };
-		854EE0A322F0F9A30042381A /* myuw_testTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 854EE0A222F0F9A30042381A /* myuw_testTests.swift */; };
-		854EE0AE22F0F9A30042381A /* myuw_testUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 854EE0AD22F0F9A30042381A /* myuw_testUITests.swift */; };
-		8574479423B1374A0006F388 /* FBSnapshotTestCase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8574479323B1374A0006F388 /* FBSnapshotTestCase.framework */; };
+		854EE0A322F0F9A30042381A /* myuw_testTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 854EE0A222F0F9A30042381A /* myuw_testTests.swift */; platformFilter = ios; };
+		854EE0AE22F0F9A30042381A /* myuw_testUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 854EE0AD22F0F9A30042381A /* myuw_testUITests.swift */; platformFilter = ios; };
 		8574479523B1374A0006F388 /* FBSnapshotTestCase.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8574479323B1374A0006F388 /* FBSnapshotTestCase.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		8574479A23B145620006F388 /* FBSnapshotTestCase.framework in Resources */ = {isa = PBXBuildFile; fileRef = 8574479323B1374A0006F388 /* FBSnapshotTestCase.framework */; platformFilter = ios; };
+		8574479B23B145860006F388 /* FBSnapshotTestCase.framework in Resources */ = {isa = PBXBuildFile; fileRef = 8574479323B1374A0006F388 /* FBSnapshotTestCase.framework */; platformFilter = ios; };
 		8591220E23A417450012749E /* AppAuth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8591220C23A417450012749E /* AppAuth.framework */; };
 		8591220F23A417450012749E /* AppAuth.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8591220C23A417450012749E /* AppAuth.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		8591221023A417450012749E /* AppAuthCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8591220D23A417450012749E /* AppAuthCore.framework */; };
@@ -115,7 +116,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				8591220E23A417450012749E /* AppAuth.framework in Frameworks */,
-				8574479423B1374A0006F388 /* FBSnapshotTestCase.framework in Frameworks */,
 				8591221023A417450012749E /* AppAuthCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -335,6 +335,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8574479B23B145860006F388 /* FBSnapshotTestCase.framework in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -342,6 +343,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8574479A23B145620006F388 /* FBSnapshotTestCase.framework in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -392,11 +394,13 @@
 /* Begin PBXTargetDependency section */
 		854EE0A022F0F9A30042381A /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
+			platformFilter = ios;
 			target = 854EE08922F0F9A20042381A /* myuw-ios */;
 			targetProxy = 854EE09F22F0F9A30042381A /* PBXContainerItemProxy */;
 		};
 		854EE0AB22F0F9A30042381A /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
+			platformFilter = ios;
 			target = 854EE08922F0F9A20042381A /* myuw-ios */;
 			targetProxy = 854EE0AA22F0F9A30042381A /* PBXContainerItemProxy */;
 		};
@@ -586,6 +590,11 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = THEWY9596Q;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = "myuw-iosTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -606,6 +615,11 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = THEWY9596Q;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = "myuw-iosTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -625,6 +639,11 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = THEWY9596Q;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = "myuw-iosUITests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -644,6 +663,11 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = THEWY9596Q;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = "myuw-iosUITests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
