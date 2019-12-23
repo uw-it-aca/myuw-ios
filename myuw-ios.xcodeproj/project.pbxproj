@@ -18,6 +18,8 @@
 		854EE09822F0F9A30042381A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 854EE09622F0F9A30042381A /* LaunchScreen.storyboard */; };
 		854EE0A322F0F9A30042381A /* myuw_testTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 854EE0A222F0F9A30042381A /* myuw_testTests.swift */; };
 		854EE0AE22F0F9A30042381A /* myuw_testUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 854EE0AD22F0F9A30042381A /* myuw_testUITests.swift */; };
+		8574479423B1374A0006F388 /* FBSnapshotTestCase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8574479323B1374A0006F388 /* FBSnapshotTestCase.framework */; };
+		8574479523B1374A0006F388 /* FBSnapshotTestCase.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8574479323B1374A0006F388 /* FBSnapshotTestCase.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		8591220E23A417450012749E /* AppAuth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8591220C23A417450012749E /* AppAuth.framework */; };
 		8591220F23A417450012749E /* AppAuth.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8591220C23A417450012749E /* AppAuth.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		8591221023A417450012749E /* AppAuthCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8591220D23A417450012749E /* AppAuthCore.framework */; };
@@ -62,6 +64,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				8591220F23A417450012749E /* AppAuth.framework in Embed Frameworks */,
+				8574479523B1374A0006F388 /* FBSnapshotTestCase.framework in Embed Frameworks */,
 				8591221123A417450012749E /* AppAuthCore.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -87,6 +90,7 @@
 		854EE0A922F0F9A30042381A /* myuw-iosUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "myuw-iosUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		854EE0AD22F0F9A30042381A /* myuw_testUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = myuw_testUITests.swift; sourceTree = "<group>"; };
 		854EE0AF22F0F9A30042381A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8574479323B1374A0006F388 /* FBSnapshotTestCase.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSnapshotTestCase.framework; path = Carthage/Build/iOS/FBSnapshotTestCase.framework; sourceTree = "<group>"; };
 		8591220C23A417450012749E /* AppAuth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppAuth.framework; path = Carthage/Build/iOS/AppAuth.framework; sourceTree = "<group>"; };
 		8591220D23A417450012749E /* AppAuthCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppAuthCore.framework; path = Carthage/Build/iOS/AppAuthCore.framework; sourceTree = "<group>"; };
 		8591221323A41A8E0012749E /* AppAuthExampleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppAuthExampleViewController.swift; sourceTree = "<group>"; };
@@ -111,6 +115,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8591220E23A417450012749E /* AppAuth.framework in Frameworks */,
+				8574479423B1374A0006F388 /* FBSnapshotTestCase.framework in Frameworks */,
 				8591221023A417450012749E /* AppAuthCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -205,6 +210,7 @@
 		8591220B23A417450012749E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				8574479323B1374A0006F388 /* FBSnapshotTestCase.framework */,
 				8591220C23A417450012749E /* AppAuth.framework */,
 				8591220D23A417450012749E /* AppAuthCore.framework */,
 			);
