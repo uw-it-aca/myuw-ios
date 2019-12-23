@@ -1,2 +1,2 @@
 github "openid/AppAuth-iOS" "master"
-github "uber/ios-snapshot-test-case" ~> 6.1.0
+github "uber/ios-snapshot-test-case"
