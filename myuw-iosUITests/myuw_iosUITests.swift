@@ -8,7 +8,7 @@
 
 import XCTest
 
-class myuw_testUITests: XCTestCase {
+class myuw_iosUITests: XCTestCase {
 
     override func setUp() {
         // Put setup code here. This method is called before the invocation of each test method in the class.
@@ -39,6 +39,14 @@ class myuw_testUITests: XCTestCase {
         expectation(for: exists, evaluatedWith: userNetidString, handler: nil)
 
         waitForExpectations(timeout: 5, handler: nil)
+        
+        let fullScreenshot = XCUIScreen.main.screenshot()
+        let screenshot = XCTAttachment(screenshot: fullScreenshot)
+        screenshot.lifetime = .keepAlways
+        // if we don't set lifetime to .keepAlways, Xcode will delete the image if the test passes.
+
+        add(screenshot)
+        
         XCTAssert(userNetidString.exists)
         
         

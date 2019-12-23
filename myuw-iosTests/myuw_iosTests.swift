@@ -9,7 +9,7 @@
 import XCTest
 //@testable import myuw_test
 
-class myuw_testTests: XCTestCase {
+class myuw_iosTests: XCTestCase {
 
     override func setUp() {
         // Put setup code here. This method is called before the invocation of each test method in the class.

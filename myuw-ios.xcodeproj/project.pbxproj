@@ -16,8 +16,8 @@
 		854EE09022F0F9A20042381A /* AuthenticationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 854EE08F22F0F9A20042381A /* AuthenticationController.swift */; };
 		854EE09522F0F9A30042381A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 854EE09422F0F9A30042381A /* Assets.xcassets */; };
 		854EE09822F0F9A30042381A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 854EE09622F0F9A30042381A /* LaunchScreen.storyboard */; };
-		854EE0A322F0F9A30042381A /* myuw_testTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 854EE0A222F0F9A30042381A /* myuw_testTests.swift */; };
-		854EE0AE22F0F9A30042381A /* myuw_testUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 854EE0AD22F0F9A30042381A /* myuw_testUITests.swift */; };
+		854EE0A322F0F9A30042381A /* myuw_iosTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 854EE0A222F0F9A30042381A /* myuw_iosTests.swift */; };
+		854EE0AE22F0F9A30042381A /* myuw_iosUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 854EE0AD22F0F9A30042381A /* myuw_iosUITests.swift */; };
 		8591220E23A417450012749E /* AppAuth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8591220C23A417450012749E /* AppAuth.framework */; };
 		8591220F23A417450012749E /* AppAuth.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8591220C23A417450012749E /* AppAuth.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		8591221023A417450012749E /* AppAuthCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8591220D23A417450012749E /* AppAuthCore.framework */; };
@@ -82,10 +82,10 @@
 		854EE09722F0F9A30042381A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		854EE09922F0F9A30042381A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		854EE09E22F0F9A30042381A /* myuw-iosTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "myuw-iosTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		854EE0A222F0F9A30042381A /* myuw_testTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = myuw_testTests.swift; sourceTree = "<group>"; };
+		854EE0A222F0F9A30042381A /* myuw_iosTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = myuw_iosTests.swift; sourceTree = "<group>"; };
 		854EE0A422F0F9A30042381A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		854EE0A922F0F9A30042381A /* myuw-iosUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "myuw-iosUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		854EE0AD22F0F9A30042381A /* myuw_testUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = myuw_testUITests.swift; sourceTree = "<group>"; };
+		854EE0AD22F0F9A30042381A /* myuw_iosUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = myuw_iosUITests.swift; sourceTree = "<group>"; };
 		854EE0AF22F0F9A30042381A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8591220C23A417450012749E /* AppAuth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppAuth.framework; path = Carthage/Build/iOS/AppAuth.framework; sourceTree = "<group>"; };
 		8591220D23A417450012749E /* AppAuthCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppAuthCore.framework; path = Carthage/Build/iOS/AppAuthCore.framework; sourceTree = "<group>"; };
@@ -187,7 +187,7 @@
 		854EE0A122F0F9A30042381A /* myuw-iosTests */ = {
 			isa = PBXGroup;
 			children = (
-				854EE0A222F0F9A30042381A /* myuw_testTests.swift */,
+				854EE0A222F0F9A30042381A /* myuw_iosTests.swift */,
 				854EE0A422F0F9A30042381A /* Info.plist */,
 			);
 			path = "myuw-iosTests";
@@ -196,7 +196,7 @@
 		854EE0AC22F0F9A30042381A /* myuw-iosUITests */ = {
 			isa = PBXGroup;
 			children = (
-				854EE0AD22F0F9A30042381A /* myuw_testUITests.swift */,
+				854EE0AD22F0F9A30042381A /* myuw_iosUITests.swift */,
 				854EE0AF22F0F9A30042381A /* Info.plist */,
 			);
 			path = "myuw-iosUITests";
@@ -369,7 +369,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				854EE0A322F0F9A30042381A /* myuw_testTests.swift in Sources */,
+				854EE0A322F0F9A30042381A /* myuw_iosTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -377,7 +377,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				854EE0AE22F0F9A30042381A /* myuw_testUITests.swift in Sources */,
+				854EE0AE22F0F9A30042381A /* myuw_iosUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
