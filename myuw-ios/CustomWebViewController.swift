@@ -132,7 +132,6 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
         
         didChange = true
         
-    
         let url = webView.url
         print("navi webview url: ", url as Any)
                 
@@ -217,7 +216,6 @@ extension WKWebView {
     func load(_ urlString: String) {
         if let url = URL(string: urlString) {
             var request = URLRequest(url: url)
-            request.setValue("True", forHTTPHeaderField: "Myuw-Hybrid")
             load(request)
         }
     }
