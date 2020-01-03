@@ -23,10 +23,10 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
     override func viewLayoutMarginsDidChange() {
         //print("viewLayoutMarginsDidChange: ", didChange)
         if didChange {
-            print("old Height : - \(String(describing: self.navigationController?.navigationBar.frame.size.height))")
+            //print("old Height : - \(String(describing: self.navigationController?.navigationBar.frame.size.height))")
             // set NavigationBar Height here
             self.navigationController!.navigationBar.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 96.0)
-            print("new Height : - \(String(describing: self.navigationController?.navigationBar.frame.size.height))")
+            //print("new Height : - \(String(describing: self.navigationController?.navigationBar.frame.size.height))")
             didChange = false
         }
     }
@@ -55,7 +55,7 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
         webView.scrollView.bounces = true
                 
         // loading observer
-        webView.addObserver(self, forKeyPath: #keyPath(WKWebView.isLoading), options: .new, context: nil)
+        //webView.addObserver(self, forKeyPath: #keyPath(WKWebView.isLoading), options: .new, context: nil)
                 
         view.addSubview(webView)
         
@@ -81,7 +81,7 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
         webView.scrollView.refreshControl = refreshControl
       
     }
-    
+    /*
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if keyPath == "loading" {
             if webView.isLoading {
@@ -94,7 +94,8 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
             }
         }
     }
-        
+    */
+    
     @objc func refreshWebView(_ sender: UIRefreshControl) {
         print("refreshWebView")
         webView.reload()
@@ -128,6 +129,8 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
                         
         activityIndicator.isHidden = true
         activityIndicator.stopAnimating()
+        
+        didChange = true
         
     
         let url = webView.url
