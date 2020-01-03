@@ -215,7 +215,7 @@ extension WKWebView {
     // custom load extension that sets custom header
     func load(_ urlString: String) {
         if let url = URL(string: urlString) {
-            var request = URLRequest(url: url)
+            let request = URLRequest(url: url)
             load(request)
         }
     }
