@@ -161,35 +161,58 @@ class TabViewController: UITabBarController, UITabBarControllerDelegate {
             
             // open links by pushing a new view controller
             print("deeplink: push view controller")
-
-            let deepVisit = CustomVisitController()
-            //deepVisit.visitUrl = url.absoluteString.replacingOccurrences(of: "myuwapp: ", with: "http")
-            deepVisit.visitUrl = "http://curry.aca.uw.edu:8000/?scroll=someID"
-            
-            print(deepVisit.visitUrl)
             
             // match the page param to its corresponding tabController
             
             switch tab {
             case "academics":
                 self.selectedViewController = self.tabAcademics
+                let academicsVC = AcademicsViewController()
+                academicsVC.deepAction = "someJSFunction(sadflkjasd)"
+                tabAcademics.popViewController(animated: true)
+                tabAcademics.setViewControllers([academicsVC], animated: false)
             case "huskyexp":
                 self.selectedViewController = self.tabHuskyExp
+                let huskyexpVC = HuskyExpViewController()
+                huskyexpVC.deepAction = "someJSFunction(sadflkjasd)"
+                tabHuskyExp.popViewController(animated: true)
+                tabHuskyExp.setViewControllers([huskyexpVC], animated: false)
             case "teaching":
                 self.selectedViewController = self.tabTeaching
+                let teachingVC = TeachingViewController()
+                teachingVC.deepAction = "someJSFunction(sadflkjasd)"
+                tabTeaching.popViewController(animated: true)
+                tabTeaching.setViewControllers([teachingVC], animated: false)
             case "accounts":
                 self.selectedViewController = self.tabAccounts
+                let accountsVC = AccountsViewController()
+                accountsVC.deepAction = "someJSFunction(sadflkjasd)"
+                tabAccounts.popViewController(animated: true)
+                tabAccounts.setViewControllers([accountsVC], animated: false)
             case "notices":
                 self.selectedViewController = self.tabNotices
+                let noticesVC = NoticesViewController()
+                noticesVC.deepAction = "dsaflkjalsdfkj"
+                tabNotices.popViewController(animated: true)
+                tabNotices.setViewControllers([noticesVC], animated: false)
             case "calendar":
                 self.selectedViewController = self.tabCalendar
+                let calendarVC = CalendarViewController()
+                calendarVC.deepAction = "someJSFunction(sadflkjasd)"
+                tabCalendar.popViewController(animated: true)
+                tabCalendar.setViewControllers([calendarVC], animated: false)
             case "resources":
                 self.selectedViewController = self.tabResources
+                let resourcesVC = ResourcesViewController()
+                resourcesVC.deepAction = "someJSFunction(sadflkjasd)"
+                tabResources.popViewController(animated: true)
+                tabResources.setViewControllers([resourcesVC], animated: false)
             default:
                 self.selectedViewController = self.tabHome
-                // TODO: this is really close!!!!
+                let homeVC = HomeViewController()
+                homeVC.deepAction = "someJSFunction(sadflkjasd)"
                 tabHome.popViewController(animated: true)
-                tabHome.setViewControllers([deepVisit], animated: false)
+                tabHome.setViewControllers([homeVC], animated: false)
             }
 
             

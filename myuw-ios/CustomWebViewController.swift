@@ -132,9 +132,9 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
         
         didChange = true
         
-        let url = webView.url
+        let url = webView.url?.absoluteURL
         print("navi webview url: ", url as Any)
-                
+        
         // dynamically inject myuw.css file into webview
         /*
         guard let path = Bundle.main.path(forResource: "myuw", ofType: "css") else { return }
