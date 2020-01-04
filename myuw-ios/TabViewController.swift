@@ -158,8 +158,18 @@ class TabViewController: UITabBarController, UITabBarControllerDelegate {
                 parameters[$0.name] = $0.value
             }
             print(parameters)
-                     
+            
+            // open links by pushing a new view controller
+            print("deeplink: push view controller")
+
+            let deepVisit = CustomVisitController()
+            //deepVisit.visitUrl = url.absoluteString.replacingOccurrences(of: "myuwapp: ", with: "http")
+            deepVisit.visitUrl = "http://curry.aca.uw.edu:8000/teaching/?scroll=someID"
+            
+            print(deepVisit.visitUrl)
+            
             // match the page param to its corresponding tabController
+            
             switch tab {
             case "academics":
                 self.selectedViewController = self.tabAcademics
@@ -177,7 +187,10 @@ class TabViewController: UITabBarController, UITabBarControllerDelegate {
                 self.selectedViewController = self.tabResources
             default:
                 self.selectedViewController = self.tabHome
+                // TODO: this is really close!!!!
+                tabHome.pushViewController(deepVisit, animated: false)
             }
+
             
         }
         
