@@ -11,7 +11,7 @@ import WebKit
 
 class AcademicsViewController: CustomWebViewController {
     
-    var deepAction:String = ""
+    var deepAction = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()

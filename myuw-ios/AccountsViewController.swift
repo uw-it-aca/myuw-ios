@@ -11,7 +11,7 @@ import WebKit
 
 class AccountsViewController: CustomWebViewController {
     
-    var deepAction:String = ""
+    var deepAction = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,7 +28,7 @@ class AccountsViewController: CustomWebViewController {
         activityIndicator.isHidden = true
         activityIndicator.stopAnimating()
         didChange = true
-        
+                
         let url = webView.url?.absoluteURL
         print("navi accounts webview url: ", url as Any)
         

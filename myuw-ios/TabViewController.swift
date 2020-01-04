@@ -16,7 +16,7 @@ class TabViewController: UITabBarController, UITabBarControllerDelegate {
     let tabAcademics = UINavigationController(rootViewController: AcademicsViewController())
     let tabHuskyExp = UINavigationController(rootViewController: HuskyExpViewController())
     let tabTeaching = UINavigationController(rootViewController: TeachingViewController())
-    let tabAccounts = UINavigationController(rootViewController: AccountsViewController())
+    var tabAccounts = UINavigationController(rootViewController: AccountsViewController())
     let tabNotices = UINavigationController(rootViewController: NoticesViewController())
     let tabCalendar = UINavigationController(rootViewController: CalendarViewController())
     let tabResources = UINavigationController(rootViewController: ResourcesViewController())
@@ -186,27 +186,27 @@ class TabViewController: UITabBarController, UITabBarControllerDelegate {
             case "accounts":
                 self.selectedViewController = self.tabAccounts
                 let accountsVC = AccountsViewController()
-                accountsVC.deepAction = "someJSFunction(sadflkjasd)"
+                accountsVC.deepAction = "broken"
                 tabAccounts.popViewController(animated: true)
                 tabAccounts.setViewControllers([accountsVC], animated: false)
             case "notices":
                 self.selectedViewController = self.tabNotices
                 let noticesVC = NoticesViewController()
-                noticesVC.deepAction = "dsaflkjalsdfkj"
-                tabNotices.popViewController(animated: true)
-                tabNotices.setViewControllers([noticesVC], animated: false)
+                noticesVC.deepAction = "broken"
+                self.moreNavigationController.popToRootViewController(animated: true)
+                self.moreNavigationController.setViewControllers([noticesVC], animated: false)
             case "calendar":
                 self.selectedViewController = self.tabCalendar
                 let calendarVC = CalendarViewController()
-                calendarVC.deepAction = "someJSFunction(sadflkjasd)"
-                tabCalendar.popViewController(animated: true)
-                tabCalendar.setViewControllers([calendarVC], animated: false)
+                calendarVC.deepAction = "broken"
+                self.moreNavigationController.popToRootViewController(animated: true)
+                self.moreNavigationController.setViewControllers([calendarVC], animated: false)
             case "resources":
                 self.selectedViewController = self.tabResources
                 let resourcesVC = ResourcesViewController()
-                resourcesVC.deepAction = "someJSFunction(sadflkjasd)"
-                tabResources.popViewController(animated: true)
-                tabResources.setViewControllers([resourcesVC], animated: false)
+                resourcesVC.deepAction = "broken"
+                self.moreNavigationController.popToRootViewController(animated: true)
+                self.moreNavigationController.setViewControllers([resourcesVC], animated: false)
             default:
                 self.selectedViewController = self.tabHome
                 let homeVC = HomeViewController()

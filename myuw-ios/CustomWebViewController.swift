@@ -142,7 +142,7 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
         let js = "var style = document.createElement('style'); style.innerHTML = '\(css)'; document.head.appendChild(style);"
         webView.evaluateJavaScript(js)
         */
-        
+
     }
     
     // webview policy response handler
