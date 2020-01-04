@@ -164,7 +164,7 @@ class TabViewController: UITabBarController, UITabBarControllerDelegate {
 
             let deepVisit = CustomVisitController()
             //deepVisit.visitUrl = url.absoluteString.replacingOccurrences(of: "myuwapp: ", with: "http")
-            deepVisit.visitUrl = "http://curry.aca.uw.edu:8000/teaching/?scroll=someID"
+            deepVisit.visitUrl = "http://curry.aca.uw.edu:8000/?scroll=someID"
             
             print(deepVisit.visitUrl)
             
@@ -188,7 +188,8 @@ class TabViewController: UITabBarController, UITabBarControllerDelegate {
             default:
                 self.selectedViewController = self.tabHome
                 // TODO: this is really close!!!!
-                tabHome.pushViewController(deepVisit, animated: false)
+                tabHome.popViewController(animated: true)
+                tabHome.setViewControllers([deepVisit], animated: false)
             }
 
             
