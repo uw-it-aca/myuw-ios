@@ -72,12 +72,11 @@ class HomeViewController: CustomWebViewController {
         
         let url = webView.url?.absoluteURL
         print("navi webview url: ", url as Any)
-        
+                
         // handle deep actions
-        
         if (deepAction.count > 0) {
             print(deepAction)
-            //webView.evaluateJavaScript(deepAction)
+            webView.evaluateJavaScript(deepAction)
             deepAction = ""
         }
     

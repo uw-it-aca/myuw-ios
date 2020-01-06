@@ -168,19 +168,19 @@ class TabViewController: UITabBarController, UITabBarControllerDelegate {
             case "academics":
                 self.selectedViewController = self.tabAcademics
                 let academicsVC = AcademicsViewController()
-                academicsVC.deepAction = "someJSFunction(sadflkjasd)"
+                academicsVC.deepAction = "window.goToByScroll('VisualScheduleCard');"
                 tabAcademics.popViewController(animated: true)
                 tabAcademics.setViewControllers([academicsVC], animated: false)
             case "huskyexp":
                 self.selectedViewController = self.tabHuskyExp
                 let huskyexpVC = HuskyExpViewController()
-                huskyexpVC.deepAction = "someJSFunction(sadflkjasd)"
+                huskyexpVC.deepAction = "window.goToByScroll('VisualScheduleCard');"
                 tabHuskyExp.popViewController(animated: true)
                 tabHuskyExp.setViewControllers([huskyexpVC], animated: false)
             case "teaching":
                 self.selectedViewController = self.tabTeaching
                 let teachingVC = TeachingViewController()
-                teachingVC.deepAction = "someJSFunction(sadflkjasd)"
+                teachingVC.deepAction = "window.goToByScroll('VisualScheduleCard');"
                 tabTeaching.popViewController(animated: true)
                 tabTeaching.setViewControllers([teachingVC], animated: false)
             case "accounts":
@@ -193,24 +193,30 @@ class TabViewController: UITabBarController, UITabBarControllerDelegate {
                 self.selectedViewController = self.tabNotices
                 let noticesVC = NoticesViewController()
                 noticesVC.deepAction = "broken"
-                self.moreNavigationController.popToRootViewController(animated: true)
-                self.moreNavigationController.setViewControllers([noticesVC], animated: false)
+                tabNotices.popViewController(animated: true)
+                tabNotices.setViewControllers([noticesVC], animated: false)
+                //self.moreNavigationController.popToRootViewController(animated: true)
+                //self.moreNavigationController.setViewControllers([noticesVC], animated: false)
             case "calendar":
                 self.selectedViewController = self.tabCalendar
                 let calendarVC = CalendarViewController()
                 calendarVC.deepAction = "broken"
-                self.moreNavigationController.popToRootViewController(animated: true)
-                self.moreNavigationController.setViewControllers([calendarVC], animated: false)
+                tabCalendar.popViewController(animated: true)
+                tabCalendar.setViewControllers([calendarVC], animated: false)
+                //self.moreNavigationController.popToRootViewController(animated: true)
+                //self.moreNavigationController.setViewControllers([calendarVC], animated: false)
             case "resources":
                 self.selectedViewController = self.tabResources
                 let resourcesVC = ResourcesViewController()
                 resourcesVC.deepAction = "broken"
-                self.moreNavigationController.popToRootViewController(animated: true)
-                self.moreNavigationController.setViewControllers([resourcesVC], animated: false)
+                tabResources.popViewController(animated: true)
+                tabResources.setViewControllers([resourcesVC], animated: false)
+                //self.moreNavigationController.popToRootViewController(animated: true)
+                //self.moreNavigationController.setViewControllers([resourcesVC], animated: false)
             default:
                 self.selectedViewController = self.tabHome
                 let homeVC = HomeViewController()
-                homeVC.deepAction = "someJSFunction(sadflkjasd)"
+                homeVC.deepAction = "window.goToByScroll('VisualScheduleCard');"
                 tabHome.popViewController(animated: true)
                 tabHome.setViewControllers([homeVC], animated: false)
             }
