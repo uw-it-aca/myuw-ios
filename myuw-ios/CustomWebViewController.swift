@@ -12,6 +12,7 @@ import AppAuth // import just to test if framework is installed
 
 class CustomWebViewController: UIViewController, WKNavigationDelegate {
     
+    var deepAction = ""
     var webView: WKWebView!
     var activityIndicator: UIActivityIndicatorView!
     
@@ -135,14 +136,13 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
         let url = webView.url?.absoluteURL
         print("navi webview url: ", url as Any)
         
-        // dynamically inject myuw.css file into webview
-        /*
-        guard let path = Bundle.main.path(forResource: "myuw", ofType: "css") else { return }
-        let css = try! String(contentsOfFile: path).replacingOccurrences(of: "\\n", with: "", options: .regularExpression)
-        let js = "var style = document.createElement('style'); style.innerHTML = '\(css)'; document.head.appendChild(style);"
-        webView.evaluateJavaScript(js)
-        */
-
+        // handle deep actions
+        if (deepAction.count > 0) {
+            print(deepAction)
+            webView.evaluateJavaScript(deepAction)
+            deepAction = ""
+        }
+    
     }
     
     // webview policy response handler
