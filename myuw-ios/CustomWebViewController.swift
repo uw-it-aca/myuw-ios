@@ -111,12 +111,14 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
     @objc func appBecameActive() {
         print("appBecameActive")
         activityIndicator.isHidden = false
+        activityIndicator.startAnimating()
         webView.reload()
     }
     
     @objc func refreshWebView(_ sender: UIRefreshControl) {
         print("refreshWebView")
         activityIndicator.isHidden = false
+        activityIndicator.startAnimating()
         webView.reload()
         sender.endRefreshing()
     }
