@@ -12,7 +12,7 @@ import AppAuth // import just to test if framework is installed
 
 class CustomWebViewController: UIViewController, WKNavigationDelegate {
     
-    var deepAction = ""
+    // var deepAction = ""
     var webView: WKWebView!
     var activityIndicator: UIActivityIndicatorView!
     
@@ -137,11 +137,13 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
         print("navi webview url: ", url as Any)
         
         // handle deep actions
+        /*
         if (deepAction.count > 0) {
             print(deepAction)
             webView.evaluateJavaScript(deepAction)
             deepAction = ""
         }
+        */
     
     }
     

@@ -167,58 +167,62 @@ class TabViewController: UITabBarController, UITabBarControllerDelegate {
             switch tab {
             case "academics":
                 self.selectedViewController = self.tabAcademics
-                let academicsVC = AcademicsViewController()
-                academicsVC.deepAction = "window.goToByScroll('VisualScheduleCard');"
-                tabAcademics.popViewController(animated: true)
-                tabAcademics.setViewControllers([academicsVC], animated: false)
+                //let academicsVC = AcademicsViewController()
+                //academicsVC.deepAction = "window.goToByScroll('VisualScheduleCard');"
+                //tabAcademics.popToRootViewController(animated: true)
+                //tabAcademics.pushViewController(academicsVC, animated: false)
             case "huskyexp":
                 self.selectedViewController = self.tabHuskyExp
-                let huskyexpVC = HuskyExpViewController()
-                huskyexpVC.deepAction = "window.goToByScroll('VisualScheduleCard');"
-                tabHuskyExp.popViewController(animated: true)
-                tabHuskyExp.setViewControllers([huskyexpVC], animated: false)
+                //let huskyexpVC = HuskyExpViewController()
+                //huskyexpVC.deepAction = "window.goToByScroll('VisualScheduleCard');"
+                //tabHuskyExp.popViewController(animated: true)
+                //tabHuskyExp.pushViewController(huskyexpVC, animated: false)
             case "teaching":
                 self.selectedViewController = self.tabTeaching
-                let teachingVC = TeachingViewController()
-                teachingVC.deepAction = "window.goToByScroll('VisualScheduleCard');"
-                tabTeaching.popViewController(animated: true)
-                tabTeaching.setViewControllers([teachingVC], animated: false)
+                //let teachingVC = TeachingViewController()
+                //teachingVC.deepAction = "window.goToByScroll('VisualScheduleCard');"
+                //tabTeaching.popViewController(animated: true)
+                //tabTeaching.pushViewController(teachingVC, animated: false)
             case "accounts":
                 self.selectedViewController = self.tabAccounts
-                let accountsVC = AccountsViewController()
-                accountsVC.deepAction = "broken"
-                tabAccounts.popViewController(animated: true)
-                tabAccounts.setViewControllers([accountsVC], animated: false)
+                //let accountsVC = AccountsViewController()
+                //accountsVC.deepAction = "broken"
+                //tabAccounts.popViewController(animated: true)
+                //tabAccounts.pushViewController(accountsVC, animated: false)
+                //tabAccounts.tabBarController?.navigationController?.popViewController(animated: true)
+                //tabAccounts.tabBarController?.navigationController?.pushViewController(accountsVC, animated: false)
+                //self.moreNavigationController.popViewController(animated: true)
+                //self.moreNavigationController.pushViewController(accountsVC, animated: false)
             case "notices":
                 self.selectedViewController = self.tabNotices
-                let noticesVC = NoticesViewController()
-                noticesVC.deepAction = "broken"
-                tabNotices.popViewController(animated: true)
-                tabNotices.setViewControllers([noticesVC], animated: false)
+                //let noticesVC = NoticesViewController()
+                //noticesVC.deepAction = "broken"
+                //tabNotices.popViewController(animated: true)
+                //tabNotices.pushViewController(noticesVC, animated: false)
                 //self.moreNavigationController.popToRootViewController(animated: true)
-                //self.moreNavigationController.setViewControllers([noticesVC], animated: false)
+                //self.moreNavigationController.pushViewController(noticesVC, animated: false)
             case "calendar":
                 self.selectedViewController = self.tabCalendar
-                let calendarVC = CalendarViewController()
-                calendarVC.deepAction = "broken"
-                tabCalendar.popViewController(animated: true)
-                tabCalendar.setViewControllers([calendarVC], animated: false)
+                //let calendarVC = CalendarViewController()
+                //calendarVC.deepAction = "broken"
+                //tabCalendar.popViewController(animated: true)
+                //tabCalendar.pushViewController(calendarVC, animated: false)
                 //self.moreNavigationController.popToRootViewController(animated: true)
-                //self.moreNavigationController.setViewControllers([calendarVC], animated: false)
+                //self.moreNavigationController.pushViewController(calendarVC, animated: false)
             case "resources":
                 self.selectedViewController = self.tabResources
-                let resourcesVC = ResourcesViewController()
-                resourcesVC.deepAction = "broken"
-                tabResources.popViewController(animated: true)
-                tabResources.setViewControllers([resourcesVC], animated: false)
+                //let resourcesVC = ResourcesViewController()
+                //resourcesVC.deepAction = "broken"
+                //tabResources.popViewController(animated: true)
+                //tabResources.pushViewController(resourcesVC, animated: false)
                 //self.moreNavigationController.popToRootViewController(animated: true)
-                //self.moreNavigationController.setViewControllers([resourcesVC], animated: false)
+                //self.moreNavigationController.pushViewController(resourcesVC, animated: false)
             default:
                 self.selectedViewController = self.tabHome
-                let homeVC = HomeViewController()
-                homeVC.deepAction = "window.goToByScroll('VisualScheduleCard');"
-                tabHome.popViewController(animated: true)
-                tabHome.setViewControllers([homeVC], animated: false)
+                //let homeVC = HomeViewController()
+                //homeVC.deepAction = "window.goToByScroll('app_notices');clickElement('88ead5ada783a8573ca5e09f5abaa094');"
+                //tabHome.popViewController(animated: true)
+                //tabHome.pushViewController(homeVC, animated: false)
             }
 
             
