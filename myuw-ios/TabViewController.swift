@@ -26,22 +26,6 @@ class TabViewController: UITabBarController, UITabBarControllerDelegate {
         
         //Assign self for delegate for that ViewController can respond to UITabBarControllerDelegate methods
         self.delegate = self        
-        
-        // MARK: - Notification Center
-        
-        let notificationCenter = NotificationCenter.default
-        
-        // TODO: observe various phone state changes and re-auth if needed
-        
-        // app foregrounded
-        notificationCenter.addObserver(self, selector: #selector(appBecameActive), name: UIApplication.willEnterForegroundNotification, object: nil)
-        
-        // app backgrounded
-        //notificationCenter.addObserver(self, selector: #selector(appMovedToForeground), name: UIApplication.didEnterBackgroundNotification, object: nil)
-        
-        // app became active (called every time)
-        //notificationCenter.addObserver(self, selector: #selector(appBecameActive), name: UIApplication.didBecomeActiveNotification, object: nil )
-        
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -130,21 +114,7 @@ class TabViewController: UITabBarController, UITabBarControllerDelegate {
         }
     }
     
-    @objc func appBecameActive() {
-        print("App became active!")
-    
-        // force auth workflow if app is coming back to the foreground
-        // this should handle the case if session timeouts after 8hrs
-        //let authController = AuthenticationController()
-        //let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        
-        // re-set authController as rootViewController
-        //appDelegate.window!.rootViewController = authController
-                        
-    }
-    
     // MARK: - Handle deep links
-    
     func openDeepLink(url: URL) {
     
         // make sure correct scheme is being used

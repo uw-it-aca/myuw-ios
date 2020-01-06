@@ -34,7 +34,18 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-            
+        
+        // MARK: - Notification Center
+        
+        let notificationCenter = NotificationCenter.default
+        // TODO: observe various phone state changes and re-auth if needed
+        // app foregrounded
+        notificationCenter.addObserver(self, selector: #selector(appBecameActive), name: UIApplication.willEnterForegroundNotification, object: nil)
+        // app backgrounded
+        //notificationCenter.addObserver(self, selector: #selector(appMovedToForeground), name: UIApplication.didEnterBackgroundNotification, object: nil)
+        // app became active (called every time)
+        //notificationCenter.addObserver(self, selector: #selector(appBecameActive), name: UIApplication.didBecomeActiveNotification, object: nil )
+        
         // MARK: - Large title display mode and preference
         self.navigationItem.largeTitleDisplayMode = .always
         self.navigationController?.navigationBar.prefersLargeTitles = true
@@ -97,8 +108,15 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
     }
     */
     
+    @objc func appBecameActive() {
+        print("appBecameActive")
+        activityIndicator.isHidden = false
+        webView.reload()
+    }
+    
     @objc func refreshWebView(_ sender: UIRefreshControl) {
         print("refreshWebView")
+        activityIndicator.isHidden = false
         webView.reload()
         sender.endRefreshing()
     }
