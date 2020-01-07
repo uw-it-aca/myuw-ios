@@ -11,6 +11,7 @@ import AppAuth
 
 //  From myuw.plist
 var appHost = ""
+
 //  From Shibboleth iDP via OIDC
 var userAffiliations = [] as NSArray
 var userNetID = ""
@@ -19,6 +20,8 @@ var userNetID = ""
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+    
+    // property of the app's AppDelegate (appAuth)
     var currentAuthorizationFlow: OIDExternalUserAgentSession?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
@@ -53,8 +56,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         userNetID = "usernetid"
         
         // playing around with 2 implementations of auth controllers
-        //let mainController = AuthenticationController()
-        let mainController = TabViewController()
+        let mainController = AppAuthTest()
+        //let mainController = TabViewController()
 
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.makeKeyAndVisible()
@@ -66,6 +69,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     // Handle deep links myuwapp://page
+    /*
     func application(_ application: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:] ) -> Bool {
         
         print("app delegate deep link activated")
@@ -78,7 +82,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         (window!.rootViewController as? TabViewController)?.openDeepLink(url: url)
     
         return true
-    }
+    }*/
+    
+    // handle appauth
+    func application(_ application: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
+
+       if let authorizationFlow = self.currentAuthorizationFlow, authorizationFlow.resumeExternalUserAgentFlow(with: url) {
+           self.currentAuthorizationFlow = nil
+           return true
+       }
+
+       return false
+   }
+    
 
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
