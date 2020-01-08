@@ -12,8 +12,8 @@ import UIKit
 typealias PostRegistrationCallback = (_ configuration: OIDServiceConfiguration?, _ registrationResponse: OIDRegistrationResponse?) -> Void
 
 let kIssuer: String = "https://accounts.google.com";
-let kClientID: String? = "xxxxxxxxxxxxx"
-let kRedirectURI: String = "xxxxxxxxxxxxxx:/";
+let kClientID: String? = "71857157195-2vnggj0v9jgagho3ibg6nrv4geob2opg.apps.googleusercontent.com"
+let kRedirectURI: String = "com.googleusercontent.apps.71857157195-2vnggj0v9jgagho3ibg6nrv4geob2opg:/";
 let kAppAuthExampleAuthStateKey: String = "authState";
 
 class AppAuthTest: UIViewController {
@@ -225,7 +225,7 @@ extension AppAuthTest {
         view = UIView()
         view.backgroundColor = .white
         
-        let label = UILabel(frame: CGRect(x: 0, y: 0, width: 200, height: 21))
+        let label = UILabel(frame: CGRect(x: 0, y: 0, width: 400, height: 100))
         label.center = CGPoint(x: 160, y: 285)
         label.textAlignment = .center
         label.text = "You are NOT authenticated!"
@@ -239,13 +239,27 @@ extension AppAuthTest {
 
         self.view.addSubview(button)
         
-        //var isAuthorized = self.authState?.lastAuthorizationResponse.authorizationCode != nil && !((self.authState?.lastTokenResponse) != nil)
-
         print("authState?.isAuthorized...", self.authState?.isAuthorized as Any)
         
         if (self.authState?.isAuthorized ?? false) {
-            label.text = "You are authenticated!"
+            label.text = "You are authenticated! Redirecting"
             button.setTitle("Re-Login", for: .normal)
+            
+            // delay for 2 secs
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                
+                // set global user attributes from the oidc response here...
+                userAffiliations = ["student", "seattle", "undergrad"]
+                userNetID = "getauthusername"
+                
+                // Code you want to be delayed
+                let tabController = TabViewController()
+                let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                // set tabControlleer as rootViewController after simulating the user logged in
+                appDelegate.window!.rootViewController = tabController
+            }
+            
+            
         } else {
             authWithAutoCodeExchange()
         }
