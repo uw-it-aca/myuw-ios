@@ -12,8 +12,8 @@ import UIKit
 typealias PostRegistrationCallback = (_ configuration: OIDServiceConfiguration?, _ registrationResponse: OIDRegistrationResponse?) -> Void
 
 let kIssuer: String = "https://accounts.google.com";
-let kClientID: String? = "xxxxxxxx"
-let kRedirectURI: String = "xxxxxx:/";
+let kClientID: String? = "xxxxxxxxxxxxx"
+let kRedirectURI: String = "xxxxxxxxxxxxxx:/";
 let kAppAuthExampleAuthStateKey: String = "authState";
 
 class AppAuthTest: UIViewController {
@@ -31,9 +31,10 @@ class AppAuthTest: UIViewController {
     
     @objc func buttonAction(sender: UIButton!) {
       print("Button tapped")
+      authWithAutoCodeExchange()
     }
     
-    @objc func authWithAutoCodeExchange(sender: UIButton!) {
+    func authWithAutoCodeExchange() {
         
         print("authWithAutoCodeExchange")
         
@@ -234,7 +235,7 @@ extension AppAuthTest {
         let button = UIButton(frame: CGRect(x: 100, y: 100, width: 180, height: 50))
         button.backgroundColor = .purple
         button.setTitle("Login to MyUW", for: .normal)
-        button.addTarget(self, action: #selector(authWithAutoCodeExchange), for: .touchUpInside)
+        button.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
 
         self.view.addSubview(button)
         
@@ -245,6 +246,8 @@ extension AppAuthTest {
         if (self.authState?.isAuthorized ?? false) {
             label.text = "You are authenticated!"
             button.setTitle("Re-Login", for: .normal)
+        } else {
+            authWithAutoCodeExchange()
         }
         
         
