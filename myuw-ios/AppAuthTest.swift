@@ -173,15 +173,10 @@ extension AppAuthTest {
         print("saveState")
         
         var data: Data? = nil
-
-        if let authState = self.authState {
-            data = NSKeyedArchiver.archivedData(withRootObject: authState)
-        }
         
-        /*
         if let authState = self.authState {
             data = try? NSKeyedArchiver.archivedData(withRootObject: authState, requiringSecureCoding: false)
-        }*/
+        }
         
         UserDefaults.standard.set(data, forKey: kAppAuthExampleAuthStateKey)
         UserDefaults.standard.synchronize()
@@ -194,16 +189,11 @@ extension AppAuthTest {
            guard let data = UserDefaults.standard.object(forKey: kAppAuthExampleAuthStateKey) as? Data else {
                return
            }
-
-           if let authState = NSKeyedUnarchiver.unarchiveObject(with: data) as? OIDAuthState {
-               self.setAuthState(authState)
-           }
            
-        /*
            if let authState = try? NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(data) as? OIDAuthState {
                self.setAuthState(authState)
            }
-         */
+         
        }
     
     func setAuthState(_ authState: OIDAuthState?) {
