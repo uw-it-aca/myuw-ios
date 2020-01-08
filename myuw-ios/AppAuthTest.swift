@@ -12,8 +12,8 @@ import UIKit
 typealias PostRegistrationCallback = (_ configuration: OIDServiceConfiguration?, _ registrationResponse: OIDRegistrationResponse?) -> Void
 
 let kIssuer: String = "https://accounts.google.com";
-let kClientID: String? = "xxxxxx"
-let kRedirectURI: String = "xxxxx:/";
+let kClientID: String? = "xxxxxxxx"
+let kRedirectURI: String = "xxxxxx:/";
 let kAppAuthExampleAuthStateKey: String = "authState";
 
 class AppAuthTest: UIViewController {
@@ -26,12 +26,14 @@ class AppAuthTest: UIViewController {
         
         self.loadState()
         self.updateUI()
-        
-        //self.authWithAutoCodeExchange()
 
     }
     
-    func authWithAutoCodeExchange() {
+    @objc func buttonAction(sender: UIButton!) {
+      print("Button tapped")
+    }
+    
+    @objc func authWithAutoCodeExchange(sender: UIButton!) {
         
         print("authWithAutoCodeExchange")
         
@@ -52,11 +54,11 @@ class AppAuthTest: UIViewController {
             }
 
             print("Got configuration: \(config)")
-
+            
             if let clientId = kClientID {
                 self.doAuthWithAutoCodeExchange(configuration: config, clientID: clientId, clientSecret: nil)
             } else {
-                /*
+                
                 self.doClientRegistration(configuration: config) { configuration, response in
 
                     guard let configuration = configuration, let clientID = response?.clientID else {
@@ -68,12 +70,12 @@ class AppAuthTest: UIViewController {
                                                     clientID: clientID,
                                                     clientSecret: response?.clientSecret)
                 }
-                */
+            
             }
         }
     }
     
-    /*
+    
     func doClientRegistration(configuration: OIDServiceConfiguration, callback: @escaping PostRegistrationCallback) {
         
         print("doClientRegistration")
@@ -105,7 +107,7 @@ class AppAuthTest: UIViewController {
                 self.setAuthState(nil)
             }
         }
-    }*/
+    }
     
     func doAuthWithAutoCodeExchange(configuration: OIDServiceConfiguration, clientID: String, clientSecret: String?) {
         
@@ -182,7 +184,6 @@ extension AppAuthTest {
         
         UserDefaults.standard.set(data, forKey: kAppAuthExampleAuthStateKey)
         UserDefaults.standard.synchronize()
-        print(UserDefaults.standard)
     }
     
     func loadState() {
@@ -226,19 +227,27 @@ extension AppAuthTest {
         let label = UILabel(frame: CGRect(x: 0, y: 0, width: 200, height: 21))
         label.center = CGPoint(x: 160, y: 285)
         label.textAlignment = .center
+        label.text = "You are NOT authenticated!"
     
         view.addSubview(label)
+        
+        let button = UIButton(frame: CGRect(x: 100, y: 100, width: 180, height: 50))
+        button.backgroundColor = .purple
+        button.setTitle("Login to MyUW", for: .normal)
+        button.addTarget(self, action: #selector(authWithAutoCodeExchange), for: .touchUpInside)
 
+        self.view.addSubview(button)
+        
         //var isAuthorized = self.authState?.lastAuthorizationResponse.authorizationCode != nil && !((self.authState?.lastTokenResponse) != nil)
 
-        print("isAuthorized...", self.authState?.isAuthorized)
+        print("authState?.isAuthorized...", self.authState?.isAuthorized as Any)
         
         if (self.authState?.isAuthorized ?? false) {
             label.text = "You are authenticated!"
-        } else {
-            label.text = "You are NOT authenticated!"
-            self.authWithAutoCodeExchange()
+            button.setTitle("Re-Login", for: .normal)
         }
+        
+        
                 
     }
 

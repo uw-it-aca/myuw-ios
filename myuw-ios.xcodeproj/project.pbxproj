@@ -18,11 +18,9 @@
 		854EE09822F0F9A30042381A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 854EE09622F0F9A30042381A /* LaunchScreen.storyboard */; };
 		854EE0A322F0F9A30042381A /* myuw_iosTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 854EE0A222F0F9A30042381A /* myuw_iosTests.swift */; };
 		854EE0AE22F0F9A30042381A /* myuw_iosUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 854EE0AD22F0F9A30042381A /* myuw_iosUITests.swift */; };
-		8591220E23A417450012749E /* AppAuth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8591220C23A417450012749E /* AppAuth.framework */; };
-		8591220F23A417450012749E /* AppAuth.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8591220C23A417450012749E /* AppAuth.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		8591221023A417450012749E /* AppAuthCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8591220D23A417450012749E /* AppAuthCore.framework */; };
-		8591221123A417450012749E /* AppAuthCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8591220D23A417450012749E /* AppAuthCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		85A7541A23C508CD003C8380 /* AppAuthTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A7541923C508CD003C8380 /* AppAuthTest.swift */; };
+		85A7542023C650A8003C8380 /* AppAuth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 85A7541F23C650A8003C8380 /* AppAuth.framework */; };
+		85A7542123C650A8003C8380 /* AppAuth.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 85A7541F23C650A8003C8380 /* AppAuth.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		85B147A22368CB0700DE3BFA /* TabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B147A12368CB0700DE3BFA /* TabViewController.swift */; };
 		85B147A42368CC6500DE3BFA /* AccountsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B147A32368CC6500DE3BFA /* AccountsViewController.swift */; };
 		85B147A62368CCF200DE3BFA /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B147A52368CCF200DE3BFA /* CalendarViewController.swift */; };
@@ -55,14 +53,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		8591221223A417450012749E /* Embed Frameworks */ = {
+		85A7541E23C6508A003C8380 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				8591220F23A417450012749E /* AppAuth.framework in Embed Frameworks */,
-				8591221123A417450012749E /* AppAuthCore.framework in Embed Frameworks */,
+				85A7542123C650A8003C8380 /* AppAuth.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -87,9 +84,8 @@
 		854EE0A922F0F9A30042381A /* myuw-iosUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "myuw-iosUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		854EE0AD22F0F9A30042381A /* myuw_iosUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = myuw_iosUITests.swift; sourceTree = "<group>"; };
 		854EE0AF22F0F9A30042381A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		8591220C23A417450012749E /* AppAuth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppAuth.framework; path = Carthage/Build/iOS/AppAuth.framework; sourceTree = "<group>"; };
-		8591220D23A417450012749E /* AppAuthCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppAuthCore.framework; path = Carthage/Build/iOS/AppAuthCore.framework; sourceTree = "<group>"; };
 		85A7541923C508CD003C8380 /* AppAuthTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppAuthTest.swift; sourceTree = "<group>"; };
+		85A7541F23C650A8003C8380 /* AppAuth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppAuth.framework; path = Carthage/Build/iOS/AppAuth.framework; sourceTree = "<group>"; };
 		85B147A12368CB0700DE3BFA /* TabViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabViewController.swift; sourceTree = "<group>"; };
 		85B147A32368CC6500DE3BFA /* AccountsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountsViewController.swift; sourceTree = "<group>"; };
 		85B147A52368CCF200DE3BFA /* CalendarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
@@ -110,8 +106,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8591220E23A417450012749E /* AppAuth.framework in Frameworks */,
-				8591221023A417450012749E /* AppAuthCore.framework in Frameworks */,
+				85A7542023C650A8003C8380 /* AppAuth.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -205,8 +200,7 @@
 		8591220B23A417450012749E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				8591220C23A417450012749E /* AppAuth.framework */,
-				8591220D23A417450012749E /* AppAuthCore.framework */,
+				85A7541F23C650A8003C8380 /* AppAuth.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -221,7 +215,7 @@
 				854EE08622F0F9A20042381A /* Sources */,
 				854EE08722F0F9A20042381A /* Frameworks */,
 				854EE08822F0F9A20042381A /* Resources */,
-				8591221223A417450012749E /* Embed Frameworks */,
+				85A7541E23C6508A003C8380 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
