@@ -10,6 +10,11 @@ import UIKit
 import WebKit
 import AppAuth // import just to test if framework is installed
 
+// singleton class for a shared WKProcessPool
+class ProcessPool {
+    static var sharedPool = WKProcessPool()
+}
+
 class CustomWebViewController: UIViewController, WKNavigationDelegate {
     
     // var deepAction = ""
