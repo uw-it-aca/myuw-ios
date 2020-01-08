@@ -9,11 +9,6 @@
 import UIKit
 import WebKit
 
-// singleton class for a shared WKProcessPool
-class ProcessPool {
-    static var sharedPool = WKProcessPool()
-}
-
 class AuthenticationController: UIViewController, WKNavigationDelegate {
     
     var webView: WKWebView!

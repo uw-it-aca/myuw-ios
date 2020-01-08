@@ -245,6 +245,7 @@ extension AppAuthTest {
             label.text = "You are authenticated! Redirecting"
             button.setTitle("Re-Login", for: .normal)
             
+                        
             // delay for 2 secs
             DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
                 
