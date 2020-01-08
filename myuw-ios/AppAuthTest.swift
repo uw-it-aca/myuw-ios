@@ -12,8 +12,9 @@ import UIKit
 typealias PostRegistrationCallback = (_ configuration: OIDServiceConfiguration?, _ registrationResponse: OIDRegistrationResponse?) -> Void
 
 let kIssuer: String = "https://accounts.google.com";
-let kClientID: String? = "xxxxxxxxxxxxx"
-let kRedirectURI: String = "xxxxxxxxxxxxxx:/";
+let kClientID: String? = "xxxxxxxxxxxxxx"
+// can also use reverse DNS notion of the client ID for kRedirectURI
+let kRedirectURI: String = "edu.uw.myuw-ios:/";
 let kAppAuthExampleAuthStateKey: String = "authState";
 
 class AppAuthTest: UIViewController {
