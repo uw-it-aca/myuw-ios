@@ -115,10 +115,18 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
     */
     
     @objc func appBecameActive() {
+        
         print("appBecameActive")
-        activityIndicator.isHidden = false
-        activityIndicator.startAnimating()
-        webView.reload()
+        //activityIndicator.isHidden = false
+        //activityIndicator.startAnimating()
+        //webView.reload()
+        
+        // go through appAuth controller when foregrounding
+        let mainController = AppAuthTest()
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        // set appAuth controller as rootViewController
+        appDelegate.window!.rootViewController = mainController
+        
     }
     
     @objc func refreshWebView(_ sender: UIRefreshControl) {

@@ -242,6 +242,7 @@ class AppAuthTest: UIViewController {
 extension AppAuthTest: OIDAuthStateChangeDelegate, OIDAuthStateErrorDelegate {
 
     func didChange(_ state: OIDAuthState) {
+        print("didChange")
         self.stateChanged()
     }
 
@@ -272,15 +273,15 @@ extension AppAuthTest {
         
         print("loadState")
         
-           guard let data = UserDefaults.standard.object(forKey: kAppAuthExampleAuthStateKey) as? Data else {
-               return
-           }
-           
-           if let authState = try? NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(data) as? OIDAuthState {
-               self.setAuthState(authState)
-           }
+        guard let data = UserDefaults.standard.object(forKey: kAppAuthExampleAuthStateKey) as? Data else {
+            return
+        }
+
+        if let authState = try? NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(data) as? OIDAuthState {
+            self.setAuthState(authState)
+        }
          
-       }
+    }
     
     func setAuthState(_ authState: OIDAuthState?) {
         
@@ -327,7 +328,7 @@ extension AppAuthTest {
         if (self.authState?.isAuthorized ?? false) {
             label.text = "You are authenticated! Redirecting"
             button.setTitle("Re-Login", for: .normal)
-            
+                        
             // save the accessToken in the singleton process pool
             ProcessPool.myToken = (self.authState?.lastTokenResponse?.accessToken)!
             
@@ -356,8 +357,9 @@ extension AppAuthTest {
     }
 
     func stateChanged() {
+        print("stateChanged")
         self.saveState()
-        self.updateUI()
+        //self.updateUI()
     }
     
 }
