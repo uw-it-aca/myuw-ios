@@ -334,6 +334,10 @@ extension AppAuthTest {
             // delay for 2 secs
             DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
                 
+                //TODO: decode the idToken to get basic user info in order to build tabs and get username (netid)
+                let idTokenClaims = self.getIdTokenClaims(idToken: self.authState?.lastTokenResponse?.idToken ?? "") ?? Data()
+                print("ID token claims: \(String(describing: String(bytes: idTokenClaims, encoding: .utf8)))")
+                
                 // set global user attributes from the oidc response here...
                 userAffiliations = ["student", "seattle", "undergrad"]
                 userNetID = "getauthusername"
@@ -361,4 +365,36 @@ extension AppAuthTest {
         self.updateUI()
     }
     
+}
+
+// MARK: ID Token claims
+extension AppAuthTest {
+   func getIdTokenClaims(idToken: String?) -> Data? {
+       // Decoding ID token claims.
+
+       var idTokenClaims: Data?
+
+       if let jwtParts = idToken?.split(separator: "."), jwtParts.count > 1 {
+           let claimsPart = String(jwtParts[1])
+
+           let claimsPartPadded = padBase64Encoded(claimsPart)
+
+           idTokenClaims = Data(base64Encoded: claimsPartPadded)
+       }
+
+       return idTokenClaims
+   }
+
+   /**
+   Completes base64Encoded string to multiple of 4 to allow for decoding with NSData.
+   */
+   func padBase64Encoded(_ base64Encoded: String) -> String {
+       let remainder = base64Encoded.count % 4
+
+       if remainder > 0 {
+           return base64Encoded.padding(toLength: base64Encoded.count + 4 - remainder, withPad: "=", startingAt: 0)
+       }
+
+       return base64Encoded
+   }
 }
