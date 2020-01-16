@@ -12,7 +12,7 @@ import AppAuth // import just to test if framework is installed
 
 // singleton class for a shared WKProcessPool
 class ProcessPool {
-    static var myToken = String()
+    static var idToken = String()
     static var sharedPool = WKProcessPool()
 }
 
@@ -169,7 +169,7 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
         
         let url = webView.url?.absoluteURL
         print("webview url: ", url as Any)
-        print("webview appauth token: ", ProcessPool.myToken)
+        print("webview appauth idToken: ", ProcessPool.idToken)
         
         // handle deep actions
         /*

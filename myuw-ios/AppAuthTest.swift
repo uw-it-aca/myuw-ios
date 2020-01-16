@@ -318,11 +318,10 @@ extension AppAuthTest {
         
         print("authState?.isAuthorized...", self.authState?.isAuthorized as Any)
         print("authState?.lastTokenResponse.idToken...", self.authState?.lastTokenResponse?.idToken as Any)
-        print("authState?.lastTokenResponse.accessToken...", self.authState?.lastTokenResponse?.accessToken as Any)
         
-        // TODO: pass a token in the webview request header, from the myuw code... validate the idToken and set
-        // the Django remote_user based on the validated user. Since the accessToken is short-lived, the validation and setting
-        // of remote_user will need to happen continuously, otherwise, the accessToken will become invalid, and the user will
+        // TODO: pass a idToken in the webview request header, from the myuw code... validate the idToken and set
+        // the Django remote_user based on the validated user. Since the idToken is short-lived, the validation and setting
+        // of remote_user will need to happen continuously, otherwise, the idToken will become invalid, and the user will
         // have to reauthenticate the app once again.
         
         if (self.authState?.isAuthorized ?? false) {
@@ -330,7 +329,7 @@ extension AppAuthTest {
             button.setTitle("Re-Login", for: .normal)
                         
             // save the accessToken in the singleton process pool
-            ProcessPool.myToken = (self.authState?.lastTokenResponse?.accessToken)!
+            ProcessPool.idToken = (self.authState?.lastTokenResponse?.idToken)!
             
             // delay for 2 secs
             DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
@@ -359,7 +358,7 @@ extension AppAuthTest {
     func stateChanged() {
         print("stateChanged")
         self.saveState()
-        //self.updateUI()
+        self.updateUI()
     }
     
 }
