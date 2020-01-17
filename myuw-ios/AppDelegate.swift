@@ -15,7 +15,7 @@ var clientID = ""
 
 //  From Shibboleth iDP via OIDC
 var userAffiliations = [] as NSArray
-var userNetID = ""
+var userNetID = "netid"
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
