@@ -123,9 +123,11 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
         
         // go through appAuth controller when foregrounding
         let mainController = AppAuthTest()
+        let nc = UINavigationController(rootViewController: mainController)
+        
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         // set appAuth controller as rootViewController
-        appDelegate.window!.rootViewController = mainController
+        appDelegate.window!.rootViewController = nc
         
     }
     

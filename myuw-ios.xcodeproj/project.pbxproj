@@ -13,7 +13,6 @@
 		8534DD1D239847CA00914045 /* sample.myuw.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8534DD1C239847CA00914045 /* sample.myuw.plist */; };
 		8534DD1F2398503500914045 /* myuw.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8534DD1E2398503500914045 /* myuw.plist */; };
 		854EE08E22F0F9A20042381A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 854EE08D22F0F9A20042381A /* AppDelegate.swift */; };
-		854EE09022F0F9A20042381A /* AuthenticationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 854EE08F22F0F9A20042381A /* AuthenticationController.swift */; };
 		854EE09522F0F9A30042381A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 854EE09422F0F9A30042381A /* Assets.xcassets */; };
 		854EE09822F0F9A30042381A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 854EE09622F0F9A30042381A /* LaunchScreen.storyboard */; };
 		854EE0A322F0F9A30042381A /* myuw_iosTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 854EE0A222F0F9A30042381A /* myuw_iosTests.swift */; };
@@ -74,7 +73,6 @@
 		8534DD1E2398503500914045 /* myuw.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = myuw.plist; sourceTree = "<group>"; };
 		854EE08A22F0F9A20042381A /* myuw-ios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "myuw-ios.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		854EE08D22F0F9A20042381A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		854EE08F22F0F9A20042381A /* AuthenticationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationController.swift; sourceTree = "<group>"; };
 		854EE09422F0F9A30042381A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		854EE09722F0F9A30042381A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		854EE09922F0F9A30042381A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -154,7 +152,6 @@
 				85B15BA0236CDF7B00857D13 /* myuw-ios.entitlements */,
 				854EE08D22F0F9A20042381A /* AppDelegate.swift */,
 				85A7541923C508CD003C8380 /* AppAuthTest.swift */,
-				854EE08F22F0F9A20042381A /* AuthenticationController.swift */,
 				85B147A12368CB0700DE3BFA /* TabViewController.swift */,
 				8534DCD9237F27E100914045 /* CustomWebViewController.swift */,
 				85CDD4E223723A4900A3CBBA /* CustomVisitController.swift */,
@@ -346,7 +343,6 @@
 				85B147AA2368CD6E00DE3BFA /* AcademicsViewController.swift in Sources */,
 				85CDD4E323723A4900A3CBBA /* CustomVisitController.swift in Sources */,
 				85B147A22368CB0700DE3BFA /* TabViewController.swift in Sources */,
-				854EE09022F0F9A20042381A /* AuthenticationController.swift in Sources */,
 				85A7541A23C508CD003C8380 /* AppAuthTest.swift in Sources */,
 				85B147A42368CC6500DE3BFA /* AccountsViewController.swift in Sources */,
 				85B147AE2368CE7600DE3BFA /* HomeViewController.swift in Sources */,

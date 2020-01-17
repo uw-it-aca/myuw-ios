@@ -53,16 +53,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             UINavigationBar.appearance().isTranslucent = false
         }
         
-        // playing around with 2 implementations of auth controllers
+        // set AppAuthTest controller as the main controller for the application
         let mainController = AppAuthTest()
-        //let mainController = TabViewController()
 
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.makeKeyAndVisible()
         
-        // set the auth controller as the root controller on app load
-        window?.rootViewController = mainController
+        let nc = UINavigationController(rootViewController: mainController)
         
+        // set the main controller as the root controller on app load
+        window?.rootViewController = nc
+
         return true
     }
     

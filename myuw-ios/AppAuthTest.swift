@@ -21,10 +21,36 @@ class AppAuthTest: UIViewController {
     
     // property of the containing class
     private var authState: OIDAuthState?
-
+    
+    var label = UILabel()
+    var button = UIButton()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // MARK: - Large title display mode and preference
+        self.navigationItem.largeTitleDisplayMode = .always
+        self.navigationController?.navigationBar.prefersLargeTitles = true
+        self.navigationController?.navigationBar.isTranslucent = false
+        
+        view.backgroundColor = .white
+        
+        self.title = "MyUW"
+        
+        label = UILabel(frame: CGRect(x: 0, y: 0, width: 400, height: 100))
+        label.center = CGPoint(x: 160, y: 285)
+        label.textAlignment = .center
+        label.text = "You are NOT authenticated!"
+
+        view.addSubview(label)
+
+        button = UIButton(frame: CGRect(x: 100, y: 100, width: 180, height: 50))
+        button.backgroundColor = .purple
+        button.setTitle("Login to MyUW", for: .normal)
+        button.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
+
+        self.view.addSubview(button)
+    
         self.loadState()
         self.updateUI()
 
@@ -298,30 +324,13 @@ extension AppAuthTest {
     func updateUI() {
     
         print("updateUI")
-        
-        view = UIView()
-        view.backgroundColor = .white
-        
-        let label = UILabel(frame: CGRect(x: 0, y: 0, width: 400, height: 100))
-        label.center = CGPoint(x: 160, y: 285)
-        label.textAlignment = .center
-        label.text = "You are NOT authenticated!"
     
-        view.addSubview(label)
-        
-        let button = UIButton(frame: CGRect(x: 100, y: 100, width: 180, height: 50))
-        button.backgroundColor = .purple
-        button.setTitle("Login to MyUW", for: .normal)
-        button.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
-
-        self.view.addSubview(button)
-                
         // TODO: pass a idToken in the webview request header, from the myuw code... validate the idToken and set
         // the Django remote_user based on the validated user. Since the idToken is short-lived, the validation and setting
         // of remote_user will need to happen continuously, otherwise, the idToken will become invalid, and the user will
         // have to reauthenticate the app once again.
                 
-        if let authState = self.authState {
+        if self.authState != nil {
             
             label.text = "You are authenticated! Redirecting"
             button.setTitle("Re-Login", for: .normal)
@@ -331,14 +340,9 @@ extension AppAuthTest {
             
             // delay for 2 secs
             DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-                
-                //TODO: decode the idToken to get basic user info in order to build tabs and get username (netid)
-                //let idTokenClaims = self.getIdTokenClaims(idToken: self.authState?.lastTokenResponse?.idToken ?? "") ?? Data()
-                //print("ID token claims: \(String(describing: String(bytes: idTokenClaims, encoding: .utf8)))")
-                
+               
                 //TODO: get user info from token and redirect
                 self.getUserInfo()
-                
             }
             
         } else {
@@ -359,13 +363,11 @@ extension AppAuthTest {
     
 }
 
-// MARK: ID Token claims
+// MARK: User Info and app redirect
 extension AppAuthTest {
    
     func getUserInfo() {
-        
-        self.authState?.lastAuthorizationResponse.request.configuration.discoveryDocument?.userinfoEndpoint
-        
+                
         guard let userinfoEndpoint = self.authState?.lastAuthorizationResponse.request.configuration.discoveryDocument?.userinfoEndpoint else {
             print("Userinfo endpoint not declared in discovery document")
             return
@@ -443,16 +445,16 @@ extension AppAuthTest {
                     }
 
                     if let json = json {
+                        
                         print("Success: \(json)")
                         
                         // set global user attributes from the oidc response here...
                         userAffiliations = ["student", "seattle", "undergrad"]
                         userNetID = (json["email"] as! String).split{$0 == "@"}.map(String.init)[0]
                         
-                        // Code you want to be delayed
+                        // set tabControlleer as rootViewController after getting user info
                         let tabController = TabViewController()
                         let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                        // set tabControlleer as rootViewController after simulating the user logged in
                         appDelegate.window!.rootViewController = tabController
                     
                     }
