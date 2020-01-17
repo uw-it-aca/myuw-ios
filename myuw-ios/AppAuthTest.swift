@@ -175,7 +175,7 @@ class AppAuthTest: UIViewController {
         let request = OIDAuthorizationRequest(configuration: configuration,
                                               clientId: clientID,
                                               clientSecret: clientSecret,
-                                              scopes: [OIDScopeOpenID, OIDScopeProfile],
+                                              scopes: [OIDScopeOpenID, OIDScopeProfile, OIDScopeEmail],
                                               redirectURL: redirectURI,
                                               responseType: OIDResponseTypeCode,
                                               additionalParameters: nil)
@@ -213,7 +213,7 @@ class AppAuthTest: UIViewController {
         let request = OIDAuthorizationRequest(configuration: configuration,
                                               clientId: clientID,
                                               clientSecret: clientSecret,
-                                              scopes: [OIDScopeOpenID, OIDScopeProfile],
+                                              scopes: [OIDScopeOpenID, OIDScopeProfile, OIDScopeEmail],
                                               redirectURL: redirectURI,
                                               responseType: OIDResponseTypeCode,
                                               additionalParameters: nil)
@@ -315,16 +315,14 @@ extension AppAuthTest {
         button.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
 
         self.view.addSubview(button)
-        
-        print("authState?.isAuthorized...", self.authState?.isAuthorized as Any)
-        print("authState?.lastTokenResponse.idToken...", self.authState?.lastTokenResponse?.idToken as Any)
-        
+                
         // TODO: pass a idToken in the webview request header, from the myuw code... validate the idToken and set
         // the Django remote_user based on the validated user. Since the idToken is short-lived, the validation and setting
         // of remote_user will need to happen continuously, otherwise, the idToken will become invalid, and the user will
         // have to reauthenticate the app once again.
-        
-        if (self.authState?.isAuthorized ?? false) {
+                
+        if let authState = self.authState {
+            
             label.text = "You are authenticated! Redirecting"
             button.setTitle("Re-Login", for: .normal)
                         
@@ -335,22 +333,16 @@ extension AppAuthTest {
             DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
                 
                 //TODO: decode the idToken to get basic user info in order to build tabs and get username (netid)
-                let idTokenClaims = self.getIdTokenClaims(idToken: self.authState?.lastTokenResponse?.idToken ?? "") ?? Data()
-                print("ID token claims: \(String(describing: String(bytes: idTokenClaims, encoding: .utf8)))")
+                //let idTokenClaims = self.getIdTokenClaims(idToken: self.authState?.lastTokenResponse?.idToken ?? "") ?? Data()
+                //print("ID token claims: \(String(describing: String(bytes: idTokenClaims, encoding: .utf8)))")
                 
-                // set global user attributes from the oidc response here...
-                userAffiliations = ["student", "seattle", "undergrad"]
-                userNetID = "getauthusername"
+                //TODO: get user info from token and redirect
+                self.getUserInfo()
                 
-                // Code you want to be delayed
-                let tabController = TabViewController()
-                let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                // set tabControlleer as rootViewController after simulating the user logged in
-                appDelegate.window!.rootViewController = tabController
             }
             
-            
         } else {
+            
             authWithAutoCodeExchange()
             //authNoCodeExchange()
         }
@@ -369,32 +361,105 @@ extension AppAuthTest {
 
 // MARK: ID Token claims
 extension AppAuthTest {
-   func getIdTokenClaims(idToken: String?) -> Data? {
-       // Decoding ID token claims.
+   
+    func getUserInfo() {
+        
+        self.authState?.lastAuthorizationResponse.request.configuration.discoveryDocument?.userinfoEndpoint
+        
+        guard let userinfoEndpoint = self.authState?.lastAuthorizationResponse.request.configuration.discoveryDocument?.userinfoEndpoint else {
+            print("Userinfo endpoint not declared in discovery document")
+            return
+        }
 
-       var idTokenClaims: Data?
+        print("Performing userinfo request")
 
-       if let jwtParts = idToken?.split(separator: "."), jwtParts.count > 1 {
-           let claimsPart = String(jwtParts[1])
+        let currentAccessToken: String? = self.authState?.lastTokenResponse?.accessToken
 
-           let claimsPartPadded = padBase64Encoded(claimsPart)
+        self.authState?.performAction() { (accessToken, idToken, error) in
 
-           idTokenClaims = Data(base64Encoded: claimsPartPadded)
-       }
+            if error != nil  {
+                print("Error fetching fresh tokens: \(error?.localizedDescription ?? "ERROR")")
+                return
+            }
 
-       return idTokenClaims
-   }
+            guard let accessToken = accessToken else {
+                print("Error getting accessToken")
+                return
+            }
 
-   /**
-   Completes base64Encoded string to multiple of 4 to allow for decoding with NSData.
-   */
-   func padBase64Encoded(_ base64Encoded: String) -> String {
-       let remainder = base64Encoded.count % 4
+            if currentAccessToken != accessToken {
+                print("Access token was refreshed automatically (\(currentAccessToken ?? "CURRENT_ACCESS_TOKEN") to \(accessToken))")
+            } else {
+                print("Access token was fresh and not updated \(accessToken)")
+            }
 
-       if remainder > 0 {
-           return base64Encoded.padding(toLength: base64Encoded.count + 4 - remainder, withPad: "=", startingAt: 0)
-       }
+            var urlRequest = URLRequest(url: userinfoEndpoint)
+            urlRequest.allHTTPHeaderFields = ["Authorization":"Bearer \(accessToken)"]
 
-       return base64Encoded
-   }
+            let task = URLSession.shared.dataTask(with: urlRequest) { data, response, error in
+
+                DispatchQueue.main.async {
+                    
+                    guard error == nil else {
+                        print("HTTP request failed \(error?.localizedDescription ?? "ERROR")")
+                        return
+                    }
+
+                    guard let response = response as? HTTPURLResponse else {
+                        print("Non-HTTP response")
+                        return
+                    }
+
+                    guard let data = data else {
+                        print("HTTP response data is empty")
+                        return
+                    }
+
+                    var json: [AnyHashable: Any]?
+
+                    do {
+                        json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
+                    } catch {
+                        print("JSON Serialization Error")
+                    }
+
+                    if response.statusCode != 200 {
+                        // server replied with an error
+                        let responseText: String? = String(data: data, encoding: String.Encoding.utf8)
+
+                        if response.statusCode == 401 {
+                            // "401 Unauthorized" generally indicates there is an issue with the authorization
+                            // grant. Puts OIDAuthState into an error state.
+                            let oauthError = OIDErrorUtilities.resourceServerAuthorizationError(withCode: 0,
+                                                                                                errorResponse: json,
+                                                                                                underlyingError: error)
+                            self.authState?.update(withAuthorizationError: oauthError)
+                            print("Authorization Error (\(oauthError)). Response: \(responseText ?? "RESPONSE_TEXT")")
+                        } else {
+                            print("HTTP: \(response.statusCode), Response: \(responseText ?? "RESPONSE_TEXT")")
+                        }
+
+                        return
+                    }
+
+                    if let json = json {
+                        print("Success: \(json)")
+                        
+                        // set global user attributes from the oidc response here...
+                        userAffiliations = ["student", "seattle", "undergrad"]
+                        userNetID = (json["email"] as! String).split{$0 == "@"}.map(String.init)[0]
+                        
+                        // Code you want to be delayed
+                        let tabController = TabViewController()
+                        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                        // set tabControlleer as rootViewController after simulating the user logged in
+                        appDelegate.window!.rootViewController = tabController
+                    
+                    }
+                }
+            }
+
+            task.resume()
+        }
+    }
 }

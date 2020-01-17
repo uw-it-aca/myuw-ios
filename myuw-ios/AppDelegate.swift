@@ -53,10 +53,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             UINavigationBar.appearance().isTranslucent = false
         }
         
-        // mock user information... assume this would come from auth token
-        userAffiliations = ["student", "instructor", "seattle", "undergrad"]
-        userNetID = "usernetid"
-        
         // playing around with 2 implementations of auth controllers
         let mainController = AppAuthTest()
         //let mainController = TabViewController()
