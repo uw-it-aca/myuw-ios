@@ -312,7 +312,7 @@ extension AppAuthTest {
     func setAuthState(_ authState: OIDAuthState?) {
         
         print("setAuthState")
-        
+                
         if (self.authState == authState) {
             return;
         }
