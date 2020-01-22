@@ -23,7 +23,7 @@ class AppAuthTest: UIViewController {
     private var authState: OIDAuthState?
     
     var label = UILabel()
-    var button = UIButton()
+    var loginButton = UIBarButtonItem()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,22 +44,18 @@ class AppAuthTest: UIViewController {
 
         view.addSubview(label)
 
-        button = UIButton(frame: CGRect(x: 100, y: 100, width: 180, height: 50))
-        button.backgroundColor = .purple
-        button.setTitle("Login to MyUW", for: .normal)
-        button.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
-
-        self.view.addSubview(button)
-    
+        // add a right button in navbar programatically
+        loginButton = UIBarButtonItem(title: "Login", style: .plain, target: self, action: #selector(loginUser))
+        self.navigationItem.rightBarButtonItem  = loginButton
+        
+        // get authstate
         self.loadState()
-        self.updateUI()
 
     }
     
-    @objc func buttonAction(sender: UIButton!) {
-        print("Button tapped")
+    @objc private func loginUser(){
+        print("Login Button tapped")
         authWithAutoCodeExchange()
-        //authNoCodeExchange()
     }
     
     func authWithAutoCodeExchange() {
@@ -325,34 +321,23 @@ extension AppAuthTest {
     
         print("updateUI")
     
-        // TODO: pass a idToken in the webview request header, from the myuw code... validate the idToken and set
-        // the Django remote_user based on the validated user. Since the idToken is short-lived, the validation and setting
-        // of remote_user will need to happen continuously, otherwise, the idToken will become invalid, and the user will
-        // have to reauthenticate the app once again.
-                
         if self.authState != nil {
             
             label.text = "You are authenticated! Redirecting"
-            button.setTitle("Re-Login", for: .normal)
+            
+            loginButton.isEnabled = false
                         
-            // save the accessToken in the singleton process pool
+            // save & store the accessToken in the singleton process pool
             ProcessPool.idToken = (self.authState?.lastTokenResponse?.idToken)!
             
             // delay for 2 secs
             DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-               
                 //TODO: get user info from token and redirect
                 self.getUserInfo()
             }
             
-        } else {
-            
-            authWithAutoCodeExchange()
-            //authNoCodeExchange()
         }
-        
-        
-                
+
     }
 
     func stateChanged() {

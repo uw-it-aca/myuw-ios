@@ -32,7 +32,8 @@ class HomeViewController: CustomWebViewController {
         // define custom search button
         let searchButton = UIButton(type: .system)
         searchButton.setImage(UIImage(named: "ic_search_18"), for: .normal)
-        searchButton.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0);
+        searchButton.imageEdgeInsets = UIEdgeInsets(top: 0, left: -10, bottom: 0, right: 0);
+        searchButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: -8, bottom: 0, right: 0);
         searchButton.setTitle("Search", for: .normal)
         searchButton.sizeToFit()
         searchButton.addTarget(self, action: #selector(showSearch), for: .touchUpInside)
@@ -40,8 +41,7 @@ class HomeViewController: CustomWebViewController {
         // define custom email button
         let signOutButton = UIButton(type: .system)
         signOutButton.setImage(UIImage(named: "ic_signout_18"), for: .normal)
-        signOutButton.imageEdgeInsets = UIEdgeInsets(top: 0, left: -10, bottom: 0, right: 0);
-        signOutButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: -8, bottom: 0, right: 0);
+        signOutButton.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0);
         signOutButton.setTitle("Sign Out", for: .normal)
         signOutButton.sizeToFit()
         signOutButton.addTarget(self, action: #selector(signOut), for: .touchUpInside)
@@ -58,7 +58,7 @@ class HomeViewController: CustomWebViewController {
         
         self.navigationItem.leftBarButtonItem = userBarButtonItem
             
-        self.navigationItem.rightBarButtonItems = [searchBarButtonItem, signOutBarButtonItem]
+        self.navigationItem.rightBarButtonItems = [signOutBarButtonItem, searchBarButtonItem]
         
     }
     
