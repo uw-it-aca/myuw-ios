@@ -38,27 +38,11 @@ class HomeViewController: CustomWebViewController {
         searchButton.sizeToFit()
         searchButton.addTarget(self, action: #selector(showSearch), for: .touchUpInside)
         
-        // define custom email button
-        let signOutButton = UIButton(type: .system)
-        signOutButton.setImage(UIImage(named: "ic_signout_18"), for: .normal)
-        signOutButton.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0);
-        signOutButton.setTitle("Sign Out", for: .normal)
-        signOutButton.sizeToFit()
-        signOutButton.addTarget(self, action: #selector(signOut), for: .touchUpInside)
-                        
-        // add a user button in navbar programatically
-        //let userBarButtonItem = UIBarButtonItem(title: userNetID, style: .plain,  target: self, action: #selector(showProfile))
+        // add a user and search buttons in navbar programatically
         let userBarButtonItem = UIBarButtonItem(customView: userButton)
-        
-        //let emailBarButtonItem = UIBarButtonItem(title: "Email", style: .plain, target: self, action: #selector(showProfile))
-        let signOutBarButtonItem = UIBarButtonItem(customView: signOutButton)
-        
-        //let searchBarButtonItem = UIBarButtonItem(title: "Search", style: .plain, target: self, action: #selector(showSearch))
         let searchBarButtonItem = UIBarButtonItem(customView: searchButton)
-        
         self.navigationItem.leftBarButtonItem = userBarButtonItem
-            
-        self.navigationItem.rightBarButtonItems = [signOutBarButtonItem, searchBarButtonItem]
+        self.navigationItem.rightBarButtonItem = searchBarButtonItem
         
     }
     
