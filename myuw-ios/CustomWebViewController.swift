@@ -10,6 +10,12 @@ import UIKit
 import WebKit
 import AppAuth // import just to test if framework is installed
 
+// singleton class for a shared WKProcessPool
+class ProcessPool {
+    static var idToken = String()
+    static var sharedPool = WKProcessPool()
+}
+
 class CustomWebViewController: UIViewController, WKNavigationDelegate {
     
     // var deepAction = ""
@@ -109,10 +115,20 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
     */
     
     @objc func appBecameActive() {
+        
         print("appBecameActive")
-        activityIndicator.isHidden = false
-        activityIndicator.startAnimating()
-        webView.reload()
+        //activityIndicator.isHidden = false
+        //activityIndicator.startAnimating()
+        //webView.reload()
+        
+        // go through appAuth controller when foregrounding
+        let mainController = AppAuthTest()
+        let navController = UINavigationController(rootViewController: mainController)
+        
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        // set appAuth controller as rootViewController
+        appDelegate.window!.rootViewController = navController
+        
     }
     
     @objc func refreshWebView(_ sender: UIRefreshControl) {
@@ -154,7 +170,8 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
         didChange = true
         
         let url = webView.url?.absoluteURL
-        print("navi webview url: ", url as Any)
+        print("webview url: ", url as Any)
+        print("webview appauth idToken: ", ProcessPool.idToken)
         
         // handle deep actions
         /*

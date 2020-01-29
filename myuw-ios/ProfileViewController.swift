@@ -20,17 +20,46 @@ class ProfileViewController: CustomWebViewController {
         // override navigation title
         self.navigationItem.title = "Profile"
         
-        // prefer small titles
-        //self.navigationItem.largeTitleDisplayMode = .never
-                
         // add a right button in navbar programatically
-        let testUIBarButtonItem = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(dismissProfile))
-        self.navigationItem.rightBarButtonItem  = testUIBarButtonItem
-                
+        let closeButton = UIBarButtonItem(title: "Close", style: .plain, target: self, action: #selector(dismissProfile))
+        
+        // define custom email button
+        let signOutButton = UIButton(type: .system)
+        signOutButton.setImage(UIImage(named: "ic_signout_18"), for: .normal)
+        signOutButton.imageEdgeInsets = UIEdgeInsets(top: 0, left: -10, bottom: 0, right: 0);
+        signOutButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: -8, bottom: 0, right: 0);
+        signOutButton.setTitle("Sign Out", for: .normal)
+        signOutButton.sizeToFit()
+        signOutButton.addTarget(self, action: #selector(signOut), for: .touchUpInside)
+
+        let signOutButtonItem = UIBarButtonItem(customView: signOutButton)
+        
+        self.navigationItem.leftBarButtonItem = signOutButtonItem
+        self.navigationItem.rightBarButtonItem = closeButton
+        
     }
     
     @objc private func dismissProfile(){
         self.dismiss(animated: true, completion: nil)
+    }
+    
+    @objc func signOut() {
+        
+        let mainController = AppAuthTest()
+        
+        print("signing user out")
+        
+        // clear authstate to signout user
+        mainController.setAuthState(nil)
+        // clear state storage
+        UserDefaults.standard.removeObject(forKey: kAppAuthExampleAuthStateKey)
+        
+        let navController = UINavigationController(rootViewController: mainController)
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        // set appAuth controller as rootViewController
+        appDelegate.window!.rootViewController = navController
+        
+    
     }
 
 }

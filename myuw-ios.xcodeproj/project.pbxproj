@@ -11,18 +11,14 @@
 		852EB770237C97C7002A2357 /* NoticesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 852EB76F237C97C7002A2357 /* NoticesViewController.swift */; };
 		8534DCDA237F27E100914045 /* CustomWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8534DCD9237F27E100914045 /* CustomWebViewController.swift */; };
 		8534DD1D239847CA00914045 /* sample.myuw.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8534DD1C239847CA00914045 /* sample.myuw.plist */; };
-		8534DD1F2398503500914045 /* myuw.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8534DD1E2398503500914045 /* myuw.plist */; };
 		854EE08E22F0F9A20042381A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 854EE08D22F0F9A20042381A /* AppDelegate.swift */; };
-		854EE09022F0F9A20042381A /* AuthenticationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 854EE08F22F0F9A20042381A /* AuthenticationController.swift */; };
 		854EE09522F0F9A30042381A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 854EE09422F0F9A30042381A /* Assets.xcassets */; };
 		854EE09822F0F9A30042381A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 854EE09622F0F9A30042381A /* LaunchScreen.storyboard */; };
 		854EE0A322F0F9A30042381A /* myuw_iosTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 854EE0A222F0F9A30042381A /* myuw_iosTests.swift */; };
 		854EE0AE22F0F9A30042381A /* myuw_iosUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 854EE0AD22F0F9A30042381A /* myuw_iosUITests.swift */; };
-		8591220E23A417450012749E /* AppAuth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8591220C23A417450012749E /* AppAuth.framework */; };
-		8591220F23A417450012749E /* AppAuth.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8591220C23A417450012749E /* AppAuth.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		8591221023A417450012749E /* AppAuthCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8591220D23A417450012749E /* AppAuthCore.framework */; };
-		8591221123A417450012749E /* AppAuthCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8591220D23A417450012749E /* AppAuthCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		8591221423A41A8E0012749E /* AppAuthExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8591221323A41A8E0012749E /* AppAuthExampleViewController.swift */; };
+		85A7541A23C508CD003C8380 /* AppAuthTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A7541923C508CD003C8380 /* AppAuthTest.swift */; };
+		85A7542023C650A8003C8380 /* AppAuth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 85A7541F23C650A8003C8380 /* AppAuth.framework */; };
+		85A7542123C650A8003C8380 /* AppAuth.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 85A7541F23C650A8003C8380 /* AppAuth.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		85B147A22368CB0700DE3BFA /* TabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B147A12368CB0700DE3BFA /* TabViewController.swift */; };
 		85B147A42368CC6500DE3BFA /* AccountsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B147A32368CC6500DE3BFA /* AccountsViewController.swift */; };
 		85B147A62368CCF200DE3BFA /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B147A52368CCF200DE3BFA /* CalendarViewController.swift */; };
@@ -34,6 +30,7 @@
 		85CC319E2375E7D400F38903 /* search.css in Resources */ = {isa = PBXBuildFile; fileRef = 85CC319D2375E7D400F38903 /* search.css */; };
 		85CC31A02375F7FC00F38903 /* myuw.css in Resources */ = {isa = PBXBuildFile; fileRef = 85CC319F2375F7FC00F38903 /* myuw.css */; };
 		85CDD4E323723A4900A3CBBA /* CustomVisitController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85CDD4E223723A4900A3CBBA /* CustomVisitController.swift */; };
+		85DFFA6723DB965A008D0C9D /* myuw.plist in Resources */ = {isa = PBXBuildFile; fileRef = 85DFFA6623DB965A008D0C9D /* myuw.plist */; };
 		85F901A7235E34AE00DA0083 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F901A6235E34AE00DA0083 /* ProfileViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -55,14 +52,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		8591221223A417450012749E /* Embed Frameworks */ = {
+		85A7541E23C6508A003C8380 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				8591220F23A417450012749E /* AppAuth.framework in Embed Frameworks */,
-				8591221123A417450012749E /* AppAuthCore.framework in Embed Frameworks */,
+				85A7542123C650A8003C8380 /* AppAuth.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -74,10 +70,8 @@
 		852EB76F237C97C7002A2357 /* NoticesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticesViewController.swift; sourceTree = "<group>"; };
 		8534DCD9237F27E100914045 /* CustomWebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomWebViewController.swift; sourceTree = "<group>"; };
 		8534DD1C239847CA00914045 /* sample.myuw.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = sample.myuw.plist; sourceTree = "<group>"; };
-		8534DD1E2398503500914045 /* myuw.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = myuw.plist; sourceTree = "<group>"; };
 		854EE08A22F0F9A20042381A /* myuw-ios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "myuw-ios.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		854EE08D22F0F9A20042381A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		854EE08F22F0F9A20042381A /* AuthenticationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationController.swift; sourceTree = "<group>"; };
 		854EE09422F0F9A30042381A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		854EE09722F0F9A30042381A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		854EE09922F0F9A30042381A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -87,9 +81,8 @@
 		854EE0A922F0F9A30042381A /* myuw-iosUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "myuw-iosUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		854EE0AD22F0F9A30042381A /* myuw_iosUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = myuw_iosUITests.swift; sourceTree = "<group>"; };
 		854EE0AF22F0F9A30042381A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		8591220C23A417450012749E /* AppAuth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppAuth.framework; path = Carthage/Build/iOS/AppAuth.framework; sourceTree = "<group>"; };
-		8591220D23A417450012749E /* AppAuthCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppAuthCore.framework; path = Carthage/Build/iOS/AppAuthCore.framework; sourceTree = "<group>"; };
-		8591221323A41A8E0012749E /* AppAuthExampleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppAuthExampleViewController.swift; sourceTree = "<group>"; };
+		85A7541923C508CD003C8380 /* AppAuthTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppAuthTest.swift; sourceTree = "<group>"; };
+		85A7541F23C650A8003C8380 /* AppAuth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppAuth.framework; path = Carthage/Build/iOS/AppAuth.framework; sourceTree = "<group>"; };
 		85B147A12368CB0700DE3BFA /* TabViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabViewController.swift; sourceTree = "<group>"; };
 		85B147A32368CC6500DE3BFA /* AccountsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountsViewController.swift; sourceTree = "<group>"; };
 		85B147A52368CCF200DE3BFA /* CalendarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
@@ -102,6 +95,7 @@
 		85CC319D2375E7D400F38903 /* search.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = search.css; sourceTree = "<group>"; };
 		85CC319F2375F7FC00F38903 /* myuw.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = myuw.css; sourceTree = "<group>"; };
 		85CDD4E223723A4900A3CBBA /* CustomVisitController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomVisitController.swift; sourceTree = "<group>"; };
+		85DFFA6623DB965A008D0C9D /* myuw.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = myuw.plist; sourceTree = "<group>"; };
 		85F901A6235E34AE00DA0083 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -110,8 +104,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8591220E23A417450012749E /* AppAuth.framework in Frameworks */,
-				8591221023A417450012749E /* AppAuthCore.framework in Frameworks */,
+				85A7542023C650A8003C8380 /* AppAuth.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -158,8 +151,7 @@
 			children = (
 				85B15BA0236CDF7B00857D13 /* myuw-ios.entitlements */,
 				854EE08D22F0F9A20042381A /* AppDelegate.swift */,
-				8591221323A41A8E0012749E /* AppAuthExampleViewController.swift */,
-				854EE08F22F0F9A20042381A /* AuthenticationController.swift */,
+				85A7541923C508CD003C8380 /* AppAuthTest.swift */,
 				85B147A12368CB0700DE3BFA /* TabViewController.swift */,
 				8534DCD9237F27E100914045 /* CustomWebViewController.swift */,
 				85CDD4E223723A4900A3CBBA /* CustomVisitController.swift */,
@@ -179,7 +171,7 @@
 				85CC319D2375E7D400F38903 /* search.css */,
 				85CC319F2375F7FC00F38903 /* myuw.css */,
 				8534DD1C239847CA00914045 /* sample.myuw.plist */,
-				8534DD1E2398503500914045 /* myuw.plist */,
+				85DFFA6623DB965A008D0C9D /* myuw.plist */,
 			);
 			path = "myuw-ios";
 			sourceTree = "<group>";
@@ -205,8 +197,7 @@
 		8591220B23A417450012749E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				8591220C23A417450012749E /* AppAuth.framework */,
-				8591220D23A417450012749E /* AppAuthCore.framework */,
+				85A7541F23C650A8003C8380 /* AppAuth.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -221,7 +212,7 @@
 				854EE08622F0F9A20042381A /* Sources */,
 				854EE08722F0F9A20042381A /* Frameworks */,
 				854EE08822F0F9A20042381A /* Resources */,
-				8591221223A417450012749E /* Embed Frameworks */,
+				85A7541E23C6508A003C8380 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -320,7 +311,7 @@
 				8534DD1D239847CA00914045 /* sample.myuw.plist in Resources */,
 				85CC31A02375F7FC00F38903 /* myuw.css in Resources */,
 				85CC319E2375E7D400F38903 /* search.css in Resources */,
-				8534DD1F2398503500914045 /* myuw.plist in Resources */,
+				85DFFA6723DB965A008D0C9D /* myuw.plist in Resources */,
 				854EE09522F0F9A30042381A /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -352,8 +343,7 @@
 				85B147AA2368CD6E00DE3BFA /* AcademicsViewController.swift in Sources */,
 				85CDD4E323723A4900A3CBBA /* CustomVisitController.swift in Sources */,
 				85B147A22368CB0700DE3BFA /* TabViewController.swift in Sources */,
-				854EE09022F0F9A20042381A /* AuthenticationController.swift in Sources */,
-				8591221423A41A8E0012749E /* AppAuthExampleViewController.swift in Sources */,
+				85A7541A23C508CD003C8380 /* AppAuthTest.swift in Sources */,
 				85B147A42368CC6500DE3BFA /* AccountsViewController.swift in Sources */,
 				85B147AE2368CE7600DE3BFA /* HomeViewController.swift in Sources */,
 				85CC319C2375E38D00F38903 /* SearchViewController.swift in Sources */,

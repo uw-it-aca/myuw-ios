@@ -32,33 +32,17 @@ class HomeViewController: CustomWebViewController {
         // define custom search button
         let searchButton = UIButton(type: .system)
         searchButton.setImage(UIImage(named: "ic_search_18"), for: .normal)
-        searchButton.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0);
+        searchButton.imageEdgeInsets = UIEdgeInsets(top: 0, left: -10, bottom: 0, right: 0);
+        searchButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: -8, bottom: 0, right: 0);
         searchButton.setTitle("Search", for: .normal)
         searchButton.sizeToFit()
         searchButton.addTarget(self, action: #selector(showSearch), for: .touchUpInside)
         
-        // define custom email button
-        let emailButton = UIButton(type: .system)
-        emailButton.setImage(UIImage(named: "ic_email_18"), for: .normal)
-        emailButton.imageEdgeInsets = UIEdgeInsets(top: 0, left: -10, bottom: 0, right: 0);
-        emailButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: -8, bottom: 0, right: 0);
-        emailButton.setTitle("Email", for: .normal)
-        emailButton.sizeToFit()
-        emailButton.addTarget(self, action: #selector(showSearch), for: .touchUpInside)
-                        
-        // add a user button in navbar programatically
-        //let userBarButtonItem = UIBarButtonItem(title: userNetID, style: .plain,  target: self, action: #selector(showProfile))
+        // add a user and search buttons in navbar programatically
         let userBarButtonItem = UIBarButtonItem(customView: userButton)
-        
-        //let emailBarButtonItem = UIBarButtonItem(title: "Email", style: .plain, target: self, action: #selector(showProfile))
-        let emailBarButtonItem = UIBarButtonItem(customView: emailButton)
-        
-        //let searchBarButtonItem = UIBarButtonItem(title: "Search", style: .plain, target: self, action: #selector(showSearch))
         let searchBarButtonItem = UIBarButtonItem(customView: searchButton)
-        
         self.navigationItem.leftBarButtonItem = userBarButtonItem
-            
-        self.navigationItem.rightBarButtonItems = [searchBarButtonItem, emailBarButtonItem]
+        self.navigationItem.rightBarButtonItem = searchBarButtonItem
         
     }
     
@@ -85,6 +69,25 @@ class HomeViewController: CustomWebViewController {
         let searchViewController = SearchViewController()
         // push view controller onto the stack
         self.navigationController?.pushViewController(searchViewController, animated: true)
+    }
+    
+    @objc func signOut() {
+        
+        let mainController = AppAuthTest()
+        
+        print("signing user out")
+        
+        // clear authstate to signout user
+        mainController.setAuthState(nil)
+        // clear state storage
+        UserDefaults.standard.removeObject(forKey: kAppAuthExampleAuthStateKey)
+        
+        let navController = UINavigationController(rootViewController: mainController)
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        // set appAuth controller as rootViewController
+        appDelegate.window!.rootViewController = navController
+        
+    
     }
     
 }
