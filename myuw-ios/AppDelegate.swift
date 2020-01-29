@@ -12,6 +12,7 @@ import AppAuth
 //  From myuw.plist
 var appHost = ""
 var clientID = ""
+var clientIssuer = ""
 
 //  From Shibboleth iDP via OIDC
 var userAffiliations = [] as NSArray
@@ -30,6 +31,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // read in config
         if let path = Bundle.main.path(forResource: "myuw", ofType: "plist"), let config = NSDictionary(contentsOfFile: path) as? [String: AnyObject] {
             appHost = config["myuw_host"] as! String
+            clientIssuer = config["oidc_issuer"] as! String
             clientID = config["oidc_clientid"] as! String
         }
         
