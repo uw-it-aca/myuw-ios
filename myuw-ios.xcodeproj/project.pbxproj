@@ -70,7 +70,7 @@
 		852EB76F237C97C7002A2357 /* NoticesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticesViewController.swift; sourceTree = "<group>"; };
 		8534DCD9237F27E100914045 /* CustomWebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomWebViewController.swift; sourceTree = "<group>"; };
 		8534DD1C239847CA00914045 /* sample.myuw.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = sample.myuw.plist; sourceTree = "<group>"; };
-		854EE08A22F0F9A20042381A /* myuw-ios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "myuw-ios.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		854EE08A22F0F9A20042381A /* MyUW.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyUW.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		854EE08D22F0F9A20042381A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		854EE09422F0F9A30042381A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		854EE09722F0F9A30042381A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -139,7 +139,7 @@
 		854EE08B22F0F9A20042381A /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				854EE08A22F0F9A20042381A /* myuw-ios.app */,
+				854EE08A22F0F9A20042381A /* MyUW.app */,
 				854EE09E22F0F9A30042381A /* myuw-iosTests.xctest */,
 				854EE0A922F0F9A30042381A /* myuw-iosUITests.xctest */,
 			);
@@ -220,7 +220,7 @@
 			);
 			name = "myuw-ios";
 			productName = "myuw-test";
-			productReference = 854EE08A22F0F9A20042381A /* myuw-ios.app */;
+			productReference = 854EE08A22F0F9A20042381A /* MyUW.app */;
 			productType = "com.apple.product-type.application";
 		};
 		854EE09D22F0F9A30042381A /* myuw-iosTests */ = {
@@ -532,7 +532,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "edu.uw.myuw-ios";
-				PRODUCT_NAME = "myuw-ios";
+				PRODUCT_NAME = MyUW;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -557,7 +557,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "edu.uw.myuw-ios";
-				PRODUCT_NAME = "myuw-ios";
+				PRODUCT_NAME = MyUW;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
