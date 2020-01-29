@@ -433,7 +433,7 @@ extension AppAuthTest {
 
                     if let json = json {
                         
-                        os_log("Successfully decoded: %@", log: .auth, type: .info, json)
+                        os_log("Successfully decoded: %{private}@", log: .auth, type: .info, json)
                         
                         // set global user attributes from the oidc response here...
                         userAffiliations = ["student", "seattle", "undergrad"]
