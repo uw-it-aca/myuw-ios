@@ -8,6 +8,7 @@
 
 import AppAuth
 import UIKit
+import os
 
 typealias PostRegistrationCallback = (_ configuration: OIDServiceConfiguration?, _ registrationResponse: OIDRegistrationResponse?) -> Void
 
@@ -27,6 +28,8 @@ class AppAuthTest: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        os_log("viewDidLoad", log: .ui, type: .info)
         
         // MARK: - Large title display mode and preference
         self.navigationItem.largeTitleDisplayMode = .always
@@ -54,7 +57,7 @@ class AppAuthTest: UIViewController {
     }
     
     @objc private func loginUser(){
-        print("Login Button tapped")
+        os_log("Login Button tapped", log: .ui, type: .info)
         authWithAutoCodeExchange()
     }
     
@@ -449,4 +452,12 @@ extension AppAuthTest {
             task.resume()
         }
     }
+}
+
+extension OSLog {
+    // subsystem
+    private static var subsystem = Bundle.main.bundleIdentifier!
+    // log categories
+    static let ui = OSLog(subsystem: subsystem, category: "UI")
+    static let network = OSLog(subsystem: subsystem, category: "Network")
 }
