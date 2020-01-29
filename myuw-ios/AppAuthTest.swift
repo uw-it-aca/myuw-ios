@@ -63,25 +63,25 @@ class AppAuthTest: UIViewController {
     
     func authWithAutoCodeExchange() {
         
-        print("authWithAutoCodeExchange")
+        os_log("authWithAutoCodeExchange", log: .ui, type: .info)
         
         guard let issuer = URL(string: kIssuer) else {
-            print("Error creating URL for : \(kIssuer)")
+            os_log("Error creating URL for: %@", log: .auth, type: .error, kIssuer)
             return
         }
 
-        print("Fetching configuration for issuer: \(issuer)")
+        os_log("Error creating URL for: %@", log: .auth, type: .info, kIssuer)
 
         // discovers endpoints
         OIDAuthorizationService.discoverConfiguration(forIssuer: issuer) { configuration, error in
 
             guard let config = configuration else {
-                print("Error retrieving discovery document: \(error?.localizedDescription ?? "DEFAULT_ERROR")")
+                os_log("Error retrieving discovery document: %@", log: .auth, type: .error, error?.localizedDescription ?? "DEFAULT_ERROR")
                 self.setAuthState(nil)
                 return
             }
 
-            print("Got configuration: \(config)")
+            os_log("Got configuration: %@", log: .ui, type: .info, config)
             
             if let clientId = kClientID {
                 self.doAuthWithAutoCodeExchange(configuration: config, clientID: clientId, clientSecret: nil)
@@ -90,7 +90,7 @@ class AppAuthTest: UIViewController {
                 self.doClientRegistration(configuration: config) { configuration, response in
 
                     guard let configuration = configuration, let clientID = response?.clientID else {
-                        print("Error retrieving configuration OR clientID")
+                        os_log("Error retrieving configuration OR clientID", log: .auth, type: .error)
                         return
                     }
 
@@ -105,28 +105,28 @@ class AppAuthTest: UIViewController {
     
     func authNoCodeExchange() {
         
-        print("authNoCodeExchange")
+        os_log("authNoCodeExchange", log: .ui, type: .info)
         
         guard let issuer = URL(string: kIssuer) else {
-            print("Error creating URL for : \(kIssuer)")
+            os_log("Error creating URL for: %@", log: .auth, type: .error, kIssuer)
             return
         }
 
-        print("Fetching configuration for issuer: \(issuer)")
+        os_log("Fetching configuration for issuer: %@", log: .auth, type: .info, issuer.debugDescription)
 
         OIDAuthorizationService.discoverConfiguration(forIssuer: issuer) { configuration, error in
 
             if let error = error  {
-                print("Error retrieving discovery document: \(error.localizedDescription)")
+                os_log("Error retrieving discovery document: %@", log: .auth, type: .error, error.localizedDescription)
                 return
             }
 
             guard let configuration = configuration else {
-                print("Error retrieving discovery document. Error & Configuration both are NIL!")
+                os_log("Error retrieving discovery document. Error & Configuration both are NIL!", log: .auth, type: .error)
                 return
             }
 
-            print("Got configuration: \(configuration)")
+            os_log("Got configuration: %@", log: .auth, type: .info, configuration)
 
             if let clientId = kClientID {
 
@@ -151,10 +151,10 @@ class AppAuthTest: UIViewController {
     
     func doClientRegistration(configuration: OIDServiceConfiguration, callback: @escaping PostRegistrationCallback) {
         
-        print("doClientRegistration")
+        os_log("doClientRegistration", log: .auth, type: .info)
         
         guard let redirectURI = URL(string: kRedirectURI) else {
-            print("Error creating URL for : \(kRedirectURI)")
+            os_log("Error creating URL for: %@", log: .auth, type: .error, kRedirectURI)
             return
         }
 
@@ -167,16 +167,16 @@ class AppAuthTest: UIViewController {
                                                                      additionalParameters: nil)
 
         // performs registration request
-        print("Initiating registration request")
-
+        os_log("Initiating registration request", log: .auth, type: .info)
+        
         OIDAuthorizationService.perform(request) { response, error in
 
             if let regResponse = response {
                 self.setAuthState(OIDAuthState(registrationResponse: regResponse))
-                print("Got registration response: \(regResponse)")
+                os_log("Got registration response: %@", log: .auth, type: .info, regResponse)
                 callback(configuration, regResponse)
             } else {
-                print("Registration error: \(error?.localizedDescription ?? "DEFAULT_ERROR")")
+                os_log("Registration error: %@", log: .auth, type: .error, error?.localizedDescription ?? "DEFAULT_ERROR")
                 self.setAuthState(nil)
             }
         }
@@ -184,15 +184,15 @@ class AppAuthTest: UIViewController {
     
     func doAuthWithAutoCodeExchange(configuration: OIDServiceConfiguration, clientID: String, clientSecret: String?) {
         
-        print("doAuthWithAutoCodeExchange")
+        os_log("doAuthWithAutoCodeExchange", log: .auth, type: .info)
         
         guard let redirectURI = URL(string: kRedirectURI) else {
-            print("Error creating URL for : \(kRedirectURI)")
+            os_log("Error creating URL for: %@", log: .auth, type: .info, kRedirectURI)
             return
         }
         
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-            print("Error accessing AppDelegate")
+            os_log("Error accessing AppDelegate", log: .auth, type: .error)
             return
         }
 
@@ -206,14 +206,14 @@ class AppAuthTest: UIViewController {
                                               additionalParameters: nil)
 
         // performs authentication request
-        print("Initiating authorization request with scope: \(request.scope ?? "DEFAULT_SCOPE")")
+        os_log("Initiating authorization request with scope: %@", log: .auth, type: .info, request.scope ?? "DEFAULT_SCOPE")
 
         appDelegate.currentAuthorizationFlow = OIDAuthState.authState(byPresenting: request, presenting: self) { authState, error in
             if let authState = authState {
                 self.setAuthState(authState)
-                print("Got authorization tokens. Access token: \(authState.lastTokenResponse?.accessToken ?? "DEFAULT_TOKEN")")
+                os_log("Got authorization tokens. Access token: %@", log: .auth, type: .info, authState.lastTokenResponse?.accessToken ?? "DEFAULT_TOKEN")
             } else {
-                print("Authorization error: \(error?.localizedDescription ?? "DEFAULT_ERROR")")
+                os_log("Authorization error: %@", log: .auth, type: .info, error?.localizedDescription ?? "DEFAULT_ERROR")
                 self.setAuthState(nil)
             }
         }
@@ -222,15 +222,15 @@ class AppAuthTest: UIViewController {
     
     func doAuthWithoutCodeExchange(configuration: OIDServiceConfiguration, clientID: String, clientSecret: String?) {
         
-        print("doAuthWithoutCodeExchange")
+        os_log("doAuthWithoutCodeExchange", log: .auth, type: .info)
         
         guard let redirectURI = URL(string: kRedirectURI) else {
-            print("Error creating URL for : \(kRedirectURI)")
+            os_log("Error creating URL for: %@", log: .auth, type: .info, kRedirectURI)
             return
         }
 
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-            print("Error accessing AppDelegate")
+            os_log("Error accessing AppDelegate", log: .auth, type: .error)
             return
         }
 
@@ -244,17 +244,17 @@ class AppAuthTest: UIViewController {
                                               additionalParameters: nil)
 
         // performs authentication request
-        print("Initiating authorization request with scope: \(request.scope ?? "DEFAULT_SCOPE")")
-
+        os_log("Initiating authorization request with scope: %@", log: .auth, type: .info, request.scope ?? "DEFAULT_SCOPE")
+        
         appDelegate.currentAuthorizationFlow = OIDAuthorizationService.present(request, presenting: self) { (response, error) in
 
             if let response = response {
                 let authState = OIDAuthState(authorizationResponse: response)
                 self.setAuthState(authState)
-                print("Authorization response with code: \(response.authorizationCode ?? "DEFAULT_CODE")")
+                os_log("Authorization response with code: %@", log: .auth, type: .info, response.authorizationCode ?? "DEFAULT_CODE")
                 // could just call [self tokenExchange:nil] directly, but will let the user initiate it.
             } else {
-                print("Authorization error: \(error?.localizedDescription ?? "DEFAULT_ERROR")")
+                os_log("Authorization error: %@", log: .auth, type: .error, error?.localizedDescription ?? "DEFAULT_ERROR")
             }
         }
     }
@@ -267,12 +267,12 @@ class AppAuthTest: UIViewController {
 extension AppAuthTest: OIDAuthStateChangeDelegate, OIDAuthStateErrorDelegate {
 
     func didChange(_ state: OIDAuthState) {
-        print("didChange")
+        os_log("didChange", log: .auth, type: .info)
         self.stateChanged()
     }
 
     func authState(_ state: OIDAuthState, didEncounterAuthorizationError error: Error) {
-        print("Received authorization error: \(error)")
+        os_log("Received authorization error: %@", log: .auth, type: .info, error.localizedDescription)
     }
 }
 
@@ -282,7 +282,7 @@ extension AppAuthTest {
 
     func saveState() {
         
-        print("saveState")
+        os_log("saveState", log: .auth, type: .info)
         
         var data: Data? = nil
         
@@ -296,7 +296,7 @@ extension AppAuthTest {
     
     func loadState() {
         
-        print("loadState")
+        os_log("loadState", log: .auth, type: .info)
         
         guard let data = UserDefaults.standard.object(forKey: kAppAuthExampleAuthStateKey) as? Data else {
             return
@@ -310,7 +310,7 @@ extension AppAuthTest {
     
     func setAuthState(_ authState: OIDAuthState?) {
         
-        print("setAuthState")
+        os_log("setAuthState", log: .auth, type: .info)
                 
         if (self.authState == authState) {
             return;
@@ -322,8 +322,8 @@ extension AppAuthTest {
 
     func updateUI() {
     
-        print("updateUI")
-    
+        os_log("updateUI", log: .ui, type: .info)
+        
         if self.authState != nil {
             
             label.text = "Loading..."
@@ -333,18 +333,15 @@ extension AppAuthTest {
             // save & store the accessToken in the singleton process pool
             ProcessPool.idToken = (self.authState?.lastTokenResponse?.idToken)!
             
-            // delay for 2 secs
-            //DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-                //TODO: get user info from token and redirect
-                self.getUserInfo()
-            //}
-            
+            // get user info from token... and build UI display
+            self.getUserInfo()
+
         }
 
     }
 
     func stateChanged() {
-        print("stateChanged")
+        os_log("stateChanged", log: .auth, type: .info)
         self.saveState()
         self.updateUI()
     }
@@ -355,32 +352,34 @@ extension AppAuthTest {
 extension AppAuthTest {
    
     func getUserInfo() {
-                
+        
+        os_log("getUserInfo", log: .ui, type: .info)
+        
         guard let userinfoEndpoint = self.authState?.lastAuthorizationResponse.request.configuration.discoveryDocument?.userinfoEndpoint else {
-            print("Userinfo endpoint not declared in discovery document")
+            os_log("Userinfo endpoint not declared in discovery document", log: .auth, type: .error)
             return
         }
 
-        print("Performing userinfo request")
+        os_log("Performing userinfo request", log: .auth, type: .info)
 
         let currentAccessToken: String? = self.authState?.lastTokenResponse?.accessToken
 
         self.authState?.performAction() { (accessToken, idToken, error) in
 
             if error != nil  {
-                print("Error fetching fresh tokens: \(error?.localizedDescription ?? "ERROR")")
+                os_log("Error fetching fresh tokens: %@", log: .auth, type: .error, error?.localizedDescription ?? "ERROR")
                 return
             }
 
             guard let accessToken = accessToken else {
-                print("Error getting accessToken")
+                os_log("Error getting accessToken", log: .auth, type: .error)
                 return
             }
 
             if currentAccessToken != accessToken {
-                print("Access token was refreshed automatically (\(currentAccessToken ?? "CURRENT_ACCESS_TOKEN") to \(accessToken))")
+                os_log("Access token was refreshed automatically: %@ to %@", log: .auth, type: .info, currentAccessToken ?? "CURRENT_ACCESS_TOKEN", accessToken)
             } else {
-                print("Access token was fresh and not updated \(accessToken)")
+                os_log("Access token was fresh and not updated: %@", log: .auth, type: .info, accessToken)
             }
 
             var urlRequest = URLRequest(url: userinfoEndpoint)
@@ -391,17 +390,17 @@ extension AppAuthTest {
                 DispatchQueue.main.async {
                     
                     guard error == nil else {
-                        print("HTTP request failed \(error?.localizedDescription ?? "ERROR")")
+                        os_log("HTTP request failed: %@", log: .auth, type: .error, error?.localizedDescription ?? "ERROR")
                         return
                     }
 
                     guard let response = response as? HTTPURLResponse else {
-                        print("Non-HTTP response")
+                        os_log("Non-HTTP response", log: .auth, type: .info)
                         return
                     }
 
                     guard let data = data else {
-                        print("HTTP response data is empty")
+                        os_log("HTTP response data is empty", log: .auth, type: .info)
                         return
                     }
 
@@ -410,7 +409,7 @@ extension AppAuthTest {
                     do {
                         json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
                     } catch {
-                        print("JSON Serialization Error")
+                        os_log("JSON Serialization Error", log: .auth, type: .error)
                     }
 
                     if response.statusCode != 200 {
@@ -424,9 +423,9 @@ extension AppAuthTest {
                                                                                                 errorResponse: json,
                                                                                                 underlyingError: error)
                             self.authState?.update(withAuthorizationError: oauthError)
-                            print("Authorization Error (\(oauthError)). Response: \(responseText ?? "RESPONSE_TEXT")")
+                            os_log("Authorization Error: %@. Response: %@", log: .auth, type: .error, oauthError.localizedDescription, responseText ?? "RESPONSE_TEXT" )
                         } else {
-                            print("HTTP: \(response.statusCode), Response: \(responseText ?? "RESPONSE_TEXT")")
+                            os_log("HTTP: %@. Response: %@", log: .auth, type: .info, response.statusCode, responseText ?? "RESPONSE_TEXT" )
                         }
 
                         return
@@ -434,7 +433,7 @@ extension AppAuthTest {
 
                     if let json = json {
                         
-                        print("Success: \(json)")
+                        os_log("Successfully decoded: %@", log: .auth, type: .info, json)
                         
                         // set global user attributes from the oidc response here...
                         userAffiliations = ["student", "seattle", "undergrad"]
@@ -459,5 +458,5 @@ extension OSLog {
     private static var subsystem = Bundle.main.bundleIdentifier!
     // log categories
     static let ui = OSLog(subsystem: subsystem, category: "UI")
-    static let network = OSLog(subsystem: subsystem, category: "Network")
+    static let auth = OSLog(subsystem: subsystem, category: "Authentication")
 }
