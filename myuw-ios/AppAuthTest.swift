@@ -323,7 +323,7 @@ extension AppAuthTest {
     
         if self.authState != nil {
             
-            label.text = "You are authenticated! Redirecting"
+            label.text = "Loading..."
             
             loginButton.isEnabled = false
                         
@@ -331,10 +331,10 @@ extension AppAuthTest {
             ProcessPool.idToken = (self.authState?.lastTokenResponse?.idToken)!
             
             // delay for 2 secs
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+            //DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
                 //TODO: get user info from token and redirect
                 self.getUserInfo()
-            }
+            //}
             
         }
 

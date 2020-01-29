@@ -66,7 +66,7 @@ class TabViewController: UITabBarController, UITabBarControllerDelegate {
         tabCalendar.tabBarItem = tabCalendarBarItem
         
         // Resources tab
-        let tabResourcesBarItem = UITabBarItem(title: "Resources", image: UIImage(named: "ic_resources"), selectedImage: UIImage(named: "selectedImage2.png"))
+        let tabResourcesBarItem = UITabBarItem(title: "UW Resources", image: UIImage(named: "ic_resources"), selectedImage: UIImage(named: "selectedImage2.png"))
         tabResources.tabBarItem = tabResourcesBarItem
         
         // More tab
