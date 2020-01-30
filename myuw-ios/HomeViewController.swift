@@ -26,6 +26,7 @@ class HomeViewController: CustomWebViewController {
         userButton.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0);
         userButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: -5);
         userButton.setTitle(userNetID, for: .normal)
+        userButton.titleLabel?.font = UIFont.systemFont(ofSize: 17)
         userButton.sizeToFit()
         userButton.addTarget(self, action: #selector(showProfile), for: .touchUpInside)
         
@@ -35,6 +36,7 @@ class HomeViewController: CustomWebViewController {
         searchButton.imageEdgeInsets = UIEdgeInsets(top: 0, left: -10, bottom: 0, right: 0);
         searchButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: -8, bottom: 0, right: 0);
         searchButton.setTitle("Search", for: .normal)
+        searchButton.titleLabel?.font = UIFont.systemFont(ofSize: 17)
         searchButton.sizeToFit()
         searchButton.addTarget(self, action: #selector(showSearch), for: .touchUpInside)
         

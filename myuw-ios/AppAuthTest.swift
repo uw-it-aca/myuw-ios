@@ -103,52 +103,6 @@ class AppAuthTest: UIViewController {
         }
     }
     
-    func authNoCodeExchange() {
-        
-        os_log("authNoCodeExchange", log: .ui, type: .info)
-        
-        guard let issuer = URL(string: kIssuer) else {
-            os_log("Error creating URL for: %@", log: .auth, type: .error, kIssuer)
-            return
-        }
-
-        os_log("Fetching configuration for issuer: %@", log: .auth, type: .info, issuer.debugDescription)
-
-        OIDAuthorizationService.discoverConfiguration(forIssuer: issuer) { configuration, error in
-
-            if let error = error  {
-                os_log("Error retrieving discovery document: %@", log: .auth, type: .error, error.localizedDescription)
-                return
-            }
-
-            guard let configuration = configuration else {
-                os_log("Error retrieving discovery document. Error & Configuration both are NIL!", log: .auth, type: .error)
-                return
-            }
-
-            os_log("Got configuration: %@", log: .auth, type: .info, configuration)
-
-            if let clientId = kClientID {
-
-                self.doAuthWithoutCodeExchange(configuration: configuration, clientID: clientId, clientSecret: nil)
-
-            } else {
-
-                self.doClientRegistration(configuration: configuration) { configuration, response in
-
-                    guard let configuration = configuration, let response = response else {
-                        return
-                    }
-
-                    self.doAuthWithoutCodeExchange(configuration: configuration,
-                                                   clientID: response.clientID,
-                                                   clientSecret: response.clientSecret)
-                }
-            }
-        }
-    }
-    
-    
     func doClientRegistration(configuration: OIDServiceConfiguration, callback: @escaping PostRegistrationCallback) {
         
         os_log("doClientRegistration", log: .auth, type: .info)
@@ -219,47 +173,7 @@ class AppAuthTest: UIViewController {
         }
         
     }
-    
-    func doAuthWithoutCodeExchange(configuration: OIDServiceConfiguration, clientID: String, clientSecret: String?) {
-        
-        os_log("doAuthWithoutCodeExchange", log: .auth, type: .info)
-        
-        guard let redirectURI = URL(string: kRedirectURI) else {
-            os_log("Error creating URL for: %@", log: .auth, type: .info, kRedirectURI)
-            return
-        }
 
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-            os_log("Error accessing AppDelegate", log: .auth, type: .error)
-            return
-        }
-
-        // builds authentication request
-        let request = OIDAuthorizationRequest(configuration: configuration,
-                                              clientId: clientID,
-                                              clientSecret: clientSecret,
-                                              scopes: [OIDScopeOpenID, OIDScopeProfile, OIDScopeEmail],
-                                              redirectURL: redirectURI,
-                                              responseType: OIDResponseTypeCode,
-                                              additionalParameters: nil)
-
-        // performs authentication request
-        os_log("Initiating authorization request with scope: %@", log: .auth, type: .info, request.scope ?? "DEFAULT_SCOPE")
-        
-        appDelegate.currentAuthorizationFlow = OIDAuthorizationService.present(request, presenting: self) { (response, error) in
-
-            if let response = response {
-                let authState = OIDAuthState(authorizationResponse: response)
-                self.setAuthState(authState)
-                os_log("Authorization response with code: %@", log: .auth, type: .info, response.authorizationCode ?? "DEFAULT_CODE")
-                // could just call [self tokenExchange:nil] directly, but will let the user initiate it.
-            } else {
-                os_log("Authorization error: %@", log: .auth, type: .error, error?.localizedDescription ?? "DEFAULT_ERROR")
-            }
-        }
-    }
-    
-    
 }
 
 
