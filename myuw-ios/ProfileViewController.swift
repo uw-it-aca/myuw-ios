@@ -28,7 +28,7 @@ class ProfileViewController: CustomWebViewController {
         signOutButton.setImage(UIImage(named: "ic_signout_18"), for: .normal)
         signOutButton.imageEdgeInsets = UIEdgeInsets(top: 0, left: -10, bottom: 0, right: 0);
         signOutButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: -8, bottom: 0, right: 0);
-        signOutButton.setTitle("Sign Out", for: .normal)
+        signOutButton.setTitle("Sign out", for: .normal)
         signOutButton.sizeToFit()
         signOutButton.addTarget(self, action: #selector(signOut), for: .touchUpInside)
 

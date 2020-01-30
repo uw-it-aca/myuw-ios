@@ -48,7 +48,7 @@ class AppAuthTest: UIViewController {
         view.addSubview(label)
 
         // add a right button in navbar programatically
-        loginButton = UIBarButtonItem(title: "Login", style: .plain, target: self, action: #selector(loginUser))
+        loginButton = UIBarButtonItem(title: "Sign in", style: .plain, target: self, action: #selector(loginUser))
         self.navigationItem.rightBarButtonItem  = loginButton
         
         // get authstate
@@ -57,7 +57,7 @@ class AppAuthTest: UIViewController {
     }
     
     @objc private func loginUser(){
-        os_log("Login Button tapped", log: .ui, type: .info)
+        os_log("Sign in Button tapped", log: .ui, type: .info)
         authWithAutoCodeExchange()
     }
     
