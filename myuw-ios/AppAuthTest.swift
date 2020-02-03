@@ -23,8 +23,12 @@ class AppAuthTest: UIViewController {
     // property of the containing class
     private var authState: OIDAuthState?
     
-    var label = UILabel()
     var loginButton = UIBarButtonItem()
+    
+    let headerText = UILabel()
+    let bodyText = UILabel()
+    let label = UILabel()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,13 +44,49 @@ class AppAuthTest: UIViewController {
         
         self.title = "MyUW"
         
-        label = UILabel(frame: CGRect(x: 0, y: 0, width: 400, height: 100))
-        label.center = CGPoint(x: 160, y: 285)
+        headerText.layer.borderWidth = 0.25
+        headerText.layer.borderColor = UIColor.red.cgColor
+        headerText.font = UIFont.boldSystemFont(ofSize: 18)
+        headerText.textAlignment = .left
+        headerText.text = "You are not signed in!"
+        headerText.sizeToFit()
+        view.addSubview(headerText)
+        // autolayout contraints
+        headerText.translatesAutoresizingMaskIntoConstraints = false
+        headerText.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
+        headerText.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
+        headerText.topAnchor.constraint(equalTo: view.topAnchor, constant: 30).isActive = true
+        
+    
+        bodyText.layer.borderWidth = 0.25
+        bodyText.layer.borderColor = UIColor.red.cgColor
+        bodyText.font = UIFont.systemFont(ofSize: 14)
+        bodyText.textAlignment = .left
+        bodyText.numberOfLines = 0
+        bodyText.sizeToFit()
+        bodyText.text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut quis nunc nisl. Integer a ligula nec odio efficitur sagittis quis in sapien. Phasellus tempor dui nec pharetra lacinia."
+        view.addSubview(bodyText)
+        // autolayout contraints
+        bodyText.translatesAutoresizingMaskIntoConstraints = false
+        bodyText.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
+        bodyText.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
+        bodyText.topAnchor.constraint(equalTo: headerText.bottomAnchor, constant: 5).isActive = true
+        
+        
+        label.layer.borderWidth = 0.25
+        label.layer.borderColor = UIColor.red.cgColor
+        label.font = UIFont.systemFont(ofSize: 16)
         label.textAlignment = .center
-        label.text = "You are NOT authenticated!"
-
+        label.text = "Sign in"
+        label.sizeToFit()
         view.addSubview(label)
-
+        // autolayout contraints
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
+        label.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
+        // set topanchor of label equal to bottomanchor of textview
+        label.topAnchor.constraint(equalTo: bodyText.bottomAnchor, constant: 10).isActive = true
+        
         // add a right button in navbar programatically
         loginButton = UIBarButtonItem(title: "Sign in", style: .plain, target: self, action: #selector(loginUser))
         self.navigationItem.rightBarButtonItem  = loginButton
@@ -240,7 +280,8 @@ extension AppAuthTest {
         
         if self.authState != nil {
             
-            label.text = "Loading..."
+            // blank loading message
+            label.text = ""
             
             loginButton.isEnabled = false
                         
