@@ -22,14 +22,11 @@ class AppAuthTest: UIViewController {
     
     // property of the containing class
     private var authState: OIDAuthState?
-    
-    var loginButton = UIBarButtonItem()
-    
+        
     let headerText = UILabel()
     let bodyText = UILabel()
-    let label = UILabel()
-    
-    
+    let signInButton = UIButton()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -57,7 +54,6 @@ class AppAuthTest: UIViewController {
         headerText.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
         headerText.topAnchor.constraint(equalTo: view.topAnchor, constant: 30).isActive = true
         
-    
         bodyText.layer.borderWidth = 0.25
         bodyText.layer.borderColor = UIColor.red.cgColor
         bodyText.font = UIFont.systemFont(ofSize: 14)
@@ -72,24 +68,20 @@ class AppAuthTest: UIViewController {
         bodyText.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
         bodyText.topAnchor.constraint(equalTo: headerText.bottomAnchor, constant: 5).isActive = true
         
-        
-        label.layer.borderWidth = 0.25
-        label.layer.borderColor = UIColor.red.cgColor
-        label.font = UIFont.systemFont(ofSize: 16)
-        label.textAlignment = .center
-        label.text = "Sign in"
-        label.sizeToFit()
-        view.addSubview(label)
+        signInButton.layer.borderWidth = 0.25
+        signInButton.layer.borderColor = UIColor.red.cgColor
+        signInButton.titleLabel?.font = UIFont.systemFont(ofSize: 14)
+        signInButton.setTitleColor(.blue, for: .normal)
+        signInButton.setTitle("Sign in", for: .normal)
+        signInButton.addTarget(self, action: #selector(loginUser), for: .touchUpInside)
+        signInButton.sizeToFit()
+        view.addSubview(signInButton)
         // autolayout contraints
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
-        label.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
+        signInButton.translatesAutoresizingMaskIntoConstraints = false
+        signInButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
+        signInButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
         // set topanchor of label equal to bottomanchor of textview
-        label.topAnchor.constraint(equalTo: bodyText.bottomAnchor, constant: 10).isActive = true
-        
-        // add a right button in navbar programatically
-        loginButton = UIBarButtonItem(title: "Sign in", style: .plain, target: self, action: #selector(loginUser))
-        self.navigationItem.rightBarButtonItem  = loginButton
+        signInButton.topAnchor.constraint(equalTo: bodyText.bottomAnchor, constant: 10).isActive = true
         
         // get authstate
         self.loadState()
@@ -280,11 +272,9 @@ extension AppAuthTest {
         
         if self.authState != nil {
             
-            // blank loading message
-            label.text = ""
-            
-            loginButton.isEnabled = false
-                        
+            // disable signin button
+            signInButton.titleLabel?.isEnabled = false
+                                    
             // save & store the accessToken in the singleton process pool
             ProcessPool.idToken = (self.authState?.lastTokenResponse?.idToken)!
             
