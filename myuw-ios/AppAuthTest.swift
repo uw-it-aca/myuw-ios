@@ -270,10 +270,12 @@ extension AppAuthTest {
     
         os_log("updateUI", log: .ui, type: .info)
         
+        // if logged in... hide the sign-in content
         if self.authState != nil {
-            
-            // disable signin button
-            signInButton.titleLabel?.isEnabled = false
+        
+            headerText.isHidden = true
+            bodyText.isHidden = true
+            signInButton.isHidden = true
                                     
             // save & store the accessToken in the singleton process pool
             ProcessPool.idToken = (self.authState?.lastTokenResponse?.idToken)!

@@ -19,7 +19,10 @@ class SearchViewController: CustomWebViewController, UISearchBarDelegate {
         
         // override navigation title (match UW page title)
         self.navigationItem.title = "Search the UW"
-                
+        
+        // add a right button in navbar programatically
+        let closeButton = UIBarButtonItem(title: "Close", style: .plain, target: self, action: #selector(dismissSearch))
+        
         // search controler and bar setup
         let searchController = UISearchController()
         self.navigationItem.searchController = searchController
@@ -39,6 +42,11 @@ class SearchViewController: CustomWebViewController, UISearchBarDelegate {
         // search controller delegate
         searchController.searchBar.delegate = self
         
+        self.navigationItem.rightBarButtonItem = closeButton
+    }
+    
+    @objc private func dismissSearch(){
+        self.dismiss(animated: true, completion: nil)
     }
     
     func searchBarSearchButtonClicked( _ searchBar: UISearchBar)

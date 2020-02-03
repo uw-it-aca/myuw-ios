@@ -20,9 +20,6 @@ class ProfileViewController: CustomWebViewController {
         // override navigation title
         self.navigationItem.title = "Profile"
         
-        // add a right button in navbar programatically
-        let closeButton = UIBarButtonItem(title: "Close", style: .plain, target: self, action: #selector(dismissProfile))
-        
         // define custom email button
         let signOutButton = UIButton(type: .system)
         signOutButton.setImage(UIImage(named: "ic_signout_18"), for: .normal)
@@ -35,13 +32,8 @@ class ProfileViewController: CustomWebViewController {
 
         let signOutButtonItem = UIBarButtonItem(customView: signOutButton)
         
-        self.navigationItem.leftBarButtonItem = signOutButtonItem
-        self.navigationItem.rightBarButtonItem = closeButton
+        self.navigationItem.rightBarButtonItem = signOutButtonItem
         
-    }
-    
-    @objc private func dismissProfile(){
-        self.dismiss(animated: true, completion: nil)
     }
     
     @objc func signOut() {
