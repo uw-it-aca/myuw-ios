@@ -60,8 +60,10 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
         let configuration = WKWebViewConfiguration()
         configuration.websiteDataStore = WKWebsiteDataStore.default()
         configuration.processPool = ProcessPool.sharedPool
+        
+        // set the custom user agent
         configuration.applicationNameForUserAgent = "MyUW_Hybrid/1.0 (iPhone)"
-       
+    
         webView = WKWebView(frame: self.view.frame, configuration: configuration)
         webView.navigationDelegate = self
         
@@ -171,7 +173,6 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
         
         let url = webView.url?.absoluteURL
         print("webview url: ", url as Any)
-        print("webview appauth idToken: ", ProcessPool.idToken)
         
         // handle deep actions
         /*
@@ -254,7 +255,13 @@ extension WKWebView {
     // custom load extension that sets custom header
     func load(_ urlString: String) {
         if let url = URL(string: urlString) {
-            let request = URLRequest(url: url)
+            var request = URLRequest(url: url)
+            
+            // pass the idToken via request header
+            print("load idToken: ", ProcessPool.idToken)
+            request.addValue(ProcessPool.idToken, forHTTPHeaderField: "Authorization")
+            
+            print("load request")
             load(request)
         }
     }

@@ -277,9 +277,6 @@ extension AppAuthTest {
             bodyText.isHidden = true
             signInButton.isHidden = true
                                     
-            // save & store the accessToken in the singleton process pool
-            ProcessPool.idToken = (self.authState?.lastTokenResponse?.idToken)!
-            
             // get user info from token... and build UI display
             self.getUserInfo()
 
@@ -386,6 +383,9 @@ extension AppAuthTest {
                         userAffiliations = ["student", "seattle", "undergrad"]
                         userNetID = (json["email"] as! String).split{$0 == "@"}.map(String.init)[0]
                         
+                        // update the idToken in the singleton process pool
+                        ProcessPool.idToken = (self.authState?.lastTokenResponse?.idToken)!
+                    
                         // set tabControlleer as rootViewController after getting user info
                         let tabController = TabViewController()
                         let appDelegate = UIApplication.shared.delegate as! AppDelegate
