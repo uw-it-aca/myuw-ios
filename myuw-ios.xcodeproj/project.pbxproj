@@ -31,6 +31,7 @@
 		85CC31A02375F7FC00F38903 /* myuw.css in Resources */ = {isa = PBXBuildFile; fileRef = 85CC319F2375F7FC00F38903 /* myuw.css */; };
 		85CDD4E323723A4900A3CBBA /* CustomVisitController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85CDD4E223723A4900A3CBBA /* CustomVisitController.swift */; };
 		85DFFA6723DB965A008D0C9D /* myuw.plist in Resources */ = {isa = PBXBuildFile; fileRef = 85DFFA6623DB965A008D0C9D /* myuw.plist */; };
+		85F4EA7223EC7F120062B2A6 /* UserAffiliationsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F4EA7123EC7F120062B2A6 /* UserAffiliationsController.swift */; };
 		85F901A7235E34AE00DA0083 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F901A6235E34AE00DA0083 /* ProfileViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -96,6 +97,7 @@
 		85CC319F2375F7FC00F38903 /* myuw.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = myuw.css; sourceTree = "<group>"; };
 		85CDD4E223723A4900A3CBBA /* CustomVisitController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomVisitController.swift; sourceTree = "<group>"; };
 		85DFFA6623DB965A008D0C9D /* myuw.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = myuw.plist; sourceTree = "<group>"; };
+		85F4EA7123EC7F120062B2A6 /* UserAffiliationsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAffiliationsController.swift; sourceTree = "<group>"; };
 		85F901A6235E34AE00DA0083 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -152,6 +154,7 @@
 				85B15BA0236CDF7B00857D13 /* myuw-ios.entitlements */,
 				854EE08D22F0F9A20042381A /* AppDelegate.swift */,
 				85A7541923C508CD003C8380 /* AppAuthTest.swift */,
+				85F4EA7123EC7F120062B2A6 /* UserAffiliationsController.swift */,
 				85B147A12368CB0700DE3BFA /* TabViewController.swift */,
 				8534DCD9237F27E100914045 /* CustomWebViewController.swift */,
 				85CDD4E223723A4900A3CBBA /* CustomVisitController.swift */,
@@ -346,6 +349,7 @@
 				85A7541A23C508CD003C8380 /* AppAuthTest.swift in Sources */,
 				85B147A42368CC6500DE3BFA /* AccountsViewController.swift in Sources */,
 				85B147AE2368CE7600DE3BFA /* HomeViewController.swift in Sources */,
+				85F4EA7223EC7F120062B2A6 /* UserAffiliationsController.swift in Sources */,
 				85CC319C2375E38D00F38903 /* SearchViewController.swift in Sources */,
 				85B147A82368CD3800DE3BFA /* TeachingViewController.swift in Sources */,
 				85B147AC2368CDF200DE3BFA /* ResourcesViewController.swift in Sources */,

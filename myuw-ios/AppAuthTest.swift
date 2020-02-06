@@ -380,16 +380,21 @@ extension AppAuthTest {
                         os_log("Successfully decoded: %{private}@", log: .auth, type: .info, json)
                         
                         // set global user attributes from the oidc response here...
-                        userAffiliations = ["student", "seattle", "undergrad"]
                         userNetID = (json["email"] as! String).split{$0 == "@"}.map(String.init)[0]
                         
                         // update the idToken in the singleton process pool
                         ProcessPool.idToken = (self.authState?.lastTokenResponse?.idToken)!
                     
                         // set tabControlleer as rootViewController after getting user info
-                        let tabController = TabViewController()
+                        let userAffiliationsController = UserAffiliationsController()
                         let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                        appDelegate.window!.rootViewController = tabController
+                        
+                        
+                        let nc = UINavigationController(rootViewController: userAffiliationsController)
+                        
+                        // set the main controller as the root controller on app load
+                        appDelegate.window!.rootViewController = nc
+                        
                     
                     }
                 }
