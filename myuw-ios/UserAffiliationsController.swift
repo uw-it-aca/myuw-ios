@@ -46,4 +46,3 @@ class UserAffiliationsController: CustomWebViewController {
     }
     
 }
-

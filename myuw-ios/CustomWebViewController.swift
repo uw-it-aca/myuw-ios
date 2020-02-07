@@ -58,6 +58,9 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
         
         // MARK: - WKWebView setup and configuration
         let configuration = WKWebViewConfiguration()
+        
+        // MARK: JS bridge message handler
+        configuration.userContentController.add(self, name: "myuwBridge")
         configuration.websiteDataStore = WKWebsiteDataStore.default()
         configuration.processPool = ProcessPool.sharedPool
         
@@ -254,6 +257,16 @@ extension WKWebView {
             
             print("load request")
             load(request)
+        }
+    }
+}
+
+extension CustomWebViewController: WKScriptMessageHandler {
+    func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
+        
+        if message.name == "myuwBridge" {
+            
+            print(message.body as? String as Any)
         }
     }
 }
