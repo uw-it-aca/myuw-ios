@@ -389,7 +389,6 @@ extension AppAuthTest {
                         let userAffiliationsController = UserAffiliationsController()
                         let appDelegate = UIApplication.shared.delegate as! AppDelegate
                         
-                        
                         let nc = UINavigationController(rootViewController: userAffiliationsController)
                         
                         // set the main controller as the root controller on app load
