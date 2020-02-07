@@ -262,11 +262,22 @@ extension WKWebView {
 }
 
 extension CustomWebViewController: WKScriptMessageHandler {
+    
+    // listen for messages coming from myuw via the jsbridge
     func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
-        
         if message.name == "myuwBridge" {
             
+            // print the message received from myuw web
             print(message.body as? String as Any)
+            
+            // convert the string back to an array
+            let string = message.body
+            let array = (string as AnyObject).components(separatedBy: ",")
+            
+            print(array)
+            
+            // set user affiliations from myuw message via jsbridge
+            userAffiliations = array as NSArray
         }
     }
 }

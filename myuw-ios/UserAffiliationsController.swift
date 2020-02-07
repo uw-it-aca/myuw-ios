@@ -32,9 +32,6 @@ class UserAffiliationsController: CustomWebViewController {
         let url = webView.url?.absoluteURL
         print("override webview url: ", url as Any)
         
-        // get & set user affiliations from myuw
-        userAffiliations = ["student", "seattle", "undergrad", "instructor"]
-        
         DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
            // set tabControlleer as rootViewController after getting user info
            let tabControlleer = TabViewController()
@@ -44,5 +41,5 @@ class UserAffiliationsController: CustomWebViewController {
         }
     
     }
-    
+
 }
