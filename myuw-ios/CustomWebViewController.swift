@@ -8,7 +8,6 @@
 
 import UIKit
 import WebKit
-import AppAuth // import just to test if framework is installed
 
 // singleton class for a shared WKProcessPool
 class ProcessPool {
@@ -18,7 +17,6 @@ class ProcessPool {
 
 class CustomWebViewController: UIViewController, WKNavigationDelegate {
     
-    // var deepAction = ""
     var webView: WKWebView!
     var activityIndicator: UIActivityIndicatorView!
     
@@ -28,12 +26,9 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
     // TODO: - this is the stackoverflow fix for the large title/webview issues
     // FYI: - this seems to work on all views EXCEPT teaching and academics tabs
     override func viewLayoutMarginsDidChange() {
-        //print("viewLayoutMarginsDidChange: ", didChange)
         if didChange {
-            //print("old Height : - \(String(describing: self.navigationController?.navigationBar.frame.size.height))")
             // set NavigationBar Height here
             self.navigationController!.navigationBar.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 96.0)
-            //print("new Height : - \(String(describing: self.navigationController?.navigationBar.frame.size.height))")
             didChange = false
         }
     }
@@ -45,10 +40,13 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
         
         let notificationCenter = NotificationCenter.default
         // TODO: observe various phone state changes and re-auth if needed
-        // app foregrounded
+        
+        // app went to foregrounded
         notificationCenter.addObserver(self, selector: #selector(appBecameActive), name: UIApplication.willEnterForegroundNotification, object: nil)
-        // app backgrounded
+        
+        // app went to backgrounded
         //notificationCenter.addObserver(self, selector: #selector(appMovedToForeground), name: UIApplication.didEnterBackgroundNotification, object: nil)
+        
         // app became active (called every time)
         //notificationCenter.addObserver(self, selector: #selector(appBecameActive), name: UIApplication.didBecomeActiveNotification, object: nil )
         
@@ -104,29 +102,12 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
         webView.scrollView.refreshControl = refreshControl
       
     }
-    /*
-    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-        if keyPath == "loading" {
-            if webView.isLoading {
-                print("isLoading")
-                
-                
-            } else {
-                print("done Loading")
-                didChange = true
-            }
-        }
-    }
-    */
-    
+
     @objc func appBecameActive() {
         
         print("appBecameActive")
-        //activityIndicator.isHidden = false
-        //activityIndicator.startAnimating()
-        //webView.reload()
-        
-        // go through appAuth controller when foregrounding
+
+        // force use go through appAuth flow when foregrounding the app
         let mainController = AppAuthTest()
         let navController = UINavigationController(rootViewController: mainController)
         
@@ -146,21 +127,8 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
     
     // webview navigation handlers
     func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
-        
         print("didStartProvisionalNavigation")
         didChange = true
-        
-        // MARK: - Webview activity indicator
-        /*
-        activityIndicator = UIActivityIndicatorView()
-        activityIndicator.center = self.view.center
-        activityIndicator.hidesWhenStopped = true
-        activityIndicator.style = .gray
-        
-        activityIndicator.isHidden = false
-        activityIndicator.startAnimating()
-        webView.addSubview(activityIndicator)
-        */
     }
 
     func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
