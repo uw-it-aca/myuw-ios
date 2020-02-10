@@ -382,17 +382,17 @@ extension AppAuthTest {
                         // set global user attributes from the oidc response here...
                         userNetID = (json["email"] as! String).split{$0 == "@"}.map(String.init)[0]
                         
+                        // TODO: access the myuw affiliation endpoint
+                        userAffiliations = ["student", "seattle", "undergrad", "instructor"]
+       
                         // update the idToken in the singleton process pool
                         ProcessPool.idToken = (self.authState?.lastTokenResponse?.idToken)!
                     
                         // set tabControlleer as rootViewController after getting user info
-                        let userAffiliationsController = UserAffiliationsController()
+                        let tabController = TabViewController()
                         let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                        
-                        let nc = UINavigationController(rootViewController: userAffiliationsController)
-                        
                         // set the main controller as the root controller on app load
-                        appDelegate.window!.rootViewController = nc
+                        appDelegate.window!.rootViewController = tabController
                         
                     
                     }
