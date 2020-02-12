@@ -9,7 +9,7 @@
 import UIKit
 import WebKit
 
-class HomeViewController: CustomWebViewController {
+class HomeWebView: WebViewController {
         
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -49,47 +49,25 @@ class HomeViewController: CustomWebViewController {
     }
     
     @objc func showProfile() {
-        
-        // instantiate instance of ProfileViewController
-        let profileViewController = UINavigationController(rootViewController: ProfileViewController())
-                        
-        // set style of how view controller is to be presented
-        if #available(iOS 13.0, *) {
-            profileViewController.modalPresentationStyle = .automatic
-        } else {
-            // fallback on earlier versions
-            profileViewController.modalPresentationStyle = .formSheet
-        }
-                
-        // present the profile view controller
-        present(profileViewController, animated: true, completion: nil)
-
+        let profileWebView = ProfileWebView()
+        self.navigationController?.pushViewController(profileWebView, animated: true)
     }
     
     @objc func showSearch() {
+        
         // instantiate instance of SearchViewController
-        let searchViewController = SearchViewController()
-        // push view controller onto the stack
-        self.navigationController?.pushViewController(searchViewController, animated: true)
+        let searchWebView = UINavigationController(rootViewController: SearchWebView())
+        
+        // set style of how view controller is to be presented
+        if #available(iOS 13.0, *) {
+            searchWebView.modalPresentationStyle = .automatic
+        } else {
+            // fallback on earlier versions
+            searchWebView.modalPresentationStyle = .formSheet
+        }
+                
+        // present the profile view controller
+        present(searchWebView, animated: true, completion: nil)
     }
-    
-    @objc func signOut() {
-        
-        let mainController = AppAuthTest()
-        
-        print("signing user out")
-        
-        // clear authstate to signout user
-        mainController.setAuthState(nil)
-        // clear state storage
-        UserDefaults.standard.removeObject(forKey: kAppAuthExampleAuthStateKey)
-        
-        let navController = UINavigationController(rootViewController: mainController)
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        // set appAuth controller as rootViewController
-        appDelegate.window!.rootViewController = navController
-        
-    
-    }
-    
+
 }

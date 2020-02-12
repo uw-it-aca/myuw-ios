@@ -1,5 +1,5 @@
 //
-//  AppAuthTest.swift
+//  AppAuthController.swift
 //  myuw-ios
 //
 //  Created by Charlon Palacay on 1/7/20.
@@ -18,14 +18,15 @@ let kClientID: String? = clientID
 let kRedirectURI: String = "edu.uw.myuw-ios:/";
 let kAppAuthExampleAuthStateKey: String = "authState";
 
-class AppAuthTest: UIViewController {
+class AppAuthController: UIViewController {
     
     // property of the containing class
     private var authState: OIDAuthState?
-    
-    var label = UILabel()
-    var loginButton = UIBarButtonItem()
-    
+        
+    let headerText = UILabel()
+    let bodyText = UILabel()
+    let signInButton = UIButton()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -40,16 +41,47 @@ class AppAuthTest: UIViewController {
         
         self.title = "MyUW"
         
-        label = UILabel(frame: CGRect(x: 0, y: 0, width: 400, height: 100))
-        label.center = CGPoint(x: 160, y: 285)
-        label.textAlignment = .center
-        label.text = "You are NOT authenticated!"
-
-        view.addSubview(label)
-
-        // add a right button in navbar programatically
-        loginButton = UIBarButtonItem(title: "Sign in", style: .plain, target: self, action: #selector(loginUser))
-        self.navigationItem.rightBarButtonItem  = loginButton
+        headerText.layer.borderWidth = 0.25
+        headerText.layer.borderColor = UIColor.red.cgColor
+        headerText.font = UIFont.boldSystemFont(ofSize: 18)
+        headerText.textAlignment = .left
+        headerText.text = "You are not signed in!"
+        headerText.sizeToFit()
+        view.addSubview(headerText)
+        // autolayout contraints
+        headerText.translatesAutoresizingMaskIntoConstraints = false
+        headerText.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
+        headerText.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
+        headerText.topAnchor.constraint(equalTo: view.topAnchor, constant: 30).isActive = true
+        
+        bodyText.layer.borderWidth = 0.25
+        bodyText.layer.borderColor = UIColor.red.cgColor
+        bodyText.font = UIFont.systemFont(ofSize: 14)
+        bodyText.textAlignment = .left
+        bodyText.numberOfLines = 0
+        bodyText.sizeToFit()
+        bodyText.text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut quis nunc nisl. Integer a ligula nec odio efficitur sagittis quis in sapien. Phasellus tempor dui nec pharetra lacinia."
+        view.addSubview(bodyText)
+        // autolayout contraints
+        bodyText.translatesAutoresizingMaskIntoConstraints = false
+        bodyText.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
+        bodyText.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
+        bodyText.topAnchor.constraint(equalTo: headerText.bottomAnchor, constant: 5).isActive = true
+        
+        signInButton.layer.borderWidth = 0.25
+        signInButton.layer.borderColor = UIColor.red.cgColor
+        signInButton.titleLabel?.font = UIFont.systemFont(ofSize: 14)
+        signInButton.setTitleColor(.blue, for: .normal)
+        signInButton.setTitle("Sign in", for: .normal)
+        signInButton.addTarget(self, action: #selector(loginUser), for: .touchUpInside)
+        signInButton.sizeToFit()
+        view.addSubview(signInButton)
+        // autolayout contraints
+        signInButton.translatesAutoresizingMaskIntoConstraints = false
+        signInButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
+        signInButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
+        // set topanchor of label equal to bottomanchor of textview
+        signInButton.topAnchor.constraint(equalTo: bodyText.bottomAnchor, constant: 10).isActive = true
         
         // get authstate
         self.loadState()
@@ -178,7 +210,7 @@ class AppAuthTest: UIViewController {
 
 
 //MARK: OIDAuthState Delegate
-extension AppAuthTest: OIDAuthStateChangeDelegate, OIDAuthStateErrorDelegate {
+extension AppAuthController: OIDAuthStateChangeDelegate, OIDAuthStateErrorDelegate {
 
     func didChange(_ state: OIDAuthState) {
         os_log("didChange", log: .auth, type: .info)
@@ -192,7 +224,7 @@ extension AppAuthTest: OIDAuthStateChangeDelegate, OIDAuthStateErrorDelegate {
 
 
 //MARK: Helper Methods
-extension AppAuthTest {
+extension AppAuthController {
 
     func saveState() {
         
@@ -238,15 +270,13 @@ extension AppAuthTest {
     
         os_log("updateUI", log: .ui, type: .info)
         
+        // if logged in... hide the sign-in content
         if self.authState != nil {
-            
-            label.text = "Loading..."
-            
-            loginButton.isEnabled = false
-                        
-            // save & store the accessToken in the singleton process pool
-            ProcessPool.idToken = (self.authState?.lastTokenResponse?.idToken)!
-            
+        
+            headerText.isHidden = true
+            bodyText.isHidden = true
+            signInButton.isHidden = true
+                                    
             // get user info from token... and build UI display
             self.getUserInfo()
 
@@ -263,7 +293,7 @@ extension AppAuthTest {
 }
 
 // MARK: User Info and app redirect
-extension AppAuthTest {
+extension AppAuthController {
    
     func getUserInfo() {
         
@@ -350,13 +380,20 @@ extension AppAuthTest {
                         os_log("Successfully decoded: %{private}@", log: .auth, type: .info, json)
                         
                         // set global user attributes from the oidc response here...
-                        userAffiliations = ["student", "seattle", "undergrad"]
                         userNetID = (json["email"] as! String).split{$0 == "@"}.map(String.init)[0]
                         
+                        // TODO: access the myuw affiliation endpoint
+                        userAffiliations = ["student", "seattle", "undergrad", "instructor"]
+       
+                        // update the idToken in the singleton process pool
+                        ProcessPool.idToken = (self.authState?.lastTokenResponse?.idToken)!
+                    
                         // set tabControlleer as rootViewController after getting user info
-                        let tabController = TabViewController()
+                        let appController = ApplicationController()
                         let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                        appDelegate.window!.rootViewController = tabController
+                        // set the main controller as the root controller on app load
+                        appDelegate.window!.rootViewController = appController
+                        
                     
                     }
                 }

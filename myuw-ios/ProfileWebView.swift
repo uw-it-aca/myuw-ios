@@ -1,5 +1,5 @@
 //
-//  ProfileViewController.swift
+//  ProfileWebView.swift
 //  myuw-test
 //
 //  Created by Charlon Palacay on 10/21/19.
@@ -8,8 +8,9 @@
 
 import UIKit
 import WebKit
+import os
 
-class ProfileViewController: CustomWebViewController {
+class ProfileWebView: WebViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,9 +20,6 @@ class ProfileViewController: CustomWebViewController {
         
         // override navigation title
         self.navigationItem.title = "Profile"
-        
-        // add a right button in navbar programatically
-        let closeButton = UIBarButtonItem(title: "Close", style: .plain, target: self, action: #selector(dismissProfile))
         
         // define custom email button
         let signOutButton = UIButton(type: .system)
@@ -35,27 +33,22 @@ class ProfileViewController: CustomWebViewController {
 
         let signOutButtonItem = UIBarButtonItem(customView: signOutButton)
         
-        self.navigationItem.leftBarButtonItem = signOutButtonItem
-        self.navigationItem.rightBarButtonItem = closeButton
+        self.navigationItem.rightBarButtonItem = signOutButtonItem
         
-    }
-    
-    @objc private func dismissProfile(){
-        self.dismiss(animated: true, completion: nil)
     }
     
     @objc func signOut() {
         
-        let mainController = AppAuthTest()
+        let appAuthController = AppAuthController()
         
-        print("signing user out")
+        os_log("Singing user out", log: .auth, type: .info)
         
         // clear authstate to signout user
-        mainController.setAuthState(nil)
+        appAuthController.setAuthState(nil)
         // clear state storage
         UserDefaults.standard.removeObject(forKey: kAppAuthExampleAuthStateKey)
         
-        let navController = UINavigationController(rootViewController: mainController)
+        let navController = UINavigationController(rootViewController: appAuthController)
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         // set appAuth controller as rootViewController
         appDelegate.window!.rootViewController = navController

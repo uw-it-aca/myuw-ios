@@ -1,5 +1,5 @@
 //
-//  NoticesViewController.swift
+//  NoticesWebView.swift
 //  myuw-ios
 //
 //  Created by Charlon Palacay on 11/13/19.
@@ -9,7 +9,7 @@
 import UIKit
 import WebKit
 
-class NoticesViewController: CustomWebViewController {
+class NoticesWebView: WebViewController {
         
     override func viewDidLoad() {
         super.viewDidLoad()

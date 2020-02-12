@@ -1,5 +1,5 @@
 //
-//  CustomWebViewController.swift
+//  WebViewController.swift
 //  myuw-ios
 //
 //  Created by Charlon Palacay on 11/15/19.
@@ -8,7 +8,7 @@
 
 import UIKit
 import WebKit
-import AppAuth // import just to test if framework is installed
+import os
 
 // singleton class for a shared WKProcessPool
 class ProcessPool {
@@ -16,9 +16,8 @@ class ProcessPool {
     static var sharedPool = WKProcessPool()
 }
 
-class CustomWebViewController: UIViewController, WKNavigationDelegate {
+class WebViewController: UIViewController, WKNavigationDelegate {
     
-    // var deepAction = ""
     var webView: WKWebView!
     var activityIndicator: UIActivityIndicatorView!
     
@@ -28,12 +27,9 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
     // TODO: - this is the stackoverflow fix for the large title/webview issues
     // FYI: - this seems to work on all views EXCEPT teaching and academics tabs
     override func viewLayoutMarginsDidChange() {
-        //print("viewLayoutMarginsDidChange: ", didChange)
         if didChange {
-            //print("old Height : - \(String(describing: self.navigationController?.navigationBar.frame.size.height))")
             // set NavigationBar Height here
             self.navigationController!.navigationBar.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 96.0)
-            //print("new Height : - \(String(describing: self.navigationController?.navigationBar.frame.size.height))")
             didChange = false
         }
     }
@@ -45,10 +41,13 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
         
         let notificationCenter = NotificationCenter.default
         // TODO: observe various phone state changes and re-auth if needed
-        // app foregrounded
+        
+        // app went to foregrounded
         notificationCenter.addObserver(self, selector: #selector(appBecameActive), name: UIApplication.willEnterForegroundNotification, object: nil)
-        // app backgrounded
+        
+        // app went to backgrounded
         //notificationCenter.addObserver(self, selector: #selector(appMovedToForeground), name: UIApplication.didEnterBackgroundNotification, object: nil)
+        
         // app became active (called every time)
         //notificationCenter.addObserver(self, selector: #selector(appBecameActive), name: UIApplication.didBecomeActiveNotification, object: nil )
         
@@ -58,10 +57,15 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
         
         // MARK: - WKWebView setup and configuration
         let configuration = WKWebViewConfiguration()
+        
+        // MARK: JS bridge message handler
+        configuration.userContentController.add(self, name: "myuwBridge")
         configuration.websiteDataStore = WKWebsiteDataStore.default()
         configuration.processPool = ProcessPool.sharedPool
+        
+        // set the custom user agent
         configuration.applicationNameForUserAgent = "MyUW_Hybrid/1.0 (iPhone)"
-       
+    
         webView = WKWebView(frame: self.view.frame, configuration: configuration)
         webView.navigationDelegate = self
         
@@ -71,9 +75,6 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
         webView.allowsLinkPreview = false
         webView.scrollView.alwaysBounceVertical = true
         webView.scrollView.bounces = true
-                
-        // loading observer
-        //webView.addObserver(self, forKeyPath: #keyPath(WKWebView.isLoading), options: .new, context: nil)
                 
         view.addSubview(webView)
         
@@ -99,32 +100,14 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
         webView.scrollView.refreshControl = refreshControl
       
     }
-    /*
-    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-        if keyPath == "loading" {
-            if webView.isLoading {
-                print("isLoading")
-                
-                
-            } else {
-                print("done Loading")
-                didChange = true
-            }
-        }
-    }
-    */
-    
+
     @objc func appBecameActive() {
         
-        print("appBecameActive")
-        //activityIndicator.isHidden = false
-        //activityIndicator.startAnimating()
-        //webView.reload()
+        os_log("appBecameActive", log: .ui, type: .info)
         
-        // go through appAuth controller when foregrounding
-        let mainController = AppAuthTest()
-        let navController = UINavigationController(rootViewController: mainController)
-        
+        // force use go through appAuth flow when foregrounding the app
+        let appAuthController = AppAuthController()
+        let navController = UINavigationController(rootViewController: appAuthController)
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         // set appAuth controller as rootViewController
         appDelegate.window!.rootViewController = navController
@@ -132,7 +115,9 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
     }
     
     @objc func refreshWebView(_ sender: UIRefreshControl) {
-        print("refreshWebView")
+
+        os_log("refreshWebView", log: .webview, type: .info)
+        
         activityIndicator.isHidden = false
         activityIndicator.startAnimating()
         webView.reload()
@@ -141,21 +126,9 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
     
     // webview navigation handlers
     func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
-        
-        print("didStartProvisionalNavigation")
+
+        os_log("didStartProvisionalNavigation", log: .webview, type: .info)
         didChange = true
-        
-        // MARK: - Webview activity indicator
-        /*
-        activityIndicator = UIActivityIndicatorView()
-        activityIndicator.center = self.view.center
-        activityIndicator.hidesWhenStopped = true
-        activityIndicator.style = .gray
-        
-        activityIndicator.isHidden = false
-        activityIndicator.startAnimating()
-        webView.addSubview(activityIndicator)
-        */
     }
 
     func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
@@ -170,17 +143,8 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
         didChange = true
         
         let url = webView.url?.absoluteURL
-        print("webview url: ", url as Any)
-        print("webview appauth idToken: ", ProcessPool.idToken)
-        
-        // handle deep actions
-        /*
-        if (deepAction.count > 0) {
-            print(deepAction)
-            webView.evaluateJavaScript(deepAction)
-            deepAction = ""
-        }
-        */
+
+        os_log("webview url: %@", log: .webview, type: .info, url!.absoluteString)
     
     }
     
@@ -196,14 +160,14 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
         if navigationAction.navigationType == .linkActivated  {
             
             let url = navigationAction.request.url
-            print("navi url: ", url as Any)
+            os_log("navi url: %@", log: .webview, type: .info, url!.absoluteString)
                             
             // check to see if the url is NOT my-test.s.uw.edu (myuw)
             if !url!.absoluteString.contains("\(appHost)"), UIApplication.shared.canOpenURL(url!) {
                 
                 // open outbound url in safari
                 UIApplication.shared.open(url!)
-                print("navi: redirect to safari")
+                os_log("navi: redirect to safari", log: .webview, type: .info)
                 decisionHandler(.cancel)
                 
             }
@@ -216,18 +180,18 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
                 
                 // open outbound url in safari
                 UIApplication.shared.open(outbound!)
-                print("navi: redirect to safari")
+                os_log("navi: redirect to safari", log: .webview, type: .info)
                 decisionHandler(.cancel)
                 
             } else {
                         
                 // open links by pushing a new view controller
-                print("navi: push view controller")
+                os_log("navi: push view controller", log: .webview, type: .info)
     
-                let newVisit = CustomVisitController()
+                let newVisit = VisitController()
                 newVisit.visitUrl = navigationAction.request.url!.absoluteString
                 
-                print(newVisit.visitUrl)
+                os_log("navi new visit: %@", log: .webview, type: .info, newVisit.visitUrl)
                 
                 self.navigationController?.pushViewController(newVisit, animated: true)
                 decisionHandler(.cancel)
@@ -254,8 +218,40 @@ extension WKWebView {
     // custom load extension that sets custom header
     func load(_ urlString: String) {
         if let url = URL(string: urlString) {
-            let request = URLRequest(url: url)
+            
+            var request = URLRequest(url: url)
+            
+            // pass the idToken via request header
+            os_log("loading idtoken: %@", log: .webview, type: .info, ProcessPool.idToken)
+            
+            // pass the authorization bearer token in request header
+            request.allHTTPHeaderFields = ["Authorization":"Bearer \(ProcessPool.idToken)"]
+            
+            // load the request
+            os_log("loading request: %@", log: .webview, type: .info, url.absoluteString)
             load(request)
         }
     }
 }
+
+extension WebViewController: WKScriptMessageHandler {
+    
+    // listen for messages coming from myuw via the jsbridge
+    func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
+        if message.name == "myuwBridge" {
+            
+            // get the message received from myuw web
+            os_log("bridge message: %@", log: .jsbridge, type: .info, (message.body as? String)!)
+            
+        }
+    }
+}
+
+extension OSLog {
+    // subsystem
+    private static var subsystem = Bundle.main.bundleIdentifier!
+    // log categories
+    static let webview = OSLog(subsystem: subsystem, category: "WebView")
+    static let jsbridge = OSLog(subsystem: subsystem, category: "JSBridge")
+}
+

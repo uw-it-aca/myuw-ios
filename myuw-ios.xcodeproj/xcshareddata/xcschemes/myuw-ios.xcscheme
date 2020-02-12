@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "854EE08922F0F9A20042381A"
-               BuildableName = "myuw-ios.app"
+               BuildableName = "MyUW.app"
                BlueprintName = "myuw-ios"
                ReferencedContainer = "container:myuw-ios.xcodeproj">
             </BuildableReference>
@@ -65,7 +65,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "854EE08922F0F9A20042381A"
-            BuildableName = "myuw-ios.app"
+            BuildableName = "MyUW.app"
             BlueprintName = "myuw-ios"
             ReferencedContainer = "container:myuw-ios.xcodeproj">
          </BuildableReference>
@@ -82,7 +82,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "854EE08922F0F9A20042381A"
-            BuildableName = "myuw-ios.app"
+            BuildableName = "MyUW.app"
             BlueprintName = "myuw-ios"
             ReferencedContainer = "container:myuw-ios.xcodeproj">
          </BuildableReference>

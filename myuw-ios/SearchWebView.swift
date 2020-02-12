@@ -1,5 +1,5 @@
 //
-//  SearchViewController.swift
+//  SearchWebView.swift
 //  myuw-ios
 //
 //  Created by Charlon Palacay on 11/8/19.
@@ -8,8 +8,9 @@
 
 import UIKit
 import WebKit
+import os
 
-class SearchViewController: CustomWebViewController, UISearchBarDelegate {
+class SearchWebView: WebViewController, UISearchBarDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,7 +20,10 @@ class SearchViewController: CustomWebViewController, UISearchBarDelegate {
         
         // override navigation title (match UW page title)
         self.navigationItem.title = "Search the UW"
-                
+        
+        // add a right button in navbar programatically
+        let closeButton = UIBarButtonItem(title: "Close", style: .plain, target: self, action: #selector(dismissSearch))
+        
         // search controler and bar setup
         let searchController = UISearchController()
         self.navigationItem.searchController = searchController
@@ -39,18 +43,23 @@ class SearchViewController: CustomWebViewController, UISearchBarDelegate {
         // search controller delegate
         searchController.searchBar.delegate = self
         
+        self.navigationItem.rightBarButtonItem = closeButton
+    }
+    
+    @objc private func dismissSearch(){
+        self.dismiss(animated: true, completion: nil)
     }
     
     func searchBarSearchButtonClicked( _ searchBar: UISearchBar)
     {
-        print("search bar clicked: ", searchBar.text! )
+        
+        os_log("Search bar clicked: %@", log: .ui, type: .info, searchBar.text!)
         
         // clean up the searchBar text before building the query param string for visitURL
         var returnStr: String = searchBar.text!
         returnStr = searchBar.text!.replacingOccurrences(of: " ", with: "+")
         let visitUrl:String = "https://www.washington.edu/search/?q=\(returnStr)"
     
-        print(visitUrl)
         webView.load(visitUrl)
         
         // show the user's search term in the text field... while the results are frozen

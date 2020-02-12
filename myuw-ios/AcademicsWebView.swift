@@ -1,5 +1,5 @@
 //
-//  AcademicsViewController.swift
+//  AcademicsWebView.swift
 //  myuw-ios
 //
 //  Created by Charlon Palacay on 10/29/19.
@@ -9,7 +9,7 @@
 import UIKit
 import WebKit
 
-class AcademicsViewController: CustomWebViewController {
+class AcademicsWebView: WebViewController {
         
     override func viewDidLoad() {
         super.viewDidLoad()

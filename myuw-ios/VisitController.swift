@@ -1,5 +1,5 @@
 //
-//  CustomVisitController.swift
+//  VisitController.swift
 //  myuw-ios
 //
 //  Created by Charlon Palacay on 11/5/19.
@@ -9,7 +9,7 @@
 import UIKit
 import WebKit
 
-class CustomVisitController: CustomWebViewController {
+class VisitController: WebViewController {
     
     var visitUrl:String = ""
 
