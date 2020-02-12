@@ -9,7 +9,7 @@
 import UIKit
 import WebKit
 
-class HomeViewController: WebViewController {
+class HomeWebView: WebViewController {
         
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -49,25 +49,25 @@ class HomeViewController: WebViewController {
     }
     
     @objc func showProfile() {
-        let profileViewController = ProfileViewController()
-        self.navigationController?.pushViewController(profileViewController, animated: true)
+        let profileWebView = ProfileWebView()
+        self.navigationController?.pushViewController(profileWebView, animated: true)
     }
     
     @objc func showSearch() {
         
         // instantiate instance of SearchViewController
-        let searchViewController = UINavigationController(rootViewController: SearchViewController())
+        let searchWebView = UINavigationController(rootViewController: SearchWebView())
         
         // set style of how view controller is to be presented
         if #available(iOS 13.0, *) {
-            searchViewController.modalPresentationStyle = .automatic
+            searchWebView.modalPresentationStyle = .automatic
         } else {
             // fallback on earlier versions
-            searchViewController.modalPresentationStyle = .formSheet
+            searchWebView.modalPresentationStyle = .formSheet
         }
                 
         // present the profile view controller
-        present(searchViewController, animated: true, completion: nil)
+        present(searchWebView, animated: true, completion: nil)
     }
     
     @objc func signOut() {

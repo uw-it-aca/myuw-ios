@@ -1,5 +1,5 @@
 //
-//  ProfileViewController.swift
+//  ProfileWebView.swift
 //  myuw-test
 //
 //  Created by Charlon Palacay on 10/21/19.
@@ -9,7 +9,7 @@
 import UIKit
 import WebKit
 
-class ProfileViewController: WebViewController {
+class ProfileWebView: WebViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()

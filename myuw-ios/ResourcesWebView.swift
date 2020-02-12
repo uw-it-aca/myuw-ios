@@ -1,5 +1,5 @@
 //
-//  AccountsViewController.swift
+//  ResourcesWebView.swift
 //  myuw-ios
 //
 //  Created by Charlon Palacay on 10/29/19.
@@ -9,16 +9,17 @@
 import UIKit
 import WebKit
 
-class AccountsViewController: WebViewController {
+class ResourcesWebView: WebViewController {
         
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+                
         // load the webview
-        webView.load("\(appHost)/accounts/")
+        webView.load("\(appHost)/resources/")
         
         // override navigation title
-        self.navigationItem.title = "Accounts"
+        self.navigationItem.title = "Resources"
     }
-    
+
 }
+

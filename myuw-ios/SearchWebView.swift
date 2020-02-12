@@ -1,5 +1,5 @@
 //
-//  SearchViewController.swift
+//  SearchWebView.swift
 //  myuw-ios
 //
 //  Created by Charlon Palacay on 11/8/19.
@@ -9,7 +9,7 @@
 import UIKit
 import WebKit
 
-class SearchViewController: WebViewController, UISearchBarDelegate {
+class SearchWebView: WebViewController, UISearchBarDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()

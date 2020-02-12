@@ -1,24 +1,24 @@
 //
-//  CalendarViewController.swift
+//  NoticesWebView.swift
 //  myuw-ios
 //
-//  Created by Charlon Palacay on 10/29/19.
+//  Created by Charlon Palacay on 11/13/19.
 //  Copyright © 2019 Charlon Palacay. All rights reserved.
 //
 
 import UIKit
 import WebKit
 
-class CalendarViewController: WebViewController {
+class NoticesWebView: WebViewController {
         
     override func viewDidLoad() {
         super.viewDidLoad()
-                
+    
         // load the webview
-        webView.load("\(appHost)/academic_calendar/")
+        webView.load("\(appHost)/notices/")
         
         // override navigation title
-        self.navigationItem.title = "Calendar"
+        self.navigationItem.title = "Notices"
     }
     
 }

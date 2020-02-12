@@ -1,24 +1,24 @@
 //
-//  NoticesViewController.swift
+//  TeachingWebView.swift
 //  myuw-ios
 //
-//  Created by Charlon Palacay on 11/13/19.
+//  Created by Charlon Palacay on 10/29/19.
 //  Copyright © 2019 Charlon Palacay. All rights reserved.
 //
 
 import UIKit
 import WebKit
 
-class NoticesViewController: WebViewController {
+class TeachingWebView: WebViewController {
         
     override func viewDidLoad() {
         super.viewDidLoad()
-    
+                
         // load the webview
-        webView.load("\(appHost)/notices/")
+        webView.load("\(appHost)/teaching/")
         
         // override navigation title
-        self.navigationItem.title = "Notices"
+        self.navigationItem.title = "Teaching"
     }
     
 }

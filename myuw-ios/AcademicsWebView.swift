@@ -1,24 +1,24 @@
 //
-//  HuskyExpViewController.swift
+//  AcademicsWebView.swift
 //  myuw-ios
 //
-//  Created by Charlon Palacay on 11/13/19.
+//  Created by Charlon Palacay on 10/29/19.
 //  Copyright © 2019 Charlon Palacay. All rights reserved.
 //
 
 import UIKit
 import WebKit
 
-class HuskyExpViewController: WebViewController {
+class AcademicsWebView: WebViewController {
         
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+                
         // load the webview
-        webView.load("\(appHost)/husky_experience/")
+        webView.load("\(appHost)/academics/")
         
         // override navigation title
-        self.navigationItem.title = "Husky Experience Toolkit"
+        self.navigationItem.title = "Academics"
     }
     
 }

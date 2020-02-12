@@ -12,14 +12,14 @@ import UIKit
 class ApplicationController: UITabBarController, UITabBarControllerDelegate {
     
     // global tab setup
-    let tabHome = UINavigationController(rootViewController: HomeViewController())
-    let tabAcademics = UINavigationController(rootViewController: AcademicsViewController())
-    let tabHuskyExp = UINavigationController(rootViewController: HuskyExpViewController())
-    let tabTeaching = UINavigationController(rootViewController: TeachingViewController())
-    var tabAccounts = UINavigationController(rootViewController: AccountsViewController())
-    let tabNotices = UINavigationController(rootViewController: NoticesViewController())
-    let tabCalendar = UINavigationController(rootViewController: CalendarViewController())
-    let tabResources = UINavigationController(rootViewController: ResourcesViewController())
+    let tabHome = UINavigationController(rootViewController: HomeWebView())
+    let tabAcademics = UINavigationController(rootViewController: AcademicsWebView())
+    let tabHuskyExp = UINavigationController(rootViewController: HuskyExpWebView())
+    let tabTeaching = UINavigationController(rootViewController: TeachingWebView())
+    var tabAccounts = UINavigationController(rootViewController: AccountsWebView())
+    let tabNotices = UINavigationController(rootViewController: NoticesWebView())
+    let tabCalendar = UINavigationController(rootViewController: CalendarWebView())
+    let tabResources = UINavigationController(rootViewController: ResourcesWebView())
     
     override func viewDidLoad() {
         super.viewDidLoad()
