@@ -9,7 +9,7 @@
 import UIKit
 import WebKit
 
-class HuskyExpViewController: CustomWebViewController {
+class HuskyExpViewController: WebViewController {
         
     override func viewDidLoad() {
         super.viewDidLoad()

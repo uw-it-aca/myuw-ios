@@ -9,7 +9,7 @@
 import UIKit
 import WebKit
 
-class HomeViewController: CustomWebViewController {
+class HomeViewController: WebViewController {
         
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -72,7 +72,7 @@ class HomeViewController: CustomWebViewController {
     
     @objc func signOut() {
         
-        let mainController = AppAuthTest()
+        let mainController = AppAuthController()
         
         print("signing user out")
         

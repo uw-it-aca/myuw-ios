@@ -9,7 +9,7 @@
 import UIKit
 import WebKit
 
-class CalendarViewController: CustomWebViewController {
+class CalendarViewController: WebViewController {
         
     override func viewDidLoad() {
         super.viewDidLoad()

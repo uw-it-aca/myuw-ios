@@ -9,7 +9,7 @@
 import UIKit
 import WebKit
 
-class SearchViewController: CustomWebViewController, UISearchBarDelegate {
+class SearchViewController: WebViewController, UISearchBarDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()

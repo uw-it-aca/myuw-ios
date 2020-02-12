@@ -1,5 +1,5 @@
 //
-//  CustomWebViewController.swift
+//  WebViewController.swift
 //  myuw-ios
 //
 //  Created by Charlon Palacay on 11/15/19.
@@ -16,7 +16,7 @@ class ProcessPool {
     static var sharedPool = WKProcessPool()
 }
 
-class CustomWebViewController: UIViewController, WKNavigationDelegate {
+class WebViewController: UIViewController, WKNavigationDelegate {
     
     var webView: WKWebView!
     var activityIndicator: UIActivityIndicatorView!
@@ -106,7 +106,7 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
         os_log("appBecameActive", log: .ui, type: .info)
         
         // force use go through appAuth flow when foregrounding the app
-        let mainController = AppAuthTest()
+        let mainController = AppAuthController()
         let navController = UINavigationController(rootViewController: mainController)
         
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -189,7 +189,7 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
                 // open links by pushing a new view controller
                 os_log("navi: push view controller", log: .webview, type: .info)
     
-                let newVisit = CustomVisitController()
+                let newVisit = VisitController()
                 newVisit.visitUrl = navigationAction.request.url!.absoluteString
                 
                 os_log("navi new visit: %@", log: .webview, type: .info, newVisit.visitUrl)
@@ -235,7 +235,7 @@ extension WKWebView {
     }
 }
 
-extension CustomWebViewController: WKScriptMessageHandler {
+extension WebViewController: WKScriptMessageHandler {
     
     // listen for messages coming from myuw via the jsbridge
     func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {

@@ -9,7 +9,7 @@
 import UIKit
 import WebKit
 
-class AccountsViewController: CustomWebViewController {
+class AccountsViewController: WebViewController {
         
     override func viewDidLoad() {
         super.viewDidLoad()

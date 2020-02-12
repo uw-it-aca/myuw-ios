@@ -9,7 +9,7 @@
 import UIKit
 import WebKit
 
-class ResourcesViewController: CustomWebViewController {
+class ResourcesViewController: WebViewController {
         
     override func viewDidLoad() {
         super.viewDidLoad()

@@ -9,7 +9,7 @@
 import UIKit
 import WebKit
 
-class NoticesViewController: CustomWebViewController {
+class NoticesViewController: WebViewController {
         
     override func viewDidLoad() {
         super.viewDidLoad()

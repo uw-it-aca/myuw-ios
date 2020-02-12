@@ -53,7 +53,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         // set AppAuthTest controller as the main controller for the application
-        let mainController = AppAuthTest()
+        let mainController = AppAuthController()
 
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.makeKeyAndVisible()

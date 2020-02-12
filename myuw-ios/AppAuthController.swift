@@ -1,5 +1,5 @@
 //
-//  AppAuthTest.swift
+//  AppAuthController.swift
 //  myuw-ios
 //
 //  Created by Charlon Palacay on 1/7/20.
@@ -18,7 +18,7 @@ let kClientID: String? = clientID
 let kRedirectURI: String = "edu.uw.myuw-ios:/";
 let kAppAuthExampleAuthStateKey: String = "authState";
 
-class AppAuthTest: UIViewController {
+class AppAuthController: UIViewController {
     
     // property of the containing class
     private var authState: OIDAuthState?
@@ -210,7 +210,7 @@ class AppAuthTest: UIViewController {
 
 
 //MARK: OIDAuthState Delegate
-extension AppAuthTest: OIDAuthStateChangeDelegate, OIDAuthStateErrorDelegate {
+extension AppAuthController: OIDAuthStateChangeDelegate, OIDAuthStateErrorDelegate {
 
     func didChange(_ state: OIDAuthState) {
         os_log("didChange", log: .auth, type: .info)
@@ -224,7 +224,7 @@ extension AppAuthTest: OIDAuthStateChangeDelegate, OIDAuthStateErrorDelegate {
 
 
 //MARK: Helper Methods
-extension AppAuthTest {
+extension AppAuthController {
 
     func saveState() {
         
@@ -293,7 +293,7 @@ extension AppAuthTest {
 }
 
 // MARK: User Info and app redirect
-extension AppAuthTest {
+extension AppAuthController {
    
     func getUserInfo() {
         
@@ -389,10 +389,10 @@ extension AppAuthTest {
                         ProcessPool.idToken = (self.authState?.lastTokenResponse?.idToken)!
                     
                         // set tabControlleer as rootViewController after getting user info
-                        let tabController = TabViewController()
+                        let appController = ApplicationController()
                         let appDelegate = UIApplication.shared.delegate as! AppDelegate
                         // set the main controller as the root controller on app load
-                        appDelegate.window!.rootViewController = tabController
+                        appDelegate.window!.rootViewController = appController
                         
                     
                     }

@@ -1,5 +1,5 @@
 //
-//  TabViewController.swift
+//  ApplicationController.swift
 //  myuw-ios
 //
 //  Created by Charlon Palacay on 10/29/19.
@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class TabViewController: UITabBarController, UITabBarControllerDelegate {
+class ApplicationController: UITabBarController, UITabBarControllerDelegate {
     
     // global tab setup
     let tabHome = UINavigationController(rootViewController: HomeViewController())
