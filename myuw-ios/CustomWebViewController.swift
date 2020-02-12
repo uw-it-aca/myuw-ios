@@ -222,8 +222,7 @@ extension WKWebView {
             // pass the idToken via request header
             print("load idToken: ", ProcessPool.idToken)
             
-            // 2 ways to pass the authorization header
-            request.addValue(ProcessPool.idToken, forHTTPHeaderField: "Authorization")
+            // pass the authorization bearer token in request header
             request.allHTTPHeaderFields = ["Authorization":"Bearer \(ProcessPool.idToken)"]
                         
             print("load request")
