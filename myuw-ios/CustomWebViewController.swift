@@ -8,6 +8,7 @@
 
 import UIKit
 import WebKit
+import os
 
 // singleton class for a shared WKProcessPool
 class ProcessPool {
@@ -75,9 +76,6 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
         webView.scrollView.alwaysBounceVertical = true
         webView.scrollView.bounces = true
                 
-        // loading observer
-        //webView.addObserver(self, forKeyPath: #keyPath(WKWebView.isLoading), options: .new, context: nil)
-                
         view.addSubview(webView)
         
         // MARK: - Add activity indicator to indicate webview initial load
@@ -105,8 +103,8 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
 
     @objc func appBecameActive() {
         
-        print("appBecameActive")
-
+        os_log("appBecameActive", log: .ui, type: .info)
+        
         // force use go through appAuth flow when foregrounding the app
         let mainController = AppAuthTest()
         let navController = UINavigationController(rootViewController: mainController)
@@ -118,7 +116,9 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
     }
     
     @objc func refreshWebView(_ sender: UIRefreshControl) {
-        print("refreshWebView")
+
+        os_log("refreshWebView", log: .webview, type: .info)
+        
         activityIndicator.isHidden = false
         activityIndicator.startAnimating()
         webView.reload()
@@ -127,7 +127,8 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
     
     // webview navigation handlers
     func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
-        print("didStartProvisionalNavigation")
+
+        os_log("didStartProvisionalNavigation", log: .webview, type: .info)
         didChange = true
     }
 
@@ -143,7 +144,8 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
         didChange = true
         
         let url = webView.url?.absoluteURL
-        print("webview url: ", url as Any)
+
+        os_log("webview url: %@", log: .webview, type: .info, url!.absoluteString)
     
     }
     
@@ -159,14 +161,14 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
         if navigationAction.navigationType == .linkActivated  {
             
             let url = navigationAction.request.url
-            print("navi url: ", url as Any)
+            os_log("navi url: %@", log: .webview, type: .info, url!.absoluteString)
                             
             // check to see if the url is NOT my-test.s.uw.edu (myuw)
             if !url!.absoluteString.contains("\(appHost)"), UIApplication.shared.canOpenURL(url!) {
                 
                 // open outbound url in safari
                 UIApplication.shared.open(url!)
-                print("navi: redirect to safari")
+                os_log("navi: redirect to safari", log: .webview, type: .info)
                 decisionHandler(.cancel)
                 
             }
@@ -179,18 +181,18 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
                 
                 // open outbound url in safari
                 UIApplication.shared.open(outbound!)
-                print("navi: redirect to safari")
+                os_log("navi: redirect to safari", log: .webview, type: .info)
                 decisionHandler(.cancel)
                 
             } else {
                         
                 // open links by pushing a new view controller
-                print("navi: push view controller")
+                os_log("navi: push view controller", log: .webview, type: .info)
     
                 let newVisit = CustomVisitController()
                 newVisit.visitUrl = navigationAction.request.url!.absoluteString
                 
-                print(newVisit.visitUrl)
+                os_log("navi new visit: %@", log: .webview, type: .info, newVisit.visitUrl)
                 
                 self.navigationController?.pushViewController(newVisit, animated: true)
                 decisionHandler(.cancel)
@@ -217,15 +219,17 @@ extension WKWebView {
     // custom load extension that sets custom header
     func load(_ urlString: String) {
         if let url = URL(string: urlString) {
+            
             var request = URLRequest(url: url)
             
             // pass the idToken via request header
-            print("load idToken: ", ProcessPool.idToken)
+            os_log("loading idtoken: %@", log: .webview, type: .info, ProcessPool.idToken)
             
             // pass the authorization bearer token in request header
             request.allHTTPHeaderFields = ["Authorization":"Bearer \(ProcessPool.idToken)"]
-                        
-            print("load request")
+            
+            // load the request
+            os_log("loading request: %@", log: .webview, type: .info, url.absoluteString)
             load(request)
         }
     }
@@ -237,17 +241,18 @@ extension CustomWebViewController: WKScriptMessageHandler {
     func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
         if message.name == "myuwBridge" {
             
-            // print the message received from myuw web
-            print(message.body as? String as Any)
+            // get the message received from myuw web
+            os_log("bridge message: %@", log: .jsbridge, type: .info, (message.body as? String)!)
             
-            // convert the string back to an array
-            let string = message.body
-            let array = (string as AnyObject).components(separatedBy: ",")
-            
-            print(array)
-            
-            // set user affiliations from myuw message via jsbridge
-            userAffiliations = array as NSArray
         }
     }
 }
+
+extension OSLog {
+    // subsystem
+    private static var subsystem = Bundle.main.bundleIdentifier!
+    // log categories
+    static let webview = OSLog(subsystem: subsystem, category: "WebView")
+    static let jsbridge = OSLog(subsystem: subsystem, category: "JSBridge")
+}
+
