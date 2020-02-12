@@ -69,24 +69,5 @@ class HomeWebView: WebViewController {
         // present the profile view controller
         present(searchWebView, animated: true, completion: nil)
     }
-    
-    @objc func signOut() {
-        
-        let mainController = AppAuthController()
-        
-        print("signing user out")
-        
-        // clear authstate to signout user
-        mainController.setAuthState(nil)
-        // clear state storage
-        UserDefaults.standard.removeObject(forKey: kAppAuthExampleAuthStateKey)
-        
-        let navController = UINavigationController(rootViewController: mainController)
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        // set appAuth controller as rootViewController
-        appDelegate.window!.rootViewController = navController
-        
-    
-    }
-    
+
 }

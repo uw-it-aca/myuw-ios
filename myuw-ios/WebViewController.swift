@@ -106,9 +106,8 @@ class WebViewController: UIViewController, WKNavigationDelegate {
         os_log("appBecameActive", log: .ui, type: .info)
         
         // force use go through appAuth flow when foregrounding the app
-        let mainController = AppAuthController()
-        let navController = UINavigationController(rootViewController: mainController)
-        
+        let appAuthController = AppAuthController()
+        let navController = UINavigationController(rootViewController: appAuthController)
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         // set appAuth controller as rootViewController
         appDelegate.window!.rootViewController = navController

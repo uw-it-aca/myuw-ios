@@ -52,36 +52,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             UINavigationBar.appearance().isTranslucent = false
         }
         
-        // set AppAuthTest controller as the main controller for the application
-        let mainController = AppAuthController()
-
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.makeKeyAndVisible()
-        
-        let nc = UINavigationController(rootViewController: mainController)
-        
-        // set the main controller as the root controller on app load
-        window?.rootViewController = nc
+    
+        // force use go through appAuth flow when foregrounding the app
+        let appAuthController = AppAuthController()
+        let navController = UINavigationController(rootViewController: appAuthController)
+        // set appAuth controller as rootViewController
+        window!.rootViewController = navController
 
         return true
     }
-    
-    // Handle deep links myuwapp://page
-    /*
-    func application(_ application: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:] ) -> Bool {
-        
-        print("app delegate deep link activated")
-        
-        // Determine who sent the URL.
-        let sendingAppID = options[.sourceApplication]
-        print("source application = \(sendingAppID ?? "Unknown")")
-        
-        // navigate to deeplink via tab view controller by calling openDeepLink method
-        (window!.rootViewController as? TabViewController)?.openDeepLink(url: url)
-    
-        return true
-    }*/
-    
+
     // handle appauth
     func application(_ application: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
 

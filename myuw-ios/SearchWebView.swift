@@ -8,6 +8,7 @@
 
 import UIKit
 import WebKit
+import os
 
 class SearchWebView: WebViewController, UISearchBarDelegate {
 
@@ -51,14 +52,14 @@ class SearchWebView: WebViewController, UISearchBarDelegate {
     
     func searchBarSearchButtonClicked( _ searchBar: UISearchBar)
     {
-        print("search bar clicked: ", searchBar.text! )
+        
+        os_log("Search bar clicked: %@", log: .ui, type: .info, searchBar.text!)
         
         // clean up the searchBar text before building the query param string for visitURL
         var returnStr: String = searchBar.text!
         returnStr = searchBar.text!.replacingOccurrences(of: " ", with: "+")
         let visitUrl:String = "https://www.washington.edu/search/?q=\(returnStr)"
     
-        print(visitUrl)
         webView.load(visitUrl)
         
         // show the user's search term in the text field... while the results are frozen

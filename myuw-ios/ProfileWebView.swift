@@ -8,6 +8,7 @@
 
 import UIKit
 import WebKit
+import os
 
 class ProfileWebView: WebViewController {
     
@@ -38,16 +39,16 @@ class ProfileWebView: WebViewController {
     
     @objc func signOut() {
         
-        let mainController = AppAuthController()
+        let appAuthController = AppAuthController()
         
-        print("signing user out")
+        os_log("Singing user out", log: .auth, type: .info)
         
         // clear authstate to signout user
-        mainController.setAuthState(nil)
+        appAuthController.setAuthState(nil)
         // clear state storage
         UserDefaults.standard.removeObject(forKey: kAppAuthExampleAuthStateKey)
         
-        let navController = UINavigationController(rootViewController: mainController)
+        let navController = UINavigationController(rootViewController: appAuthController)
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         // set appAuth controller as rootViewController
         appDelegate.window!.rootViewController = navController
