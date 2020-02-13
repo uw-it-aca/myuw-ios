@@ -9,6 +9,6 @@
 	<key>myuw_host</key>
 	<string>http://localhost:8000</string>
 	<key>myuw_affiliation</key>
-	<string>/api/v1/affiliation/</string>
+	<string>/my/affiliation/endpoint</string>
 </dict>
 </plist>
