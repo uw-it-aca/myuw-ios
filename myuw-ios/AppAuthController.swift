@@ -321,7 +321,15 @@ extension AppAuthController {
 
 
             // TODO: get user netid by decoding idtoken
-            userNetID = "javerage"
+            userNetID = ""
+            if (self.authState?.isAuthorized ?? false) {
+                let idTokenClaims = self.getIdTokenClaims(idToken: idToken ?? "") ?? Data()
+                os_log("idTokenClaims: %@", log: .auth, type: .info, (String(describing: String(bytes: idTokenClaims, encoding: .utf8))))
+                let claimsDictionary = try! JSONSerialization.jsonObject(with: idTokenClaims, options: .allowFragments) as? [String: Any]
+                os_log("claimsDictionary: %@", log: .auth, type: .info, claimsDictionary!)
+                userNetID = claimsDictionary!["sub"] as! String? ?? ""
+
+            }
 
             // MARK: get user affiliations from myuw endpoint
             let affiliationURL = URL(string: "\(appHost)\(appAffiliationEndpoint)")
@@ -421,6 +429,35 @@ extension AppAuthController {
             task.resume()
         }
     }
+
+    func getIdTokenClaims(idToken: String?) -> Data? {
+        // Decoding ID token claims.
+        var idTokenClaims: Data?
+
+        if let jwtParts = idToken?.split(separator: "."), jwtParts.count > 1 {
+            let claimsPart = String(jwtParts[1])
+
+            let claimsPartPadded = padBase64Encoded(claimsPart)
+
+            idTokenClaims = Data(base64Encoded: claimsPartPadded)
+        }
+
+        return idTokenClaims
+    }
+
+    /**
+    Completes base64Encoded string to multiple of 4 to allow for decoding with NSData.
+    */
+    func padBase64Encoded(_ base64Encoded: String) -> String {
+        let remainder = base64Encoded.count % 4
+
+        if remainder > 0 {
+            return base64Encoded.padding(toLength: base64Encoded.count + 4 - remainder, withPad: "=", startingAt: 0)
+        }
+
+        return base64Encoded
+    }
+
 }
 
 extension OSLog {
