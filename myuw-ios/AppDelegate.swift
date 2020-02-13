@@ -11,6 +11,7 @@ import AppAuth
 
 //  From myuw.plist
 var appHost = ""
+var appAffiliationEndpoint = ""
 var clientID = ""
 var clientIssuer = ""
 
@@ -31,6 +32,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // read in config
         if let path = Bundle.main.path(forResource: "myuw", ofType: "plist"), let config = NSDictionary(contentsOfFile: path) as? [String: AnyObject] {
             appHost = config["myuw_host"] as! String
+            appAffiliationEndpoint = config["myuw_affiliation"] as! String
             clientIssuer = config["oidc_issuer"] as! String
             clientID = config["oidc_clientid"] as! String
         }

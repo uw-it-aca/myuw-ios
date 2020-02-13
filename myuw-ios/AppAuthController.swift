@@ -379,8 +379,15 @@ extension AppAuthController {
                         
                         os_log("Successfully decoded: %{private}@", log: .auth, type: .info, json)
                         
-                        // set global user attributes from the oidc response here...
+                        // TODO: get user netid by decoding idtoken
                         userNetID = (json["email"] as! String).split{$0 == "@"}.map(String.init)[0]
+                        
+                        // TODO: get user affiliations from myuw endpoint
+                        let url = URL(string: "\(appHost)\(appAffiliationEndpoint)")
+                        var urlRequest = URLRequest(url: url!)
+                        urlRequest.allHTTPHeaderFields = ["Authorization":"Bearer \(String(describing: self.authState?.lastTokenResponse?.idToken)))"]
+                        
+                        // get the api response
                         
                         // TODO: access the myuw affiliation endpoint
                         userAffiliations = ["student", "seattle", "undergrad", "instructor"]
