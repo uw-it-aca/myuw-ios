@@ -91,7 +91,7 @@ class ApplicationController: UITabBarController, UITabBarControllerDelegate {
         }
         
         // insert husky exp tab for seattle undergrad
-        if userAffiliations.contains("undergrad") && userAffiliations.contains("seattle") {
+        if (userAffiliations.contains("undergrad") && userAffiliations.contains("seattle")) || userAffiliations.contains("hxt_viewer") {
             controllers.insert(tabHuskyExp, at: 2)
         }
         

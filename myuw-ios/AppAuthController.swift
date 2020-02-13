@@ -298,13 +298,6 @@ extension AppAuthController {
     func getUserInfo() {
         
         os_log("getUserInfo", log: .ui, type: .info)
-        
-        guard let userinfoEndpoint = self.authState?.lastAuthorizationResponse.request.configuration.discoveryDocument?.userinfoEndpoint else {
-            os_log("Userinfo endpoint not declared in discovery document", log: .auth, type: .error)
-            return
-        }
-
-        os_log("Performing userinfo request", log: .auth, type: .info)
 
         let currentAccessToken: String? = self.authState?.lastTokenResponse?.accessToken
 
@@ -326,8 +319,15 @@ extension AppAuthController {
                 os_log("Access token was fresh and not updated: %@", log: .auth, type: .info, accessToken)
             }
 
-            var urlRequest = URLRequest(url: userinfoEndpoint)
-            urlRequest.allHTTPHeaderFields = ["Authorization":"Bearer \(accessToken)"]
+
+            // TODO: get user netid by decoding idtoken
+            userNetID = "javerage"
+
+            // MARK: get user affiliations from myuw endpoint
+            let affiliationURL = URL(string: "\(appHost)\(appAffiliationEndpoint)")
+            os_log("start affiliation request: %@", log: .auth, type: .info, affiliationURL!.absoluteString)
+            var urlRequest = URLRequest(url: affiliationURL!)
+            urlRequest.allHTTPHeaderFields = ["Authorization":"Bearer \(String(describing: self.authState?.lastTokenResponse?.idToken)))"]
 
             let task = URLSession.shared.dataTask(with: urlRequest) { data, response, error in
 
@@ -379,18 +379,31 @@ extension AppAuthController {
                         
                         os_log("Successfully decoded: %{private}@", log: .auth, type: .info, json)
                         
-                        // TODO: get user netid by decoding idtoken
-                        userNetID = (json["email"] as! String).split{$0 == "@"}.map(String.init)[0]
+                        if json["student"] as! Bool == true {
+                            userAffiliations.append("student")
+                        }
                         
-                        // TODO: get user affiliations from myuw endpoint
-                        let url = URL(string: "\(appHost)\(appAffiliationEndpoint)")
-                        var urlRequest = URLRequest(url: url!)
-                        urlRequest.allHTTPHeaderFields = ["Authorization":"Bearer \(String(describing: self.authState?.lastTokenResponse?.idToken)))"]
+                        if json["applicant"] as! Bool == true {
+                            userAffiliations.append("applicant")
+                        }
+
+                        if json["instructor"] as! Bool == true {
+                            userAffiliations.append("instructor")
+                        }
                         
-                        // get the api response
+                        if json["undergrad"] as! Bool == true {
+                            userAffiliations.append("undergrad")
+                        }
                         
-                        // TODO: access the myuw affiliation endpoint
-                        userAffiliations = ["student", "seattle", "undergrad", "instructor"]
+                        if json["hxt_viewer"] as! Bool == true {
+                            userAffiliations.append("hxt_viewer")
+                        }
+
+                        if json["seattle"] as! Bool == true {
+                            userAffiliations.append("seattle")
+                        }
+
+                        os_log("userAffiliations: %{private}@", log: .auth, type: .info, userAffiliations)
        
                         // update the idToken in the singleton process pool
                         ProcessPool.idToken = (self.authState?.lastTokenResponse?.idToken)!
@@ -401,7 +414,6 @@ extension AppAuthController {
                         // set the main controller as the root controller on app load
                         appDelegate.window!.rootViewController = appController
                         
-                    
                     }
                 }
             }
