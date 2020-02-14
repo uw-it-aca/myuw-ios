@@ -298,13 +298,6 @@ extension AppAuthController {
     func getUserInfo() {
         
         os_log("getUserInfo", log: .ui, type: .info)
-        
-        guard let userinfoEndpoint = self.authState?.lastAuthorizationResponse.request.configuration.discoveryDocument?.userinfoEndpoint else {
-            os_log("Userinfo endpoint not declared in discovery document", log: .auth, type: .error)
-            return
-        }
-
-        os_log("Performing userinfo request", log: .auth, type: .info)
 
         let currentAccessToken: String? = self.authState?.lastTokenResponse?.accessToken
 
@@ -326,8 +319,23 @@ extension AppAuthController {
                 os_log("Access token was fresh and not updated: %@", log: .auth, type: .info, accessToken)
             }
 
-            var urlRequest = URLRequest(url: userinfoEndpoint)
-            urlRequest.allHTTPHeaderFields = ["Authorization":"Bearer \(accessToken)"]
+
+            // MARK: get user netid by decoding idtoken
+            // TODO: consider creating a Claims struct and mapping everything to it's attributes
+            if (self.authState?.isAuthorized ?? false) {
+                let idTokenClaims = self.getIdTokenClaims(idToken: idToken ?? "") ?? Data()
+                os_log("idTokenClaims: %@", log: .auth, type: .info, (String(describing: String(bytes: idTokenClaims, encoding: .utf8))))
+                let claimsDictionary = try! JSONSerialization.jsonObject(with: idTokenClaims, options: .allowFragments) as? [String: Any]
+                os_log("claimsDictionary: %@", log: .auth, type: .info, claimsDictionary!)
+                userNetID = claimsDictionary!["sub"] as! String? ?? ""
+
+            }
+
+            // MARK: get user affiliations from myuw endpoint
+            let affiliationURL = URL(string: "\(appHost)\(appAffiliationEndpoint)")
+            os_log("start affiliation request: %@", log: .auth, type: .info, affiliationURL!.absoluteString)
+            var urlRequest = URLRequest(url: affiliationURL!)
+            urlRequest.allHTTPHeaderFields = ["Authorization":"Bearer \(String(describing: self.authState?.lastTokenResponse?.idToken)))"]
 
             let task = URLSession.shared.dataTask(with: urlRequest) { data, response, error in
 
@@ -379,11 +387,31 @@ extension AppAuthController {
                         
                         os_log("Successfully decoded: %{private}@", log: .auth, type: .info, json)
                         
-                        // set global user attributes from the oidc response here...
-                        userNetID = (json["email"] as! String).split{$0 == "@"}.map(String.init)[0]
+                        if json["student"] as! Bool == true {
+                            userAffiliations.append("student")
+                        }
                         
-                        // TODO: access the myuw affiliation endpoint
-                        userAffiliations = ["student", "seattle", "undergrad", "instructor"]
+                        if json["applicant"] as! Bool == true {
+                            userAffiliations.append("applicant")
+                        }
+
+                        if json["instructor"] as! Bool == true {
+                            userAffiliations.append("instructor")
+                        }
+                        
+                        if json["undergrad"] as! Bool == true {
+                            userAffiliations.append("undergrad")
+                        }
+                        
+                        if json["hxt_viewer"] as! Bool == true {
+                            userAffiliations.append("hxt_viewer")
+                        }
+
+                        if json["seattle"] as! Bool == true {
+                            userAffiliations.append("seattle")
+                        }
+
+                        os_log("userAffiliations: %{private}@", log: .auth, type: .info, userAffiliations)
        
                         // update the idToken in the singleton process pool
                         ProcessPool.idToken = (self.authState?.lastTokenResponse?.idToken)!
@@ -394,7 +422,6 @@ extension AppAuthController {
                         // set the main controller as the root controller on app load
                         appDelegate.window!.rootViewController = appController
                         
-                    
                     }
                 }
             }
@@ -402,6 +429,35 @@ extension AppAuthController {
             task.resume()
         }
     }
+
+    func getIdTokenClaims(idToken: String?) -> Data? {
+        // Decoding ID token claims.
+        var idTokenClaims: Data?
+
+        if let jwtParts = idToken?.split(separator: "."), jwtParts.count > 1 {
+            let claimsPart = String(jwtParts[1])
+
+            let claimsPartPadded = padBase64Encoded(claimsPart)
+
+            idTokenClaims = Data(base64Encoded: claimsPartPadded)
+        }
+
+        return idTokenClaims
+    }
+
+    /**
+    Completes base64Encoded string to multiple of 4 to allow for decoding with NSData.
+    */
+    func padBase64Encoded(_ base64Encoded: String) -> String {
+        let remainder = base64Encoded.count % 4
+
+        if remainder > 0 {
+            return base64Encoded.padding(toLength: base64Encoded.count + 4 - remainder, withPad: "=", startingAt: 0)
+        }
+
+        return base64Encoded
+    }
+
 }
 
 extension OSLog {
