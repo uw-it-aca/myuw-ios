@@ -130,9 +130,12 @@ class WebViewController: UIViewController, WKNavigationDelegate {
         os_log("didStartProvisionalNavigation", log: .webview, type: .info)
         didChange = true
     }
-
-    func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
-        // TODO: handle when website fails to load
+    
+    private func webView(webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: NSError)
+    {
+        if(error.code == NSURLErrorNotConnectedToInternet) {
+            os_log("HTTP request failed: %@", log: .webview, type: .error, error.localizedDescription)
+        }
     }
     
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
