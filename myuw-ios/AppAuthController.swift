@@ -320,8 +320,8 @@ extension AppAuthController {
             }
 
 
-            // TODO: get user netid by decoding idtoken
-            userNetID = ""
+            // MARK: get user netid by decoding idtoken
+            // TODO: consider creating a Claims struct and mapping everything to it's attributes
             if (self.authState?.isAuthorized ?? false) {
                 let idTokenClaims = self.getIdTokenClaims(idToken: idToken ?? "") ?? Data()
                 os_log("idTokenClaims: %@", log: .auth, type: .info, (String(describing: String(bytes: idTokenClaims, encoding: .utf8))))
