@@ -34,7 +34,7 @@ class ErrorController: UIViewController {
         headerText.layer.borderColor = UIColor.red.cgColor
         headerText.font = UIFont.boldSystemFont(ofSize: 18)
         headerText.textAlignment = .left
-        headerText.text = "No internet connection."
+        headerText.text = "No internet connection"
         headerText.sizeToFit()
         view.addSubview(headerText)
         // autolayout contraints

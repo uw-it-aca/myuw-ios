@@ -15,7 +15,7 @@ class HomeWebView: WebViewController {
         super.viewDidLoad()
                 
         // load the webview
-        webView.load("\(appHost)/")
+        webView.load("\(appHost)/500/")
                 
         // override navigation title
         self.navigationItem.title = "MyUW"

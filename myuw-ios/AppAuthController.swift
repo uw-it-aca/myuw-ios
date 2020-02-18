@@ -45,7 +45,7 @@ class AppAuthController: UIViewController {
         headerText.layer.borderColor = UIColor.red.cgColor
         headerText.font = UIFont.boldSystemFont(ofSize: 18)
         headerText.textAlignment = .left
-        headerText.text = "You are not signed in!"
+        headerText.text = "You are not signed in"
         headerText.sizeToFit()
         view.addSubview(headerText)
         // autolayout contraints
