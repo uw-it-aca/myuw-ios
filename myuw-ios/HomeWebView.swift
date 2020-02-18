@@ -15,7 +15,7 @@ class HomeWebView: WebViewController {
         super.viewDidLoad()
                 
         // load the webview
-        webView.load("\(appHost)/500/")
+        webView.load("\(appHost)/")
                 
         // override navigation title
         self.navigationItem.title = "MyUW"
@@ -38,7 +38,7 @@ class HomeWebView: WebViewController {
         searchButton.setTitle("Search", for: .normal)
         searchButton.titleLabel?.font = UIFont.systemFont(ofSize: 17)
         searchButton.sizeToFit()
-        searchButton.addTarget(self, action: #selector(showError), for: .touchUpInside)
+        searchButton.addTarget(self, action: #selector(showSearch), for: .touchUpInside)
         
         // add a user and search buttons in navbar programatically
         let userBarButtonItem = UIBarButtonItem(customView: userButton)
@@ -70,13 +70,4 @@ class HomeWebView: WebViewController {
         present(searchWebView, animated: true, completion: nil)
     }
     
-    @objc func showError() {
-        // force use go through appAuth flow when foregrounding the app
-        let errorController = ErrorController()
-        let navController = UINavigationController(rootViewController: errorController)
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        // set appAuth controller as rootViewController
-        appDelegate.window!.rootViewController = navController
-    }
-
 }
