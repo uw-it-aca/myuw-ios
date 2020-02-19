@@ -276,7 +276,7 @@ extension AppAuthController {
             headerText.isHidden = true
             bodyText.isHidden = true
             signInButton.isHidden = true
-                                    
+            
             // get user info from token... and build UI display
             self.getUserInfo()
 
@@ -343,6 +343,13 @@ extension AppAuthController {
                     
                     guard error == nil else {
                         os_log("HTTP request failed: %@", log: .auth, type: .error, error?.localizedDescription ?? "ERROR")
+                        
+                        // show the network connection error 
+                        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                        let errorController = ErrorController()
+                        let navController = UINavigationController(rootViewController: errorController)
+                        appDelegate.window!.rootViewController = navController
+                        
                         return
                     }
 

@@ -49,7 +49,7 @@ class ErrorController: UIViewController {
         bodyText.textAlignment = .left
         bodyText.numberOfLines = 0
         bodyText.sizeToFit()
-        bodyText.text = "Sign in to the internet. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut quis nunc nisl. Integer a ligula nec odio efficitur sagittis quis in sapien. Phasellus tempor dui nec pharetra lacinia."
+        bodyText.text = "You are offline, connect to the internet. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut quis nunc nisl. Integer a ligula nec odio efficitur sagittis quis in sapien. Phasellus tempor dui nec pharetra lacinia."
         view.addSubview(bodyText)
         // autolayout contraints
         bodyText.translatesAutoresizingMaskIntoConstraints = false
