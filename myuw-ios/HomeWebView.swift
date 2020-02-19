@@ -49,8 +49,22 @@ class HomeWebView: WebViewController {
     }
     
     @objc func showProfile() {
-        let profileWebView = ProfileWebView()
-        self.navigationController?.pushViewController(profileWebView, animated: true)
+        //let profileWebView = ProfileWebView()
+        //self.navigationController?.pushViewController(profileWebView, animated: true)
+        
+        let profileWebView = UINavigationController(rootViewController: ProfileWebView())
+        
+        // set style of how view controller is to be presented
+        if #available(iOS 13.0, *) {
+            profileWebView.modalPresentationStyle = .automatic
+        } else {
+            // fallback on earlier versions
+            profileWebView.modalPresentationStyle = .formSheet
+        }
+                
+        // present the profile view controller
+        present(profileWebView, animated: true, completion: nil)
+        
     }
     
     @objc func showSearch() {
