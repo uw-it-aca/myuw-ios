@@ -18,6 +18,10 @@ class ProcessPool {
 
 class WebViewController: UIViewController, WKNavigationDelegate {
     
+    let headerText = UILabel()
+    let bodyText = UILabel()
+    let retryButton = UIButton()
+    
     var webView: WKWebView!
     var activityIndicator: UIActivityIndicatorView!
     
@@ -98,7 +102,18 @@ class WebViewController: UIViewController, WKNavigationDelegate {
         
         // assign refreshControl for the webview
         webView.scrollView.refreshControl = refreshControl
-      
+    
+    }
+    
+    @objc private func retryNetwork() {
+        os_log("Retry Button tapped", log: .ui, type: .info)
+        
+        // force use go through appAuth flow when foregrounding the app
+        let appAuthController = AppAuthController()
+        let navController = UINavigationController(rootViewController: appAuthController)
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        // set appAuth controller as rootViewController
+        appDelegate.window!.rootViewController = navController
     }
 
     @objc func appBecameActive() {
@@ -135,6 +150,8 @@ class WebViewController: UIViewController, WKNavigationDelegate {
     {
         if(error.code == NSURLErrorNotConnectedToInternet) {
             os_log("HTTP request failed: %@", log: .webview, type: .error, error.localizedDescription)
+            
+            // show no internet connection message
         }
     }
     
@@ -153,6 +170,62 @@ class WebViewController: UIViewController, WKNavigationDelegate {
     
     // webview policy response handler
     func webView(_ webView: WKWebView, decidePolicyFor navigationResponse: WKNavigationResponse, decisionHandler: @escaping (WKNavigationResponsePolicy) -> Void) {
+        
+        if let response = navigationResponse.response as? HTTPURLResponse {
+            if response.statusCode == 500 {
+                os_log("HTTP response was 500!", log: .webview, type: .error)
+                // show server unable message
+                                
+                webView.scrollView.isHidden = true
+
+                view.backgroundColor = .white
+                
+                headerText.layer.borderWidth = 0.25
+                headerText.layer.borderColor = UIColor.red.cgColor
+                headerText.font = UIFont.boldSystemFont(ofSize: 18)
+                headerText.textAlignment = .left
+                headerText.text = "Unable to load page"
+                headerText.sizeToFit()
+                view.addSubview(headerText)
+                // autolayout contraints
+                headerText.translatesAutoresizingMaskIntoConstraints = false
+                headerText.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
+                headerText.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
+                headerText.topAnchor.constraint(equalTo: (navigationController?.navigationBar.bottomAnchor)!, constant: 30).isActive = true
+                
+                bodyText.layer.borderWidth = 0.25
+                bodyText.layer.borderColor = UIColor.red.cgColor
+                bodyText.font = UIFont.systemFont(ofSize: 14)
+                bodyText.textAlignment = .left
+                bodyText.numberOfLines = 0
+                bodyText.sizeToFit()
+                bodyText.text = "A server error has occurred. We are aware of the issue and are working on it. Please try again in a few minutes."
+                
+                view.addSubview(bodyText)
+                // autolayout contraints
+                bodyText.translatesAutoresizingMaskIntoConstraints = false
+                bodyText.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
+                bodyText.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
+                bodyText.topAnchor.constraint(equalTo: headerText.bottomAnchor, constant: 5).isActive = true
+                
+                retryButton.layer.borderWidth = 0.25
+                retryButton.layer.borderColor = UIColor.red.cgColor
+                retryButton.titleLabel?.font = UIFont.systemFont(ofSize: 14)
+                retryButton.setTitleColor(.blue, for: .normal)
+                retryButton.setTitle("Retry", for: .normal)
+                retryButton.addTarget(self, action: #selector(retryNetwork), for: .touchUpInside)
+                retryButton.sizeToFit()
+                view.addSubview(retryButton)
+                // autolayout contraints
+                retryButton.translatesAutoresizingMaskIntoConstraints = false
+                retryButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
+                retryButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
+                // set topanchor of label equal to bottomanchor of textview
+                retryButton.topAnchor.constraint(equalTo: bodyText.bottomAnchor, constant: 10).isActive = true
+                
+            }
+        }
+        
         decisionHandler(.allow)
     }
     

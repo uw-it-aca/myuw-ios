@@ -69,5 +69,5 @@ class HomeWebView: WebViewController {
         // present the profile view controller
         present(searchWebView, animated: true, completion: nil)
     }
-
+    
 }

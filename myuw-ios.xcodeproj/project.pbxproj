@@ -16,6 +16,7 @@
 		854EE09822F0F9A30042381A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 854EE09622F0F9A30042381A /* LaunchScreen.storyboard */; };
 		854EE0A322F0F9A30042381A /* myuw_iosTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 854EE0A222F0F9A30042381A /* myuw_iosTests.swift */; };
 		854EE0AE22F0F9A30042381A /* myuw_iosUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 854EE0AD22F0F9A30042381A /* myuw_iosUITests.swift */; };
+		8555688D23FC5B5900E01DB1 /* ErrorController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8555688C23FC5B5900E01DB1 /* ErrorController.swift */; };
 		85A7541A23C508CD003C8380 /* AppAuthController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A7541923C508CD003C8380 /* AppAuthController.swift */; };
 		85A7542023C650A8003C8380 /* AppAuth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 85A7541F23C650A8003C8380 /* AppAuth.framework */; };
 		85A7542123C650A8003C8380 /* AppAuth.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 85A7541F23C650A8003C8380 /* AppAuth.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -81,6 +82,7 @@
 		854EE0A922F0F9A30042381A /* myuw-iosUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "myuw-iosUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		854EE0AD22F0F9A30042381A /* myuw_iosUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = myuw_iosUITests.swift; sourceTree = "<group>"; };
 		854EE0AF22F0F9A30042381A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8555688C23FC5B5900E01DB1 /* ErrorController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorController.swift; sourceTree = "<group>"; };
 		85A7541923C508CD003C8380 /* AppAuthController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppAuthController.swift; sourceTree = "<group>"; };
 		85A7541F23C650A8003C8380 /* AppAuth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppAuth.framework; path = Carthage/Build/iOS/AppAuth.framework; sourceTree = "<group>"; };
 		85B147A12368CB0700DE3BFA /* ApplicationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationController.swift; sourceTree = "<group>"; };
@@ -155,6 +157,7 @@
 				85B147A12368CB0700DE3BFA /* ApplicationController.swift */,
 				8534DCD9237F27E100914045 /* WebViewController.swift */,
 				85CDD4E223723A4900A3CBBA /* VisitController.swift */,
+				8555688C23FC5B5900E01DB1 /* ErrorController.swift */,
 				854EE09422F0F9A30042381A /* Assets.xcassets */,
 				854EE09622F0F9A30042381A /* LaunchScreen.storyboard */,
 				854EE09922F0F9A30042381A /* Info.plist */,
@@ -351,6 +354,7 @@
 				85B147AC2368CDF200DE3BFA /* ResourcesWebView.swift in Sources */,
 				852EB76E237C956A002A2357 /* HuskyExpWebView.swift in Sources */,
 				85F901A7235E34AE00DA0083 /* ProfileWebView.swift in Sources */,
+				8555688D23FC5B5900E01DB1 /* ErrorController.swift in Sources */,
 				854EE08E22F0F9A20042381A /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
