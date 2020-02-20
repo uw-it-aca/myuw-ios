@@ -34,7 +34,7 @@ class ErrorController: UIViewController {
         headerText.layer.borderColor = UIColor.red.cgColor
         headerText.font = UIFont.boldSystemFont(ofSize: 18)
         headerText.textAlignment = .left
-        headerText.text = "No internet connection"
+        headerText.text = "Unable to load page"
         headerText.sizeToFit()
         view.addSubview(headerText)
         // autolayout contraints
@@ -49,7 +49,7 @@ class ErrorController: UIViewController {
         bodyText.textAlignment = .left
         bodyText.numberOfLines = 0
         bodyText.sizeToFit()
-        bodyText.text = "You are offline, connect to the internet. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut quis nunc nisl. Integer a ligula nec odio efficitur sagittis quis in sapien. Phasellus tempor dui nec pharetra lacinia."
+        bodyText.text = "A server or network error has occurred. We are aware of the issue and are working on it. If you are no longer connected to the internet, please fix the issue and try again in a few minutes."
         view.addSubview(bodyText)
         // autolayout contraints
         bodyText.translatesAutoresizingMaskIntoConstraints = false

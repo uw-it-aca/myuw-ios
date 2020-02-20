@@ -177,13 +177,12 @@ class WebViewController: UIViewController, WKNavigationDelegate {
                 // show server unable message
                 
                 // show error controller
-                /*
                 let appDelegate = UIApplication.shared.delegate as! AppDelegate
                 let errorController = ErrorController()
                 let navController = UINavigationController(rootViewController: errorController)
                 appDelegate.window!.rootViewController = navController
-                */
-                
+             
+                /*
                 // hide the webview
                 webView.scrollView.isHidden = true
 
@@ -231,7 +230,7 @@ class WebViewController: UIViewController, WKNavigationDelegate {
                 retryButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
                 // set topanchor of label equal to bottomanchor of textview
                 retryButton.topAnchor.constraint(equalTo: bodyText.bottomAnchor, constant: 10).isActive = true
-         
+                */
             }
         }
         

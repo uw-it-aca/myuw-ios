@@ -347,7 +347,7 @@ extension AppAuthController {
                     guard error == nil else {
                         os_log("HTTP request failed: %@", log: .auth, type: .error, error?.localizedDescription ?? "ERROR")
                         
-                        // show the network connection error 
+                        // show the error controller
                         let appDelegate = UIApplication.shared.delegate as! AppDelegate
                         let errorController = ErrorController()
                         let navController = UINavigationController(rootViewController: errorController)
@@ -358,11 +358,25 @@ extension AppAuthController {
 
                     guard let response = response as? HTTPURLResponse else {
                         os_log("Non-HTTP response", log: .auth, type: .info)
+                        
+                        // show the error controller
+                        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                        let errorController = ErrorController()
+                        let navController = UINavigationController(rootViewController: errorController)
+                        appDelegate.window!.rootViewController = navController
+                        
                         return
                     }
 
                     guard let data = data else {
                         os_log("HTTP response data is empty", log: .auth, type: .info)
+                        
+                        // show the error controller
+                        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                        let errorController = ErrorController()
+                        let navController = UINavigationController(rootViewController: errorController)
+                        appDelegate.window!.rootViewController = navController
+                        
                         return
                     }
 
@@ -373,12 +387,20 @@ extension AppAuthController {
                     } catch {
                         os_log("JSON Serialization Error", log: .auth, type: .error)
                         
+                        // show the error controller
+                        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                        let errorController = ErrorController()
+                        let navController = UINavigationController(rootViewController: errorController)
+                        appDelegate.window!.rootViewController = navController
+                        
+                        /*
+                        // unhide header and body text
                         self.headerText.isHidden = false
                         self.bodyText.isHidden = false
-             
+                        // update error messages
                         self.headerText.text = "Unable to get affiliations"
                         self.bodyText.text = "A server error has occurred. We are aware of the issue and are working on it. Please try again in a few minutes."
-                        
+                        // create a retry button to reinitiate the user API request
                         self.retryButton.layer.borderWidth = 0.25
                         self.retryButton.layer.borderColor = UIColor.red.cgColor
                         self.retryButton.titleLabel?.font = UIFont.systemFont(ofSize: 14)
@@ -387,12 +409,12 @@ extension AppAuthController {
                         self.retryButton.addTarget(self, action: #selector(self.retryNetwork), for: .touchUpInside)
                         self.retryButton.sizeToFit()
                         self.view.addSubview(self.retryButton)
-                        // autolayout contraints
                         self.retryButton.translatesAutoresizingMaskIntoConstraints = false
                         self.retryButton.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 20).isActive = true
                         self.retryButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -20).isActive = true
                         // set topanchor of label equal to bottomanchor of textview
                         self.retryButton.topAnchor.constraint(equalTo: self.bodyText.bottomAnchor, constant: 10).isActive = true
+                        */
                     }
 
                     if response.statusCode != 200 {
@@ -406,9 +428,9 @@ extension AppAuthController {
                                                                                                 errorResponse: json,
                                                                                                 underlyingError: error)
                             self.authState?.update(withAuthorizationError: oauthError)
-                            os_log("Authorization Error: %@. Response: %@", log: .auth, type: .error, oauthError.localizedDescription, responseText ?? "RESPONSE_TEXT" )
+                            os_log("Authorization Error: %@. Response: %@", log: .auth, type: .error, oauthError.localizedDescription, responseText!)
                         } else {
-                            os_log("HTTP: %@. Response: %@", log: .auth, type: .info, response.statusCode, responseText ?? "RESPONSE_TEXT" )
+                            os_log("HTTP: %@. Response: %@", log: .auth, type: .info, response.statusCode, responseText!)
                         }
 
                         return
