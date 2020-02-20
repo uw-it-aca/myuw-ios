@@ -18,6 +18,8 @@ let kClientID: String? = clientID
 let kRedirectURI: String = "edu.uw.myuw-ios:/";
 let kAppAuthExampleAuthStateKey: String = "authState";
 
+
+
 class AppAuthController: UIViewController {
     
     // property of the containing class
@@ -26,6 +28,7 @@ class AppAuthController: UIViewController {
     let headerText = UILabel()
     let bodyText = UILabel()
     let signInButton = UIButton()
+    let retryButton = UIButton()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -369,6 +372,27 @@ extension AppAuthController {
                         json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
                     } catch {
                         os_log("JSON Serialization Error", log: .auth, type: .error)
+                        
+                        self.headerText.isHidden = false
+                        self.bodyText.isHidden = false
+             
+                        self.headerText.text = "Unable to get affiliations"
+                        self.bodyText.text = "A server error has occurred. We are aware of the issue and are working on it. Please try again in a few minutes."
+                        
+                        self.retryButton.layer.borderWidth = 0.25
+                        self.retryButton.layer.borderColor = UIColor.red.cgColor
+                        self.retryButton.titleLabel?.font = UIFont.systemFont(ofSize: 14)
+                        self.retryButton.setTitleColor(.blue, for: .normal)
+                        self.retryButton.setTitle("Retry", for: .normal)
+                        self.retryButton.addTarget(self, action: #selector(self.retryNetwork), for: .touchUpInside)
+                        self.retryButton.sizeToFit()
+                        self.view.addSubview(self.retryButton)
+                        // autolayout contraints
+                        self.retryButton.translatesAutoresizingMaskIntoConstraints = false
+                        self.retryButton.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 20).isActive = true
+                        self.retryButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -20).isActive = true
+                        // set topanchor of label equal to bottomanchor of textview
+                        self.retryButton.topAnchor.constraint(equalTo: self.bodyText.bottomAnchor, constant: 10).isActive = true
                     }
 
                     if response.statusCode != 200 {
@@ -463,6 +487,17 @@ extension AppAuthController {
         }
 
         return base64Encoded
+    }
+    
+    @objc private func retryNetwork() {
+        os_log("Retry Button tapped", log: .ui, type: .info)
+        
+        // force use go through appAuth flow when foregrounding the app
+        let appAuthController = AppAuthController()
+        let navController = UINavigationController(rootViewController: appAuthController)
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        // set appAuth controller as rootViewController
+        appDelegate.window!.rootViewController = navController
     }
 
 }
