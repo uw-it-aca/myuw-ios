@@ -133,10 +133,20 @@ class WebViewController: UIViewController, WKNavigationDelegate {
 
         os_log("refreshWebView", log: .webview, type: .info)
         
-        activityIndicator.isHidden = false
-        activityIndicator.startAnimating()
-        webView.reload()
-        sender.endRefreshing()
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        
+        // check if connected to network on refresh
+        if (appDelegate.isConnectedToNetwork()) {
+            activityIndicator.isHidden = false
+            activityIndicator.startAnimating()
+            webView.reload()
+            sender.endRefreshing()
+        }
+        else {
+            let errorController = ErrorController()
+            let navController = UINavigationController(rootViewController: errorController)
+            appDelegate.window!.rootViewController = navController
+        }
     }
     
     // webview navigation handlers
