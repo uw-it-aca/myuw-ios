@@ -151,7 +151,13 @@ class WebViewController: UIViewController, WKNavigationDelegate {
         if(error.code == NSURLErrorNotConnectedToInternet) {
             os_log("HTTP request failed: %@", log: .webview, type: .error, error.localizedDescription)
             
-            // show no internet connection message
+            // show error controller
+            let appDelegate = UIApplication.shared.delegate as! AppDelegate
+            let errorController = ErrorController()
+            let navController = UINavigationController(rootViewController: errorController)
+            appDelegate.window!.rootViewController = navController
+            
+            
         }
     }
     
