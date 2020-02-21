@@ -15,7 +15,7 @@ typealias PostRegistrationCallback = (_ configuration: OIDServiceConfiguration?,
 let kIssuer: String = clientIssuer
 let kClientID: String? = clientID
 // can also use reverse DNS notion of the client ID for kRedirectURI
-let kRedirectURI: String = "edu.uw.myuw-ios:/";
+let kRedirectURI: String = "myuwapp:/oauth2redirect";
 let kAppAuthExampleAuthStateKey: String = "authState";
 
 
@@ -94,6 +94,7 @@ class AppAuthController: UIViewController {
     @objc private func loginUser(){
         os_log("Sign in Button tapped", log: .ui, type: .info)
         authWithAutoCodeExchange()
+        //authNoCodeExchange()
     }
     
     func authWithAutoCodeExchange() {
@@ -104,8 +105,6 @@ class AppAuthController: UIViewController {
             os_log("Error creating URL for: %@", log: .auth, type: .error, kIssuer)
             return
         }
-
-        os_log("Error creating URL for: %@", log: .auth, type: .info, kIssuer)
 
         // discovers endpoints
         OIDAuthorizationService.discoverConfiguration(forIssuer: issuer) { configuration, error in
@@ -134,6 +133,51 @@ class AppAuthController: UIViewController {
                                                     clientSecret: response?.clientSecret)
                 }
             
+            }
+        }
+    }
+    
+    func authNoCodeExchange() {
+        
+        os_log("authNoCodeExchange", log: .ui, type: .info)
+        
+        guard let issuer = URL(string: kIssuer) else {
+            os_log("Error creating URL for: %@", log: .auth, type: .error, kIssuer)
+            return
+        }
+
+        os_log("Fetching configuration for issuer: %@", log: .auth, type: .error, issuer.absoluteString)
+        
+        OIDAuthorizationService.discoverConfiguration(forIssuer: issuer) { configuration, error in
+
+            if let error = error  {
+                os_log("Error retrieving discovery document: %@", log: .auth, type: .error, error.localizedDescription)
+                return
+            }
+
+            guard let config = configuration else {
+                os_log("Error retrieving discovery document. Error & Configuration both are NIL!", log: .auth, type: .error)
+                return
+            }
+
+            os_log("Got configuration: %@", log: .ui, type: .info, config)
+
+            if let clientId = kClientID {
+
+                self.doAuthWithoutCodeExchange(configuration: config, clientID: clientId, clientSecret: nil)
+
+            } else {
+
+                self.doClientRegistration(configuration: config) { configuration, response in
+
+                    guard let configuration = configuration, let response = response else {
+                        return
+                    }
+
+                    self.doAuthWithoutCodeExchange(configuration: configuration,
+                                                   clientID: response.clientID,
+                                                   clientSecret: response.clientSecret)
+                }
             }
         }
     }
@@ -196,7 +240,7 @@ class AppAuthController: UIViewController {
 
         // performs authentication request
         os_log("Initiating authorization request with scope: %@", log: .auth, type: .info, request.scope ?? "DEFAULT_SCOPE")
-
+                
         appDelegate.currentAuthorizationFlow = OIDAuthState.authState(byPresenting: request, presenting: self) { authState, error in
             if let authState = authState {
                 self.setAuthState(authState)
@@ -207,6 +251,45 @@ class AppAuthController: UIViewController {
             }
         }
         
+    }
+    
+    func doAuthWithoutCodeExchange(configuration: OIDServiceConfiguration, clientID: String, clientSecret: String?) {
+        
+        os_log("doAuthWithoutCodeExchange", log: .auth, type: .info)
+        
+        guard let redirectURI = URL(string: kRedirectURI) else {
+            os_log("Error creating URL for: %@", log: .auth, type: .info, kRedirectURI)
+            return
+        }
+
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+            os_log("Error accessing AppDelegate", log: .auth, type: .error)
+            return
+        }
+
+        // builds authentication request
+        let request = OIDAuthorizationRequest(configuration: configuration,
+                                              clientId: clientID,
+                                              clientSecret: clientSecret,
+                                              scopes: [OIDScopeOpenID, OIDScopeProfile, OIDScopeEmail],
+                                              redirectURL: redirectURI,
+                                              responseType: OIDResponseTypeCode,
+                                              additionalParameters: nil)
+
+        // performs authentication request
+        os_log("Initiating authorization request with scope: %@", log: .auth, type: .info, request.scope ?? "DEFAULT_SCOPE")
+        
+        appDelegate.currentAuthorizationFlow = OIDAuthorizationService.present(request, presenting: self) { (response, error) in
+
+            if let response = response {
+                let authState = OIDAuthState(authorizationResponse: response)
+                self.setAuthState(authState)
+                os_log("Authorization response with code: %@", log: .auth, type: .info, response.authorizationCode ?? "DEFAULT_TOKEN")
+                // could just call [self tokenExchange:nil] directly, but will let the user initiate it.
+            } else {
+                os_log("Authorization error: %@", log: .auth, type: .info, error?.localizedDescription ?? "DEFAULT_ERROR")
+            }
+        }
     }
 
 }
