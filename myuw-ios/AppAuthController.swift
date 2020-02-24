@@ -15,7 +15,7 @@ typealias PostRegistrationCallback = (_ configuration: OIDServiceConfiguration?,
 let kIssuer: String = clientIssuer
 let kClientID: String? = clientID
 // can also use reverse DNS notion of the client ID for kRedirectURI
-let kRedirectURI: String = "myuwapp:/oauth2redirect";
+let kRedirectURI: String = "myuwapp://oauth2redirect";
 let kAppAuthExampleAuthStateKey: String = "authState";
 
 
