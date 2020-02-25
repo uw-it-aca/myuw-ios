@@ -21,7 +21,6 @@ class WebViewController: UIViewController, WKNavigationDelegate {
     
     let headerText = UILabel()
     let bodyText = UILabel()
-    let retryButton = UIButton()
     
     var webView: WKWebView!
     var activityIndicator: UIActivityIndicatorView!

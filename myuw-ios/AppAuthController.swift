@@ -27,7 +27,6 @@ class AppAuthController: UIViewController {
     let headerText = UILabel()
     let bodyText = UILabel()
     let signInButton = UIButton()
-    let retryButton = UIButton()
 
     override func viewDidLoad() {
         super.viewDidLoad()
