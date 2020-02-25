@@ -233,7 +233,8 @@ class AppAuthController: UIViewController {
         let request = OIDAuthorizationRequest(configuration: configuration,
                                               clientId: clientID,
                                               clientSecret: clientSecret,
-                                              scopes: [OIDScopeOpenID, OIDScopeProfile, OIDScopeEmail],
+                                              //scopes: [OIDScopeOpenID, OIDScopeProfile, OIDScopeEmail],
+                                              scopes: ["openid profile email offline_access"],
                                               redirectURL: redirectURI,
                                               responseType: OIDResponseTypeCode,
                                               additionalParameters: nil)
@@ -245,6 +246,7 @@ class AppAuthController: UIViewController {
             if let authState = authState {
                 self.setAuthState(authState)
                 os_log("Got authorization tokens. Access token: %@", log: .auth, type: .info, authState.lastTokenResponse?.accessToken ?? "DEFAULT_TOKEN")
+                os_log("Got authorization tokens. Refresh token: %@", log: .auth, type: .info, authState.lastTokenResponse?.refreshToken ?? "REFRESH_TOKEN")
             } else {
                 os_log("Authorization error: %@", log: .auth, type: .info, error?.localizedDescription ?? "DEFAULT_ERROR")
                 self.setAuthState(nil)
@@ -385,8 +387,143 @@ extension AppAuthController {
         
         os_log("getUserInfo", log: .ui, type: .info)
 
-        let currentAccessToken: String? = self.authState?.lastTokenResponse?.accessToken
+        // MARK: get user netid by decoding idtoken
+        // TODO: consider creating a Claims struct and mapping everything to it's attributes
+        if (self.authState?.isAuthorized ?? false) {
+            let idTokenClaims = self.getIdTokenClaims(idToken: self.authState?.lastTokenResponse?.idToken ?? "") ?? Data()
+            os_log("idTokenClaims: %@", log: .auth, type: .info, (String(describing: String(bytes: idTokenClaims, encoding: .utf8))))
+            let claimsDictionary = try! JSONSerialization.jsonObject(with: idTokenClaims, options: .allowFragments) as? [String: Any]
+            os_log("claimsDictionary: %@", log: .auth, type: .info, claimsDictionary!)
+            userNetID = claimsDictionary!["sub"] as! String? ?? ""
+        }
 
+        // MARK: get user affiliations from myuw endpoint
+        let affiliationURL = URL(string: "\(appHost)\(appAffiliationEndpoint)")
+        os_log("start affiliation request: %@", log: .auth, type: .info, affiliationURL!.absoluteString)
+        var urlRequest = URLRequest(url: affiliationURL!)
+        //urlRequest.allHTTPHeaderFields = ["Authorization":"Bearer \(String(describing: self.authState?.lastTokenResponse?.idToken)))"]
+        urlRequest.allHTTPHeaderFields = ["Authorization":"Bearer \(String(describing: self.authState?.lastTokenResponse?.accessToken)))"]
+        
+        let task = URLSession.shared.dataTask(with: urlRequest) { data, response, error in
+
+            DispatchQueue.main.async {
+                
+                guard error == nil else {
+                    os_log("HTTP request failed: %@", log: .auth, type: .error, error?.localizedDescription ?? "ERROR")
+                    
+                    // show the error controller
+                    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                    let errorController = ErrorController()
+                    let navController = UINavigationController(rootViewController: errorController)
+                    appDelegate.window!.rootViewController = navController
+                    
+                    return
+                }
+
+                guard let response = response as? HTTPURLResponse else {
+                    os_log("Non-HTTP response", log: .auth, type: .info)
+                    
+                    // show the error controller
+                    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                    let errorController = ErrorController()
+                    let navController = UINavigationController(rootViewController: errorController)
+                    appDelegate.window!.rootViewController = navController
+                    
+                    return
+                }
+
+                guard let data = data else {
+                    os_log("HTTP response data is empty", log: .auth, type: .info)
+                    
+                    // show the error controller
+                    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                    let errorController = ErrorController()
+                    let navController = UINavigationController(rootViewController: errorController)
+                    appDelegate.window!.rootViewController = navController
+                    
+                    return
+                }
+
+                var json: [AnyHashable: Any]?
+
+                do {
+                    json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
+                } catch {
+                    os_log("JSON Serialization Error", log: .auth, type: .error)
+                    
+                    // show the error controller
+                    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                    let errorController = ErrorController()
+                    let navController = UINavigationController(rootViewController: errorController)
+                    appDelegate.window!.rootViewController = navController
+                    
+                }
+
+                if response.statusCode != 200 {
+                    // server replied with an error
+                    let responseText: String? = String(data: data, encoding: String.Encoding.utf8)
+
+                    if response.statusCode == 401 {
+                        // "401 Unauthorized" generally indicates there is an issue with the authorization
+                        // grant. Puts OIDAuthState into an error state.
+                        let oauthError = OIDErrorUtilities.resourceServerAuthorizationError(withCode: 0,
+                                                                                            errorResponse: json,
+                                                                                            underlyingError: error)
+                        self.authState?.update(withAuthorizationError: oauthError)
+                        os_log("Authorization Error: %@. Response: %@", log: .auth, type: .error, oauthError.localizedDescription, responseText!)
+                    } else {
+                        os_log("HTTP: %@. Response: %@", log: .auth, type: .info, response.statusCode, responseText!)
+                    }
+
+                    return
+                }
+
+                if let json = json {
+                    
+                    os_log("Successfully decoded: %{private}@", log: .auth, type: .info, json)
+                    
+                    if json["student"] as! Bool == true {
+                        userAffiliations.append("student")
+                    }
+                    
+                    if json["applicant"] as! Bool == true {
+                        userAffiliations.append("applicant")
+                    }
+
+                    if json["instructor"] as! Bool == true {
+                        userAffiliations.append("instructor")
+                    }
+                    
+                    if json["undergrad"] as! Bool == true {
+                        userAffiliations.append("undergrad")
+                    }
+                    
+                    if json["hxt_viewer"] as! Bool == true {
+                        userAffiliations.append("hxt_viewer")
+                    }
+
+                    if json["seattle"] as! Bool == true {
+                        userAffiliations.append("seattle")
+                    }
+
+                    os_log("userAffiliations: %{private}@", log: .auth, type: .info, userAffiliations)
+   
+                    // set tabControlleer as rootViewController after getting user info
+                    let appController = ApplicationController()
+                    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                    // set the main controller as the root controller on app load
+                    appDelegate.window!.rootViewController = appController
+                    
+                }
+            }
+        }
+
+        task.resume()
+        
+        
+        // TODO: refresh access token before sending to myuw as authentication header
+        let currentAccessToken: String? = self.authState?.lastTokenResponse?.accessToken
+        
         self.authState?.performAction() { (accessToken, idToken, error) in
 
             if error != nil  {
@@ -404,166 +541,14 @@ extension AppAuthController {
             } else {
                 os_log("Access token was fresh and not updated: %@", log: .auth, type: .info, accessToken)
             }
-
-
-            // MARK: get user netid by decoding idtoken
-            // TODO: consider creating a Claims struct and mapping everything to it's attributes
-            if (self.authState?.isAuthorized ?? false) {
-                let idTokenClaims = self.getIdTokenClaims(idToken: idToken ?? "") ?? Data()
-                os_log("idTokenClaims: %@", log: .auth, type: .info, (String(describing: String(bytes: idTokenClaims, encoding: .utf8))))
-                let claimsDictionary = try! JSONSerialization.jsonObject(with: idTokenClaims, options: .allowFragments) as? [String: Any]
-                os_log("claimsDictionary: %@", log: .auth, type: .info, claimsDictionary!)
-                userNetID = claimsDictionary!["sub"] as! String? ?? ""
-
-            }
-
-            // MARK: get user affiliations from myuw endpoint
-            let affiliationURL = URL(string: "\(appHost)\(appAffiliationEndpoint)")
-            os_log("start affiliation request: %@", log: .auth, type: .info, affiliationURL!.absoluteString)
-            var urlRequest = URLRequest(url: affiliationURL!)
-            urlRequest.allHTTPHeaderFields = ["Authorization":"Bearer \(String(describing: self.authState?.lastTokenResponse?.idToken)))"]
-
-            let task = URLSession.shared.dataTask(with: urlRequest) { data, response, error in
-
-                DispatchQueue.main.async {
-                    
-                    guard error == nil else {
-                        os_log("HTTP request failed: %@", log: .auth, type: .error, error?.localizedDescription ?? "ERROR")
-                        
-                        // show the error controller
-                        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                        let errorController = ErrorController()
-                        let navController = UINavigationController(rootViewController: errorController)
-                        appDelegate.window!.rootViewController = navController
-                        
-                        return
-                    }
-
-                    guard let response = response as? HTTPURLResponse else {
-                        os_log("Non-HTTP response", log: .auth, type: .info)
-                        
-                        // show the error controller
-                        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                        let errorController = ErrorController()
-                        let navController = UINavigationController(rootViewController: errorController)
-                        appDelegate.window!.rootViewController = navController
-                        
-                        return
-                    }
-
-                    guard let data = data else {
-                        os_log("HTTP response data is empty", log: .auth, type: .info)
-                        
-                        // show the error controller
-                        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                        let errorController = ErrorController()
-                        let navController = UINavigationController(rootViewController: errorController)
-                        appDelegate.window!.rootViewController = navController
-                        
-                        return
-                    }
-
-                    var json: [AnyHashable: Any]?
-
-                    do {
-                        json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
-                    } catch {
-                        os_log("JSON Serialization Error", log: .auth, type: .error)
-                        
-                        // show the error controller
-                        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                        let errorController = ErrorController()
-                        let navController = UINavigationController(rootViewController: errorController)
-                        appDelegate.window!.rootViewController = navController
-                        
-                        /*
-                        // unhide header and body text
-                        self.headerText.isHidden = false
-                        self.bodyText.isHidden = false
-                        // update error messages
-                        self.headerText.text = "Unable to get affiliations"
-                        self.bodyText.text = "A server error has occurred. We are aware of the issue and are working on it. Please try again in a few minutes."
-                        // create a retry button to reinitiate the user API request
-                        self.retryButton.layer.borderWidth = 0.25
-                        self.retryButton.layer.borderColor = UIColor.red.cgColor
-                        self.retryButton.titleLabel?.font = UIFont.systemFont(ofSize: 14)
-                        self.retryButton.setTitleColor(.blue, for: .normal)
-                        self.retryButton.setTitle("Retry", for: .normal)
-                        self.retryButton.addTarget(self, action: #selector(self.retryNetwork), for: .touchUpInside)
-                        self.retryButton.sizeToFit()
-                        self.view.addSubview(self.retryButton)
-                        self.retryButton.translatesAutoresizingMaskIntoConstraints = false
-                        self.retryButton.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 20).isActive = true
-                        self.retryButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -20).isActive = true
-                        // set topanchor of label equal to bottomanchor of textview
-                        self.retryButton.topAnchor.constraint(equalTo: self.bodyText.bottomAnchor, constant: 10).isActive = true
-                        */
-                    }
-
-                    if response.statusCode != 200 {
-                        // server replied with an error
-                        let responseText: String? = String(data: data, encoding: String.Encoding.utf8)
-
-                        if response.statusCode == 401 {
-                            // "401 Unauthorized" generally indicates there is an issue with the authorization
-                            // grant. Puts OIDAuthState into an error state.
-                            let oauthError = OIDErrorUtilities.resourceServerAuthorizationError(withCode: 0,
-                                                                                                errorResponse: json,
-                                                                                                underlyingError: error)
-                            self.authState?.update(withAuthorizationError: oauthError)
-                            os_log("Authorization Error: %@. Response: %@", log: .auth, type: .error, oauthError.localizedDescription, responseText!)
-                        } else {
-                            os_log("HTTP: %@. Response: %@", log: .auth, type: .info, response.statusCode, responseText!)
-                        }
-
-                        return
-                    }
-
-                    if let json = json {
-                        
-                        os_log("Successfully decoded: %{private}@", log: .auth, type: .info, json)
-                        
-                        if json["student"] as! Bool == true {
-                            userAffiliations.append("student")
-                        }
-                        
-                        if json["applicant"] as! Bool == true {
-                            userAffiliations.append("applicant")
-                        }
-
-                        if json["instructor"] as! Bool == true {
-                            userAffiliations.append("instructor")
-                        }
-                        
-                        if json["undergrad"] as! Bool == true {
-                            userAffiliations.append("undergrad")
-                        }
-                        
-                        if json["hxt_viewer"] as! Bool == true {
-                            userAffiliations.append("hxt_viewer")
-                        }
-
-                        if json["seattle"] as! Bool == true {
-                            userAffiliations.append("seattle")
-                        }
-
-                        os_log("userAffiliations: %{private}@", log: .auth, type: .info, userAffiliations)
-       
-                        // update the idToken in the singleton process pool
-                        ProcessPool.idToken = (self.authState?.lastTokenResponse?.idToken)!
-                    
-                        // set tabControlleer as rootViewController after getting user info
-                        let appController = ApplicationController()
-                        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                        // set the main controller as the root controller on app load
-                        appDelegate.window!.rootViewController = appController
-                        
-                    }
-                }
-            }
-
-            task.resume()
+            
         }
+        
+        // do stuff with updated access token
+        // update the tokens in the singleton process pool
+        ProcessPool.idToken = (self.authState?.lastTokenResponse?.idToken)!
+        ProcessPool.accessToken = currentAccessToken!
+
     }
 
     func getIdTokenClaims(idToken: String?) -> Data? {
