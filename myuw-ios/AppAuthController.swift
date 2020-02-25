@@ -454,13 +454,12 @@ extension AppAuthController {
             } else {
                 os_log("Access token was fresh and not updated: %@", log: .auth, type: .info, accessToken)
             }
+                        
+            // update the tokens in the singleton process pool using fresh tokens
+            ProcessPool.idToken = idToken!
+            ProcessPool.accessToken = accessToken
             
         }
-        
-        // do stuff with updated access token
-        // update the tokens in the singleton process pool
-        ProcessPool.idToken = (self.authState?.lastTokenResponse?.idToken)!
-        ProcessPool.accessToken = currentAccessToken!
 
     }
 
