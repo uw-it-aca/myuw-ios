@@ -13,10 +13,14 @@ import os
 // singleton class for a shared WKProcessPool
 class ProcessPool {
     static var idToken = String()
+    static var accessToken = String()
     static var sharedPool = WKProcessPool()
 }
 
 class WebViewController: UIViewController, WKNavigationDelegate {
+    
+    let headerText = UILabel()
+    let bodyText = UILabel()
     
     var webView: WKWebView!
     var activityIndicator: UIActivityIndicatorView!
@@ -98,9 +102,9 @@ class WebViewController: UIViewController, WKNavigationDelegate {
         
         // assign refreshControl for the webview
         webView.scrollView.refreshControl = refreshControl
-      
+    
     }
-
+    
     @objc func appBecameActive() {
         
         os_log("appBecameActive", log: .ui, type: .info)
@@ -118,10 +122,20 @@ class WebViewController: UIViewController, WKNavigationDelegate {
 
         os_log("refreshWebView", log: .webview, type: .info)
         
-        activityIndicator.isHidden = false
-        activityIndicator.startAnimating()
-        webView.reload()
-        sender.endRefreshing()
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        
+        // check if connected to network on refresh
+        if (appDelegate.isConnectedToNetwork()) {
+            activityIndicator.isHidden = false
+            activityIndicator.startAnimating()
+            webView.reload()
+            sender.endRefreshing()
+        }
+        else {
+            let errorController = ErrorController()
+            let navController = UINavigationController(rootViewController: errorController)
+            appDelegate.window!.rootViewController = navController
+        }
     }
     
     // webview navigation handlers
@@ -130,9 +144,20 @@ class WebViewController: UIViewController, WKNavigationDelegate {
         os_log("didStartProvisionalNavigation", log: .webview, type: .info)
         didChange = true
     }
-
-    func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
-        // TODO: handle when website fails to load
+    
+    private func webView(webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: NSError)
+    {
+        if(error.code == NSURLErrorNotConnectedToInternet) {
+            os_log("HTTP request failed: %@", log: .webview, type: .error, error.localizedDescription)
+            
+            // show error controller
+            let appDelegate = UIApplication.shared.delegate as! AppDelegate
+            let errorController = ErrorController()
+            let navController = UINavigationController(rootViewController: errorController)
+            appDelegate.window!.rootViewController = navController
+            
+            
+        }
     }
     
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
@@ -150,6 +175,19 @@ class WebViewController: UIViewController, WKNavigationDelegate {
     
     // webview policy response handler
     func webView(_ webView: WKWebView, decidePolicyFor navigationResponse: WKNavigationResponse, decisionHandler: @escaping (WKNavigationResponsePolicy) -> Void) {
+        
+        if let response = navigationResponse.response as? HTTPURLResponse {
+            
+            if response.statusCode == 500 {
+                os_log("HTTP response was 500!", log: .webview, type: .error)
+                // show error controller
+                let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                let errorController = ErrorController()
+                let navController = UINavigationController(rootViewController: errorController)
+                appDelegate.window!.rootViewController = navController
+            }
+        }
+        
         decisionHandler(.allow)
     }
     
@@ -222,10 +260,11 @@ extension WKWebView {
             var request = URLRequest(url: url)
             
             // pass the idToken via request header
-            os_log("loading idtoken: %@", log: .webview, type: .info, ProcessPool.idToken)
+            os_log("loading idToken: %@", log: .webview, type: .info, ProcessPool.idToken)
+            os_log("loading accessToken: %@", log: .webview, type: .info, ProcessPool.accessToken)
             
             // pass the authorization bearer token in request header
-            request.allHTTPHeaderFields = ["Authorization":"Bearer \(ProcessPool.idToken)"]
+            request.allHTTPHeaderFields = ["Authorization":"Bearer \(ProcessPool.accessToken)"]
             
             // load the request
             os_log("loading request: %@", log: .webview, type: .info, url.absoluteString)

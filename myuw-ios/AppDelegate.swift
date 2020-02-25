@@ -8,6 +8,8 @@
 
 import UIKit
 import AppAuth
+import SystemConfiguration
+import os
 
 //  From myuw.plist
 var appHost = ""
@@ -57,12 +59,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.makeKeyAndVisible()
     
-        // force use go through appAuth flow when foregrounding the app
-        let appAuthController = AppAuthController()
-        let navController = UINavigationController(rootViewController: appAuthController)
-        // set appAuth controller as rootViewController
-        window!.rootViewController = navController
-
+        if isConnectedToNetwork() {
+            // force use go through appAuth flow when foregrounding the app
+            let appAuthController = AppAuthController()
+            let navController = UINavigationController(rootViewController: appAuthController)
+            // set appAuth controller as rootViewController
+            window!.rootViewController = navController
+        } else {            
+            let errorController = ErrorController()
+            let navController = UINavigationController(rootViewController: errorController)
+            // set appAuth controller as rootViewController
+            window!.rootViewController = navController
+        }
+        
         return true
     }
 
@@ -98,6 +107,54 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+    }
+
+}
+
+extension AppDelegate {
+    
+    //https:\//stackoverflow.com/questions/25623272/how-to-use-scnetworkreachability-in-swift
+    
+    func isConnectedToNetwork() -> Bool {
+        guard let flags = getFlags() else { return false }
+        let isReachable = flags.contains(.reachable)
+        let needsConnection = flags.contains(.connectionRequired)
+        return (isReachable && !needsConnection)
+    }
+
+    func getFlags() -> SCNetworkReachabilityFlags? {
+        guard let reachability = ipv4Reachability() ?? ipv6Reachability() else {
+            return nil
+        }
+        var flags = SCNetworkReachabilityFlags()
+        if !SCNetworkReachabilityGetFlags(reachability, &flags) {
+            return nil
+        }
+        return flags
+    }
+
+    func ipv6Reachability() -> SCNetworkReachability? {
+        var zeroAddress = sockaddr_in6()
+        zeroAddress.sin6_len = UInt8(MemoryLayout<sockaddr_in>.size)
+        zeroAddress.sin6_family = sa_family_t(AF_INET6)
+
+        return withUnsafePointer(to: &zeroAddress, {
+            $0.withMemoryRebound(to: sockaddr.self, capacity: 1) {
+                SCNetworkReachabilityCreateWithAddress(nil, $0)
+            }
+        })
+    }
+
+    func ipv4Reachability() -> SCNetworkReachability? {
+        var zeroAddress = sockaddr_in()
+        zeroAddress.sin_len = UInt8(MemoryLayout<sockaddr_in>.size)
+        zeroAddress.sin_family = sa_family_t(AF_INET)
+
+        return withUnsafePointer(to: &zeroAddress, {
+            $0.withMemoryRebound(to: sockaddr.self, capacity: 1) {
+                SCNetworkReachabilityCreateWithAddress(nil, $0)
+            }
+        })
     }
 
 }
