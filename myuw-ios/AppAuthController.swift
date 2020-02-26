@@ -406,7 +406,7 @@ extension AppAuthController {
                             self.authState?.update(withAuthorizationError: oauthError)
                             os_log("Authorization Error: %@. Response: %@", log: .affiliations, type: .error, oauthError.localizedDescription, responseText!)
                         } else {
-                            os_log("HTTP: %@. Response: %@", log: .affiliations, type: .info, response.statusCode, responseText!)
+                            os_log("HTTP: %@. Response: %@", log: .affiliations, type: .info, response.statusCode.description, responseText!)
                         }
                         
                         return
