@@ -12,7 +12,6 @@ import os
 
 // singleton class for a shared WKProcessPool
 class ProcessPool {
-    static var idToken = String()
     static var accessToken = String()
     static var sharedPool = WKProcessPool()
 }
@@ -69,17 +68,17 @@ class WebViewController: UIViewController, WKNavigationDelegate {
         
         // set the custom user agent
         configuration.applicationNameForUserAgent = "MyUW_Hybrid/1.0 (iPhone)"
-    
+        
         webView = WKWebView(frame: self.view.frame, configuration: configuration)
         webView.navigationDelegate = self
         
         webView.translatesAutoresizingMaskIntoConstraints = false
-                
+        
         webView.isUserInteractionEnabled = true
         webView.allowsLinkPreview = false
         webView.scrollView.alwaysBounceVertical = true
         webView.scrollView.bounces = true
-                
+        
         view.addSubview(webView)
         
         // MARK: - Add activity indicator to indicate webview initial load
@@ -91,7 +90,7 @@ class WebViewController: UIViewController, WKNavigationDelegate {
         activityIndicator.startAnimating()
         
         webView.addSubview(activityIndicator)
-    
+        
         // MARK:- Pull to refresh setup
         let refreshControl = UIRefreshControl()
         refreshControl.tintColor = .white
@@ -102,7 +101,7 @@ class WebViewController: UIViewController, WKNavigationDelegate {
         
         // assign refreshControl for the webview
         webView.scrollView.refreshControl = refreshControl
-    
+        
     }
     
     @objc func appBecameActive() {
@@ -119,7 +118,7 @@ class WebViewController: UIViewController, WKNavigationDelegate {
     }
     
     @objc func refreshWebView(_ sender: UIRefreshControl) {
-
+        
         os_log("refreshWebView", log: .webview, type: .info)
         
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -140,7 +139,7 @@ class WebViewController: UIViewController, WKNavigationDelegate {
     
     // webview navigation handlers
     func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
-
+        
         os_log("didStartProvisionalNavigation", log: .webview, type: .info)
         didChange = true
     }
@@ -161,16 +160,16 @@ class WebViewController: UIViewController, WKNavigationDelegate {
     }
     
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-                        
+        
         activityIndicator.isHidden = true
         activityIndicator.stopAnimating()
         
         didChange = true
         
         let url = webView.url?.absoluteURL
-
+        
         os_log("webview url: %@", log: .webview, type: .info, url!.absoluteString)
-    
+        
     }
     
     // webview policy response handler
@@ -193,13 +192,13 @@ class WebViewController: UIViewController, WKNavigationDelegate {
     
     // webview policty action handler
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
-    
+        
         // handle links and navigation
         if navigationAction.navigationType == .linkActivated  {
             
             let url = navigationAction.request.url
             os_log("navi url: %@", log: .webview, type: .info, url!.absoluteString)
-                            
+            
             // check to see if the url is NOT my-test.s.uw.edu (myuw)
             if !url!.absoluteString.contains("\(appHost)"), UIApplication.shared.canOpenURL(url!) {
                 
@@ -209,7 +208,7 @@ class WebViewController: UIViewController, WKNavigationDelegate {
                 decisionHandler(.cancel)
                 
             }
-            // check to see if the url is a "special" myuw outbound link
+                // check to see if the url is a "special" myuw outbound link
             else if (url?.absoluteString.contains("out?u="))! {
                 // get the outbound url from the u param
                 let uParam = getQueryStringParameter(url: url!.absoluteString, param: "u")
@@ -222,10 +221,10 @@ class WebViewController: UIViewController, WKNavigationDelegate {
                 decisionHandler(.cancel)
                 
             } else {
-                        
+                
                 // open links by pushing a new view controller
                 os_log("navi: push view controller", log: .webview, type: .info)
-    
+                
                 let newVisit = VisitController()
                 newVisit.visitUrl = navigationAction.request.url!.absoluteString
                 
@@ -233,12 +232,12 @@ class WebViewController: UIViewController, WKNavigationDelegate {
                 
                 self.navigationController?.pushViewController(newVisit, animated: true)
                 decisionHandler(.cancel)
-               
+                
             }
-           
+            
         }
         else {
-           decisionHandler(.allow)
+            decisionHandler(.allow)
         }
     }
     
@@ -259,8 +258,7 @@ extension WKWebView {
             
             var request = URLRequest(url: url)
             
-            // pass the idToken via request header
-            os_log("loading idToken: %@", log: .webview, type: .info, ProcessPool.idToken)
+            // pass the accessToken via authorization header
             os_log("loading accessToken: %@", log: .webview, type: .info, ProcessPool.accessToken)
             
             // pass the authorization bearer token in request header

@@ -441,11 +441,10 @@ extension AppAuthController {
                         
                         os_log("userAffiliations: %{private}@", log: .auth, type: .info, userAffiliations)
                         
-                        // update the tokens in the singleton process pool using fresh tokens
-                        ProcessPool.idToken = idToken!
+                        // update the accessToken in the singleton process pool
                         ProcessPool.accessToken = accessToken
                         
-                        // set tabControlleer as rootViewController after getting user info
+                        // set appController as rootViewController after getting user info
                         let appController = ApplicationController()
                         let appDelegate = UIApplication.shared.delegate as! AppDelegate
                         // set the main controller as the root controller on app load
