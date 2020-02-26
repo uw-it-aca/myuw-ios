@@ -40,20 +40,6 @@ class WebViewController: UIViewController, WKNavigationDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // MARK: - Notification Center
-        
-        let notificationCenter = NotificationCenter.default
-        // TODO: observe various phone state changes and re-auth if needed
-        
-        // app went to foregrounded
-        notificationCenter.addObserver(self, selector: #selector(appBecameActive), name: UIApplication.willEnterForegroundNotification, object: nil)
-        
-        // app went to backgrounded
-        //notificationCenter.addObserver(self, selector: #selector(appMovedToForeground), name: UIApplication.didEnterBackgroundNotification, object: nil)
-        
-        // app became active (called every time)
-        //notificationCenter.addObserver(self, selector: #selector(appBecameActive), name: UIApplication.didBecomeActiveNotification, object: nil )
-        
         // MARK: - Large title display mode and preference
         self.navigationItem.largeTitleDisplayMode = .always
         self.navigationController?.navigationBar.prefersLargeTitles = true
@@ -101,19 +87,6 @@ class WebViewController: UIViewController, WKNavigationDelegate {
         
         // assign refreshControl for the webview
         webView.scrollView.refreshControl = refreshControl
-        
-    }
-    
-    @objc func appBecameActive() {
-        
-        os_log("appBecameActive", log: .ui, type: .info)
-        
-        // force use go through appAuth flow when foregrounding the app
-        let appAuthController = AppAuthController()
-        let navController = UINavigationController(rootViewController: appAuthController)
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        // set appAuth controller as rootViewController
-        appDelegate.window!.rootViewController = navController
         
     }
     
