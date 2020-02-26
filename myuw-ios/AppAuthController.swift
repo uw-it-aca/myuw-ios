@@ -277,8 +277,8 @@ extension AppAuthController {
             bodyText.isHidden = true
             signInButton.isHidden = true
             
-            // get user info from token... and build UI display
-            self.getUserInfo()
+            // get user netid and affiliations
+            self.getUserAffiliations()
             
         }
         
@@ -295,7 +295,7 @@ extension AppAuthController {
 // MARK: User Info and app redirect
 extension AppAuthController {
     
-    func getUserInfo() {
+    func getUserAffiliations() {
         
         os_log("getUserInfo", log: .ui, type: .info)
         
@@ -314,6 +314,7 @@ extension AppAuthController {
                 return
             }
             
+            // log accessToken freshness
             if currentAccessToken != accessToken {
                 os_log("Access token was refreshed automatically: %@ to %@", log: .auth, type: .info, currentAccessToken ?? "CURRENT_ACCESS_TOKEN", accessToken)
             } else {
@@ -332,7 +333,7 @@ extension AppAuthController {
             
             // MARK: get user affiliations from myuw endpoint
             let affiliationURL = URL(string: "\(appHost)\(appAffiliationEndpoint)")
-            os_log("start affiliation request: %@", log: .auth, type: .info, affiliationURL!.absoluteString)
+            os_log("start affiliation request: %@", log: .affiliations, type: .info, affiliationURL!.absoluteString)
             var urlRequest = URLRequest(url: affiliationURL!)
             
             // send access token in authorization header
@@ -343,7 +344,7 @@ extension AppAuthController {
                 data, response, error in DispatchQueue.main.async {
                     
                     guard error == nil else {
-                        os_log("HTTP request failed: %@", log: .auth, type: .error, error?.localizedDescription ?? "ERROR")
+                        os_log("HTTP request failed: %@", log: .affiliations, type: .error, error?.localizedDescription ?? "ERROR")
                         
                         // show the error controller
                         let appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -355,7 +356,7 @@ extension AppAuthController {
                     }
                     
                     guard let response = response as? HTTPURLResponse else {
-                        os_log("Non-HTTP response", log: .auth, type: .info)
+                        os_log("Non-HTTP response", log: .affiliations, type: .info)
                         
                         // show the error controller
                         let appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -367,7 +368,7 @@ extension AppAuthController {
                     }
                     
                     guard let data = data else {
-                        os_log("HTTP response data is empty", log: .auth, type: .info)
+                        os_log("HTTP response data is empty", log: .affiliations, type: .info)
                         
                         // show the error controller
                         let appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -383,7 +384,7 @@ extension AppAuthController {
                     do {
                         json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
                     } catch {
-                        os_log("JSON Serialization Error", log: .auth, type: .error)
+                        os_log("JSON Serialization Error", log: .affiliations, type: .error)
                         
                         // show the error controller
                         let appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -403,9 +404,9 @@ extension AppAuthController {
                                                                                                 errorResponse: json,
                                                                                                 underlyingError: error)
                             self.authState?.update(withAuthorizationError: oauthError)
-                            os_log("Authorization Error: %@. Response: %@", log: .auth, type: .error, oauthError.localizedDescription, responseText!)
+                            os_log("Authorization Error: %@. Response: %@", log: .affiliations, type: .error, oauthError.localizedDescription, responseText!)
                         } else {
-                            os_log("HTTP: %@. Response: %@", log: .auth, type: .info, response.statusCode, responseText!)
+                            os_log("HTTP: %@. Response: %@", log: .affiliations, type: .info, response.statusCode, responseText!)
                         }
                         
                         return
@@ -413,7 +414,7 @@ extension AppAuthController {
                     
                     if let json = json {
                         
-                        os_log("Successfully decoded: %{private}@", log: .auth, type: .info, json)
+                        os_log("Successfully decoded: %{private}@", log: .affiliations, type: .info, json)
                         
                         if json["student"] as! Bool == true {
                             userAffiliations.append("student")
@@ -439,12 +440,12 @@ extension AppAuthController {
                             userAffiliations.append("seattle")
                         }
                         
-                        os_log("userAffiliations: %{private}@", log: .auth, type: .info, userAffiliations)
+                        os_log("userAffiliations: %{private}@", log: .affiliations, type: .info, userAffiliations)
                         
                         // update the accessToken in the singleton process pool
                         ProcessPool.accessToken = accessToken
                         
-                        // set appController as rootViewController after getting user info
+                        // MARK: transition to appController (tabs)
                         let appController = ApplicationController()
                         let appDelegate = UIApplication.shared.delegate as! AppDelegate
                         // set the main controller as the root controller on app load
@@ -473,9 +474,7 @@ extension AppAuthController {
         return idTokenClaims
     }
     
-    /**
-     Completes base64Encoded string to multiple of 4 to allow for decoding with NSData.
-     */
+    // completes base64Encoded string to multiple of 4 to allow for decoding with NSData
     func padBase64Encoded(_ base64Encoded: String) -> String {
         let remainder = base64Encoded.count % 4
         
@@ -486,17 +485,6 @@ extension AppAuthController {
         return base64Encoded
     }
     
-    @objc private func retryNetwork() {
-        os_log("Retry Button tapped", log: .ui, type: .info)
-        
-        // force use go through appAuth flow when foregrounding the app
-        let appAuthController = AppAuthController()
-        let navController = UINavigationController(rootViewController: appAuthController)
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        // set appAuth controller as rootViewController
-        appDelegate.window!.rootViewController = navController
-    }
-    
 }
 
 extension OSLog {
@@ -505,4 +493,5 @@ extension OSLog {
     // log categories
     static let ui = OSLog(subsystem: subsystem, category: "UI")
     static let auth = OSLog(subsystem: subsystem, category: "Authentication")
+    static let affiliations = OSLog(subsystem: subsystem, category: "Affiliations")
 }
