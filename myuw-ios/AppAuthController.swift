@@ -297,7 +297,7 @@ extension AppAuthController {
     
     func getUserAffiliations() {
         
-        os_log("getUserInfo", log: .ui, type: .info)
+        os_log("getUserAffiliations", log: .ui, type: .info)
         
         // MARK: refresh access token before sending to myuw as authentication header
         let currentAccessToken: String? = self.authState?.lastTokenResponse?.accessToken
