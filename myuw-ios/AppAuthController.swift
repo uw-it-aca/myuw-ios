@@ -416,6 +416,10 @@ extension AppAuthController {
                         
                         os_log("Successfully decoded: %{private}@", log: .affiliations, type: .info, json)
                         
+                        // remove all existing affiliations and start with fresh array
+                        userAffiliations.removeAll()
+                        
+                        // add user affiliations to array
                         if json["student"] as! Bool == true {
                             userAffiliations.append("student")
                         }
@@ -440,18 +444,18 @@ extension AppAuthController {
                             userAffiliations.append("seattle")
                         }
                         
-                        os_log("userAffiliations: %{private}@", log: .affiliations, type: .info, userAffiliations)
-                        
-                        // update the accessToken in the singleton process pool
-                        ProcessPool.accessToken = accessToken
-                        
-                        // MARK: transition to appController (tabs)
-                        let appController = ApplicationController()
-                        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                        // set the main controller as the root controller on app load
-                        appDelegate.window!.rootViewController = appController
-                        
                     }
+                    
+                    os_log("userAffiliations: %{private}@", log: .affiliations, type: .info, userAffiliations)
+                    
+                    // update the accessToken in the singleton process pool
+                    ProcessPool.accessToken = accessToken
+                    
+                    // MARK: transition to appController (tabs)
+                    let appController = ApplicationController()
+                    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                    // set the main controller as the root controller on app load
+                    appDelegate.window!.rootViewController = appController
                 }
             }
             task.resume()
