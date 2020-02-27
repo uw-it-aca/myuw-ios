@@ -416,6 +416,10 @@ extension AppAuthController {
                         
                         os_log("Successfully decoded: %{private}@", log: .affiliations, type: .info, json)
                         
+                        // remove all existing affiliations and start with fresh array
+                        userAffiliations.removeAll()
+                        
+                        // add user affiliations to array
                         if json["student"] as! Bool == true {
                             userAffiliations.append("student")
                         }
