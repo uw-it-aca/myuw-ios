@@ -305,11 +305,8 @@ extension AppAuthController {
                 // get user netid and affiliations
                 self.getUserAffiliations()
             } else {
-                // MARK: transition to appController (tabs)
-                let appController = ApplicationController()
-                let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                // set the main controller as the root controller on app load
-                appDelegate.window!.rootViewController = appController
+                // transition to the main application controller
+                showApplication()
             }
             
         }
@@ -327,6 +324,17 @@ extension AppAuthController {
 
 // MARK: User Info and app redirect
 extension AppAuthController {
+    
+    func showApplication() {
+        
+        os_log("showApplication", log: .ui, type: .info)
+        
+        // MARK: transition to appController (tabs)
+        let appController = ApplicationController()
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        // set the main controller as the root controller on app load
+        appDelegate.window!.rootViewController = appController
+    }
     
     func getUserAffiliations() {
         
@@ -484,12 +492,9 @@ extension AppAuthController {
                     // update the accessToken in the singleton process pool
                     ProcessPool.accessToken = accessToken
                     
-                    // MARK: transition to appController (tabs)
-                    let appController = ApplicationController()
-                    let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                    // set the main controller as the root controller on app load
-                    appDelegate.window!.rootViewController = appController
-                    
+                    // transition to the main application controller
+                    self.showApplication()
+
                 }
                 
             }
