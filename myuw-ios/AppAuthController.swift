@@ -299,8 +299,18 @@ extension AppAuthController {
             bodyText.isHidden = true
             signInButton.isHidden = true
             
-            // get user netid and affiliations
-            self.getUserAffiliations()
+            print(userAffiliations)
+            
+            if userAffiliations.isEmpty {
+                // get user netid and affiliations
+                self.getUserAffiliations()
+            } else {
+                // MARK: transition to appController (tabs)
+                let appController = ApplicationController()
+                let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                // set the main controller as the root controller on app load
+                appDelegate.window!.rootViewController = appController
+            }
             
         }
     
@@ -353,7 +363,7 @@ extension AppAuthController {
                 os_log("claimsDictionary: %@", log: .auth, type: .info, claimsDictionary!)
                 userNetID = claimsDictionary!["sub"] as! String? ?? ""
             }
-            
+        
             // MARK: get user affiliations from myuw endpoint
             let affiliationURL = URL(string: "\(appHost)\(appAffiliationEndpoint)")
             os_log("start affiliation request: %@", log: .affiliations, type: .info, affiliationURL!.absoluteString)
@@ -479,7 +489,9 @@ extension AppAuthController {
                     let appDelegate = UIApplication.shared.delegate as! AppDelegate
                     // set the main controller as the root controller on app load
                     appDelegate.window!.rootViewController = appController
+                    
                 }
+                
             }
             task.resume()
         }
