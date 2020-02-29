@@ -347,11 +347,19 @@ extension AppAuthController {
             
             if error != nil  {
                 os_log("Error fetching fresh tokens: %@", log: .auth, type: .error, error?.localizedDescription ?? "ERROR")
+                
+                // sign user out if unable to get fresh tokens (refresh token expired)
+                let profileView = ProfileWebView()
+                profileView.signOut()
                 return
             }
             
             guard let accessToken = accessToken else {
                 os_log("Error getting accessToken", log: .auth, type: .error)
+                
+                // sign user out if unable to get access token
+                let profileView = ProfileWebView()
+                profileView.signOut()
                 return
             }
             
