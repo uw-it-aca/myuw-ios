@@ -56,7 +56,7 @@ class ProfileWebView: WebViewController {
         // clear state storage
         UserDefaults.standard.removeObject(forKey: kAppAuthExampleAuthStateKey)
         // clear userAffiliations
-        userAffiliations = []
+        User.userAffiliations = []
         
         let navController = UINavigationController(rootViewController: appAuthController)
         let appDelegate = UIApplication.shared.delegate as! AppDelegate

@@ -299,9 +299,9 @@ extension AppAuthController {
             bodyText.isHidden = true
             signInButton.isHidden = true
             
-            print(userAffiliations)
+            print(User.userAffiliations)
             
-            if userAffiliations.isEmpty {
+            if User.userAffiliations.isEmpty {
                 // get user netid and affiliations
                 self.getUserAffiliations()
             } else {
@@ -377,7 +377,7 @@ extension AppAuthController {
                 os_log("idTokenClaims: %@", log: .auth, type: .info, (String(describing: String(bytes: idTokenClaims, encoding: .utf8))))
                 let claimsDictionary = try! JSONSerialization.jsonObject(with: idTokenClaims, options: .allowFragments) as? [String: Any]
                 os_log("claimsDictionary: %@", log: .auth, type: .info, claimsDictionary!)
-                userNetID = claimsDictionary!["sub"] as! String? ?? ""
+                User.userNetID = claimsDictionary!["sub"] as! String? ?? ""
             }
         
             // MARK: get user affiliations from myuw endpoint
@@ -466,36 +466,36 @@ extension AppAuthController {
                         os_log("Successfully decoded: %{private}@", log: .affiliations, type: .info, json)
                         
                         // remove all existing affiliations and start with fresh array
-                        userAffiliations.removeAll()
+                        User.userAffiliations.removeAll()
                         
                         // add user affiliations to array
                         if json["student"] as! Bool == true {
-                            userAffiliations.append("student")
+                            User.userAffiliations.append("student")
                         }
                         
                         if json["applicant"] as! Bool == true {
-                            userAffiliations.append("applicant")
+                            User.userAffiliations.append("applicant")
                         }
                         
                         if json["instructor"] as! Bool == true {
-                            userAffiliations.append("instructor")
+                            User.userAffiliations.append("instructor")
                         }
                         
                         if json["undergrad"] as! Bool == true {
-                            userAffiliations.append("undergrad")
+                            User.userAffiliations.append("undergrad")
                         }
                         
                         if json["hxt_viewer"] as! Bool == true {
-                            userAffiliations.append("hxt_viewer")
+                            User.userAffiliations.append("hxt_viewer")
                         }
                         
                         if json["seattle"] as! Bool == true {
-                            userAffiliations.append("seattle")
+                            User.userAffiliations.append("seattle")
                         }
                         
                     }
                     
-                    os_log("userAffiliations: %{private}@", log: .affiliations, type: .info, userAffiliations)
+                    os_log("userAffiliations: %{private}@", log: .affiliations, type: .info, User.userAffiliations)
                     
                     // update the accessToken in the singleton process pool
                     ProcessPool.accessToken = accessToken

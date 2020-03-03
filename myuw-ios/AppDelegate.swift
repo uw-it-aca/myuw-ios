@@ -20,9 +20,11 @@ var appAffiliationEndpoint = ""
 var clientID = ""
 var clientIssuer = ""
 
-//  From Shibboleth iDP via OIDC
-var userAffiliations: [String] = []
-var userNetID = "netid"
+struct User {
+    // From Shibboleth iDP via OIDC
+    static var userAffiliations: [String] = []
+    static var userNetID = ""
+}
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
