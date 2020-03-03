@@ -235,7 +235,8 @@ extension WKWebView {
             os_log("loading accessToken: %@", log: .webview, type: .info, ProcessPool.accessToken)
             
             // pass the authorization bearer token in request header
-            request.allHTTPHeaderFields = ["Authorization":"Bearer \(ProcessPool.accessToken)"]
+            request.setValue("Bearer \(ProcessPool.accessToken)", forHTTPHeaderField: "Authorization")
+            request.setValue("\(deviceID ?? "DEVICE_ID")", forHTTPHeaderField: "UW-Device-ID")
             
             // load the request
             os_log("loading request: %@", log: .webview, type: .info, url.absoluteString)
