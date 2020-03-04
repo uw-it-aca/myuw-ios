@@ -46,7 +46,6 @@ class AppAuthController: UIViewController {
         headerText.layer.borderColor = UIColor.red.cgColor
         headerText.font = UIFont.boldSystemFont(ofSize: 18)
         headerText.textAlignment = .left
-        headerText.text = "You are not signed in"
         headerText.sizeToFit()
         view.addSubview(headerText)
         // autolayout contraints
@@ -61,7 +60,6 @@ class AppAuthController: UIViewController {
         bodyText.textAlignment = .left
         bodyText.numberOfLines = 0
         bodyText.sizeToFit()
-        bodyText.text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut quis nunc nisl. Integer a ligula nec odio efficitur sagittis quis in sapien. Phasellus tempor dui nec pharetra lacinia."
         view.addSubview(bodyText)
         // autolayout contraints
         bodyText.translatesAutoresizingMaskIntoConstraints = false
@@ -83,6 +81,10 @@ class AppAuthController: UIViewController {
         signInButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
         // set topanchor of label equal to bottomanchor of textview
         signInButton.topAnchor.constraint(equalTo: bodyText.bottomAnchor, constant: 10).isActive = true
+        
+        // set initial text for sign-in messaging
+        headerText.text = "You are not signed in"
+        bodyText.text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut quis nunc nisl. Integer a ligula nec odio efficitur sagittis quis in sapien. Phasellus tempor dui nec pharetra lacinia."
         
         // get authstate
         self.loadState()
