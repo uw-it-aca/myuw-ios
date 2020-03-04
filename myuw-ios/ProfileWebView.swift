@@ -49,7 +49,7 @@ class ProfileWebView: WebViewController {
         
         let appAuthController = AppAuthController()
         
-        os_log("Singing user out", log: .auth, type: .info)
+        os_log("User signed out", log: .auth, type: .info)
         
         // clear authstate to signout user
         appAuthController.setAuthState(nil)

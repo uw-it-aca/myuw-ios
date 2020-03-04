@@ -94,6 +94,31 @@ class AppAuthController: UIViewController {
         authWithAutoCodeExchange()
     }
     
+    @objc func autoSignOut() {
+        
+        os_log("Automatically signing user out", log: .auth, type: .info)
+        
+        // clear authstate to signout user
+        setAuthState(nil)
+        // clear state storage
+        UserDefaults.standard.removeObject(forKey: kAppAuthExampleAuthStateKey)
+        // clear userAffiliations
+        User.userAffiliations = []
+        
+        // set auto sign-out messaging
+        self.headerText.text = "You have been signed out"
+        self.bodyText.text = "Something went wrong and you are now being signed out... Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut quis nunc nisl. Integer a ligula nec odio efficitur sagittis quis in sapien. Phasellus tempor dui nec pharetra lacinia."
+        
+        self.signInButton.isHidden = false
+        
+        /*
+         let navController = UINavigationController(rootViewController: self)
+         let appDelegate = UIApplication.shared.delegate as! AppDelegate
+         // set appAuth controller as rootViewController
+         appDelegate.window!.rootViewController = navController
+         */
+    }
+    
     func authWithAutoCodeExchange() {
         
         os_log("authWithAutoCodeExchange", log: .ui, type: .info)
@@ -349,8 +374,7 @@ extension AppAuthController {
                 os_log("Error fetching fresh tokens: %@", log: .auth, type: .error, error?.localizedDescription ?? "ERROR")
                 
                 // sign user out if unable to get fresh tokens (refresh token expired)
-                let profileView = ProfileWebView()
-                profileView.signOut()
+                self.autoSignOut()
                 return
             }
             
@@ -358,8 +382,7 @@ extension AppAuthController {
                 os_log("Error getting accessToken", log: .auth, type: .error)
                 
                 // sign user out if unable to get access token
-                let profileView = ProfileWebView()
-                profileView.signOut()
+                self.autoSignOut()
                 return
             }
             
