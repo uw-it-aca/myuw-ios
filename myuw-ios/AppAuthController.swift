@@ -107,11 +107,14 @@ class AppAuthController: UIViewController {
         // clear userAffiliations
         User.userAffiliations = []
         
+        // show hidden messaging
+        self.headerText.isHidden = false
+        self.bodyText.isHidden = false
+        self.signInButton.isHidden = false
+        
         // set auto sign-out messaging
         self.headerText.text = "You have been signed out"
         self.bodyText.text = "Something went wrong and you are now being signed out... Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut quis nunc nisl. Integer a ligula nec odio efficitur sagittis quis in sapien. Phasellus tempor dui nec pharetra lacinia."
-        
-        self.signInButton.isHidden = false
         
         /*
          let navController = UINavigationController(rootViewController: self)
