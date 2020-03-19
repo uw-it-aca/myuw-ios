@@ -299,7 +299,8 @@ extension AppAuthController {
     func updateUI() {
         
         os_log("updateUI", log: .ui, type: .info)
-    
+        
+        /*
         if (self.authState != nil ) {
             os_log("Has authstate", log: .ui, type: .info)
             headerText.isHidden = true
@@ -319,9 +320,9 @@ extension AppAuthController {
             // sign user out automatically
             self.autoSignOut()
         }
+         */
    
         // if logged in... hide the sign-in content
-        /*
         if self.authState != nil {
             
             headerText.isHidden = true
@@ -339,7 +340,6 @@ extension AppAuthController {
             }
             
         }
-        */
     
         
     }
