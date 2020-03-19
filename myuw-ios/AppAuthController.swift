@@ -299,30 +299,29 @@ extension AppAuthController {
     func updateUI() {
         
         os_log("updateUI", log: .ui, type: .info)
-        
-        /*
+    
         if (self.authState!.isAuthorized ) {
             os_log("User is authorized", log: .ui, type: .info)
             headerText.isHidden = true
             bodyText.isHidden = true
             signInButton.isHidden = true
             
-            // get user netid and affiliations
-            self.getUserAffiliations()
+            if User.userAffiliations.isEmpty {
+                // get user netid and affiliations
+                self.getUserAffiliations()
+            } else {
+                // transition to the main application controller
+                showApplication()
+            }
             
         } else {
             os_log("User NOT authorized", log: .ui, type: .info)
-            
-            // clear authstate to signout user
-            setAuthState(nil)
-            // clear state storage
-            UserDefaults.standard.removeObject(forKey: kAppAuthExampleAuthStateKey)
+            // sign user out automatically
+            self.autoSignOut()
         }
-         */
-        
-    
-        
+   
         // if logged in... hide the sign-in content
+        /*
         if self.authState != nil {
             
             headerText.isHidden = true
@@ -340,6 +339,7 @@ extension AppAuthController {
             }
             
         }
+        */
     
         
     }
