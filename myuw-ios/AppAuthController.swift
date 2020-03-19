@@ -300,8 +300,8 @@ extension AppAuthController {
         
         os_log("updateUI", log: .ui, type: .info)
     
-        if (self.authState!.isAuthorized ) {
-            os_log("User is authorized", log: .ui, type: .info)
+        if (self.authState != nil ) {
+            os_log("Has authstate", log: .ui, type: .info)
             headerText.isHidden = true
             bodyText.isHidden = true
             signInButton.isHidden = true
@@ -315,7 +315,7 @@ extension AppAuthController {
             }
             
         } else {
-            os_log("User NOT authorized", log: .ui, type: .info)
+            os_log("NO authstate", log: .ui, type: .info)
             // sign user out automatically
             self.autoSignOut()
         }
