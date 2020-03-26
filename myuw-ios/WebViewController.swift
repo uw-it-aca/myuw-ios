@@ -66,6 +66,14 @@ class WebViewController: UIViewController, WKNavigationDelegate {
         webView.scrollView.alwaysBounceVertical = true
         webView.scrollView.bounces = true
         
+        // test getting all cookies
+
+        // get all cookies
+        webView.getCookies() { data in
+              print("=========================================")
+              print(data)
+        }
+                
         view.addSubview(webView)
         
         // MARK: - Add activity indicator to indicate webview initial load
@@ -242,6 +250,24 @@ extension WKWebView {
             // load the request
             os_log("loading request: %@", log: .webview, type: .info, url.absoluteString)
             load(request)
+        }
+    }
+    
+    private var httpCookieStore: WKHTTPCookieStore  { return WKWebsiteDataStore.default().httpCookieStore }
+
+    func getCookies(for domain: String? = nil, completion: @escaping ([String : Any])->())  {
+        var cookieDict = [String : AnyObject]()
+        httpCookieStore.getAllCookies { cookies in
+            for cookie in cookies {
+                if let domain = domain {
+                    if cookie.domain.contains(domain) {
+                        cookieDict[cookie.name] = cookie.properties as AnyObject?
+                    }
+                } else {
+                    cookieDict[cookie.name] = cookie.properties as AnyObject?
+                }
+            }
+            completion(cookieDict)
         }
     }
 }
