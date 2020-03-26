@@ -459,46 +459,32 @@ extension AppAuthController {
                     
                     os_log("Getting cookies from affiliation response...", log: .affiliations, type: .info)
                     
-                    //TODO: handle the cookie response
-                    let fields = response.allHeaderFields as? [String: String]
-                    let cookies = HTTPCookieStorage.shared.cookies
-                    print("cookies:")
-                    print(cookies as Any)
+                    //TODO: handle the cookies from api response
                     
                     // instantiate the wkcookie store
                     let wkCookiesStore = WKWebsiteDataStore.default()
                     
-                    // test cookies
-                   if let testCookie = HTTPCookie(properties: [
-                        .domain: ".my.domain.name.com",
-                        .path: "/",
-                        .name: "myCookieNameKey",
-                        .value: "K324klj23KLJKH223423CookieValueDSFLJ234",
-                        .secure: "FALSE",
-                        .discard: "TRUE"
-                    ]) {
-                        wkCookiesStore.httpCookieStore.setCookie(testCookie)
-                        os_log("Cookie inserted: %@", log: .affiliations, type: .info, testCookie)
-                    }
+                    if let cookies = HTTPCookieStorage.shared.cookies {
                     
-                    /*
-                    for cookie in cookies {
+                        for cookie in cookies {
+                            
+                            // probably not needed...
+                            /*
+                            var cookieProperties = [HTTPCookiePropertyKey: Any]()
+                            cookieProperties[.name] = cookie.name
+                            cookieProperties[.value] = cookie.value
+                            cookieProperties[.domain] = cookie.domain
+                            cookieProperties[.path] = cookie.path
+                            cookieProperties[.version] = cookie.version
+                            */
+                            
+                            os_log("Cookie name: %@. Cookie value: %@", log: .affiliations, type: .info, cookie.name, cookie.value)
+                            
+                            // put the response cookie into the wkcookiestore for webviews to use
+                            wkCookiesStore.httpCookieStore.setCookie(cookie)
+                        }
                         
-                        // probably not needed...
-                        var cookieProperties = [HTTPCookiePropertyKey: Any]()
-                        cookieProperties[.name] = cookie.name
-                        cookieProperties[.value] = cookie.value
-                        cookieProperties[.domain] = cookie.domain
-                        cookieProperties[.path] = cookie.path
-                        cookieProperties[.version] = cookie.version
-                        
-                        os_log("Cookie name: %@. Cookie value: %@", log: .affiliations, type: .info, cookie.name, cookie.value)
-                        
-                        // put the response cookie into the wkcookiestore for webviews to use
-                        let newCookie = HTTPCookie(properties: cookieProperties)
-                        wkCookiesStore.httpCookieStore.setCookie(newCookie!)
                     }
- */
                     
                     //MARK: handle the json response
                     var json: [AnyHashable: Any]?
