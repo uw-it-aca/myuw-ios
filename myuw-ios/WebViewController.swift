@@ -13,6 +13,7 @@ import os
 // singleton class for a shared WKProcessPool
 class ProcessPool {
     static var accessToken = String()
+    static var idToken = String()
     static var sharedPool = WKProcessPool()
 }
 
@@ -231,11 +232,11 @@ extension WKWebView {
             
             var request = URLRequest(url: url)
             
-            // pass the accessToken via authorization header
-            os_log("loading accessToken: %@", log: .webview, type: .info, ProcessPool.accessToken)
+            // pass the idToken via authorization header
+            os_log("loading idToken: %@", log: .webview, type: .info, ProcessPool.idToken)
             
             // pass the authorization bearer token in request header
-            request.setValue("Bearer \(ProcessPool.accessToken)", forHTTPHeaderField: "Authorization")
+            request.setValue("Bearer \(ProcessPool.idToken)", forHTTPHeaderField: "Authorization")
             request.setValue("\(deviceID ?? "DEVICE_ID")", forHTTPHeaderField: "UW-Device-ID")
             
             // load the request

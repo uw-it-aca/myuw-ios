@@ -8,6 +8,7 @@
 
 import AppAuth
 import UIKit
+import WebKit
 import os
 
 typealias PostRegistrationCallback = (_ configuration: OIDServiceConfiguration?, _ registrationResponse: OIDRegistrationResponse?) -> Void
@@ -456,6 +457,32 @@ extension AppAuthController {
                         return
                     }
                     
+                    //TODO: handle the cookie response
+                    let fields = response.allHeaderFields as? [String: String]
+                    let cookies = HTTPCookie.cookies(withResponseHeaderFields: fields!, for: response.url!)
+                    HTTPCookieStorage.shared.setCookies(cookies, for: response.url, mainDocumentURL: nil)
+                    
+                    // instantiate the wkcookie store
+                    let wkCookiesStore = WKWebsiteDataStore.default()
+                    
+                    for cookie in cookies {
+                        
+                        // probably not needed...
+                        var cookieProperties = [HTTPCookiePropertyKey: Any]()
+                        cookieProperties[.name] = cookie.name
+                        cookieProperties[.value] = cookie.value
+                        cookieProperties[.domain] = cookie.domain
+                        cookieProperties[.path] = cookie.path
+                        cookieProperties[.version] = cookie.version
+                        
+                        os_log("Cookie name: %@. Cookie value: %@", log: .affiliations, type: .info, cookie.name, cookie.value)
+                        
+                        // put the response cookie into the wkcookiestore for webviews to use
+                        let newCookie = HTTPCookie(properties: cookieProperties)
+                        wkCookiesStore.httpCookieStore.setCookie(newCookie!)
+                    }
+                    
+                    //MARK: handle the json response
                     var json: [AnyHashable: Any]?
                     
                     do {
@@ -525,8 +552,9 @@ extension AppAuthController {
                     
                     os_log("userAffiliations: %{private}@", log: .affiliations, type: .info, User.userAffiliations)
                     
-                    // update the accessToken in the singleton process pool
+                    // update the tokens in the singleton process pool
                     ProcessPool.accessToken = accessToken
+                    ProcessPool.idToken = idToken!
                     
                     // transition to the main application controller
                     self.showApplication()
