@@ -461,8 +461,9 @@ extension AppAuthController {
                     
                     //TODO: handle the cookie response
                     let fields = response.allHeaderFields as? [String: String]
-                    let cookies = HTTPCookie.cookies(withResponseHeaderFields: fields!, for: response.url!)
-                    HTTPCookieStorage.shared.setCookies(cookies, for: response.url, mainDocumentURL: nil)
+                    let cookies = HTTPCookieStorage.shared.cookies
+                    print("cookies:")
+                    print(cookies as Any)
                     
                     // instantiate the wkcookie store
                     let wkCookiesStore = WKWebsiteDataStore.default()
@@ -480,7 +481,7 @@ extension AppAuthController {
                         os_log("Cookie inserted: %@", log: .affiliations, type: .info, testCookie)
                     }
                     
-                    
+                    /*
                     for cookie in cookies {
                         
                         // probably not needed...
@@ -497,6 +498,7 @@ extension AppAuthController {
                         let newCookie = HTTPCookie(properties: cookieProperties)
                         wkCookiesStore.httpCookieStore.setCookie(newCookie!)
                     }
+ */
                     
                     //MARK: handle the json response
                     var json: [AnyHashable: Any]?
