@@ -457,33 +457,15 @@ extension AppAuthController {
                         return
                     }
                     
-                    os_log("Getting cookies from affiliation response...", log: .affiliations, type: .info)
-                    
-                    //TODO: handle the cookies from api response
-                    
-                    // instantiate the wkcookie store
-                    let wkCookiesStore = WKWebsiteDataStore.default()
-                    
+                    //MARK: handle the cookies from api response and store them in HTTPCookieStorage
                     if let cookies = HTTPCookieStorage.shared.cookies {
-                    
-                        for cookie in cookies {
-                            
-                            // probably not needed...
-                            /*
-                            var cookieProperties = [HTTPCookiePropertyKey: Any]()
-                            cookieProperties[.name] = cookie.name
-                            cookieProperties[.value] = cookie.value
-                            cookieProperties[.domain] = cookie.domain
-                            cookieProperties[.path] = cookie.path
-                            cookieProperties[.version] = cookie.version
-                            */
-                            
-                            os_log("Cookie name: %@. Cookie value: %@", log: .affiliations, type: .info, cookie.name, cookie.value)
-                            
-                            // put the response cookie into the wkcookiestore for webviews to use
-                            wkCookiesStore.httpCookieStore.setCookie(cookie)
-                        }
                         
+                        os_log("Getting cookies from affiliation response...", log: .affiliations, type: .info)
+                        
+                        for cookie in cookies {
+                            os_log("Cookie name: %@. Cookie value: %@", log: .affiliations, type: .info, cookie.name, cookie.value)
+                            HTTPCookieStorage.shared.setCookie(cookie)
+                        }
                     }
                     
                     //MARK: handle the json response

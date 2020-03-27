@@ -47,14 +47,31 @@ class WebViewController: UIViewController, WKNavigationDelegate {
         
         // MARK: - WKWebView setup and configuration
         let configuration = WKWebViewConfiguration()
+        let wkDataStore = WKWebsiteDataStore.default()
         
+        // MARK: Get sharedCookies from HTTPCookieStorage
+        if let sharedCookies = HTTPCookieStorage.shared.cookies {
+            
+            os_log("Getting shared cookies...", log: .webview, type: .info)
+            
+            for sharedCookie in sharedCookies {
+                os_log("Shared cookie name: %@. Shared cookie value: %@", log: .affiliations, type: .info, sharedCookie.name, sharedCookie.value)
+                
+                // set sharedCookies in WKWebsiteDataStore before making any webview requests
+                wkDataStore.httpCookieStore.setCookie(sharedCookie)
+            }
+        }
+                
         // MARK: JS bridge message handler
         configuration.userContentController.add(self, name: "myuwBridge")
-        configuration.websiteDataStore = WKWebsiteDataStore.default()
+        
+        // MARK: global data store and process pool
+        configuration.websiteDataStore = wkDataStore
         configuration.processPool = ProcessPool.sharedPool
         
         // set the custom user agent
         configuration.applicationNameForUserAgent = "MyUW_Hybrid/1.0 (iPhone)"
+        
         
         webView = WKWebView(frame: self.view.frame, configuration: configuration)
         webView.navigationDelegate = self
@@ -68,7 +85,7 @@ class WebViewController: UIViewController, WKNavigationDelegate {
         
         // test getting all cookies
 
-        // get all cookies
+        // get all cookies in WKWebsiteDataStore
         webView.getCookies() { data in
               print("=========================================")
               print(data)
