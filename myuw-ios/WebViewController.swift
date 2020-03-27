@@ -55,7 +55,7 @@ class WebViewController: UIViewController, WKNavigationDelegate {
             os_log("Getting shared cookies...", log: .webview, type: .info)
             
             for sharedCookie in sharedCookies {
-                os_log("Shared cookie name: %@. Shared cookie value: %@", log: .affiliations, type: .info, sharedCookie.name, sharedCookie.value)
+                os_log("Shared cookie name: %@. Shared cookie value: %@", log: .webview, type: .info, sharedCookie.name, sharedCookie.value)
                 
                 // set sharedCookies in WKWebsiteDataStore before making any webview requests
                 wkDataStore.httpCookieStore.setCookie(sharedCookie)
@@ -83,14 +83,6 @@ class WebViewController: UIViewController, WKNavigationDelegate {
         webView.scrollView.alwaysBounceVertical = true
         webView.scrollView.bounces = true
         
-        // test getting all cookies
-
-        // get all cookies in WKWebsiteDataStore
-        webView.getCookies() { data in
-              print("=========================================")
-              print(data)
-        }
-                
         view.addSubview(webView)
         
         // MARK: - Add activity indicator to indicate webview initial load
@@ -168,6 +160,12 @@ class WebViewController: UIViewController, WKNavigationDelegate {
         let url = webView.url?.absoluteURL
         
         os_log("webview url: %@", log: .webview, type: .info, url!.absoluteString)
+        
+        // get all cookies in WKWebsiteDataStore
+        webView.getCookies() { data in
+              print("=========================================")
+              print(data)
+        }
         
     }
     
