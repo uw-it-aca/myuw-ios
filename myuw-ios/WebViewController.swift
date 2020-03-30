@@ -164,8 +164,7 @@ class WebViewController: UIViewController, WKNavigationDelegate {
         
         // get all cookies in WKWebsiteDataStore
         webView.getCookies() { data in
-              print("=========================================")
-              print(data)
+            os_log("webview cookies: %@", log: .webview, type: .info, data)
         }
         
     }
@@ -261,7 +260,6 @@ extension WKWebView {
             
             // pass the authorization bearer token in request header
             request.setValue("Bearer \(ProcessPool.idToken)", forHTTPHeaderField: "Authorization")
-            request.setValue("\(deviceID ?? "DEVICE_ID")", forHTTPHeaderField: "UW-Device-ID")
             
             // load the request
             os_log("loading request: %@", log: .webview, type: .info, url.absoluteString)

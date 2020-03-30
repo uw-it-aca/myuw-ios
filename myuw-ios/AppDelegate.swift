@@ -11,9 +11,6 @@ import AppAuth
 import SystemConfiguration
 import os
 
-// From system
-let deviceID = UIDevice.current.identifierForVendor?.uuidString
-
 // From myuw.plist
 var appHost = ""
 var appAffiliationEndpoint = ""
