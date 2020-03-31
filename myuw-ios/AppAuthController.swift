@@ -19,7 +19,6 @@ let kClientID: String? = clientID
 let kRedirectURI: String = "myuwapp://oauth2redirect";
 let kAppAuthExampleAuthStateKey: String = "authState";
 
-
 class AppAuthController: UIViewController {
     
     // property of the containing class
@@ -89,6 +88,8 @@ class AppAuthController: UIViewController {
         
         // get authstate
         self.loadState()
+        
+        showState()
         
     }
     
@@ -275,6 +276,7 @@ extension AppAuthController {
         
         os_log("loadState", log: .auth, type: .info)
         
+        /*
         guard let data = UserDefaults.standard.object(forKey: kAppAuthExampleAuthStateKey) as? Data else {
             return
         }
@@ -282,7 +284,36 @@ extension AppAuthController {
         if let authState = try? NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(data) as? OIDAuthState {
             self.setAuthState(authState)
         }
+        */
         
+        guard let data = UserDefaults.standard.object(forKey: kAppAuthExampleAuthStateKey) as? Data else {
+            return
+        }
+ 
+        var authState: OIDAuthState? = nil
+
+        if #available(iOS 12.0, *) {
+            authState = try! NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(data) as? OIDAuthState
+        } else {
+            authState = NSKeyedUnarchiver.unarchiveObject(with: data) as? OIDAuthState
+        }
+
+        if let authState = authState {
+            print("Authorization state has been loaded.")
+
+            self.setAuthState(authState)
+        }
+        
+    }
+    
+    func showState() {
+        print("Current authorization state: ")
+
+        print("Access token: \(authState?.lastTokenResponse?.accessToken ?? "none")")
+
+        print("ID token: \(authState?.lastTokenResponse?.idToken ?? "none")")
+
+        print("Expiration date: \(String(describing: authState?.lastTokenResponse?.accessTokenExpirationDate))")
     }
     
     func setAuthState(_ authState: OIDAuthState?) {

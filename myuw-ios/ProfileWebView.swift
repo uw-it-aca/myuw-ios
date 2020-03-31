@@ -47,6 +47,9 @@ class ProfileWebView: WebViewController {
     
     @objc func signOut() {
         
+        // dismiss the profile webview in case it is trying to load in the background
+        self.dismiss(animated: true, completion: nil)
+        
         let appAuthController = AppAuthController()
         
         os_log("User signed out", log: .auth, type: .info)
@@ -57,7 +60,7 @@ class ProfileWebView: WebViewController {
         UserDefaults.standard.removeObject(forKey: kAppAuthExampleAuthStateKey)
         // clear userAffiliations
         User.userAffiliations = []
-        
+                
         let navController = UINavigationController(rootViewController: appAuthController)
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         // set appAuth controller as rootViewController
