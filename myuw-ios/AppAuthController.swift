@@ -88,8 +88,7 @@ class AppAuthController: UIViewController {
         
         // get authstate
         self.loadState()
-        
-        showState()
+        self.showState()
         
     }
     
@@ -380,6 +379,7 @@ extension AppAuthController {
         os_log("stateChanged", log: .auth, type: .info)
         self.saveState()
         self.updateUI()
+        self.showState()
     }
     
 }
