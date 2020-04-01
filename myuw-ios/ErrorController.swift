@@ -53,7 +53,7 @@ class ErrorController: UIViewController {
         bodyText.topAnchor.constraint(equalTo: headerText.bottomAnchor, constant: 15).isActive = true
         
         signInButton.titleLabel?.font = UIFont.systemFont(ofSize: 14)
-        signInButton.setTitleColor(.blue, for: .normal)
+        signInButton.setTitleColor(.white, for: .normal)
         signInButton.setTitle("Retry", for: .normal)
         signInButton.addTarget(self, action: #selector(retryNetwork), for: .touchUpInside)
         signInButton.sizeToFit()
@@ -64,6 +64,8 @@ class ErrorController: UIViewController {
         signInButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
         // set topanchor of label equal to bottomanchor of textview
         signInButton.topAnchor.constraint(equalTo: bodyText.bottomAnchor, constant: 50).isActive = true
+        signInButton.backgroundColor = UIColor(hex: "#4b2e83")
+        signInButton.layer.cornerRadius = 4
         
         if (appDelegate.isConnectedToNetwork()) {
             headerText.text = "Unable to Load Page"

@@ -65,7 +65,7 @@ class AppAuthController: UIViewController {
         bodyText.topAnchor.constraint(equalTo: headerText.bottomAnchor, constant: 15).isActive = true
         
         signInButton.titleLabel?.font = UIFont.systemFont(ofSize: 14)
-        signInButton.setTitleColor(.blue, for: .normal)
+        signInButton.setTitleColor(.white, for: .normal)
         signInButton.setTitle("Sign in", for: .normal)
         signInButton.addTarget(self, action: #selector(loginUser), for: .touchUpInside)
         signInButton.sizeToFit()
@@ -76,6 +76,8 @@ class AppAuthController: UIViewController {
         signInButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
         // set topanchor of label equal to bottomanchor of textview
         signInButton.topAnchor.constraint(equalTo: bodyText.bottomAnchor, constant: 50).isActive = true
+        signInButton.backgroundColor = UIColor(hex: "#4b2e83")
+        signInButton.layer.cornerRadius = 4
         
         // set initial text for sign-in messaging
         headerText.text = "Welcome to MyUW"
