@@ -81,7 +81,7 @@ class AppAuthController: UIViewController {
         signInButton.layer.cornerRadius = 10
         
         // set initial text for sign-in messaging
-        headerText.text = "Welcome to MyUW"
+        headerText.text = "Welcome"
         bodyText.text = "Please sign in to continue."
         
         // get authstate
@@ -112,8 +112,8 @@ class AppAuthController: UIViewController {
         self.signInButton.isHidden = false
         
         // set auto sign-out messaging
-        self.headerText.text = "You have been signed out"
-        self.bodyText.text = "Something went wrong and you are now being signed out... Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut quis nunc nisl. Integer a ligula nec odio efficitur sagittis quis in sapien. Phasellus tempor dui nec pharetra lacinia."
+        self.headerText.text = "Signed Out"
+        self.bodyText.text = "You have been signed out, likely due to an application error or prolonged inactivity. Sign in to continue."
         
         /*
          let navController = UINavigationController(rootViewController: self)
@@ -486,14 +486,26 @@ extension AppAuthController {
                         return
                     }
                     
-                    //MARK: handle the cookies from api response and store them in HTTPCookieStorage
+                    //MARK: handle the cookies from api response
                     if let cookies = HTTPCookieStorage.shared.cookies {
                         
                         os_log("Getting cookies from affiliation response...", log: .affiliations, type: .info)
                         
+                        // MARK: setup global data store and process pool for cookie handling
+                        let wkDataStore = WKWebsiteDataStore.nonPersistent()
+                        let configuration = WKWebViewConfiguration()
+                        let webView: WKWebView!
+                    
+                        configuration.websiteDataStore = wkDataStore
+                        configuration.processPool = ProcessPool.sharedPool
+                        webView = WKWebView(frame: self.view.frame, configuration: configuration)
+                        
                         for cookie in cookies {
                             os_log("Cookie name: %@. Cookie value: %@", log: .affiliations, type: .info, cookie.name, cookie.value)
-                            HTTPCookieStorage.shared.setCookie(cookie)
+                            //HTTPCookieStorage.shared.setCookie(cookie)
+                            
+                            // store cookies in WKWebsiteDataStore to be shared with webviews
+                            webView.configuration.websiteDataStore.httpCookieStore.setCookie(cookie)
                         }
                     }
                     

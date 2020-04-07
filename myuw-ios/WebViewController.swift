@@ -51,6 +51,7 @@ class WebViewController: UIViewController, WKNavigationDelegate {
         // switch to nonPersistent datastore to ensure that the sharedCookies are used by the webviews
         let wkDataStore = WKWebsiteDataStore.nonPersistent()
         
+        /*
         // MARK: Get sharedCookies from HTTPCookieStorage
         if let sharedCookies = HTTPCookieStorage.shared.cookies {
             
@@ -63,6 +64,7 @@ class WebViewController: UIViewController, WKNavigationDelegate {
                 wkDataStore.httpCookieStore.setCookie(sharedCookie)
             }
         }
+        */
         
         // MARK: JS bridge message handler
         configuration.userContentController.add(self, name: "myuwBridge")
@@ -284,6 +286,7 @@ extension WKWebView {
             completion(cookieDict)
         }
     }
+    
 }
 
 extension WebViewController: WKScriptMessageHandler {
