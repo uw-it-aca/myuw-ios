@@ -492,7 +492,7 @@ extension AppAuthController {
                         os_log("Getting cookies from affiliation response...", log: .affiliations, type: .info)
                         
                         // MARK: setup global data store and process pool for cookie handling
-                        let wkDataStore = WKWebsiteDataStore.nonPersistent()
+                        let wkDataStore = WKWebsiteDataStore.default()
                         let configuration = WKWebViewConfiguration()
                         let webView: WKWebView!
                     
@@ -502,10 +502,9 @@ extension AppAuthController {
                         
                         for cookie in cookies {
                             os_log("Cookie name: %@. Cookie value: %@", log: .affiliations, type: .info, cookie.name, cookie.value)
-                            //HTTPCookieStorage.shared.setCookie(cookie)
-                            
                             // store cookies in WKWebsiteDataStore to be shared with webviews
                             webView.configuration.websiteDataStore.httpCookieStore.setCookie(cookie)
+                            //HTTPCookieStorage.shared.setCookie(cookie)
                         }
                     }
                     

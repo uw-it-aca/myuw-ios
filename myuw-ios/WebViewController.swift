@@ -47,9 +47,9 @@ class WebViewController: UIViewController, WKNavigationDelegate {
         
         // MARK: - WKWebView setup and configuration
         let configuration = WKWebViewConfiguration()
-        //let wkDataStore = WKWebsiteDataStore.default()
+        let wkDataStore = WKWebsiteDataStore.default()
         // switch to nonPersistent datastore to ensure that the sharedCookies are used by the webviews
-        let wkDataStore = WKWebsiteDataStore.nonPersistent()
+        //let wkDataStore = WKWebsiteDataStore.nonPersistent()
         
         /*
         // MARK: Get sharedCookies from HTTPCookieStorage
