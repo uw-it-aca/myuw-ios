@@ -25,7 +25,7 @@ class HomeWebView: WebViewController {
         userButton.setImage(UIImage(named: "ic_user_18"), for: .normal)
         userButton.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0);
         userButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: -5);
-        userButton.setTitle(userNetID, for: .normal)
+        userButton.setTitle(User.userNetID, for: .normal)
         userButton.titleLabel?.font = UIFont.systemFont(ofSize: 17)
         userButton.sizeToFit()
         userButton.addTarget(self, action: #selector(showProfile), for: .touchUpInside)

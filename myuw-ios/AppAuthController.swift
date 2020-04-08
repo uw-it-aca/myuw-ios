@@ -8,6 +8,7 @@
 
 import AppAuth
 import UIKit
+import WebKit
 import os
 
 typealias PostRegistrationCallback = (_ configuration: OIDServiceConfiguration?, _ registrationResponse: OIDRegistrationResponse?) -> Void
@@ -17,7 +18,6 @@ let kClientID: String? = clientID
 // can also use reverse DNS notion of the client ID for kRedirectURI
 let kRedirectURI: String = "myuwapp://oauth2redirect";
 let kAppAuthExampleAuthStateKey: String = "authState";
-
 
 class AppAuthController: UIViewController {
     
@@ -42,11 +42,8 @@ class AppAuthController: UIViewController {
         
         self.title = "MyUW"
         
-        headerText.layer.borderWidth = 0.25
-        headerText.layer.borderColor = UIColor.red.cgColor
         headerText.font = UIFont.boldSystemFont(ofSize: 18)
         headerText.textAlignment = .left
-        headerText.text = "You are not signed in"
         headerText.sizeToFit()
         view.addSubview(headerText)
         // autolayout contraints
@@ -55,25 +52,22 @@ class AppAuthController: UIViewController {
         headerText.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
         headerText.topAnchor.constraint(equalTo: view.topAnchor, constant: 30).isActive = true
         
-        bodyText.layer.borderWidth = 0.25
-        bodyText.layer.borderColor = UIColor.red.cgColor
         bodyText.font = UIFont.systemFont(ofSize: 14)
         bodyText.textAlignment = .left
         bodyText.numberOfLines = 0
+        bodyText.frame.size.height = 200.0
         bodyText.sizeToFit()
-        bodyText.text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut quis nunc nisl. Integer a ligula nec odio efficitur sagittis quis in sapien. Phasellus tempor dui nec pharetra lacinia."
         view.addSubview(bodyText)
         // autolayout contraints
         bodyText.translatesAutoresizingMaskIntoConstraints = false
         bodyText.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
         bodyText.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
-        bodyText.topAnchor.constraint(equalTo: headerText.bottomAnchor, constant: 5).isActive = true
+        bodyText.topAnchor.constraint(equalTo: headerText.bottomAnchor, constant: 15).isActive = true
         
-        signInButton.layer.borderWidth = 0.25
-        signInButton.layer.borderColor = UIColor.red.cgColor
-        signInButton.titleLabel?.font = UIFont.systemFont(ofSize: 14)
-        signInButton.setTitleColor(.blue, for: .normal)
+        signInButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 15)
+        signInButton.setTitleColor(.white, for: .normal)
         signInButton.setTitle("Sign in", for: .normal)
+        signInButton.contentEdgeInsets = UIEdgeInsets(top: 13,left: 5,bottom: 13,right: 5)
         signInButton.addTarget(self, action: #selector(loginUser), for: .touchUpInside)
         signInButton.sizeToFit()
         view.addSubview(signInButton)
@@ -82,16 +76,51 @@ class AppAuthController: UIViewController {
         signInButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
         signInButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
         // set topanchor of label equal to bottomanchor of textview
-        signInButton.topAnchor.constraint(equalTo: bodyText.bottomAnchor, constant: 10).isActive = true
+        signInButton.topAnchor.constraint(equalTo: bodyText.bottomAnchor, constant: 50).isActive = true
+        signInButton.backgroundColor = UIColor(hex: "#4b2e83")
+        signInButton.layer.cornerRadius = 10
+        
+        // set initial text for sign-in messaging
+        headerText.text = "Welcome"
+        bodyText.text = "Please sign in to continue."
         
         // get authstate
         self.loadState()
+        self.showState()
         
     }
     
     @objc private func loginUser(){
         os_log("Sign in Button tapped", log: .ui, type: .info)
         authWithAutoCodeExchange()
+    }
+    
+    @objc func autoSignOut() {
+        
+        os_log("Automatically signing user out", log: .auth, type: .info)
+        
+        // clear authstate to signout user
+        setAuthState(nil)
+        // clear state storage
+        UserDefaults.standard.removeObject(forKey: kAppAuthExampleAuthStateKey)
+        // clear userAffiliations
+        User.userAffiliations = []
+        
+        // show hidden messaging
+        self.headerText.isHidden = false
+        self.bodyText.isHidden = false
+        self.signInButton.isHidden = false
+        
+        // set auto sign-out messaging
+        self.headerText.text = "Signed Out"
+        self.bodyText.text = "You have been signed out, likely due to an application error or prolonged inactivity. Sign in to continue."
+        
+        /*
+         let navController = UINavigationController(rootViewController: self)
+         let appDelegate = UIApplication.shared.delegate as! AppDelegate
+         // set appAuth controller as rootViewController
+         appDelegate.window!.rootViewController = navController
+         */
     }
     
     func authWithAutoCodeExchange() {
@@ -244,6 +273,7 @@ extension AppAuthController {
         
         os_log("loadState", log: .auth, type: .info)
         
+        /*
         guard let data = UserDefaults.standard.object(forKey: kAppAuthExampleAuthStateKey) as? Data else {
             return
         }
@@ -251,7 +281,36 @@ extension AppAuthController {
         if let authState = try? NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(data) as? OIDAuthState {
             self.setAuthState(authState)
         }
+        */
         
+        guard let data = UserDefaults.standard.object(forKey: kAppAuthExampleAuthStateKey) as? Data else {
+            return
+        }
+ 
+        var authState: OIDAuthState? = nil
+
+        if #available(iOS 12.0, *) {
+            authState = try! NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(data) as? OIDAuthState
+        } else {
+            authState = NSKeyedUnarchiver.unarchiveObject(with: data) as? OIDAuthState
+        }
+
+        if let authState = authState {
+            print("Authorization state has been loaded.")
+
+            self.setAuthState(authState)
+        }
+        
+    }
+    
+    func showState() {
+        print("Current authorization state: ")
+
+        print("Access token: \(authState?.lastTokenResponse?.accessToken ?? "none")")
+
+        print("ID token: \(authState?.lastTokenResponse?.idToken ?? "none")")
+
+        print("Expiration date: \(String(describing: authState?.lastTokenResponse?.accessTokenExpirationDate))")
     }
     
     func setAuthState(_ authState: OIDAuthState?) {
@@ -270,6 +329,28 @@ extension AppAuthController {
         
         os_log("updateUI", log: .ui, type: .info)
         
+        /*
+        if (self.authState != nil ) {
+            os_log("Has authstate", log: .ui, type: .info)
+            headerText.isHidden = true
+            bodyText.isHidden = true
+            signInButton.isHidden = true
+            
+            if User.userAffiliations.isEmpty {
+                // get user netid and affiliations
+                self.getUserAffiliations()
+            } else {
+                // transition to the main application controller
+                showApplication()
+            }
+            
+        } else {
+            os_log("NO authstate", log: .ui, type: .info)
+            // sign user out automatically
+            self.autoSignOut()
+        }
+         */
+   
         // if logged in... hide the sign-in content
         if self.authState != nil {
             
@@ -277,10 +358,18 @@ extension AppAuthController {
             bodyText.isHidden = true
             signInButton.isHidden = true
             
-            // get user netid and affiliations
-            self.getUserAffiliations()
+            print(User.userAffiliations)
+            
+            if User.userAffiliations.isEmpty {
+                // get user netid and affiliations
+                self.getUserAffiliations()
+            } else {
+                // transition to the main application controller
+                showApplication()
+            }
             
         }
+    
         
     }
     
@@ -288,12 +377,24 @@ extension AppAuthController {
         os_log("stateChanged", log: .auth, type: .info)
         self.saveState()
         self.updateUI()
+        self.showState()
     }
     
 }
 
 // MARK: User Info and app redirect
 extension AppAuthController {
+    
+    func showApplication() {
+        
+        os_log("showApplication", log: .ui, type: .info)
+        
+        // MARK: transition to appController (tabs)
+        let appController = ApplicationController()
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        // set the main controller as the root controller on app load
+        appDelegate.window!.rootViewController = appController
+    }
     
     func getUserAffiliations() {
         
@@ -306,11 +407,17 @@ extension AppAuthController {
             
             if error != nil  {
                 os_log("Error fetching fresh tokens: %@", log: .auth, type: .error, error?.localizedDescription ?? "ERROR")
+                
+                // sign user out if unable to get fresh tokens (refresh token expired)
+                self.autoSignOut()
                 return
             }
             
             guard let accessToken = accessToken else {
                 os_log("Error getting accessToken", log: .auth, type: .error)
+                
+                // sign user out if unable to get access token
+                self.autoSignOut()
                 return
             }
             
@@ -328,9 +435,9 @@ extension AppAuthController {
                 os_log("idTokenClaims: %@", log: .auth, type: .info, (String(describing: String(bytes: idTokenClaims, encoding: .utf8))))
                 let claimsDictionary = try! JSONSerialization.jsonObject(with: idTokenClaims, options: .allowFragments) as? [String: Any]
                 os_log("claimsDictionary: %@", log: .auth, type: .info, claimsDictionary!)
-                userNetID = claimsDictionary!["sub"] as! String? ?? ""
+                User.userNetID = claimsDictionary!["sub"] as! String? ?? ""
             }
-            
+        
             // MARK: get user affiliations from myuw endpoint
             let affiliationURL = URL(string: "\(appHost)\(appAffiliationEndpoint)")
             os_log("start affiliation request: %@", log: .affiliations, type: .info, affiliationURL!.absoluteString)
@@ -379,6 +486,29 @@ extension AppAuthController {
                         return
                     }
                     
+                    //MARK: handle the cookies from api response
+                    if let cookies = HTTPCookieStorage.shared.cookies {
+                        
+                        os_log("Getting cookies from affiliation response...", log: .affiliations, type: .info)
+                        
+                        // MARK: setup global data store and process pool for cookie handling
+                        let wkDataStore = WKWebsiteDataStore.default()
+                        let configuration = WKWebViewConfiguration()
+                        let webView: WKWebView!
+                    
+                        configuration.websiteDataStore = wkDataStore
+                        configuration.processPool = ProcessPool.sharedPool
+                        webView = WKWebView(frame: self.view.frame, configuration: configuration)
+                        
+                        for cookie in cookies {
+                            os_log("Cookie name: %@. Cookie value: %@", log: .affiliations, type: .info, cookie.name, cookie.value)
+                            // store cookies in WKWebsiteDataStore to be shared with webviews
+                            webView.configuration.websiteDataStore.httpCookieStore.setCookie(cookie)
+                            //HTTPCookieStorage.shared.setCookie(cookie)
+                        }
+                    }
+                    
+                    //MARK: handle the json response
                     var json: [AnyHashable: Any]?
                     
                     do {
@@ -417,46 +547,46 @@ extension AppAuthController {
                         os_log("Successfully decoded: %{private}@", log: .affiliations, type: .info, json)
                         
                         // remove all existing affiliations and start with fresh array
-                        userAffiliations.removeAll()
+                        User.userAffiliations.removeAll()
                         
                         // add user affiliations to array
                         if json["student"] as! Bool == true {
-                            userAffiliations.append("student")
+                            User.userAffiliations.append("student")
                         }
                         
                         if json["applicant"] as! Bool == true {
-                            userAffiliations.append("applicant")
+                            User.userAffiliations.append("applicant")
                         }
                         
                         if json["instructor"] as! Bool == true {
-                            userAffiliations.append("instructor")
+                            User.userAffiliations.append("instructor")
                         }
                         
                         if json["undergrad"] as! Bool == true {
-                            userAffiliations.append("undergrad")
+                            User.userAffiliations.append("undergrad")
                         }
                         
                         if json["hxt_viewer"] as! Bool == true {
-                            userAffiliations.append("hxt_viewer")
+                            User.userAffiliations.append("hxt_viewer")
                         }
                         
                         if json["seattle"] as! Bool == true {
-                            userAffiliations.append("seattle")
+                            User.userAffiliations.append("seattle")
                         }
                         
                     }
                     
-                    os_log("userAffiliations: %{private}@", log: .affiliations, type: .info, userAffiliations)
+                    os_log("userAffiliations: %{private}@", log: .affiliations, type: .info, User.userAffiliations)
                     
-                    // update the accessToken in the singleton process pool
+                    // update the tokens in the singleton process pool
                     ProcessPool.accessToken = accessToken
+                    ProcessPool.idToken = idToken!
                     
-                    // MARK: transition to appController (tabs)
-                    let appController = ApplicationController()
-                    let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                    // set the main controller as the root controller on app load
-                    appDelegate.window!.rootViewController = appController
+                    // transition to the main application controller
+                    self.showApplication()
+
                 }
+                
             }
             task.resume()
         }

@@ -64,7 +64,11 @@ class SearchWebView: WebViewController, UISearchBarDelegate {
         
         // show the user's search term in the text field... while the results are frozen
         // clicking into the results view will clear the text field automatically
-        searchBar.searchTextField.text = searchBar.text
+        if #available(iOS 13.0, *) {
+            searchBar.searchTextField.text = searchBar.text
+        } else {
+        
+        }
             
     }
     

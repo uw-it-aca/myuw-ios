@@ -81,22 +81,22 @@ class ApplicationController: UITabBarController, UITabBarControllerDelegate {
         var controllers = [tabHome, tabAccounts, tabCalendar, tabResources]
         
         // insert academics tab for students or applicant
-        if userAffiliations.contains("student") || userAffiliations.contains("applicant") {
+        if User.userAffiliations.contains("student") || User.userAffiliations.contains("applicant") {
             controllers.insert(tabAcademics, at: 1)
         }
         
         // insert teaching tab for instructor
-        if userAffiliations.contains("instructor") {
+        if User.userAffiliations.contains("instructor") {
             controllers.insert(tabTeaching, at: 1)
         }
         
         // insert husky exp tab for seattle undergrad
-        if (userAffiliations.contains("undergrad") && userAffiliations.contains("seattle")) || userAffiliations.contains("hxt_viewer") {
+        if (User.userAffiliations.contains("undergrad") && User.userAffiliations.contains("seattle")) || User.userAffiliations.contains("hxt_viewer") {
             controllers.insert(tabHuskyExp, at: 2)
         }
         
         // insert notices tab for student
-        if userAffiliations.contains("student") {
+        if User.userAffiliations.contains("student") {
             controllers.insert(tabNotices, at: 4)
         }
         

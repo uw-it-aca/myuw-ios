@@ -13,6 +13,7 @@ import os
 // singleton class for a shared WKProcessPool
 class ProcessPool {
     static var accessToken = String()
+    static var idToken = String()
     static var sharedPool = WKProcessPool()
 }
 
@@ -46,15 +47,35 @@ class WebViewController: UIViewController, WKNavigationDelegate {
         
         // MARK: - WKWebView setup and configuration
         let configuration = WKWebViewConfiguration()
+        let wkDataStore = WKWebsiteDataStore.default()
+        // switch to nonPersistent datastore to ensure that the sharedCookies are used by the webviews
+        //let wkDataStore = WKWebsiteDataStore.nonPersistent()
+        
+        /*
+        // MARK: Get sharedCookies from HTTPCookieStorage
+        if let sharedCookies = HTTPCookieStorage.shared.cookies {
+            
+            os_log("Getting shared cookies...", log: .webview, type: .info)
+            
+            for sharedCookie in sharedCookies {
+                os_log("Shared cookie name: %@. Shared cookie value: %@", log: .webview, type: .info, sharedCookie.name, sharedCookie.value)
+                
+                // set sharedCookies in WKWebsiteDataStore before making any webview requests
+                wkDataStore.httpCookieStore.setCookie(sharedCookie)
+            }
+        }
+        */
         
         // MARK: JS bridge message handler
         configuration.userContentController.add(self, name: "myuwBridge")
-        configuration.websiteDataStore = WKWebsiteDataStore.default()
+        
+        // MARK: global data store and process pool
+        configuration.websiteDataStore = wkDataStore
         configuration.processPool = ProcessPool.sharedPool
         
         // set the custom user agent
         configuration.applicationNameForUserAgent = "MyUW_Hybrid/1.0 (iPhone)"
-        
+                
         webView = WKWebView(frame: self.view.frame, configuration: configuration)
         webView.navigationDelegate = self
         
@@ -142,6 +163,11 @@ class WebViewController: UIViewController, WKNavigationDelegate {
         let url = webView.url?.absoluteURL
         
         os_log("webview url: %@", log: .webview, type: .info, url!.absoluteString)
+        
+        // get all cookies in WKWebsiteDataStore
+        webView.getCookies() { data in
+            os_log("webview cookies: %@", log: .webview, type: .info, data)
+        }
         
     }
     
@@ -231,17 +257,36 @@ extension WKWebView {
             
             var request = URLRequest(url: url)
             
-            // pass the accessToken via authorization header
-            os_log("loading accessToken: %@", log: .webview, type: .info, ProcessPool.accessToken)
+            // pass the idToken via authorization header
+            os_log("loading idToken: %@", log: .webview, type: .info, ProcessPool.idToken)
             
             // pass the authorization bearer token in request header
-            request.allHTTPHeaderFields = ["Authorization":"Bearer \(ProcessPool.accessToken)"]
+            request.setValue("Bearer \(ProcessPool.idToken)", forHTTPHeaderField: "Authorization")
             
             // load the request
             os_log("loading request: %@", log: .webview, type: .info, url.absoluteString)
             load(request)
         }
     }
+    
+    private var httpCookieStore: WKHTTPCookieStore  { return WKWebsiteDataStore.default().httpCookieStore }
+
+    func getCookies(for domain: String? = nil, completion: @escaping ([String : Any])->())  {
+        var cookieDict = [String : AnyObject]()
+        httpCookieStore.getAllCookies { cookies in
+            for cookie in cookies {
+                if let domain = domain {
+                    if cookie.domain.contains(domain) {
+                        cookieDict[cookie.name] = cookie.properties as AnyObject?
+                    }
+                } else {
+                    cookieDict[cookie.name] = cookie.properties as AnyObject?
+                }
+            }
+            completion(cookieDict)
+        }
+    }
+    
 }
 
 extension WebViewController: WKScriptMessageHandler {
