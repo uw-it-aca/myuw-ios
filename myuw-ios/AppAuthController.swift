@@ -385,6 +385,17 @@ extension AppAuthController {
 // MARK: User Info and app redirect
 extension AppAuthController {
     
+    func showError() {
+        
+        os_log("showError", log: .ui, type: .info)
+        
+        // show the error controller
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let errorController = ErrorController()
+        let navController = UINavigationController(rootViewController: errorController)
+        appDelegate.window!.rootViewController = navController
+    }
+    
     func showApplication() {
         
         os_log("showApplication", log: .ui, type: .info)
@@ -452,37 +463,22 @@ extension AppAuthController {
                     
                     guard error == nil else {
                         os_log("HTTP request failed: %@", log: .affiliations, type: .error, error?.localizedDescription ?? "ERROR")
-                        
                         // show the error controller
-                        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                        let errorController = ErrorController()
-                        let navController = UINavigationController(rootViewController: errorController)
-                        appDelegate.window!.rootViewController = navController
-                        
+                        self.showError()()
                         return
                     }
                     
                     guard let response = response as? HTTPURLResponse else {
                         os_log("Non-HTTP response", log: .affiliations, type: .info)
-                        
                         // show the error controller
-                        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                        let errorController = ErrorController()
-                        let navController = UINavigationController(rootViewController: errorController)
-                        appDelegate.window!.rootViewController = navController
-                        
+                        self.showError()()
                         return
                     }
                     
                     guard let data = data else {
                         os_log("HTTP response data is empty", log: .affiliations, type: .info)
-                        
                         // show the error controller
-                        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                        let errorController = ErrorController()
-                        let navController = UINavigationController(rootViewController: errorController)
-                        appDelegate.window!.rootViewController = navController
-                        
+                        self.showError()()
                         return
                     }
                     
@@ -515,12 +511,8 @@ extension AppAuthController {
                         json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
                     } catch {
                         os_log("JSON Serialization Error", log: .affiliations, type: .error)
-                        
                         // show the error controller
-                        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                        let errorController = ErrorController()
-                        let navController = UINavigationController(rootViewController: errorController)
-                        appDelegate.window!.rootViewController = navController
+                        self.showError()()
                     }
                     
                     if response.statusCode != 200 {
