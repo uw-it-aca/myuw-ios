@@ -464,21 +464,21 @@ extension AppAuthController {
                     guard error == nil else {
                         os_log("HTTP request failed: %@", log: .affiliations, type: .error, error?.localizedDescription ?? "ERROR")
                         // show the error controller
-                        self.showError()()
+                        self.showError()
                         return
                     }
                     
                     guard let response = response as? HTTPURLResponse else {
                         os_log("Non-HTTP response", log: .affiliations, type: .info)
                         // show the error controller
-                        self.showError()()
+                        self.showError()
                         return
                     }
                     
                     guard let data = data else {
                         os_log("HTTP response data is empty", log: .affiliations, type: .info)
                         // show the error controller
-                        self.showError()()
+                        self.showError()
                         return
                     }
                     
