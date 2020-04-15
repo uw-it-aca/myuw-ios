@@ -512,7 +512,7 @@ extension AppAuthController {
                     } catch {
                         os_log("JSON Serialization Error", log: .affiliations, type: .error)
                         // show the error controller
-                        self.showError()()
+                        self.showError()
                     }
                     
                     if response.statusCode != 200 {
