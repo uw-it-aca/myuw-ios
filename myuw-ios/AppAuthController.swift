@@ -574,17 +574,17 @@ extension AppAuthController {
                             User.userAffiliations.append("seattle")
                         }
                         
+                        os_log("userAffiliations: %{private}@", log: .affiliations, type: .info, User.userAffiliations)
+                        
+                        // update the tokens in the singleton process pool
+                        ProcessPool.accessToken = accessToken
+                        ProcessPool.idToken = idToken!
+                        
+                        // transition to the main application controller
+                        self.showApplication()
+                        
                     }
                     
-                    os_log("userAffiliations: %{private}@", log: .affiliations, type: .info, User.userAffiliations)
-                    
-                    // update the tokens in the singleton process pool
-                    ProcessPool.accessToken = accessToken
-                    ProcessPool.idToken = idToken!
-                    
-                    // transition to the main application controller
-                    self.showApplication()
-
                 }
                 
             }
