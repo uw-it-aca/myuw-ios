@@ -484,6 +484,7 @@ extension AppAuthController {
                     }
                     
                     //MARK: handle the cookies from api response
+                    /*
                     if let cookies = HTTPCookieStorage.shared.cookies {
                         
                         os_log("Getting cookies from affiliation response...", log: .affiliations, type: .info)
@@ -504,6 +505,7 @@ extension AppAuthController {
                             //HTTPCookieStorage.shared.setCookie(cookie)
                         }
                     }
+                    */
                     
                     //MARK: handle the json response
                     var json: [AnyHashable: Any]?
@@ -516,6 +518,7 @@ extension AppAuthController {
                         self.showError()
                     }
                     
+                    //TODO: this needs a better home!
                     if response.statusCode != 200 {
                         // server replied with an error
                         let responseText: String? = String(data: data, encoding: String.Encoding.utf8)
@@ -534,6 +537,7 @@ extension AppAuthController {
                         
                         return
                     }
+                    
                     
                     if let json = json {
                         

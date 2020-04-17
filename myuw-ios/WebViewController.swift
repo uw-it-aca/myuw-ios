@@ -184,6 +184,9 @@ class WebViewController: UIViewController, WKNavigationDelegate {
                 let navController = UINavigationController(rootViewController: errorController)
                 appDelegate.window!.rootViewController = navController
             }
+            
+            print(response.statusCode)
+       
         }
         
         decisionHandler(.allow)
@@ -265,6 +268,7 @@ extension WKWebView {
             
             // load the request
             os_log("loading request: %@", log: .webview, type: .info, url.absoluteString)
+            os_log("loading headers: %@", log: .webview, type: .info, request.allHTTPHeaderFields!)
             load(request)
         }
     }
