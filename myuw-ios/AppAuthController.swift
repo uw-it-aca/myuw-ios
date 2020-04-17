@@ -456,7 +456,7 @@ extension AppAuthController {
             
             // send access token in authorization header
             //urlRequest.allHTTPHeaderFields = ["Authorization":"Bearer \(String(describing: self.authState?.lastTokenResponse?.accessToken)))"]
-            urlRequest.setValue("\(self.authState?.lastTokenResponse?.idToken ?? "ID_TOKEN")", forHTTPHeaderField: "Authorization")
+            urlRequest.setValue("Bearer \(self.authState?.lastTokenResponse?.idToken ?? "ID_TOKEN")", forHTTPHeaderField: "Authorization")
             
             // create a task to request affiliations from myuw endpoint
             let task = URLSession.shared.dataTask(with: urlRequest) {
