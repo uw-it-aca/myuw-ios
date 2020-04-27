@@ -305,12 +305,10 @@ extension AppAuthController {
     
     func showState() {
         print("Current authorization state: ")
-
         print("Access token: \(authState?.lastTokenResponse?.accessToken ?? "none")")
-
+        print("Access token expiration date: \(String(describing: authState?.lastTokenResponse?.accessTokenExpirationDate))")
         print("ID token: \(authState?.lastTokenResponse?.idToken ?? "none")")
-
-        print("Expiration date: \(String(describing: authState?.lastTokenResponse?.accessTokenExpirationDate))")
+        print("Refresh token: \(authState?.lastTokenResponse?.refreshToken ?? "none")")
     }
     
     func setAuthState(_ authState: OIDAuthState?) {
@@ -349,24 +347,18 @@ extension AppAuthController {
             // sign user out automatically
             self.autoSignOut()
         }
-         */
+        */
    
-        // if logged in... hide the sign-in content
+        // if user is signed-in...
         if self.authState != nil {
             
+            // hide the sign-in content
             headerText.isHidden = true
             bodyText.isHidden = true
             signInButton.isHidden = true
             
-            print(User.userAffiliations)
-            
-            if User.userAffiliations.isEmpty {
-                // get user netid and affiliations
-                self.getUserAffiliations()
-            } else {
-                // transition to the main application controller
-                showApplication()
-            }
+            // get user's affiliations
+            self.getUserAffiliations()
             
         }
     
@@ -448,14 +440,15 @@ extension AppAuthController {
                 os_log("claimsDictionary: %@", log: .auth, type: .info, claimsDictionary!)
                 User.userNetID = claimsDictionary!["sub"] as! String? ?? ""
             }
-        
+            
+            os_log("initial userAffiliations: %{private}@", log: .affiliations, type: .info, User.userAffiliations)
+            
             // MARK: get user affiliations from myuw endpoint
             let affiliationURL = URL(string: "\(appHost)\(appAffiliationEndpoint)")
             os_log("start affiliation request: %@", log: .affiliations, type: .info, affiliationURL!.absoluteString)
             var urlRequest = URLRequest(url: affiliationURL!)
             
             // send access token in authorization header
-            //urlRequest.allHTTPHeaderFields = ["Authorization":"Bearer \(String(describing: self.authState?.lastTokenResponse?.accessToken)))"]
             urlRequest.setValue("Bearer \(self.authState?.lastTokenResponse?.idToken ?? "ID_TOKEN")", forHTTPHeaderField: "Authorization")
             
             // create a task to request affiliations from myuw endpoint
@@ -482,30 +475,6 @@ extension AppAuthController {
                         self.showError()
                         return
                     }
-                    
-                    //MARK: handle the cookies from api response
-                    /*
-                    if let cookies = HTTPCookieStorage.shared.cookies {
-                        
-                        os_log("Getting cookies from affiliation response...", log: .affiliations, type: .info)
-                        
-                        // MARK: setup global data store and process pool for cookie handling
-                        let wkDataStore = WKWebsiteDataStore.default()
-                        let configuration = WKWebViewConfiguration()
-                        let webView: WKWebView!
-                    
-                        configuration.websiteDataStore = wkDataStore
-                        configuration.processPool = ProcessPool.sharedPool
-                        webView = WKWebView(frame: self.view.frame, configuration: configuration)
-                        
-                        for cookie in cookies {
-                            os_log("Cookie name: %@. Cookie value: %@", log: .affiliations, type: .info, cookie.name, cookie.value)
-                            // store cookies in WKWebsiteDataStore to be shared with webviews
-                            webView.configuration.websiteDataStore.httpCookieStore.setCookie(cookie)
-                            //HTTPCookieStorage.shared.setCookie(cookie)
-                        }
-                    }
-                    */
                     
                     //MARK: handle the json response
                     var json: [AnyHashable: Any]?

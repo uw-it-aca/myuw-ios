@@ -121,7 +121,9 @@ class WebViewController: UIViewController, WKNavigationDelegate {
         if (appDelegate.isConnectedToNetwork()) {
             activityIndicator.isHidden = false
             activityIndicator.startAnimating()
+                        
             webView.reload()
+            
             sender.endRefreshing()
         }
         else {
@@ -176,6 +178,8 @@ class WebViewController: UIViewController, WKNavigationDelegate {
         
         if let response = navigationResponse.response as? HTTPURLResponse {
             
+            os_log("HTTP response: %@", log: .webview, type: .error, response.statusCode.description)
+            
             if response.statusCode == 500 {
                 os_log("HTTP response was 500!", log: .webview, type: .error)
                 // show error controller
@@ -185,7 +189,17 @@ class WebViewController: UIViewController, WKNavigationDelegate {
                 appDelegate.window!.rootViewController = navController
             }
             
-            print(response.statusCode)
+            if response.statusCode == 401 {
+                
+                os_log("HTTP response was 401!", log: .webview, type: .error)
+               // re auth
+               let appDelegate = UIApplication.shared.delegate as! AppDelegate
+               let appAuthController = AppAuthController()
+               let navController = UINavigationController(rootViewController: appAuthController)
+               appDelegate.window!.rootViewController = navController
+                
+            }
+            
        
         }
         
