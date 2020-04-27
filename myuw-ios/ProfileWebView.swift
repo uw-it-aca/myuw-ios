@@ -54,6 +54,12 @@ class ProfileWebView: WebViewController {
         
         os_log("User signed out", log: .auth, type: .info)
         
+        // go to /logout
+        
+        // load the webview
+        webView.load("\(appHost)/logout/")
+        
+        
         // clear authstate to signout user
         appAuthController.setAuthState(nil)
         // clear state storage
