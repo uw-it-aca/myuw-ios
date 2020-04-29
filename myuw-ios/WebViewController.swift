@@ -198,17 +198,14 @@ class WebViewController: UIViewController, WKNavigationDelegate {
                 
                 
                 os_log("HTTP response message: %@", log: .webview, type: .error, statusMessage)
-                
-                // go through re-auth flow (if tokens expired, signout, if valid - get new accesstoken and idtoken)
-                /*
-                let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                let appAuthController = AppAuthController()
-                let navController = UINavigationController(rootViewController: appAuthController)
-                appDelegate.window!.rootViewController = navController
-                */
-                
+
                 let appAuthController = AppAuthController()
                 appAuthController.autoSignOut()
+
+                // go through re-auth flow (if tokens expired, signout, if valid - get new accesstoken and idtoken)
+                let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                let navController = UINavigationController(rootViewController: appAuthController)
+                appDelegate.window!.rootViewController = navController
                 
             }
                         
