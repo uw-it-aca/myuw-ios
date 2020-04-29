@@ -178,12 +178,14 @@ class WebViewController: UIViewController, WKNavigationDelegate {
         
         if let response = navigationResponse.response as? HTTPURLResponse {
             
-            let statusMessage: String = HTTPURLResponse.localizedString(forStatusCode: response.statusCode)
+            //let statusMessage: String = HTTPURLResponse.localizedString(forStatusCode: response.statusCode)
+            let statusMessage: String = response.description
             
             os_log("HTTP response: %@", log: .webview, type: .error, response.statusCode.description)
             
+            
             // handle 500 and 503
-            if response.statusCode == 500 {
+            if (response.statusCode == 500 || response.statusCode == 503) {
                 os_log("HTTP response message: %@", log: .webview, type: .error, statusMessage)
                 // show error controller
                 let appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -194,23 +196,22 @@ class WebViewController: UIViewController, WKNavigationDelegate {
             
             if response.statusCode == 401 {
                 
-                // check for "Signature has expired" response message
-                
-                if (statusMessage == "Signature has expired") {
-                    os_log("HTTP response 401... signature has expired test!!!!", log: .webview, type: .error)
-                }
                 
                 os_log("HTTP response message: %@", log: .webview, type: .error, statusMessage)
                 
                 // go through re-auth flow (if tokens expired, signout, if valid - get new accesstoken and idtoken)
+                /*
                 let appDelegate = UIApplication.shared.delegate as! AppDelegate
                 let appAuthController = AppAuthController()
                 let navController = UINavigationController(rootViewController: appAuthController)
                 appDelegate.window!.rootViewController = navController
+                */
+                
+                let appAuthController = AppAuthController()
+                appAuthController.autoSignOut()
                 
             }
-            
-       
+                        
         }
         
         decisionHandler(.allow)
