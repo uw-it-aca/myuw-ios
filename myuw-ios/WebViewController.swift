@@ -48,24 +48,7 @@ class WebViewController: UIViewController, WKNavigationDelegate {
         // MARK: - WKWebView setup and configuration
         let configuration = WKWebViewConfiguration()
         let wkDataStore = WKWebsiteDataStore.default()
-        // switch to nonPersistent datastore to ensure that the sharedCookies are used by the webviews
-        //let wkDataStore = WKWebsiteDataStore.nonPersistent()
-        
-        /*
-        // MARK: Get sharedCookies from HTTPCookieStorage
-        if let sharedCookies = HTTPCookieStorage.shared.cookies {
-            
-            os_log("Getting shared cookies...", log: .webview, type: .info)
-            
-            for sharedCookie in sharedCookies {
-                os_log("Shared cookie name: %@. Shared cookie value: %@", log: .webview, type: .info, sharedCookie.name, sharedCookie.value)
                 
-                // set sharedCookies in WKWebsiteDataStore before making any webview requests
-                wkDataStore.httpCookieStore.setCookie(sharedCookie)
-            }
-        }
-        */
-        
         // MARK: JS bridge message handler
         configuration.userContentController.add(self, name: "myuwBridge")
         
@@ -109,6 +92,33 @@ class WebViewController: UIViewController, WKNavigationDelegate {
         // assign refreshControl for the webview
         webView.scrollView.refreshControl = refreshControl
         
+    }
+    
+    // signout
+    @objc func signOut() {
+        
+        // dismiss the profile webview in case it is trying to load in the background
+        self.dismiss(animated: true, completion: nil)
+        
+        let appAuthController = AppAuthController()
+        
+        os_log("User signed out", log: .auth, type: .info)
+        
+        // go to /logout
+        webView.load("\(appHost)/logout/")
+        
+        // clear authstate to signout user
+        appAuthController.setAuthState(nil)
+        // clear state storage
+        UserDefaults.standard.removeObject(forKey: kAppAuthExampleAuthStateKey)
+        // clear userAffiliations
+        User.userAffiliations = []
+                
+        let navController = UINavigationController(rootViewController: appAuthController)
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        // set appAuth controller as rootViewController
+        appDelegate.window!.rootViewController = navController
+    
     }
     
     @objc func refreshWebView(_ sender: UIRefreshControl) {
@@ -195,18 +205,8 @@ class WebViewController: UIViewController, WKNavigationDelegate {
             }
             
             if response.statusCode == 401 {
-                
-                
                 os_log("HTTP response message: %@", log: .webview, type: .error, statusMessage)
-
-                let appAuthController = AppAuthController()
-                appAuthController.autoSignOut()
-
-                // go through re-auth flow (if tokens expired, signout, if valid - get new accesstoken and idtoken)
-                let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                let navController = UINavigationController(rootViewController: appAuthController)
-                appDelegate.window!.rootViewController = navController
-                
+                signOut()
             }
                         
         }
@@ -270,6 +270,8 @@ class WebViewController: UIViewController, WKNavigationDelegate {
         guard let url = URLComponents(string: url) else { return nil }
         return url.queryItems?.first(where: { $0.name == param })?.value
     }
+    
+    
     
 }
 

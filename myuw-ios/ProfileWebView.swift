@@ -32,7 +32,7 @@ class ProfileWebView: WebViewController {
         signOutButton.setTitle("Sign out", for: .normal)
         signOutButton.titleLabel?.font = .systemFont(ofSize: 17)
         signOutButton.sizeToFit()
-        signOutButton.addTarget(self, action: #selector(signOut), for: .touchUpInside)
+        signOutButton.addTarget(self, action: #selector(WebViewController.signOut), for: .touchUpInside)
 
         let signOutButtonItem = UIBarButtonItem(customView: signOutButton)
         
@@ -45,34 +45,4 @@ class ProfileWebView: WebViewController {
         self.dismiss(animated: true, completion: nil)
     }
     
-    @objc func signOut() {
-        
-        // dismiss the profile webview in case it is trying to load in the background
-        self.dismiss(animated: true, completion: nil)
-        
-        let appAuthController = AppAuthController()
-        
-        os_log("User signed out", log: .auth, type: .info)
-        
-        // go to /logout
-        
-        // load the webview
-        webView.load("\(appHost)/logout/")
-        
-        
-        // clear authstate to signout user
-        appAuthController.setAuthState(nil)
-        // clear state storage
-        UserDefaults.standard.removeObject(forKey: kAppAuthExampleAuthStateKey)
-        // clear userAffiliations
-        User.userAffiliations = []
-                
-        let navController = UINavigationController(rootViewController: appAuthController)
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        // set appAuth controller as rootViewController
-        appDelegate.window!.rootViewController = navController
-        
-    
-    }
-
 }
