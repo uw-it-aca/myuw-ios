@@ -405,6 +405,7 @@ extension AppAuthController {
         
         // MARK: refresh access token before sending to myuw as authentication header
         let currentAccessToken: String? = self.authState?.lastTokenResponse?.accessToken
+        let currentIdToken: String? = self.authState?.lastTokenResponse?.idToken
         
         self.authState?.performAction() { (accessToken, idToken, error) in
             
@@ -431,14 +432,29 @@ extension AppAuthController {
                 os_log("Access token was fresh and not updated: %@", log: .auth, type: .info, accessToken)
             }
             
+            guard let idToken = idToken else {
+                os_log("Error getting idToken", log: .auth, type: .error)
+                
+                // sign user out if unable to get id token
+                self.autoSignOut()
+                return
+            }
+            
+            // log idToken freshness
+            if currentIdToken != idToken {
+                os_log("ID token was refreshed automatically: %@ to %@", log: .auth, type: .info, currentIdToken ?? "CURRENT_ID_TOKEN", idToken)
+            } else {
+                os_log("ID token was fresh and not updated: %@", log: .auth, type: .info, idToken)
+            }
+            
             // update the tokens in the singleton process pool
             ProcessPool.accessToken = accessToken
-            ProcessPool.idToken = idToken!
+            ProcessPool.idToken = idToken
             
             // MARK: get user netid by decoding idtoken
             // TODO: consider creating a Claims struct and mapping everything to it's attributes
             if (self.authState?.isAuthorized ?? false) {
-                let idTokenClaims = self.getIdTokenClaims(idToken: idToken ?? "") ?? Data()
+                let idTokenClaims = self.getIdTokenClaims(idToken: idToken ) ?? Data()
                 os_log("idTokenClaims: %@", log: .auth, type: .info, (String(describing: String(bytes: idTokenClaims, encoding: .utf8))))
                 let claimsDictionary = try! JSONSerialization.jsonObject(with: idTokenClaims, options: .allowFragments) as? [String: Any]
                 os_log("claimsDictionary: %@", log: .auth, type: .info, claimsDictionary!)
