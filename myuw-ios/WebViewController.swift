@@ -106,6 +106,7 @@ class WebViewController: UIViewController, WKNavigationDelegate {
         
         // go to /logout
         webView.load("\(appHost)/logout/")
+        webView.stopLoading()
         
         // clear authstate to signout user
         appAuthController.setAuthState(nil)
