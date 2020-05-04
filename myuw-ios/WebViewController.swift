@@ -104,10 +104,6 @@ class WebViewController: UIViewController, WKNavigationDelegate {
         
         os_log("User signed out", log: .auth, type: .info)
         
-        // go to /logout to clear weblogin session
-        webView.load("\(appHost)/logout/")
-        webView.stopLoading()
-    
         /*
         // clear authstate to signout user
         appAuthController.setAuthState(nil)
@@ -125,7 +121,7 @@ class WebViewController: UIViewController, WKNavigationDelegate {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         // set appAuth controller as rootViewController
         appDelegate.window!.rootViewController = navController
-    
+        
     }
     
     @objc func refreshWebView(_ sender: UIRefreshControl) {
@@ -213,7 +209,16 @@ class WebViewController: UIViewController, WKNavigationDelegate {
             
             if response.statusCode == 401 {
                 os_log("HTTP response message: %@", log: .webview, type: .error, statusMessage)
-                signOut()
+                
+                //MARK: option #1 clear authState and sign user out
+                //signOut()
+                
+                //MARK: option #2 refresh tokens by going through appAuthController
+                let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                let appAuthController = AppAuthController()
+                let navController = UINavigationController(rootViewController: appAuthController)
+                appDelegate.window!.rootViewController = navController
+                
             }
                         
         }
