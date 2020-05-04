@@ -104,10 +104,10 @@ class WebViewController: UIViewController, WKNavigationDelegate {
         
         os_log("User signed out", log: .auth, type: .info)
         
-        // go to /logout
+        // go to /logout to clear weblogin session
         webView.load("\(appHost)/logout/")
         webView.stopLoading()
-        
+    
         /*
         // clear authstate to signout user
         appAuthController.setAuthState(nil)
@@ -117,8 +117,10 @@ class WebViewController: UIViewController, WKNavigationDelegate {
         User.userAffiliations = []
         */
         
+        // call the appAuth signout method
         appAuthController.signOut()
         
+        // show the appAuth controller
         let navController = UINavigationController(rootViewController: appAuthController)
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         // set appAuth controller as rootViewController

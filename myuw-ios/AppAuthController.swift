@@ -85,7 +85,7 @@ class AppAuthController: UIViewController {
         
         if (signedOut) {
             // set auto sign-out messaging
-            self.headerText.text = "Signed Out"
+            self.headerText.text = "Signed out"
             self.bodyText.text = "You have successfully signed out. If you did not take this action, you were most likely signed out due to an application error or prolonged inactivity. Sign in to continue."
         } else {
             // set initial text for sign-in messaging
@@ -108,19 +108,20 @@ class AppAuthController: UIViewController {
         
         os_log("Signing user out", log: .auth, type: .info)
         
+        // set signed out to true
+        signedOut = true
+        
         // clear authstate to signout user
         setAuthState(nil)
         // clear state storage
         UserDefaults.standard.removeObject(forKey: kAppAuthExampleAuthStateKey)
         // clear userAffiliations
         User.userAffiliations = []
-        
+                        
         // show hidden messaging
         self.headerText.isHidden = false
         self.bodyText.isHidden = false
         self.signInButton.isHidden = false
-        
-        signedOut = true
         
         /*
          let navController = UINavigationController(rootViewController: self)
