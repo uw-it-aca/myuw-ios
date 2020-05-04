@@ -19,6 +19,8 @@ let kClientID: String? = clientID
 let kRedirectURI: String = "myuwapp://oauth2redirect";
 let kAppAuthExampleAuthStateKey: String = "authState";
 
+var signedOut = false
+
 class AppAuthController: UIViewController {
     
     // property of the containing class
@@ -80,9 +82,16 @@ class AppAuthController: UIViewController {
         signInButton.backgroundColor = UIColor(hex: "#4b2e83")
         signInButton.layer.cornerRadius = 10
         
-        // set initial text for sign-in messaging
-        headerText.text = "Welcome"
-        bodyText.text = "Please sign in to continue."
+        
+        if (signedOut) {
+            // set auto sign-out messaging
+            self.headerText.text = "Signed Out"
+            self.bodyText.text = "You have successfully signed out. If you did not take this action, you were most likely signed out due to an application error or prolonged inactivity. Sign in to continue."
+        } else {
+            // set initial text for sign-in messaging
+            headerText.text = "Welcome"
+            bodyText.text = "Please sign in to continue."
+        }
         
         // get authstate
         self.loadState()
@@ -95,9 +104,9 @@ class AppAuthController: UIViewController {
         authWithAutoCodeExchange()
     }
     
-    @objc func autoSignOut() {
+    @objc func signOut() {
         
-        os_log("Automatically signing user out", log: .auth, type: .info)
+        os_log("Signing user out", log: .auth, type: .info)
         
         // clear authstate to signout user
         setAuthState(nil)
@@ -111,9 +120,7 @@ class AppAuthController: UIViewController {
         self.bodyText.isHidden = false
         self.signInButton.isHidden = false
         
-        // set auto sign-out messaging
-        self.headerText.text = "Signed Out"
-        self.bodyText.text = "You have been signed out, likely due to an application error or prolonged inactivity. Sign in to continue."
+        signedOut = true
         
         /*
          let navController = UINavigationController(rootViewController: self)
@@ -413,7 +420,7 @@ extension AppAuthController {
                 os_log("Error fetching fresh tokens: %@", log: .auth, type: .error, error?.localizedDescription ?? "ERROR")
                 
                 // sign user out if unable to get fresh tokens (refresh token expired)
-                self.autoSignOut()
+                self.signOut()
                 return
             }
             
@@ -421,7 +428,7 @@ extension AppAuthController {
                 os_log("Error getting accessToken", log: .auth, type: .error)
                 
                 // sign user out if unable to get access token
-                self.autoSignOut()
+                self.signOut()
                 return
             }
             
@@ -436,7 +443,7 @@ extension AppAuthController {
                 os_log("Error getting idToken", log: .auth, type: .error)
                 
                 // sign user out if unable to get id token
-                self.autoSignOut()
+                self.signOut()
                 return
             }
             

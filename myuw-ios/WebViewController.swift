@@ -108,13 +108,17 @@ class WebViewController: UIViewController, WKNavigationDelegate {
         webView.load("\(appHost)/logout/")
         webView.stopLoading()
         
+        /*
         // clear authstate to signout user
         appAuthController.setAuthState(nil)
         // clear state storage
         UserDefaults.standard.removeObject(forKey: kAppAuthExampleAuthStateKey)
         // clear userAffiliations
         User.userAffiliations = []
-                
+        */
+        
+        appAuthController.signOut()
+        
         let navController = UINavigationController(rootViewController: appAuthController)
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         // set appAuth controller as rootViewController
