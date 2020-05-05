@@ -69,10 +69,10 @@ class ErrorController: UIViewController {
         signInButton.layer.cornerRadius = 10
         
         if (appDelegate.isConnectedToNetwork()) {
-            headerText.text = "Unable to Load Page"
+            headerText.text = "Unable to load page"
             bodyText.text = "A server error has occurred. We are aware of the issue and are working to resolve it. Please try again in a few minutes."
         } else {
-            headerText.text = "No Internet Connection"
+            headerText.text = "No internet connection"
             bodyText.text = "It looks like you're offline. Connect to the internet and retry to access MyUW."
         }
         

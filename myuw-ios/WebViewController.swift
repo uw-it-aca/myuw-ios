@@ -97,34 +97,14 @@ class WebViewController: UIViewController, WKNavigationDelegate {
     // signout
     @objc func signOut() {
         
+        os_log("Perform sign out", log: .auth, type: .info)
+        
         // dismiss the profile webview in case it is trying to load in the background
         self.dismiss(animated: true, completion: nil)
         
-        let appAuthController = AppAuthController()
-        
-        os_log("User signed out", log: .auth, type: .info)
-        
-        // visit /logout
+        // visit /logout to perform webview signout
         webView.load("\(appHost)/logout/")
-        
-        /*
-        // clear authstate to signout user
-        appAuthController.setAuthState(nil)
-        // clear state storage
-        UserDefaults.standard.removeObject(forKey: kAppAuthExampleAuthStateKey)
-        // clear userAffiliations
-        User.userAffiliations = []
-        */
-        
-        // call the appAuth signout method
-        appAuthController.signOut()
-        
-        // show the appAuth controller
-        let navController = UINavigationController(rootViewController: appAuthController)
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        // set appAuth controller as rootViewController
-        appDelegate.window!.rootViewController = navController
-        
+    
     }
     
     @objc func refreshWebView(_ sender: UIRefreshControl) {
@@ -185,6 +165,22 @@ class WebViewController: UIViewController, WKNavigationDelegate {
         // get all cookies in WKWebsiteDataStore
         webView.getCookies() { data in
             os_log("webview cookies: %@", log: .webview, type: .info, data)
+        }
+        
+        // if user signed out... then clear authstate
+        if url!.absoluteString.contains("/idp/profile/Logout") {
+            
+            os_log("Signing user out of webview", log: .auth, type: .info)
+            
+            // call the appAuth signout method
+            let appAuthController = AppAuthController()
+            appAuthController.signOut()
+            
+            // show the appAuth controller
+            let navController = UINavigationController(rootViewController: appAuthController)
+            let appDelegate = UIApplication.shared.delegate as! AppDelegate
+            // set appAuth controller as rootViewController
+            appDelegate.window!.rootViewController = navController
         }
         
     }

@@ -86,7 +86,7 @@ class AppAuthController: UIViewController {
         if (signedOut) {
             // set auto sign-out messaging
             self.headerText.text = "Signed out"
-            self.bodyText.text = "You have successfully signed out. If you did not take this action, you were most likely signed out due to an application error or prolonged inactivity. Sign in to continue."
+            self.bodyText.text = "You have been signed out successfully. In some cases, you may be signed out because of an application error or prolonged inactivity. Sign in to continue."
         } else {
             // set initial text for sign-in messaging
             headerText.text = "Welcome"
@@ -100,7 +100,7 @@ class AppAuthController: UIViewController {
     }
     
     @objc private func loginUser(){
-        os_log("Sign in Button tapped", log: .ui, type: .info)
+        os_log("Sign in button tapped", log: .ui, type: .info)
         authWithAutoCodeExchange()
     }
     
