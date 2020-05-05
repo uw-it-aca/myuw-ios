@@ -164,15 +164,10 @@ class WebViewController: UIViewController, WKNavigationDelegate {
         
         os_log("webview url: %@", log: .webview, type: .info, url!.absoluteString)
         
-        // get all cookies in WKWebsiteDataStore
-        webView.getCookies() { data in
-            os_log("webview cookies: %@", log: .webview, type: .info, data)
-        }
-        
         // if user signed out... then clear authstate
         if url!.absoluteString.contains("/idp/profile/Logout") {
             
-            os_log("Signing user out of native app", log: .auth, type: .info)
+            // should we clear all cookies manually?
             
             // call the appAuth signout method
             let appAuthController = AppAuthController()
@@ -185,6 +180,10 @@ class WebViewController: UIViewController, WKNavigationDelegate {
             appDelegate.window!.rootViewController = navController
         }
         
+        // display all cookies in WKWebsiteDataStore
+        webView.getCookies() { data in
+            os_log("webview cookies: %@", log: .webview, type: .info, data)
+        }
     }
     
     // webview policy response handler

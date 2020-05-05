@@ -106,7 +106,7 @@ class AppAuthController: UIViewController {
     
     @objc func signOut() {
         
-        os_log("Signing user out", log: .auth, type: .info)
+        os_log("Signing user out of native", log: .auth, type: .info)
         
         // set signed out to true
         signedOut = true
