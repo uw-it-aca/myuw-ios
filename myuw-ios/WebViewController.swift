@@ -97,10 +97,12 @@ class WebViewController: UIViewController, WKNavigationDelegate {
     // signout
     @objc func signOut() {
         
-        os_log("Perform sign out", log: .auth, type: .info)
+        os_log("Sign out button clicked", log: .auth, type: .info)
         
         // dismiss the profile webview in case it is trying to load in the background
         self.dismiss(animated: true, completion: nil)
+        
+        os_log("Signing user out of webview", log: .auth, type: .info)
         
         // visit /logout to perform webview signout
         webView.load("\(appHost)/logout/")
@@ -170,7 +172,7 @@ class WebViewController: UIViewController, WKNavigationDelegate {
         // if user signed out... then clear authstate
         if url!.absoluteString.contains("/idp/profile/Logout") {
             
-            os_log("Signing user out of webview", log: .auth, type: .info)
+            os_log("Signing user out of native app", log: .auth, type: .info)
             
             // call the appAuth signout method
             let appAuthController = AppAuthController()
