@@ -97,7 +97,7 @@ class WebViewController: UIViewController, WKNavigationDelegate {
     // signout
     @objc func signOut() {
         
-        os_log("Sign out button clicked", log: .auth, type: .info)
+        os_log("Perform sign out", log: .auth, type: .info)
         
         // dismiss the profile webview in case it is trying to load in the background
         self.dismiss(animated: true, completion: nil)
