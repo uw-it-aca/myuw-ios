@@ -104,6 +104,9 @@ class WebViewController: UIViewController, WKNavigationDelegate {
         
         os_log("User signed out", log: .auth, type: .info)
         
+        // visit /logout
+        webView.load("\(appHost)/logout/")
+        
         /*
         // clear authstate to signout user
         appAuthController.setAuthState(nil)
@@ -211,7 +214,8 @@ class WebViewController: UIViewController, WKNavigationDelegate {
                 os_log("HTTP response message: %@", log: .webview, type: .error, statusMessage)
                 
                 //MARK: option #1 clear authState and sign user out
-                //signOut()
+                //PROBLEM: signout makes a visit to /logout - this will cause a 401 loop since /logout will reject invalid tokens with a 401
+                // signOut()
                 
                 //MARK: option #2 refresh tokens by going through appAuthController
                 let appDelegate = UIApplication.shared.delegate as! AppDelegate
