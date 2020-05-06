@@ -226,7 +226,7 @@ class AppAuthController: UIViewController {
             scopes: ["openid profile email offline_access"],
             redirectURL: redirectURI,
             responseType: OIDResponseTypeCode,
-            additionalParameters: nil)
+            additionalParameters: ["prompt":"login"])
         
         // performs authentication request
         os_log("Initiating authorization request with scope: %@", log: .auth, type: .info, request.scope ?? "DEFAULT_SCOPE")
