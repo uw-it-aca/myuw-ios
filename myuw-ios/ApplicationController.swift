@@ -25,7 +25,7 @@ class ApplicationController: UITabBarController, UITabBarControllerDelegate {
         super.viewDidLoad()
         
         //Assign self for delegate for that ViewController can respond to UITabBarControllerDelegate methods
-        self.delegate = self        
+        self.delegate = self
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -102,6 +102,8 @@ class ApplicationController: UITabBarController, UITabBarControllerDelegate {
         
         self.viewControllers = controllers
         
+        print("xxxxxx \(controllers.count)")
+        self.selectedViewController = controllers[5] // 0-5 index of controller
     }
     
     // override the "more" menu edit screen
