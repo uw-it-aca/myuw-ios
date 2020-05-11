@@ -216,11 +216,10 @@ class AppAuthController: UIViewController {
         let request = OIDAuthorizationRequest(configuration: configuration,
                                               clientId: clientID,
                                               clientSecret: clientSecret,
-                                              //scopes: [OIDScopeOpenID, OIDScopeProfile, OIDScopeEmail],
-            scopes: ["openid profile email offline_access"],
-            redirectURL: redirectURI,
-            responseType: OIDResponseTypeCode,
-            additionalParameters: ["prompt":"login"])
+                                              scopes: ["openid profile email offline_access"],
+                                              redirectURL: redirectURI,
+                                              responseType: OIDResponseTypeCode,
+                                              additionalParameters: ["prompt":"login"])
         
         // performs authentication request
         os_log("Initiating authorization request with scope: %@", log: .auth, type: .info, request.scope ?? "DEFAULT_SCOPE")
@@ -275,28 +274,14 @@ extension AppAuthController {
         
         os_log("loadState", log: .auth, type: .info)
         
-        /*
-        guard let data = UserDefaults.standard.object(forKey: kAppAuthExampleAuthStateKey) as? Data else {
-            return
-        }
-        
-        if let authState = try? NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(data) as? OIDAuthState {
-            self.setAuthState(authState)
-        }
-        */
-        
         guard let data = UserDefaults.standard.object(forKey: kAppAuthExampleAuthStateKey) as? Data else {
             return
         }
  
         var authState: OIDAuthState? = nil
-
-        if #available(iOS 12.0, *) {
-            authState = try! NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(data) as? OIDAuthState
-        } else {
-            authState = NSKeyedUnarchiver.unarchiveObject(with: data) as? OIDAuthState
-        }
-
+                
+        authState = try! NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(data) as? OIDAuthState
+        
         if let authState = authState {
             print("Authorization state has been loaded.")
             self.setAuthState(authState)
@@ -307,7 +292,7 @@ extension AppAuthController {
     func showState() {
         print("Current authorization state: ")
         print("Access token: \(authState?.lastTokenResponse?.accessToken ?? "none")")
-        print("Access token expiration date: \(String(describing: authState?.lastTokenResponse?.accessTokenExpirationDate))")
+        //print("Access token expiration date: \(String(describing: authState?.lastTokenResponse?.accessTokenExpirationDate))")
         print("ID token: \(authState?.lastTokenResponse?.idToken ?? "none")")
         print("Refresh token: \(authState?.lastTokenResponse?.refreshToken ?? "none")")
     }
