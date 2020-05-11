@@ -122,13 +122,7 @@ class AppAuthController: UIViewController {
         self.headerText.isHidden = false
         self.bodyText.isHidden = false
         self.signInButton.isHidden = false
-        
-        /*
-         let navController = UINavigationController(rootViewController: self)
-         let appDelegate = UIApplication.shared.delegate as! AppDelegate
-         // set appAuth controller as rootViewController
-         appDelegate.window!.rootViewController = navController
-         */
+    
     }
     
     func authWithAutoCodeExchange() {
@@ -305,7 +299,6 @@ extension AppAuthController {
 
         if let authState = authState {
             print("Authorization state has been loaded.")
-
             self.setAuthState(authState)
         }
         
@@ -334,29 +327,7 @@ extension AppAuthController {
     func updateUI() {
         
         os_log("updateUI", log: .ui, type: .info)
-        
-        /*
-        if (self.authState != nil ) {
-            os_log("Has authstate", log: .ui, type: .info)
-            headerText.isHidden = true
-            bodyText.isHidden = true
-            signInButton.isHidden = true
-            
-            if User.userAffiliations.isEmpty {
-                // get user netid and affiliations
-                self.getUserAffiliations()
-            } else {
-                // transition to the main application controller
-                showApplication()
-            }
-            
-        } else {
-            os_log("NO authstate", log: .ui, type: .info)
-            // sign user out automatically
-            self.autoSignOut()
-        }
-        */
-   
+           
         // if user is signed-in...
         if self.authState != nil {
             
@@ -365,12 +336,20 @@ extension AppAuthController {
             bodyText.isHidden = true
             signInButton.isHidden = true
             
-            // get user's affiliations
-            self.getUserAffiliations()
+            let group = DispatchGroup()
+            group.enter()
             
+            // check token freshness BEFORE proceeding
+            self.checkTokenFreshness()
+            
+            group.leave()
+            group.notify(queue: DispatchQueue.main) {
+                
+                // get user's affiliations AFTER checking tokens
+                self.getUserAffiliations()
+                
+            }
         }
-    
-        
     }
     
     func stateChanged() {
@@ -380,36 +359,8 @@ extension AppAuthController {
         self.showState()
     }
     
-}
-
-// MARK: User Info and app redirect
-extension AppAuthController {
-    
-    func showError() {
-        
-        os_log("showError", log: .ui, type: .info)
-        
-        // show the error controller
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let errorController = ErrorController()
-        let navController = UINavigationController(rootViewController: errorController)
-        appDelegate.window!.rootViewController = navController
-    }
-    
-    func showApplication() {
-        
-        os_log("showApplication", log: .ui, type: .info)
-        
-        // MARK: transition to appController (tabs)
-        let appController = ApplicationController()
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        // set the main controller as the root controller on app load
-        appDelegate.window!.rootViewController = appController
-    }
-    
-    func getUserAffiliations() {
-        
-        os_log("getUserAffiliations", log: .ui, type: .info)
+    func checkTokenFreshness() {
+        os_log("checkTokenFreshness", log: .ui, type: .info)
         
         // MARK: refresh access token before sending to myuw as authentication header
         let currentAccessToken: String? = self.authState?.lastTokenResponse?.accessToken
@@ -455,145 +406,181 @@ extension AppAuthController {
                 os_log("ID token was fresh and not updated: %@", log: .auth, type: .info, idToken)
             }
             
+            os_log("checkTokenFreshness DONE... tokens updated", log: .ui, type: .info)
+            
             // update the tokens in the singleton process pool
             ProcessPool.accessToken = accessToken
             ProcessPool.idToken = idToken
+        }
+        
+    }
+    
+}
+
+// MARK: User Info and app redirect
+extension AppAuthController {
+    
+    func showError() {
+        
+        os_log("showError", log: .ui, type: .info)
+        
+        // show the error controller
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let errorController = ErrorController()
+        let navController = UINavigationController(rootViewController: errorController)
+        appDelegate.window!.rootViewController = navController
+    }
+    
+    func showApplication() {
+        
+        os_log("showApplication", log: .ui, type: .info)
+        
+        // MARK: transition to appController (tabs)
+        let appController = ApplicationController()
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        // set the main controller as the root controller on app load
+        appDelegate.window!.rootViewController = appController
+    }
+    
+    func getUserAffiliations() {
+        
+        os_log("getUserAffiliations", log: .ui, type: .info)
+        
+        // MARK: get user netid by decoding idtoken
+        // TODO: consider creating a Claims struct and mapping everything to it's attributes
+        if (self.authState?.isAuthorized ?? false) {
+            let idTokenClaims = self.getIdTokenClaims(idToken: self.authState?.lastTokenResponse?.idToken ) ?? Data()
+            os_log("idTokenClaims: %@", log: .auth, type: .info, (String(describing: String(bytes: idTokenClaims, encoding: .utf8))))
+            let claimsDictionary = try! JSONSerialization.jsonObject(with: idTokenClaims, options: .allowFragments) as? [String: Any]
+            os_log("claimsDictionary: %@", log: .auth, type: .info, claimsDictionary!)
+            User.userNetID = claimsDictionary!["sub"] as! String? ?? ""
+        }
+        
+        os_log("initial userAffiliations: %{private}@", log: .affiliations, type: .info, User.userAffiliations)
+        
+        if User.userAffiliations.isEmpty {
             
-            // MARK: get user netid by decoding idtoken
-            // TODO: consider creating a Claims struct and mapping everything to it's attributes
-            if (self.authState?.isAuthorized ?? false) {
-                let idTokenClaims = self.getIdTokenClaims(idToken: idToken ) ?? Data()
-                os_log("idTokenClaims: %@", log: .auth, type: .info, (String(describing: String(bytes: idTokenClaims, encoding: .utf8))))
-                let claimsDictionary = try! JSONSerialization.jsonObject(with: idTokenClaims, options: .allowFragments) as? [String: Any]
-                os_log("claimsDictionary: %@", log: .auth, type: .info, claimsDictionary!)
-                User.userNetID = claimsDictionary!["sub"] as! String? ?? ""
-            }
+            os_log("userAffiliations IS empty....", log: .affiliations, type: .info)
             
-            os_log("initial userAffiliations: %{private}@", log: .affiliations, type: .info, User.userAffiliations)
+            // MARK: get user affiliations from myuw endpoint
+            let affiliationURL = URL(string: "\(appHost)\(appAffiliationEndpoint)")
+            os_log("start affiliation request: %@", log: .affiliations, type: .info, affiliationURL!.absoluteString)
+            var urlRequest = URLRequest(url: affiliationURL!)
             
-            if User.userAffiliations.isEmpty {
-                                
-                os_log("userAffiliations IS empty....", log: .affiliations, type: .info)
-                
-                // MARK: get user affiliations from myuw endpoint
-                let affiliationURL = URL(string: "\(appHost)\(appAffiliationEndpoint)")
-                os_log("start affiliation request: %@", log: .affiliations, type: .info, affiliationURL!.absoluteString)
-                var urlRequest = URLRequest(url: affiliationURL!)
-                
-                // send id token in authorization header
-                urlRequest.setValue("Bearer \(self.authState?.lastTokenResponse?.idToken ?? "ID_TOKEN")", forHTTPHeaderField: "Authorization")
-                
-                // create a task to request affiliations from myuw endpoint
-                let task = URLSession.shared.dataTask(with: urlRequest) {
-                    data, response, error in DispatchQueue.main.async {
+            // send id token in authorization header
+            urlRequest.setValue("Bearer \(self.authState?.lastTokenResponse?.idToken ?? "ID_TOKEN")", forHTTPHeaderField: "Authorization")
+            
+            // create a task to request affiliations from myuw endpoint
+            let task = URLSession.shared.dataTask(with: urlRequest) {
+                data, response, error in DispatchQueue.main.async {
+                    
+                    guard error == nil else {
+                        os_log("HTTP request failed: %@", log: .affiliations, type: .error, error?.localizedDescription ?? "ERROR")
+                        // show the error controller
+                        self.showError()
+                        return
+                    }
+                    
+                    guard let response = response as? HTTPURLResponse else {
+                        os_log("Non-HTTP response", log: .affiliations, type: .info)
+                        // show the error controller
+                        self.showError()
+                        return
+                    }
+                    
+                    guard let data = data else {
+                        os_log("HTTP response data is empty", log: .affiliations, type: .info)
+                        // show the error controller
+                        self.showError()
+                        return
+                    }
+                    
+                    //MARK: handle the json response
+                    var json: [AnyHashable: Any]?
+                    
+                    do {
+                        json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
+                    } catch {
+                        os_log("JSON Serialization Error", log: .affiliations, type: .error)
+                        // show the error controller
+                        self.showError()
+                    }
+                    
+                    //TODO: this needs a better home!
+                    if response.statusCode != 200 {
+                        // server replied with an error
+                        let responseText: String? = String(data: data, encoding: String.Encoding.utf8)
                         
-                        guard error == nil else {
-                            os_log("HTTP request failed: %@", log: .affiliations, type: .error, error?.localizedDescription ?? "ERROR")
-                            // show the error controller
-                            self.showError()
-                            return
+                        if response.statusCode == 401 {
+                            // "401 Unauthorized" generally indicates there is an issue with the authorization
+                            // grant. Puts OIDAuthState into an error state.
+                            let oauthError = OIDErrorUtilities.resourceServerAuthorizationError(withCode: 0,
+                                                                                                errorResponse: json,
+                                                                                                underlyingError: error)
+                            self.authState?.update(withAuthorizationError: oauthError)
+                            os_log("Authorization Error: %@. Response: %@", log: .affiliations, type: .error, oauthError.localizedDescription, responseText!)
+                        } else {
+                            os_log("HTTP: %@. Response: %@", log: .affiliations, type: .info, response.statusCode.description, responseText!)
                         }
                         
-                        guard let response = response as? HTTPURLResponse else {
-                            os_log("Non-HTTP response", log: .affiliations, type: .info)
-                            // show the error controller
-                            self.showError()
-                            return
+                        return
+                    }
+                    
+                    
+                    if let json = json {
+                        
+                        os_log("Successfully decoded: %{private}@", log: .affiliations, type: .info, json)
+                        
+                        // remove all existing affiliations and start with fresh array
+                        User.userAffiliations.removeAll()
+                        
+                        // add user affiliations to array
+                        if json["student"] as! Bool == true {
+                            User.userAffiliations.append("student")
                         }
                         
-                        guard let data = data else {
-                            os_log("HTTP response data is empty", log: .affiliations, type: .info)
-                            // show the error controller
-                            self.showError()
-                            return
+                        if json["applicant"] as! Bool == true {
+                            User.userAffiliations.append("applicant")
                         }
                         
-                        //MARK: handle the json response
-                        var json: [AnyHashable: Any]?
-                        
-                        do {
-                            json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
-                        } catch {
-                            os_log("JSON Serialization Error", log: .affiliations, type: .error)
-                            // show the error controller
-                            self.showError()
+                        if json["instructor"] as! Bool == true {
+                            User.userAffiliations.append("instructor")
                         }
                         
-                        //TODO: this needs a better home!
-                        if response.statusCode != 200 {
-                            // server replied with an error
-                            let responseText: String? = String(data: data, encoding: String.Encoding.utf8)
-                            
-                            if response.statusCode == 401 {
-                                // "401 Unauthorized" generally indicates there is an issue with the authorization
-                                // grant. Puts OIDAuthState into an error state.
-                                let oauthError = OIDErrorUtilities.resourceServerAuthorizationError(withCode: 0,
-                                                                                                    errorResponse: json,
-                                                                                                    underlyingError: error)
-                                self.authState?.update(withAuthorizationError: oauthError)
-                                os_log("Authorization Error: %@. Response: %@", log: .affiliations, type: .error, oauthError.localizedDescription, responseText!)
-                            } else {
-                                os_log("HTTP: %@. Response: %@", log: .affiliations, type: .info, response.statusCode.description, responseText!)
-                            }
-                            
-                            return
+                        if json["undergrad"] as! Bool == true {
+                            User.userAffiliations.append("undergrad")
                         }
                         
-                        
-                        if let json = json {
-                            
-                            os_log("Successfully decoded: %{private}@", log: .affiliations, type: .info, json)
-                            
-                            // remove all existing affiliations and start with fresh array
-                            User.userAffiliations.removeAll()
-                            
-                            // add user affiliations to array
-                            if json["student"] as! Bool == true {
-                                User.userAffiliations.append("student")
-                            }
-                            
-                            if json["applicant"] as! Bool == true {
-                                User.userAffiliations.append("applicant")
-                            }
-                            
-                            if json["instructor"] as! Bool == true {
-                                User.userAffiliations.append("instructor")
-                            }
-                            
-                            if json["undergrad"] as! Bool == true {
-                                User.userAffiliations.append("undergrad")
-                            }
-                            
-                            if json["hxt_viewer"] as! Bool == true {
-                                User.userAffiliations.append("hxt_viewer")
-                            }
-                            
-                            if json["seattle"] as! Bool == true {
-                                User.userAffiliations.append("seattle")
-                            }
-                            
-                            os_log("userAffiliations: %{private}@", log: .affiliations, type: .info, User.userAffiliations)
-                            
+                        if json["hxt_viewer"] as! Bool == true {
+                            User.userAffiliations.append("hxt_viewer")
                         }
                         
-                        // transition to the main application controller
-                        self.showApplication()
+                        if json["seattle"] as! Bool == true {
+                            User.userAffiliations.append("seattle")
+                        }
+                        
+                        os_log("userAffiliations: %{private}@", log: .affiliations, type: .info, User.userAffiliations)
                         
                     }
                     
+                    // transition to the main application controller
+                    self.showApplication()
+                    
                 }
-                task.resume()
                 
-            } else {
-                
-                os_log("userAffiliations is NOT empty....", log: .affiliations, type: .info)
-                
-                // transition to the main application controller
-                self.showApplication()
             }
+            task.resume()
             
+        } else {
             
+            os_log("userAffiliations is NOT empty....", log: .affiliations, type: .info)
+            
+            // transition to the main application controller
+            self.showApplication()
         }
+        
+        
+        
         
     }
     
