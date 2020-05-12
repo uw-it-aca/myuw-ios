@@ -66,8 +66,6 @@ class SearchWebView: WebViewController, UISearchBarDelegate {
         // clicking into the results view will clear the text field automatically
         if #available(iOS 13.0, *) {
             searchBar.searchTextField.text = searchBar.text
-        } else {
-        
         }
             
     }

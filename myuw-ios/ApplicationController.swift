@@ -21,6 +21,8 @@ class ApplicationController: UITabBarController, UITabBarControllerDelegate {
     let tabCalendar = UINavigationController(rootViewController: CalendarWebView())
     let tabResources = UINavigationController(rootViewController: ResourcesWebView())
     
+    let uwPurple = UIColor(hex: "#4b2e83")
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -34,8 +36,8 @@ class ApplicationController: UITabBarController, UITabBarControllerDelegate {
         // MARK: - Tab Bar Setup
         
         // set tabbar icon and title color
-        UITabBar.appearance().tintColor = UIColor(hex: "#4b2e83")
-        UITabBarItem.appearance().setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor(hex: "#4b2e83")], for: .selected)
+        UITabBar.appearance().tintColor = uwPurple
+        UITabBarItem.appearance().setTitleTextAttributes([NSAttributedString.Key.foregroundColor: uwPurple as Any], for: .selected)
         
         // Home tab
         let tabHomeBarItem = UITabBarItem(title: "Home", image: UIImage(named: "ic_home"), selectedImage: UIImage(named: "selectedImage.png"))

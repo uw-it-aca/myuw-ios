@@ -170,6 +170,7 @@ extension AppDelegate {
 
 }
 
+/*
 public extension UIColor {
     
     //https:\//theswiftdev.com/2018/05/03/uicolor-best-practices-in-swift/
@@ -245,4 +246,35 @@ public extension UIColor {
         return String(format: "#%02X%02X%02X", Int(c[0]*255.0), Int(c[1]*255.0), Int(c[2]*255.0))
     }
 }
+ */
 
+extension UIColor {
+    public convenience init?(hex: String) {
+        
+        let r, g, b, a: CGFloat
+
+        if hex.hasPrefix("#") {
+            let start = hex.index(hex.startIndex, offsetBy: 1)
+            let hexColor = String(hex[start...])
+
+            if hexColor.count == 6 {
+                let scanner = Scanner(string: hexColor)
+                var hexNumber: UInt64 = 0
+
+                if scanner.scanHexInt64(&hexNumber) {
+  
+                    r = CGFloat((hexNumber & 0xFF0000) >> 16) / 255.0
+                    g = CGFloat((hexNumber & 0x00FF00) >> 8) / 255.0
+                    b = CGFloat(hexNumber & 0x0000FF) / 255.0
+                    a = CGFloat(1.0)
+
+                    self.init(red: r, green: g, blue: b, alpha: a)
+                    return
+                }
+            }
+
+        }
+
+        return nil
+    }
+}
