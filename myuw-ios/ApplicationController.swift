@@ -21,7 +21,7 @@ class ApplicationController: UITabBarController, UITabBarControllerDelegate {
     let tabCalendar = UINavigationController(rootViewController: CalendarWebView())
     let tabResources = UINavigationController(rootViewController: ResourcesWebView())
     
-    var lastTab = UserDefaults.standard.string(forKey: "Blah")
+    var lastTab = UserDefaults.standard.string(forKey: "Blah") ?? "tabHome"
     
     var originalTableDelegate: UITableViewDelegate?
     
@@ -109,7 +109,7 @@ class ApplicationController: UITabBarController, UITabBarControllerDelegate {
         
         self.viewControllers = controllers
         
-        print("xxxxx lasttab", lastTab! as String)
+        print("xxxxx lasttab", lastTab as String)
         
         // set tabHome active
         self.selectedViewController = tabHome
