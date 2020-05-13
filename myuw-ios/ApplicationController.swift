@@ -21,15 +21,22 @@ class ApplicationController: UITabBarController, UITabBarControllerDelegate {
     let tabCalendar = UINavigationController(rootViewController: CalendarWebView())
     let tabResources = UINavigationController(rootViewController: ResourcesWebView())
     
+    var lastTab = UserDefaults.standard.string(forKey: "Blah")
+    
+    var originalTableDelegate: UITableViewDelegate?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+                
         //Assign self for delegate for that ViewController can respond to UITabBarControllerDelegate methods
         self.delegate = self
+        self.tabBarController?.delegate = self
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        print("xxxxx appController viewWillAppear")
         
         // MARK: - Tab Bar Setup
         
@@ -102,10 +109,13 @@ class ApplicationController: UITabBarController, UITabBarControllerDelegate {
         
         self.viewControllers = controllers
         
-        print("xxxxxx \(controllers.count)")
-        self.selectedViewController = controllers[5] // 0-5 index of controller
+        print("xxxxx lasttab", lastTab! as String)
+        
+        // set tabHome active
+        self.selectedViewController = tabHome
+        
     }
-    
+        
     // override the "more" menu edit screen
     override func tabBar(_ tabBar: UITabBar, willBeginCustomizing items: [UITabBarItem]) {
         for (index, subView) in view.subviews.enumerated() {
@@ -116,4 +126,39 @@ class ApplicationController: UITabBarController, UITabBarControllerDelegate {
         }
     }
     
+    // UITabBarDelegate
+    /*
+    override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
+        print("xxxxx Selected item", self.selectedIndex)
+    }*/
+
+    // UITabBarControllerDelegate
+    func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
+        print("xxxxx Selected view controller")
+                
+        if self.selectedViewController == tabHome {
+            print("xxxxx clicked on tabHome")
+            UserDefaults.standard.set("tabHome", forKey: "Blah")
+            print("xxxxx saved lastTab...",  UserDefaults.standard.string(forKey: "Blah"))
+        }
+        
+        if self.selectedViewController == tabTeaching {
+            print("xxxxx clicked on tabTeaching")
+            UserDefaults.standard.set("tabTeaching", forKey: "Blah")
+            print("xxxxx saved lastTab...",  UserDefaults.standard.string(forKey: "Blah"))
+        }
+        
+        if self.selectedViewController == tabCalendar {
+            print("xxxxx clicked on tabCalendar")
+        }
+        
+        if self.selectedViewController == moreNavigationController {
+            print("xxxxx clicked on moreNavigationController")
+        
+        }
+        
+    }
+
+    
 }
+
