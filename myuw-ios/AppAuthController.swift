@@ -95,8 +95,7 @@ class AppAuthController: UIViewController {
         
         // get authstate
         self.loadState()
-        self.showState()
-        
+                
     }
     
     @objc private func loginUser(){
@@ -268,6 +267,9 @@ extension AppAuthController {
         
         UserDefaults.standard.set(data, forKey: kAppAuthExampleAuthStateKey)
         UserDefaults.standard.synchronize()
+        
+        // show state
+        self.showState()
     }
     
     func loadState() {
@@ -283,18 +285,17 @@ extension AppAuthController {
         authState = try! NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(data) as? OIDAuthState
         
         if let authState = authState {
-            print("Authorization state has been loaded.")
+            os_log("authorization state has been loaded", log: .auth, type: .info)
             self.setAuthState(authState)
         }
         
     }
     
     func showState() {
-        print("Current authorization state: ")
-        print("Access token: \(authState?.lastTokenResponse?.accessToken ?? "none")")
-        //print("Access token expiration date: \(String(describing: authState?.lastTokenResponse?.accessTokenExpirationDate))")
-        print("ID token: \(authState?.lastTokenResponse?.idToken ?? "none")")
-        print("Refresh token: \(authState?.lastTokenResponse?.refreshToken ?? "none")")
+        os_log("showState", log: .auth, type: .info)
+        os_log("Access token: %@", log: .auth, type: .error, authState?.lastTokenResponse?.accessToken ?? "NONE")
+        os_log("ID token: %@", log: .auth, type: .error, authState?.lastTokenResponse?.idToken ?? "NONE")
+        os_log("Refresh token: %@", log: .auth, type: .error, authState?.lastTokenResponse?.refreshToken ?? "NONE")
     }
     
     func setAuthState(_ authState: OIDAuthState?) {
@@ -341,7 +342,6 @@ extension AppAuthController {
         os_log("stateChanged", log: .auth, type: .info)
         self.saveState()
         self.updateUI()
-        self.showState()
     }
     
     func checkTokenFreshness() {

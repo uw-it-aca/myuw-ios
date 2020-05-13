@@ -165,7 +165,7 @@ class WebViewController: UIViewController, WKNavigationDelegate {
         os_log("webview url: %@", log: .webview, type: .info, url!.absoluteString)
         
         // if user signed out... then clear authstate
-        if url!.absoluteString.contains("/idp/profile/Logout") {
+        if url!.absoluteString.contains("/logout/") {
             
             // should we clear all cookies manually?
             
