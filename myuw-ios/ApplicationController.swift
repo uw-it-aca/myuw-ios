@@ -21,7 +21,7 @@ class ApplicationController: UITabBarController, UITabBarControllerDelegate {
     let tabCalendar = UINavigationController(rootViewController: CalendarWebView())
     let tabResources = UINavigationController(rootViewController: ResourcesWebView())
     
-    //var lastTab = UserDefaults.standard.string(forKey: "Blah") ?? "tabHome"
+    // get lastTabIndex from UserDefaults... sets initial value to 0 of none is stored
     var lastTabIndex = UserDefaults.standard.value(forKey: "lastTabIndex") ?? 0
     
     var originalTableDelegate: UITableViewDelegate?
