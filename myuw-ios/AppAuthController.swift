@@ -42,7 +42,7 @@ class AppAuthController: UIViewController {
         
         view.backgroundColor = .white
         
-        self.title = "MyUW"
+        self.title = ""
         
         headerText.font = UIFont.boldSystemFont(ofSize: 18)
         headerText.textAlignment = .left
