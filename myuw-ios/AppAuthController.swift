@@ -22,7 +22,7 @@ let kAppAuthExampleAuthStateKey: String = "authState";
 var signedOut = false
 
 class AppAuthController: UIViewController {
-    
+        
     // property of the containing class
     private var authState: OIDAuthState?
     
@@ -42,7 +42,8 @@ class AppAuthController: UIViewController {
         
         view.backgroundColor = .white
         
-        self.title = ""
+        // App title
+        self.title = "MyUW"
         
         headerText.font = UIFont.boldSystemFont(ofSize: 18)
         headerText.textAlignment = .left
@@ -81,7 +82,6 @@ class AppAuthController: UIViewController {
         signInButton.topAnchor.constraint(equalTo: bodyText.bottomAnchor, constant: 50).isActive = true
         signInButton.backgroundColor = UIColor(hex: "#4b2e83")
         signInButton.layer.cornerRadius = 10
-        
         
         if (signedOut) {
             // set auto sign-out messaging
