@@ -144,18 +144,30 @@ class ApplicationController: UITabBarController, UITabBarControllerDelegate {
             UserDefaults.standard.set(selectedIndex, forKey: "lastTabIndex")
         }
         
+        if self.selectedViewController == tabAcademics {
+            print("xxxxx clicked on tabAcademics, index: ", selectedIndex)
+            UserDefaults.standard.set(selectedIndex, forKey: "lastTabIndex")
+        }
+        
         if self.selectedViewController == tabTeaching {
             print("xxxxx clicked on tabTeaching, index: ", selectedIndex)
             UserDefaults.standard.set(selectedIndex, forKey: "lastTabIndex")
         }
         
-        if self.selectedViewController == tabCalendar {
-            print("xxxxx clicked on tabCalendar")
+        if self.selectedViewController == tabHuskyExp {
+            print("xxxxx clicked on tabHuskyExp, index: ", selectedIndex)
+            UserDefaults.standard.set(selectedIndex, forKey: "lastTabIndex")
         }
         
+        if self.selectedViewController == tabAccounts {
+            print("xxxxx clicked on tabAccounts, index: ", selectedIndex)
+            UserDefaults.standard.set(selectedIndex, forKey: "lastTabIndex")
+        }
+        
+        //TODO: Figure out how to get selectedIndex of controllers inside of the More tab
         if self.selectedViewController == moreNavigationController {
             print("xxxxx clicked on moreNavigationController")
-        
+            UserDefaults.standard.set(4, forKey: "lastTabIndex")
         }
         
     }
