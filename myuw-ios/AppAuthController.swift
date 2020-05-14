@@ -95,8 +95,7 @@ class AppAuthController: UIViewController {
         
         // get authstate
         self.loadState()
-        self.showState()
-        
+                
     }
     
     @objc private func loginUser(){
@@ -268,6 +267,9 @@ extension AppAuthController {
         
         UserDefaults.standard.set(data, forKey: kAppAuthExampleAuthStateKey)
         UserDefaults.standard.synchronize()
+        
+        // show state
+        self.showState()
     }
     
     func loadState() {
@@ -340,7 +342,6 @@ extension AppAuthController {
         os_log("stateChanged", log: .auth, type: .info)
         self.saveState()
         self.updateUI()
-        self.showState()
     }
     
     func checkTokenFreshness() {
