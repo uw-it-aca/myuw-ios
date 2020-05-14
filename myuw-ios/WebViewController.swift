@@ -48,24 +48,7 @@ class WebViewController: UIViewController, WKNavigationDelegate {
         // MARK: - WKWebView setup and configuration
         let configuration = WKWebViewConfiguration()
         let wkDataStore = WKWebsiteDataStore.default()
-        // switch to nonPersistent datastore to ensure that the sharedCookies are used by the webviews
-        //let wkDataStore = WKWebsiteDataStore.nonPersistent()
-        
-        /*
-        // MARK: Get sharedCookies from HTTPCookieStorage
-        if let sharedCookies = HTTPCookieStorage.shared.cookies {
-            
-            os_log("Getting shared cookies...", log: .webview, type: .info)
-            
-            for sharedCookie in sharedCookies {
-                os_log("Shared cookie name: %@. Shared cookie value: %@", log: .webview, type: .info, sharedCookie.name, sharedCookie.value)
                 
-                // set sharedCookies in WKWebsiteDataStore before making any webview requests
-                wkDataStore.httpCookieStore.setCookie(sharedCookie)
-            }
-        }
-        */
-        
         // MARK: JS bridge message handler
         configuration.userContentController.add(self, name: "myuwBridge")
         
@@ -111,6 +94,21 @@ class WebViewController: UIViewController, WKNavigationDelegate {
         
     }
     
+    // signout
+    @objc func signOut() {
+        
+        os_log("Perform sign out", log: .auth, type: .info)
+        
+        // dismiss the profile webview in case it is trying to load in the background
+        self.dismiss(animated: true, completion: nil)
+        
+        os_log("Signing user out of webview", log: .auth, type: .info)
+        
+        // visit /logout to perform webview signout
+        webView.load("\(appHost)/logout/")
+    
+    }
+    
     @objc func refreshWebView(_ sender: UIRefreshControl) {
         
         os_log("refreshWebView", log: .webview, type: .info)
@@ -121,7 +119,9 @@ class WebViewController: UIViewController, WKNavigationDelegate {
         if (appDelegate.isConnectedToNetwork()) {
             activityIndicator.isHidden = false
             activityIndicator.startAnimating()
+                        
             webView.reload()
+            
             sender.endRefreshing()
         }
         else {
@@ -164,11 +164,26 @@ class WebViewController: UIViewController, WKNavigationDelegate {
         
         os_log("webview url: %@", log: .webview, type: .info, url!.absoluteString)
         
-        // get all cookies in WKWebsiteDataStore
+        // if user signed out... then clear authstate
+        if url!.absoluteString.contains("/logout/") {
+            
+            // should we clear all cookies manually?
+            
+            // call the appAuth signout method
+            let appAuthController = AppAuthController()
+            appAuthController.signOut()
+            
+            // show the appAuth controller
+            let navController = UINavigationController(rootViewController: appAuthController)
+            let appDelegate = UIApplication.shared.delegate as! AppDelegate
+            // set appAuth controller as rootViewController
+            appDelegate.window!.rootViewController = navController
+        }
+        
+        // display all cookies in WKWebsiteDataStore
         webView.getCookies() { data in
             os_log("webview cookies: %@", log: .webview, type: .info, data)
         }
-        
     }
     
     // webview policy response handler
@@ -176,14 +191,37 @@ class WebViewController: UIViewController, WKNavigationDelegate {
         
         if let response = navigationResponse.response as? HTTPURLResponse {
             
-            if response.statusCode == 500 {
-                os_log("HTTP response was 500!", log: .webview, type: .error)
+            //let statusMessage: String = HTTPURLResponse.localizedString(forStatusCode: response.statusCode)
+            let statusMessage: String = response.description
+            
+            os_log("HTTP response: %@", log: .webview, type: .error, response.statusCode.description)
+            
+            
+            // handle 500 and 503
+            if (response.statusCode == 500 || response.statusCode == 503) {
+                os_log("HTTP response message: %@", log: .webview, type: .error, statusMessage)
                 // show error controller
                 let appDelegate = UIApplication.shared.delegate as! AppDelegate
                 let errorController = ErrorController()
                 let navController = UINavigationController(rootViewController: errorController)
                 appDelegate.window!.rootViewController = navController
             }
+            
+            if response.statusCode == 401 {
+                os_log("HTTP response message: %@", log: .webview, type: .error, statusMessage)
+                
+                //MARK: option #1 clear authState and sign user out
+                //PROBLEM: signout makes a visit to /logout - this will cause a 401 loop since /logout will reject invalid tokens with a 401
+                // signOut()
+                
+                //MARK: option #2 refresh tokens by going through appAuthController
+                let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                let appAuthController = AppAuthController()
+                let navController = UINavigationController(rootViewController: appAuthController)
+                appDelegate.window!.rootViewController = navController
+                
+            }
+                        
         }
         
         decisionHandler(.allow)
@@ -246,6 +284,8 @@ class WebViewController: UIViewController, WKNavigationDelegate {
         return url.queryItems?.first(where: { $0.name == param })?.value
     }
     
+    
+    
 }
 
 // extensions
@@ -265,6 +305,7 @@ extension WKWebView {
             
             // load the request
             os_log("loading request: %@", log: .webview, type: .info, url.absoluteString)
+            os_log("loading headers: %@", log: .webview, type: .info, request.allHTTPHeaderFields!)
             load(request)
         }
     }
