@@ -21,7 +21,8 @@ class ApplicationController: UITabBarController, UITabBarControllerDelegate {
     let tabCalendar = UINavigationController(rootViewController: CalendarWebView())
     let tabResources = UINavigationController(rootViewController: ResourcesWebView())
     
-    var lastTab = UserDefaults.standard.string(forKey: "Blah") ?? "tabHome"
+    //var lastTab = UserDefaults.standard.string(forKey: "Blah") ?? "tabHome"
+    var lastTabIndex = UserDefaults.standard.value(forKey: "lastTabIndex") ?? 0
     
     var originalTableDelegate: UITableViewDelegate?
     
@@ -109,10 +110,12 @@ class ApplicationController: UITabBarController, UITabBarControllerDelegate {
         
         self.viewControllers = controllers
         
-        print("xxxxx lasttab", lastTab as String)
+        //print("xxxxx lasttab", lastTab as String)
         
         // set tabHome active
-        self.selectedViewController = tabHome
+        //self.selectedViewController = tabHome
+        
+        self.selectedIndex = lastTabIndex as! Int
         
     }
         
@@ -137,15 +140,13 @@ class ApplicationController: UITabBarController, UITabBarControllerDelegate {
         print("xxxxx Selected view controller")
                 
         if self.selectedViewController == tabHome {
-            print("xxxxx clicked on tabHome")
-            UserDefaults.standard.set("tabHome", forKey: "Blah")
-            print("xxxxx saved lastTab...",  UserDefaults.standard.string(forKey: "Blah"))
+            print("xxxxx clicked on tabHome, index: ", selectedIndex)
+            UserDefaults.standard.set(selectedIndex, forKey: "lastTabIndex")
         }
         
         if self.selectedViewController == tabTeaching {
-            print("xxxxx clicked on tabTeaching")
-            UserDefaults.standard.set("tabTeaching", forKey: "Blah")
-            print("xxxxx saved lastTab...",  UserDefaults.standard.string(forKey: "Blah"))
+            print("xxxxx clicked on tabTeaching, index: ", selectedIndex)
+            UserDefaults.standard.set(selectedIndex, forKey: "lastTabIndex")
         }
         
         if self.selectedViewController == tabCalendar {
