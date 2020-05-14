@@ -125,7 +125,6 @@ class ApplicationController: UITabBarController, UITabBarControllerDelegate, UIN
         // handle if landed on more tab
         if self.selectedViewController == moreNavigationController {
             print("xxxxx landed on more tab")
-            print("xxxxx clicked on moreNavigationController, index: ", 10)
             UserDefaults.standard.set(10, forKey: "lastTabIndex")
             
             // try to remove the more "edit" button
@@ -134,7 +133,7 @@ class ApplicationController: UITabBarController, UITabBarControllerDelegate, UIN
             self.moreNavigationController.tabBarController?.customizableViewControllers?.removeAll()
             
             // set the more navigation controller as the main delegate
-            self.moreNavigationController.delegate = self
+            //self.moreNavigationController.delegate = self
         }
         
     }
@@ -232,12 +231,7 @@ class ApplicationController: UITabBarController, UITabBarControllerDelegate, UIN
             print("xxxxx clicked on tabResources, index: ", selectedIndex)
             UserDefaults.standard.set(selectedIndex, forKey: "lastTabIndex")
         }
-        
-        if (self.moreNavigationController.isMovingFromParent || self.moreNavigationController.isBeingDismissed) {
-          // Do your stuff here
-            print("xxxxxx tasdafjkl")
-        }
-                    
+                        
     }
     
 
