@@ -31,7 +31,7 @@ class ApplicationController: UITabBarController, UITabBarControllerDelegate, UIN
         self.delegate = self
         self.tabBarController?.delegate = self
         self.navigationController?.delegate = self
-        
+        self.moreNavigationController.delegate = self
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -125,6 +125,8 @@ class ApplicationController: UITabBarController, UITabBarControllerDelegate, UIN
         // handle if landed on more tab
         if self.selectedViewController == moreNavigationController {
             print("xxxxx landed on more tab")
+            print("xxxxx clicked on moreNavigationController, index: ", 10)
+            UserDefaults.standard.set(10, forKey: "lastTabIndex")
             
             // try to remove the more "edit" button
             self.moreNavigationController.tabBarController?.customizableViewControllers = []
@@ -138,6 +140,7 @@ class ApplicationController: UITabBarController, UITabBarControllerDelegate, UIN
     }
         
     // override the "more" menu edit screen
+    /*
     override func tabBar(_ tabBar: UITabBar, willBeginCustomizing items: [UITabBarItem]) {
         for (index, subView) in view.subviews.enumerated() {
             if index == 1 {
@@ -146,6 +149,7 @@ class ApplicationController: UITabBarController, UITabBarControllerDelegate, UIN
             }
         }
     }
+    */
     
     // UITabBarDelegate
     /*
@@ -162,69 +166,77 @@ class ApplicationController: UITabBarController, UITabBarControllerDelegate, UIN
         self.moreNavigationController.tabBarController?.customizableViewControllers = []
         self.moreNavigationController.navigationBar.topItem?.rightBarButtonItem = nil
         self.moreNavigationController.tabBarController?.customizableViewControllers?.removeAll()
-                
-        if self.selectedViewController == tabHome {
+        
+        let selectedVC = self.selectedViewController
+        
+        if selectedVC == tabHome {
             print("xxxxx clicked on tabHome, index: ", selectedIndex)
             UserDefaults.standard.set(selectedIndex, forKey: "lastTabIndex")
         }
         
-        if self.selectedViewController == tabAcademics {
+        if selectedVC == tabAcademics {
             print("xxxxx clicked on tabAcademics, index: ", selectedIndex)
             UserDefaults.standard.set(selectedIndex, forKey: "lastTabIndex")
         }
         
-        if self.selectedViewController == tabTeaching {
+        if selectedVC == tabTeaching {
             print("xxxxx clicked on tabTeaching, index: ", selectedIndex)
             UserDefaults.standard.set(selectedIndex, forKey: "lastTabIndex")
         }
         
-        if self.selectedViewController == tabHuskyExp {
+        if selectedVC == tabHuskyExp {
             print("xxxxx clicked on tabHuskyExp, index: ", selectedIndex)
             UserDefaults.standard.set(selectedIndex, forKey: "lastTabIndex")
         }
         
-        if self.selectedViewController == tabAccounts {
+        if selectedVC == tabAccounts {
             print("xxxxx clicked on tabAccounts, index: ", selectedIndex)
             UserDefaults.standard.set(selectedIndex, forKey: "lastTabIndex")
         }
         
-        if self.selectedViewController == tabNotices {
+        if selectedVC == tabNotices {
             print("xxxxx clicked on tabNotices, index: ", selectedIndex)
             UserDefaults.standard.set(selectedIndex, forKey: "lastTabIndex")
         }
-        
-        if viewController == moreNavigationController {
-            // set a custom index for the more tab
-            print("xxxxx clicked on moreNavigationController, index: ", 10)
-            UserDefaults.standard.set(10, forKey: "lastTabIndex")
-            
-            // set the more navigation controller as the main delegate
-            self.moreNavigationController.delegate = self
     
-        }
-        
     }
 
     // handle tab items clicked in the more navigation controller
-    func navigationController(_ navigationController: UINavigationController, didShow viewController: UIViewController, animated: Bool) {
+    func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
         //print("xxxxx Clicked in moreNavigationController")
-        print("xxxxx didShow")
+        print("xxxxx willshow")
         
-        if self.selectedViewController == tabNotices {
+        // try to remove the more "edit" button
+        self.moreNavigationController.tabBarController?.customizableViewControllers = []
+        self.moreNavigationController.navigationBar.topItem?.rightBarButtonItem = nil
+        self.moreNavigationController.tabBarController?.customizableViewControllers?.removeAll()
+        
+        let selectedVC = self.selectedViewController
+    
+        if selectedVC == moreNavigationController {
+            print("xxxxx clicked on moreNavigationController, index: ", 10)
+            UserDefaults.standard.set(10, forKey: "lastTabIndex")
+        }
+        
+        if selectedVC == tabNotices {
             print("xxxxx clicked on tabNotices, index: ", selectedIndex)
             UserDefaults.standard.set(selectedIndex, forKey: "lastTabIndex")
         }
         
-        if self.selectedViewController == tabCalendar {
+        if selectedVC == tabCalendar {
             print("xxxxx clicked on tabCalendar, index: ", selectedIndex)
             UserDefaults.standard.set(selectedIndex, forKey: "lastTabIndex")
         }
         
-        if self.selectedViewController == tabResources {
+        if selectedVC == tabResources {
             print("xxxxx clicked on tabResources, index: ", selectedIndex)
             UserDefaults.standard.set(selectedIndex, forKey: "lastTabIndex")
         }
-        
+                    
+    }
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        print("xxxxxx tasdafjkl")
     }
             
 }
