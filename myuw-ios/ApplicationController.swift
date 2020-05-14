@@ -198,6 +198,11 @@ class ApplicationController: UITabBarController, UITabBarControllerDelegate, UIN
             print("xxxxx clicked on tabNotices, index: ", selectedIndex)
             UserDefaults.standard.set(selectedIndex, forKey: "lastTabIndex")
         }
+        
+        if selectedVC == moreNavigationController {
+            print("xxxxx clicked on moreNavigationController, index: ", 10)
+            UserDefaults.standard.set(10, forKey: "lastTabIndex")
+        }
     
     }
 
@@ -212,12 +217,7 @@ class ApplicationController: UITabBarController, UITabBarControllerDelegate, UIN
         self.moreNavigationController.tabBarController?.customizableViewControllers?.removeAll()
         
         let selectedVC = self.selectedViewController
-    
-        if selectedVC == moreNavigationController {
-            print("xxxxx clicked on moreNavigationController, index: ", 10)
-            UserDefaults.standard.set(10, forKey: "lastTabIndex")
-        }
-        
+            
         if selectedVC == tabNotices {
             print("xxxxx clicked on tabNotices, index: ", selectedIndex)
             UserDefaults.standard.set(selectedIndex, forKey: "lastTabIndex")
@@ -232,12 +232,15 @@ class ApplicationController: UITabBarController, UITabBarControllerDelegate, UIN
             print("xxxxx clicked on tabResources, index: ", selectedIndex)
             UserDefaults.standard.set(selectedIndex, forKey: "lastTabIndex")
         }
+        
+        if (self.moreNavigationController.isMovingFromParent || self.moreNavigationController.isBeingDismissed) {
+          // Do your stuff here
+            print("xxxxxx tasdafjkl")
+        }
                     
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        print("xxxxxx tasdafjkl")
-    }
+
             
 }
 
