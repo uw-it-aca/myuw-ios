@@ -168,6 +168,20 @@ class ApplicationController: UITabBarController, UITabBarControllerDelegate, UIN
         
         let selectedVC = self.selectedViewController
         
+        //TODO: get switch statement working
+        /*
+        switch selectedVC {
+        case tabHome:
+            print("You're heading north!")
+        case tabAcademics:
+            print("You're heading south!")
+        case tabTeaching:
+            print("You're heading west!")
+        default:
+            print("sadflkj")
+        }
+         */
+        
         if selectedVC == tabHome {
             //print("xxxxx clicked on tabHome, index: ", selectedIndex)
             UserDefaults.standard.set(selectedIndex, forKey: "lastTabIndex")
@@ -193,16 +207,29 @@ class ApplicationController: UITabBarController, UITabBarControllerDelegate, UIN
             UserDefaults.standard.set(selectedIndex, forKey: "lastTabIndex")
         }
         
+        // typically in the More tab
+        
         if selectedVC == tabNotices {
-            //print("xxxxx clicked on tabNotices, index: ", selectedIndex)
+            print("xxxxx clicked on tabNotices, index: ", selectedIndex)
             UserDefaults.standard.set(selectedIndex, forKey: "lastTabIndex")
         }
         
+        if selectedVC == tabCalendar {
+            print("xxxxx clicked on tabCalendar, index: ", selectedIndex)
+            UserDefaults.standard.set(selectedIndex, forKey: "lastTabIndex")
+        }
+        
+        if selectedVC == tabResources {
+            print("xxxxx clicked on tabResources, index: ", selectedIndex)
+            UserDefaults.standard.set(selectedIndex, forKey: "lastTabIndex")
+        }
+        
+        // handle the More tab
         if selectedVC == moreNavigationController {
-            //print("xxxxx clicked on moreNavigationController, index: ", 10)
+            print("xxxxx clicked on moreNavigationController, index: ", 10)
             UserDefaults.standard.set(10, forKey: "lastTabIndex")
         }
-    
+        
     }
 
     // handle tab items clicked in the more navigation controller
