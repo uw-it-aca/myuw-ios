@@ -29,28 +29,31 @@ class HomeWebView: WebViewController {
         userButton.titleLabel?.font = UIFont.systemFont(ofSize: 17)
         userButton.sizeToFit()
         userButton.addTarget(self, action: #selector(showProfile), for: .touchUpInside)
-        
-        // define custom search button
-        let searchButton = UIButton(type: .system)
-        searchButton.setImage(UIImage(named: "ic_search_18"), for: .normal)
-        searchButton.imageEdgeInsets = UIEdgeInsets(top: 0, left: -10, bottom: 0, right: 0);
-        searchButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: -8, bottom: 0, right: 0);
-        searchButton.setTitle("Search", for: .normal)
-        searchButton.titleLabel?.font = UIFont.systemFont(ofSize: 17)
-        searchButton.sizeToFit()
-        searchButton.addTarget(self, action: #selector(showSearch), for: .touchUpInside)
+       
+        // show search funtionality for ios13 devices only
+        if #available(iOS 13.0, *) {
+            // define custom search button
+            let searchButton = UIButton(type: .system)
+            searchButton.setImage(UIImage(named: "ic_search_18"), for: .normal)
+            searchButton.imageEdgeInsets = UIEdgeInsets(top: 0, left: -10, bottom: 0, right: 0);
+            searchButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: -8, bottom: 0, right: 0);
+            searchButton.setTitle("Search", for: .normal)
+            searchButton.titleLabel?.font = UIFont.systemFont(ofSize: 17)
+            searchButton.sizeToFit()
+            searchButton.addTarget(self, action: #selector(showSearch), for: .touchUpInside)
+            
+            // add search button in navbar programatically
+            let searchBarButtonItem = UIBarButtonItem(customView: searchButton)
+            self.navigationItem.rightBarButtonItem = searchBarButtonItem
+        }
         
         // add a user and search buttons in navbar programatically
         let userBarButtonItem = UIBarButtonItem(customView: userButton)
-        let searchBarButtonItem = UIBarButtonItem(customView: searchButton)
         self.navigationItem.leftBarButtonItem = userBarButtonItem
-        self.navigationItem.rightBarButtonItem = searchBarButtonItem
-        
+    
     }
     
     @objc func showProfile() {
-        //let profileWebView = ProfileWebView()
-        //self.navigationController?.pushViewController(profileWebView, animated: true)
         
         let profileWebView = UINavigationController(rootViewController: ProfileWebView())
         
