@@ -20,10 +20,10 @@ class ApplicationController: UITabBarController, UITabBarControllerDelegate, UIN
     let tabNotices = UINavigationController(rootViewController: NoticesWebView())
     let tabCalendar = UINavigationController(rootViewController: CalendarWebView())
     let tabResources = UINavigationController(rootViewController: ResourcesWebView())
-    
+
     // get lastTabIndex from UserDefaults... sets initial value to 0 of none is stored
     var lastTabIndex = UserDefaults.standard.value(forKey: "lastTabIndex") ?? 0
-        
+
     override func viewDidLoad() {
         super.viewDidLoad()
                 
@@ -42,8 +42,8 @@ class ApplicationController: UITabBarController, UITabBarControllerDelegate, UIN
         // MARK: - Tab Bar Setup
         
         // set tabbar icon and title color
-        UITabBar.appearance().tintColor = UIColor(hex: "#4b2e83")
-        UITabBarItem.appearance().setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor(hex: "#4b2e83")], for: .selected)
+        UITabBar.appearance().tintColor = uwPurple
+        UITabBarItem.appearance().setTitleTextAttributes([NSAttributedString.Key.foregroundColor: uwPurple as Any], for: .selected)
         
         // Home tab
         let tabHomeBarItem = UITabBarItem(title: "Home", image: UIImage(named: "ic_home"), selectedImage: UIImage(named: "selectedImage.png"))
@@ -81,7 +81,7 @@ class ApplicationController: UITabBarController, UITabBarControllerDelegate, UIN
         // configure large title for more tab
         self.moreNavigationController.navigationBar.prefersLargeTitles = true
         // icon color for "more" menu table
-        self.moreNavigationController.view.tintColor = UIColor(hex: "#4b2e83")
+        self.moreNavigationController.view.tintColor = uwPurple
         
         // try to remove the more "edit" button
         self.moreNavigationController.tabBarController?.customizableViewControllers = []
@@ -144,7 +144,7 @@ class ApplicationController: UITabBarController, UITabBarControllerDelegate, UIN
         for (index, subView) in view.subviews.enumerated() {
             if index == 1 {
                 // icon color
-                subView.tintColor = UIColor(hex: "#4b2e83")
+                subView.tintColor = uwPurple
             }
         }
     }
