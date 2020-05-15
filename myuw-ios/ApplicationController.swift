@@ -168,68 +168,36 @@ class ApplicationController: UITabBarController, UITabBarControllerDelegate, UIN
         
         let selectedVC = self.selectedViewController
         
-        //TODO: get switch statement working
-        /*
-        switch selectedVC {
+        switch (selectedVC) {
         case tabHome:
-            print("You're heading north!")
+            print("xxxxx clicked on tabHome, index: ", selectedIndex)
+            UserDefaults.standard.set(selectedIndex, forKey: "lastTabIndex")
         case tabAcademics:
-            print("You're heading south!")
+            print("xxxxx clicked on tabAcademics, index: ", selectedIndex)
+            UserDefaults.standard.set(selectedIndex, forKey: "lastTabIndex")
         case tabTeaching:
-            print("You're heading west!")
-        default:
-            print("sadflkj")
-        }
-         */
-        
-        if selectedVC == tabHome {
-            //print("xxxxx clicked on tabHome, index: ", selectedIndex)
+            print("xxxxx clicked on tabTeaching, index: ", selectedIndex)
             UserDefaults.standard.set(selectedIndex, forKey: "lastTabIndex")
-        }
-        
-        if selectedVC == tabAcademics {
-            //print("xxxxx clicked on tabAcademics, index: ", selectedIndex)
+        case tabHuskyExp:
+            print("xxxxx clicked on tabHuskyExp, index: ", selectedIndex)
             UserDefaults.standard.set(selectedIndex, forKey: "lastTabIndex")
-        }
-        
-        if selectedVC == tabTeaching {
-            //print("xxxxx clicked on tabTeaching, index: ", selectedIndex)
+        case tabAccounts:
+            print("xxxxx clicked on tabAccounts, index: ", selectedIndex)
             UserDefaults.standard.set(selectedIndex, forKey: "lastTabIndex")
-        }
-        
-        if selectedVC == tabHuskyExp {
-            //print("xxxxx clicked on tabHuskyExp, index: ", selectedIndex)
-            UserDefaults.standard.set(selectedIndex, forKey: "lastTabIndex")
-        }
-        
-        if selectedVC == tabAccounts {
-            //print("xxxxx clicked on tabAccounts, index: ", selectedIndex)
-            UserDefaults.standard.set(selectedIndex, forKey: "lastTabIndex")
-        }
-        
-        // typically in the More tab
-        
-        if selectedVC == tabNotices {
+        case tabNotices:
             print("xxxxx clicked on tabNotices, index: ", selectedIndex)
             UserDefaults.standard.set(selectedIndex, forKey: "lastTabIndex")
-        }
-        
-        if selectedVC == tabCalendar {
+        case tabCalendar:
             print("xxxxx clicked on tabCalendar, index: ", selectedIndex)
             UserDefaults.standard.set(selectedIndex, forKey: "lastTabIndex")
-        }
-        
-        if selectedVC == tabResources {
+        case tabResources:
             print("xxxxx clicked on tabResources, index: ", selectedIndex)
             UserDefaults.standard.set(selectedIndex, forKey: "lastTabIndex")
-        }
-        
-        // handle the More tab
-        if selectedVC == moreNavigationController {
+        default:
             print("xxxxx clicked on moreNavigationController, index: ", 10)
             UserDefaults.standard.set(10, forKey: "lastTabIndex")
         }
-        
+     
     }
 
     // handle tab items clicked in the more navigation controller
@@ -243,20 +211,20 @@ class ApplicationController: UITabBarController, UITabBarControllerDelegate, UIN
         self.moreNavigationController.tabBarController?.customizableViewControllers?.removeAll()
         
         let selectedVC = self.selectedViewController
-            
-        if selectedVC == tabNotices {
-            //print("xxxxx clicked on tabNotices, index: ", selectedIndex)
-            UserDefaults.standard.set(selectedIndex, forKey: "lastTabIndex")
-        }
         
-        if selectedVC == tabCalendar {
-            //print("xxxxx clicked on tabCalendar, index: ", selectedIndex)
+        switch (selectedVC) {
+        case tabNotices:
+            print("xxxxx clicked on tabNotices, index: ", selectedIndex)
             UserDefaults.standard.set(selectedIndex, forKey: "lastTabIndex")
-        }
-        
-        if selectedVC == tabResources {
-            //print("xxxxx clicked on tabResources, index: ", selectedIndex)
+        case tabCalendar:
+            print("xxxxx clicked on tabCalendar, index: ", selectedIndex)
             UserDefaults.standard.set(selectedIndex, forKey: "lastTabIndex")
+        case tabResources:
+            print("xxxxx clicked on tabResources, index: ", selectedIndex)
+            UserDefaults.standard.set(selectedIndex, forKey: "lastTabIndex")
+        default:
+            print("xxxxx clicked on moreNavigationController, index: ", 10)
+            UserDefaults.standard.set(10, forKey: "lastTabIndex")
         }
                         
     }
