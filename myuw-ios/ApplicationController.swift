@@ -23,7 +23,8 @@ class ApplicationController: UITabBarController, UITabBarControllerDelegate, UIN
 
     // get lastTabIndex from UserDefaults... sets initial value to 0 of none is stored
     var lastTabIndex = UserDefaults.standard.value(forKey: "lastTabIndex") ?? 0
-
+    var prevIndex = 0
+    
     override func viewDidLoad() {
         super.viewDidLoad()
                 
@@ -212,18 +213,27 @@ class ApplicationController: UITabBarController, UITabBarControllerDelegate, UIN
         
         let selectedVC = self.selectedViewController
         
-        switch (selectedVC) {
-        case tabNotices:
-            print("xxxxx clicked on tabNotices, index: ", selectedIndex)
-            UserDefaults.standard.set(selectedIndex, forKey: "lastTabIndex")
-        case tabCalendar:
-            print("xxxxx clicked on tabCalendar, index: ", selectedIndex)
-            UserDefaults.standard.set(selectedIndex, forKey: "lastTabIndex")
-        case tabResources:
-            print("xxxxx clicked on tabResources, index: ", selectedIndex)
-            UserDefaults.standard.set(selectedIndex, forKey: "lastTabIndex")
-        default:
-            print("xxxxx clicked on moreNavigationController, index: ", 10)
+        //print("xxxxx prevIndex", prevIndex)
+        
+        // track more controller clicks to avoid double 2x calls
+        if prevIndex != selectedIndex {
+            switch (selectedVC) {
+            case tabNotices:
+                print("xxxxx clicked on tabNotices, index: ", selectedIndex)
+                UserDefaults.standard.set(selectedIndex, forKey: "lastTabIndex")
+            case tabCalendar:
+                print("xxxxx clicked on tabCalendar, index: ", selectedIndex)
+                UserDefaults.standard.set(selectedIndex, forKey: "lastTabIndex")
+                prevIndex = selectedIndex
+            case tabResources:
+                print("xxxxx clicked on tabResources, index: ", selectedIndex)
+                UserDefaults.standard.set(selectedIndex, forKey: "lastTabIndex")
+                prevIndex = selectedIndex
+            default:
+                break
+            }
+        } else {
+            print("xxxxx clicked back to moreNavigationController, index: ", 10)
             UserDefaults.standard.set(10, forKey: "lastTabIndex")
         }
                         
