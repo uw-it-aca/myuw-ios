@@ -8,8 +8,9 @@
 
 import Foundation
 import UIKit
+import os
 
-class ApplicationController: UITabBarController, UITabBarControllerDelegate {
+class ApplicationController: UITabBarController, UITabBarControllerDelegate, UINavigationControllerDelegate {
     
     // global tab setup
     let tabHome = UINavigationController(rootViewController: HomeWebView())
@@ -20,17 +21,24 @@ class ApplicationController: UITabBarController, UITabBarControllerDelegate {
     let tabNotices = UINavigationController(rootViewController: NoticesWebView())
     let tabCalendar = UINavigationController(rootViewController: CalendarWebView())
     let tabResources = UINavigationController(rootViewController: ResourcesWebView())
-        
+
+    // get lastTabIndex from UserDefaults... sets initial value to 0 of none is stored
+    var lastTabIndex = UserDefaults.standard.value(forKey: "lastTabIndex") ?? 0
+    var prevIndex = 0
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+                
         //Assign self for delegate for that ViewController can respond to UITabBarControllerDelegate methods
-        self.delegate = self        
+        self.delegate = self
+        self.tabBarController?.delegate = self
+        self.navigationController?.delegate = self
+        self.moreNavigationController.delegate = self
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+                        
         // MARK: - Tab Bar Setup
         
         // set tabbar icon and title color
@@ -75,6 +83,11 @@ class ApplicationController: UITabBarController, UITabBarControllerDelegate {
         // icon color for "more" menu table
         self.moreNavigationController.view.tintColor = uwPurple
         
+        // remove the more "edit" button
+        self.moreNavigationController.tabBarController?.customizableViewControllers = []
+        self.moreNavigationController.navigationBar.topItem?.rightBarButtonItem = nil
+        self.moreNavigationController.tabBarController?.customizableViewControllers?.removeAll()
+        
         // MARK: - Tab View Controllers
         
         // build bottom tab navigation based on user affiliations
@@ -101,10 +114,26 @@ class ApplicationController: UITabBarController, UITabBarControllerDelegate {
         }
         
         self.viewControllers = controllers
+                    
+        // set tabHome active
+        if lastTabIndex as! Int == 10 {
+            self.selectedViewController = moreNavigationController
+        } else {
+            self.selectedIndex = lastTabIndex as! Int
+        }
+        
+        // handle if landed on more tab
+        if self.selectedViewController == moreNavigationController {
+            // remove the more "edit" button
+            self.moreNavigationController.tabBarController?.customizableViewControllers = []
+            self.moreNavigationController.navigationBar.topItem?.rightBarButtonItem = nil
+            self.moreNavigationController.tabBarController?.customizableViewControllers?.removeAll()
+        }
         
     }
-    
+        
     // override the "more" menu edit screen
+    /*
     override func tabBar(_ tabBar: UITabBar, willBeginCustomizing items: [UITabBarItem]) {
         for (index, subView) in view.subviews.enumerated() {
             if index == 1 {
@@ -113,5 +142,97 @@ class ApplicationController: UITabBarController, UITabBarControllerDelegate {
             }
         }
     }
+    */
     
+    // UITabBarDelegate
+    /*
+    override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
+        print("xxxxx Selected item", self.selectedIndex)
+    }*/
+    
+ 
+    // UITabBarControllerDelegate
+    func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
+        
+        // remove the more "edit" button
+        self.moreNavigationController.tabBarController?.customizableViewControllers = []
+        self.moreNavigationController.navigationBar.topItem?.rightBarButtonItem = nil
+        self.moreNavigationController.tabBarController?.customizableViewControllers?.removeAll()
+        
+        let selectedVC = self.selectedViewController
+        
+        switch (selectedVC) {
+        case tabHome:
+            os_log("Clicked tabHome, index: %d", log: .app, type: .info, selectedIndex)
+            UserDefaults.standard.set(selectedIndex, forKey: "lastTabIndex")
+        case tabAcademics:
+            os_log("Clicked tabAcademics, index: %d", log: .app, type: .info, selectedIndex)
+            UserDefaults.standard.set(selectedIndex, forKey: "lastTabIndex")
+        case tabTeaching:
+            os_log("Clicked tabTeaching, index: %d", log: .app, type: .info, selectedIndex)
+            UserDefaults.standard.set(selectedIndex, forKey: "lastTabIndex")
+        case tabHuskyExp:
+            os_log("Clicked tabHuskyExp, index: %d", log: .app, type: .info, selectedIndex)
+            UserDefaults.standard.set(selectedIndex, forKey: "lastTabIndex")
+        case tabAccounts:
+            os_log("Clicked tabAccounts, index: %d", log: .app, type: .info, selectedIndex)
+            UserDefaults.standard.set(selectedIndex, forKey: "lastTabIndex")
+        case tabNotices:
+            os_log("Clicked tabNotices, index: %d", log: .app, type: .info, selectedIndex)
+            UserDefaults.standard.set(selectedIndex, forKey: "lastTabIndex")
+        case tabCalendar:
+            os_log("Clicked tabCalendar, index: %d", log: .app, type: .info, selectedIndex)
+            UserDefaults.standard.set(selectedIndex, forKey: "lastTabIndex")
+        case tabResources:
+            os_log("Clicked tabResources, index: %d", log: .app, type: .info, selectedIndex)
+            UserDefaults.standard.set(selectedIndex, forKey: "lastTabIndex")
+        default:
+            os_log("Clicked moreNavigationController, index: %d", log: .app, type: .info, 10)
+            UserDefaults.standard.set(10, forKey: "lastTabIndex")
+        }
+     
+    }
+
+    // UINavigationControllerDelegate (moreNavigationController)
+    func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
+
+        // remove the more "edit" button
+        self.moreNavigationController.tabBarController?.customizableViewControllers = []
+        self.moreNavigationController.navigationBar.topItem?.rightBarButtonItem = nil
+        self.moreNavigationController.tabBarController?.customizableViewControllers?.removeAll()
+        
+        let selectedVC = self.selectedViewController
+                
+        // track more controller clicks to avoid back2back event calls
+        if prevIndex != selectedIndex {
+            switch (selectedVC) {
+            case tabNotices:
+                os_log("Clicked tabNotices, index: %d", log: .app, type: .info, selectedIndex)
+                UserDefaults.standard.set(selectedIndex, forKey: "lastTabIndex")
+            case tabCalendar:
+                os_log("Clicked tabCalendar, index: %d", log: .app, type: .info, selectedIndex)
+                UserDefaults.standard.set(selectedIndex, forKey: "lastTabIndex")
+                prevIndex = selectedIndex
+            case tabResources:
+                os_log("Clicked tabResources, index: %d", log: .app, type: .info, selectedIndex)
+                UserDefaults.standard.set(selectedIndex, forKey: "lastTabIndex")
+                prevIndex = selectedIndex
+            default:
+                break
+            }
+        } else {
+            os_log("Clicked moreNavigationController Back, index: %d", log: .app, type: .info, 10)
+            UserDefaults.standard.set(10, forKey: "lastTabIndex")
+            prevIndex = 0
+        }
+                        
+    }
+        
+}
+
+extension OSLog {
+    // subsystem
+    private static var subsystem = Bundle.main.bundleIdentifier!
+    // log categories
+    static let app = OSLog(subsystem: subsystem, category: "AppController")
 }

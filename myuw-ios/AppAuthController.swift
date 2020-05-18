@@ -22,7 +22,7 @@ let kAppAuthExampleAuthStateKey: String = "authState";
 var signedOut = false
 
 class AppAuthController: UIViewController {
-    
+        
     // property of the containing class
     private var authState: OIDAuthState?
     
@@ -42,6 +42,7 @@ class AppAuthController: UIViewController {
         
         view.backgroundColor = .white
         
+        // App title
         self.title = "MyUW"
         
         headerText.font = UIFont.boldSystemFont(ofSize: 18)
@@ -79,9 +80,8 @@ class AppAuthController: UIViewController {
         signInButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
         // set topanchor of label equal to bottomanchor of textview
         signInButton.topAnchor.constraint(equalTo: bodyText.bottomAnchor, constant: 50).isActive = true
-        signInButton.backgroundColor = UIColor(hex: "#4b2e83")
+        signInButton.backgroundColor = uwPurple
         signInButton.layer.cornerRadius = 10
-        
         
         if (signedOut) {
             // set auto sign-out messaging
@@ -112,8 +112,11 @@ class AppAuthController: UIViewController {
         
         // clear authstate to signout user
         setAuthState(nil)
-        // clear state storage
+        
+        // clear UserDefaults
         UserDefaults.standard.removeObject(forKey: kAppAuthExampleAuthStateKey)
+        UserDefaults.standard.removeObject(forKey: "lastTabIndex")
+        
         // clear userAffiliations
         User.userAffiliations = []
                         
@@ -446,6 +449,9 @@ extension AppAuthController {
         if User.userAffiliations.isEmpty {
             
             os_log("userAffiliations IS empty....", log: .affiliations, type: .info)
+            
+            // make sure lastTabIndex is cleared when getting new affiliations
+            UserDefaults.standard.removeObject(forKey: "lastTabIndex")
             
             // MARK: get user affiliations from myuw endpoint
             let affiliationURL = URL(string: "\(appHost)\(appAffiliationEndpoint)")
