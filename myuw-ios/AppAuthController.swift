@@ -112,8 +112,11 @@ class AppAuthController: UIViewController {
         
         // clear authstate to signout user
         setAuthState(nil)
-        // clear state storage
+        
+        // clear UserDefaults
         UserDefaults.standard.removeObject(forKey: kAppAuthExampleAuthStateKey)
+        UserDefaults.standard.removeObject(forKey: "lastTabIndex")
+        
         // clear userAffiliations
         User.userAffiliations = []
                         
@@ -447,8 +450,8 @@ extension AppAuthController {
             
             os_log("userAffiliations IS empty....", log: .affiliations, type: .info)
             
-            // set lastTabIndex to 0 when loading affiliations for the first time... or app was previously closed / signed out
-            UserDefaults.standard.set(0, forKey: "lastTabIndex")
+            // make sure lastTabIndex is cleared when getting new affiliations
+            UserDefaults.standard.removeObject(forKey: "lastTabIndex")
             
             // MARK: get user affiliations from myuw endpoint
             let affiliationURL = URL(string: "\(appHost)\(appAffiliationEndpoint)")
