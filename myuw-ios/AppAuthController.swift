@@ -80,7 +80,7 @@ class AppAuthController: UIViewController {
         signInButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
         // set topanchor of label equal to bottomanchor of textview
         signInButton.topAnchor.constraint(equalTo: bodyText.bottomAnchor, constant: 50).isActive = true
-        signInButton.backgroundColor = UIColor(hex: "#4b2e83")
+        signInButton.backgroundColor = uwPurple
         signInButton.layer.cornerRadius = 10
         
         if (signedOut) {
