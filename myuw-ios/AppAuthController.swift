@@ -612,6 +612,8 @@ extension AppAuthController {
     
     func setupApplication() {
         
+        os_log("setupApplication", log: .ui, type: .info)
+        
         // MARK: refresh access token before sending to myuw as authentication header
         //let currentAccessToken: String? = self.authState?.lastTokenResponse?.accessToken
         let currentIdToken: String? = self.authState?.lastTokenResponse?.idToken
