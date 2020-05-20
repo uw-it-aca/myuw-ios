@@ -296,9 +296,9 @@ extension AppAuthController {
     
     func showState() {
         os_log("showState", log: .auth, type: .info)
-        os_log("Access token: %@", log: .auth, type: .error, authState?.lastTokenResponse?.accessToken ?? "NONE")
+        //os_log("Access token: %@", log: .auth, type: .error, authState?.lastTokenResponse?.accessToken ?? "NONE")
         os_log("ID token: %@", log: .auth, type: .error, authState?.lastTokenResponse?.idToken ?? "NONE")
-        os_log("Refresh token: %@", log: .auth, type: .error, authState?.lastTokenResponse?.refreshToken ?? "NONE")
+        //os_log("Refresh token: %@", log: .auth, type: .error, authState?.lastTokenResponse?.refreshToken ?? "NONE")
     }
     
     func setAuthState(_ authState: OIDAuthState?) {
@@ -373,11 +373,13 @@ extension AppAuthController {
             }
             
             // log accessToken freshness
+            /*
             if currentAccessToken != accessToken {
                 os_log("Access token was refreshed automatically: %@ to %@", log: .auth, type: .info, currentAccessToken ?? "CURRENT_ACCESS_TOKEN", accessToken)
             } else {
                 os_log("Access token was fresh and not updated: %@", log: .auth, type: .info, accessToken)
             }
+            */
             
             guard let idToken = idToken else {
                 os_log("Error getting idToken", log: .auth, type: .error)
@@ -413,10 +415,14 @@ extension AppAuthController {
         os_log("showError", log: .ui, type: .info)
         
         // show the error controller
+        /*
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let errorController = ErrorController()
         let navController = UINavigationController(rootViewController: errorController)
         appDelegate.window!.rootViewController = navController
+        */
+        
+        UIApplication.shared.delegate?.window!?.rootViewController = ErrorController()
     }
     
     func showApplication() {
@@ -424,10 +430,15 @@ extension AppAuthController {
         os_log("showApplication", log: .ui, type: .info)
         
         // MARK: transition to appController (tabs)
+        /*
         let appController = ApplicationController()
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         // set the main controller as the root controller on app load
         appDelegate.window!.rootViewController = appController
+        */
+        
+        UIApplication.shared.delegate?.window!?.rootViewController = ApplicationController()
+      
     }
     
     func getUserAffiliations() {
@@ -438,13 +449,15 @@ extension AppAuthController {
         // TODO: consider creating a Claims struct and mapping everything to it's attributes
         if (self.authState?.isAuthorized ?? false) {
             let idTokenClaims = self.getIdTokenClaims(idToken: self.authState?.lastTokenResponse?.idToken ) ?? Data()
-            os_log("idTokenClaims: %@", log: .auth, type: .info, (String(describing: String(bytes: idTokenClaims, encoding: .utf8))))
+            //os_log("idTokenClaims: %@", log: .auth, type: .info, (String(describing: String(bytes: idTokenClaims, encoding: .utf8))))
             let claimsDictionary = try! JSONSerialization.jsonObject(with: idTokenClaims, options: .allowFragments) as? [String: Any]
-            os_log("claimsDictionary: %@", log: .auth, type: .info, claimsDictionary!)
+            //os_log("claimsDictionary: %@", log: .auth, type: .info, claimsDictionary!)
+            
             User.userNetID = claimsDictionary!["sub"] as! String? ?? ""
+            os_log("got user netid: %@", log: .ui, type: .info, User.userNetID)
         }
         
-        os_log("initial userAffiliations: %{private}@", log: .affiliations, type: .info, User.userAffiliations)
+        //os_log("initial userAffiliations: %{private}@", log: .affiliations, type: .info, User.userAffiliations)
         
         if User.userAffiliations.isEmpty {
             
@@ -520,7 +533,7 @@ extension AppAuthController {
                     
                     if let json = json {
                         
-                        os_log("Successfully decoded: %{private}@", log: .affiliations, type: .info, json)
+                        //os_log("Successfully decoded: %{private}@", log: .affiliations, type: .info, json)
                         
                         // remove all existing affiliations and start with fresh array
                         User.userAffiliations.removeAll()
@@ -568,6 +581,7 @@ extension AppAuthController {
             
             // transition to the main application controller
             self.showApplication()
+            
         }
         
         
