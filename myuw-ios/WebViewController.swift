@@ -208,7 +208,8 @@ class WebViewController: UIViewController, WKNavigationDelegate {
                 appDelegate.window!.rootViewController = navController
                 */
                 
-                UIApplication.shared.delegate?.window!?.rootViewController = ErrorController()
+                UIApplication.shared.delegate?.window!?.rootViewController = UINavigationController(rootViewController: ErrorController())
+                
             }
             
             if response.statusCode == 401 {
@@ -229,7 +230,7 @@ class WebViewController: UIViewController, WKNavigationDelegate {
                 appDelegate.window!.rootViewController = navController
                 */
                 
-                UIApplication.shared.delegate?.window!?.rootViewController = AppAuthController()
+                UIApplication.shared.delegate?.window!?.rootViewController = UINavigationController(rootViewController: AppAuthController())
                 
             }
                         

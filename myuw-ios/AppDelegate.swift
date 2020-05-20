@@ -65,16 +65,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.makeKeyAndVisible()
     
         if isConnectedToNetwork() {
+            /*
             // force use go through appAuth flow when foregrounding the app
             let appAuthController = AppAuthController()
             let navController = UINavigationController(rootViewController: appAuthController)
             // set appAuth controller as rootViewController
             window!.rootViewController = navController
-        } else {            
+            */
+            
+            UIApplication.shared.delegate?.window!?.rootViewController = UINavigationController(rootViewController: AppAuthController())
+            
+        } else {
+            
+            /*
             let errorController = ErrorController()
             let navController = UINavigationController(rootViewController: errorController)
             // set appAuth controller as rootViewController
             window!.rootViewController = navController
+            */
+            
+            UIApplication.shared.delegate?.window!?.rootViewController = UINavigationController(rootViewController: ErrorController())
         }
         
         return true
@@ -109,10 +119,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         os_log("applicationWillEnterForeground", log: .ui, type: .info)
         
         // force use go through appAuth flow when foregrounding the app
+        /*
         let appAuthController = AppAuthController()
         let navController = UINavigationController(rootViewController: appAuthController)
         // set appAuth controller as rootViewController
         window!.rootViewController = navController
+        */
+        
+        UIApplication.shared.delegate?.window!?.rootViewController = UINavigationController(rootViewController: AppAuthController())
+        
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {

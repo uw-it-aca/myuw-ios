@@ -354,7 +354,7 @@ extension AppAuthController {
         appDelegate.window!.rootViewController = navController
         */
         
-        UIApplication.shared.delegate?.window!?.rootViewController = ErrorController()
+        UIApplication.shared.delegate?.window!?.rootViewController = UINavigationController(rootViewController: ErrorController())
     }
     
     func showApplication() {
@@ -369,8 +369,8 @@ extension AppAuthController {
         appDelegate.window!.rootViewController = appController
         */
         
+        // root view controller
         UIApplication.shared.delegate?.window!?.rootViewController = ApplicationController()
-      
     }
     
     func setupApplication() {
