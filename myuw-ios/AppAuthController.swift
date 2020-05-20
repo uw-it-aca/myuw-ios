@@ -325,6 +325,7 @@ extension AppAuthController {
             bodyText.isHidden = true
             signInButton.isHidden = true
             
+            /*
             let group = DispatchGroup()
             group.enter()
             
@@ -338,6 +339,10 @@ extension AppAuthController {
                 self.getUserAffiliations()
                 
             }
+            */
+            
+            self.setupApplication()
+            
         }
     }
     
@@ -347,6 +352,7 @@ extension AppAuthController {
         self.updateUI()
     }
     
+    /*
     func checkTokenFreshness() {
         os_log("checkTokenFreshness", log: .ui, type: .info)
         
@@ -401,9 +407,25 @@ extension AppAuthController {
             // update the tokens in the singleton process pool
             ProcessPool.accessToken = accessToken
             ProcessPool.idToken = idToken
+            
+            os_log("get user netid", log: .ui, type: .info)
+            
+            // MARK: get user netid by decoding idtoken
+            // TODO: consider creating a Claims struct and mapping everything to it's attributes
+            if (self.authState?.isAuthorized ?? false) {
+                let idTokenClaims = self.getIdTokenClaims(idToken: self.authState?.lastTokenResponse?.idToken ) ?? Data()
+                //os_log("idTokenClaims: %@", log: .auth, type: .info, (String(describing: String(bytes: idTokenClaims, encoding: .utf8))))
+                let claimsDictionary = try! JSONSerialization.jsonObject(with: idTokenClaims, options: .allowFragments) as? [String: Any]
+                //os_log("claimsDictionary: %@", log: .auth, type: .info, claimsDictionary!)
+                
+                User.userNetID = claimsDictionary!["sub"] as! String? ?? ""
+                os_log("got user netid: %@", log: .ui, type: .info, User.userNetID)
+            }
+            
         }
         
     }
+    */
     
 }
 
@@ -441,6 +463,7 @@ extension AppAuthController {
       
     }
     
+    /*
     func getUserAffiliations() {
         
         os_log("getUserAffiliations", log: .ui, type: .info)
@@ -459,7 +482,7 @@ extension AppAuthController {
         
         //os_log("initial userAffiliations: %{private}@", log: .affiliations, type: .info, User.userAffiliations)
         
-        if User.userAffiliations.isEmpty {
+        if User.userNetID.isEmpty || User.userAffiliations.isEmpty {
             
             os_log("userAffiliations IS empty....", log: .affiliations, type: .info)
             
@@ -584,9 +607,203 @@ extension AppAuthController {
             
         }
         
+    }
+    */
+    
+    func setupApplication() {
         
+        // MARK: refresh access token before sending to myuw as authentication header
+        //let currentAccessToken: String? = self.authState?.lastTokenResponse?.accessToken
+        let currentIdToken: String? = self.authState?.lastTokenResponse?.idToken
         
-        
+        self.authState?.performAction() { (accessToken, idToken, error) in
+            
+            if error != nil  {
+                os_log("Error fetching fresh tokens: %@", log: .auth, type: .error, error?.localizedDescription ?? "ERROR")
+                
+                // sign user out if unable to get fresh tokens (refresh token expired)
+                self.signOut()
+                return
+            }
+            
+            guard let accessToken = accessToken else {
+                os_log("Error getting accessToken", log: .auth, type: .error)
+                
+                // sign user out if unable to get access token
+                self.signOut()
+                return
+            }
+            
+            // log accessToken freshness
+            /*
+            if currentAccessToken != accessToken {
+                os_log("Access token was refreshed automatically: %@ to %@", log: .auth, type: .info, currentAccessToken ?? "CURRENT_ACCESS_TOKEN", accessToken)
+            } else {
+                os_log("Access token was fresh and not updated: %@", log: .auth, type: .info, accessToken)
+            }
+            */
+            
+            guard let idToken = idToken else {
+                os_log("Error getting idToken", log: .auth, type: .error)
+                
+                // sign user out if unable to get id token
+                self.signOut()
+                return
+            }
+            
+            // log idToken freshness
+            if currentIdToken != idToken {
+                os_log("ID token was refreshed automatically: %@ to %@", log: .auth, type: .info, currentIdToken ?? "CURRENT_ID_TOKEN", idToken)
+            } else {
+                os_log("ID token was fresh and not updated: %@", log: .auth, type: .info, idToken)
+            }
+            
+            os_log("checkTokenFreshness DONE... tokens updated", log: .ui, type: .info)
+            
+            // update the tokens in the singleton process pool
+            ProcessPool.accessToken = accessToken
+            ProcessPool.idToken = idToken
+            
+            // do other stuff
+            
+            if User.userNetID.isEmpty || User.userAffiliations.isEmpty {
+                
+                os_log("user IS empty....", log: .affiliations, type: .info)
+                
+                // make sure lastTabIndex is cleared when getting new affiliations
+                UserDefaults.standard.removeObject(forKey: "lastTabIndex")
+                
+                // MARK: get user netid by decoding idtoken
+                // TODO: consider creating a Claims struct and mapping everything to it's attributes
+                
+                let idTokenClaims = self.getIdTokenClaims(idToken: idToken ) ?? Data()
+                //os_log("idTokenClaims: %@", log: .auth, type: .info, (String(describing: String(bytes: idTokenClaims, encoding: .utf8))))
+                let claimsDictionary = try! JSONSerialization.jsonObject(with: idTokenClaims, options: .allowFragments) as? [String: Any]
+                //os_log("claimsDictionary: %@", log: .auth, type: .info, claimsDictionary!)
+                
+                User.userNetID = claimsDictionary!["sub"] as! String? ?? ""
+                os_log("got user netid: %@", log: .ui, type: .info, User.userNetID)
+                
+            
+                // MARK: get user affiliations from myuw endpoint
+                let affiliationURL = URL(string: "\(appHost)\(appAffiliationEndpoint)")
+                os_log("start affiliation request: %@", log: .affiliations, type: .info, affiliationURL!.absoluteString)
+                var urlRequest = URLRequest(url: affiliationURL!)
+                
+                // send id token in authorization header
+                urlRequest.setValue("Bearer \(self.authState?.lastTokenResponse?.idToken ?? "ID_TOKEN")", forHTTPHeaderField: "Authorization")
+                
+                // create a task to request affiliations from myuw endpoint
+                let task = URLSession.shared.dataTask(with: urlRequest) {
+                    data, response, error in DispatchQueue.main.async {
+                        
+                        guard error == nil else {
+                            os_log("HTTP request failed: %@", log: .affiliations, type: .error, error?.localizedDescription ?? "ERROR")
+                            // show the error controller
+                            self.showError()
+                            return
+                        }
+                        
+                        guard let response = response as? HTTPURLResponse else {
+                            os_log("Non-HTTP response", log: .affiliations, type: .info)
+                            // show the error controller
+                            self.showError()
+                            return
+                        }
+                        
+                        guard let data = data else {
+                            os_log("HTTP response data is empty", log: .affiliations, type: .info)
+                            // show the error controller
+                            self.showError()
+                            return
+                        }
+                        
+                        //MARK: handle the json response
+                        var json: [AnyHashable: Any]?
+                        
+                        do {
+                            json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
+                        } catch {
+                            os_log("JSON Serialization Error", log: .affiliations, type: .error)
+                            // show the error controller
+                            self.showError()
+                        }
+                        
+                        //TODO: this needs a better home!
+                        if response.statusCode != 200 {
+                            // server replied with an error
+                            let responseText: String? = String(data: data, encoding: String.Encoding.utf8)
+                            
+                            if response.statusCode == 401 {
+                                // "401 Unauthorized" generally indicates there is an issue with the authorization
+                                // grant. Puts OIDAuthState into an error state.
+                                let oauthError = OIDErrorUtilities.resourceServerAuthorizationError(withCode: 0,
+                                                                                                    errorResponse: json,
+                                                                                                    underlyingError: error)
+                                self.authState?.update(withAuthorizationError: oauthError)
+                                os_log("Authorization Error: %@. Response: %@", log: .affiliations, type: .error, oauthError.localizedDescription, responseText!)
+                            } else {
+                                os_log("HTTP: %@. Response: %@", log: .affiliations, type: .info, response.statusCode.description, responseText!)
+                            }
+                            
+                            return
+                        }
+                        
+                        
+                        if let json = json {
+                            
+                            //os_log("Successfully decoded: %{private}@", log: .affiliations, type: .info, json)
+                            
+                            // remove all existing affiliations and start with fresh array
+                            User.userAffiliations.removeAll()
+                            
+                            // add user affiliations to array
+                            if json["student"] as! Bool == true {
+                                User.userAffiliations.append("student")
+                            }
+                            
+                            if json["applicant"] as! Bool == true {
+                                User.userAffiliations.append("applicant")
+                            }
+                            
+                            if json["instructor"] as! Bool == true {
+                                User.userAffiliations.append("instructor")
+                            }
+                            
+                            if json["undergrad"] as! Bool == true {
+                                User.userAffiliations.append("undergrad")
+                            }
+                            
+                            if json["hxt_viewer"] as! Bool == true {
+                                User.userAffiliations.append("hxt_viewer")
+                            }
+                            
+                            if json["seattle"] as! Bool == true {
+                                User.userAffiliations.append("seattle")
+                            }
+                            
+                            os_log("userAffiliations: %{private}@", log: .affiliations, type: .info, User.userAffiliations)
+                            
+                        }
+                        
+                        // transition to the main application controller
+                        self.showApplication()
+                        
+                    }
+                    
+                }
+                task.resume()
+                
+            } else {
+                
+                os_log("user is NOT empty....", log: .affiliations, type: .info)
+                
+                // transition to the main application controller
+                self.showApplication()
+                
+            }
+            
+        }
     }
     
     func getIdTokenClaims(idToken: String?) -> Data? {
