@@ -192,7 +192,7 @@ class WebViewController: UIViewController, WKNavigationDelegate {
         if let response = navigationResponse.response as? HTTPURLResponse {
             
             //let statusMessage: String = HTTPURLResponse.localizedString(forStatusCode: response.statusCode)
-            let statusMessage: String = response.description
+            //let statusMessage: String = response.description
             
             os_log("HTTP response: %@", log: .webview, type: .error, response.statusCode.description)
             
