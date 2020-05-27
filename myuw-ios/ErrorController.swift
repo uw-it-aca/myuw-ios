@@ -82,11 +82,15 @@ class ErrorController: UIViewController {
         os_log("Retry Button tapped", log: .ui, type: .info)
         
         // force use go through appAuth flow when foregrounding the app
+        /*
         let appAuthController = AppAuthController()
         let navController = UINavigationController(rootViewController: appAuthController)
         
         // set appAuth controller as rootViewController
         appDelegate.window!.rootViewController = navController
+        */
+        
+        UIApplication.shared.delegate?.window!?.rootViewController = UINavigationController(rootViewController: AppAuthController())
     }
     
 }

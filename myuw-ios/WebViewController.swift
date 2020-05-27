@@ -192,33 +192,45 @@ class WebViewController: UIViewController, WKNavigationDelegate {
         if let response = navigationResponse.response as? HTTPURLResponse {
             
             //let statusMessage: String = HTTPURLResponse.localizedString(forStatusCode: response.statusCode)
-            let statusMessage: String = response.description
+            //let statusMessage: String = response.description
             
             os_log("HTTP response: %@", log: .webview, type: .error, response.statusCode.description)
             
             
             // handle 500 and 503
             if (response.statusCode == 500 || response.statusCode == 503) {
-                os_log("HTTP response message: %@", log: .webview, type: .error, statusMessage)
+                //os_log("HTTP response message: %@", log: .webview, type: .error, statusMessage)
                 // show error controller
+                /*
                 let appDelegate = UIApplication.shared.delegate as! AppDelegate
                 let errorController = ErrorController()
                 let navController = UINavigationController(rootViewController: errorController)
                 appDelegate.window!.rootViewController = navController
+                */
+                
+                UIApplication.shared.delegate?.window!?.rootViewController = UINavigationController(rootViewController: ErrorController())
+                
             }
             
             if response.statusCode == 401 {
-                os_log("HTTP response message: %@", log: .webview, type: .error, statusMessage)
+                //os_log("HTTP response message: %@", log: .webview, type: .error, statusMessage)
                 
                 //MARK: option #1 clear authState and sign user out
                 //PROBLEM: signout makes a visit to /logout - this will cause a 401 loop since /logout will reject invalid tokens with a 401
                 // signOut()
                 
+                // stop the webview reqeust
+                webView.stopLoading()
+                
                 //MARK: option #2 refresh tokens by going through appAuthController
+                /*
                 let appDelegate = UIApplication.shared.delegate as! AppDelegate
                 let appAuthController = AppAuthController()
                 let navController = UINavigationController(rootViewController: appAuthController)
                 appDelegate.window!.rootViewController = navController
+                */
+                
+                UIApplication.shared.delegate?.window!?.rootViewController = UINavigationController(rootViewController: AppAuthController())
                 
             }
                         
