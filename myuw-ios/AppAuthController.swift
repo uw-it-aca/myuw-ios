@@ -431,7 +431,7 @@ extension AppAuthController {
             
             // do other stuff
             
-            if User.userNetID.isEmpty {
+            if User.userAffiliations.isEmpty {
                 
                 os_log("user IS empty....", log: .affiliations, type: .info)
                 
