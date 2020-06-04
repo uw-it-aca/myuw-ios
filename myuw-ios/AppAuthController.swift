@@ -323,22 +323,6 @@ extension AppAuthController {
         // if user is signed-in...
         if self.authState != nil {
             
-            // create activity indicator
-            let indicatorView = UIActivityIndicatorView(style: .gray)
-            indicatorView.isHidden = false
-            indicatorView.translatesAutoresizingMaskIntoConstraints = true // default is true
-            
-            // center the indicator
-            indicatorView.center = CGPoint(x: self.view.bounds.midX, y: self.view.bounds.midY) // offset height of tabbar 83pt
-            indicatorView.autoresizingMask = [
-                .flexibleLeftMargin,
-                .flexibleRightMargin,
-                .flexibleTopMargin,
-                .flexibleBottomMargin
-            ]
-            // add to subview
-            self.view.addSubview(indicatorView)
-            
             // hide the sign-in content
             headerText.isHidden = true
             bodyText.isHidden = true
@@ -453,6 +437,22 @@ extension AppAuthController {
             if User.userAffiliations.isEmpty {
                 
                 os_log("user IS empty....", log: .affiliations, type: .info)
+                
+                // create activity indicator
+                let indicatorView = UIActivityIndicatorView(style: .gray)
+                indicatorView.isHidden = false
+                indicatorView.translatesAutoresizingMaskIntoConstraints = true // default is true
+                indicatorView.startAnimating()
+                // center the indicator
+                indicatorView.center = CGPoint(x: self.view.bounds.midX, y: self.view.bounds.midY) // offset height of tabbar 83pt
+                indicatorView.autoresizingMask = [
+                    .flexibleLeftMargin,
+                    .flexibleRightMargin,
+                    .flexibleTopMargin,
+                    .flexibleBottomMargin
+                ]
+                // add to subview
+                self.view.addSubview(indicatorView)
                 
                 // make sure lastTabIndex is cleared when getting new affiliations
                 UserDefaults.standard.removeObject(forKey: "lastTabIndex")
@@ -581,7 +581,7 @@ extension AppAuthController {
             } else {
                 
                 os_log("user is NOT empty....", log: .affiliations, type: .info)
-                
+                                
                 // transition to the main application controller
                 self.showApplication()
                 
