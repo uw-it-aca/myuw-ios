@@ -30,6 +30,7 @@ class AppAuthController: UIViewController {
     let bodyText = UILabel()
     let signInButton = UIButton()
     var activityIndicator: UIActivityIndicatorView!
+    var tabBarCont: UITabBarController?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,6 +46,16 @@ class AppAuthController: UIViewController {
         
         // App title
         self.title = "MyUW"
+        
+        // create empty tabbar controller as a visual placeholder
+        tabBarCont = UITabBarController()
+        let firstViewController = UIViewController()
+        firstViewController.tabBarItem = UITabBarItem()
+        let secondViewController = UIViewController()
+        secondViewController.tabBarItem = UITabBarItem()
+        let tabBarList = [firstViewController, secondViewController]
+        tabBarCont!.viewControllers = tabBarList
+        self.view.addSubview((tabBarCont?.view)!)
         
         headerText.font = UIFont.boldSystemFont(ofSize: 18)
         headerText.textAlignment = .left
@@ -439,12 +450,13 @@ extension AppAuthController {
                 os_log("user IS empty....", log: .affiliations, type: .info)
                 
                 // create activity indicator
+                let tabBarHeight = self.tabBarCont!.tabBar.frame.height
                 let indicatorView = UIActivityIndicatorView(style: .gray)
                 indicatorView.isHidden = false
                 indicatorView.translatesAutoresizingMaskIntoConstraints = true // default is true
                 indicatorView.startAnimating()
                 // center the indicator
-                indicatorView.center = CGPoint(x: self.view.bounds.midX, y: self.view.bounds.midY) // offset height of tabbar 83pt
+                indicatorView.center = CGPoint(x: self.view.bounds.midX, y: self.view.bounds.midY - tabBarHeight) // offset height of tabbar 83pt
                 indicatorView.autoresizingMask = [
                     .flexibleLeftMargin,
                     .flexibleRightMargin,
@@ -453,6 +465,7 @@ extension AppAuthController {
                 ]
                 // add to subview
                 self.view.addSubview(indicatorView)
+           
                 
                 // make sure lastTabIndex is cleared when getting new affiliations
                 UserDefaults.standard.removeObject(forKey: "lastTabIndex")
