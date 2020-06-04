@@ -29,6 +29,7 @@ class AppAuthController: UIViewController {
     let headerText = UILabel()
     let bodyText = UILabel()
     let signInButton = UIButton()
+    var activityIndicator: UIActivityIndicatorView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -82,6 +83,8 @@ class AppAuthController: UIViewController {
         signInButton.topAnchor.constraint(equalTo: bodyText.bottomAnchor, constant: 50).isActive = true
         signInButton.backgroundColor = uwPurple
         signInButton.layer.cornerRadius = 10
+        
+        os_log("SignedOut: %@", log: .ui, type: .info, signedOut.description)
         
         if (signedOut) {
             // set auto sign-out messaging
@@ -319,6 +322,22 @@ extension AppAuthController {
            
         // if user is signed-in...
         if self.authState != nil {
+            
+            // create activity indicator
+            let indicatorView = UIActivityIndicatorView(style: .gray)
+            indicatorView.isHidden = false
+            indicatorView.translatesAutoresizingMaskIntoConstraints = true // default is true
+            
+            // center the indicator
+            indicatorView.center = CGPoint(x: self.view.bounds.midX, y: self.view.bounds.midY) // offset height of tabbar 83pt
+            indicatorView.autoresizingMask = [
+                .flexibleLeftMargin,
+                .flexibleRightMargin,
+                .flexibleTopMargin,
+                .flexibleBottomMargin
+            ]
+            // add to subview
+            self.view.addSubview(indicatorView)
             
             // hide the sign-in content
             headerText.isHidden = true
