@@ -49,12 +49,6 @@ class AppAuthController: UIViewController {
         
         // create empty tabbar controller as a visual placeholder
         tabBarCont = UITabBarController()
-        let firstViewController = UIViewController()
-        firstViewController.tabBarItem = UITabBarItem()
-        let secondViewController = UIViewController()
-        secondViewController.tabBarItem = UITabBarItem()
-        let tabBarList = [firstViewController, secondViewController]
-        tabBarCont!.viewControllers = tabBarList
         self.view.addSubview((tabBarCont?.view)!)
         
         headerText.font = UIFont.boldSystemFont(ofSize: 18)
