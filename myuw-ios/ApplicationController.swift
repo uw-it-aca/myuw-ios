@@ -144,13 +144,7 @@ class ApplicationController: UITabBarController, UITabBarControllerDelegate, UIN
     }
     */
     
-    // UITabBarDelegate
-    /*
-    override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
-        print("xxxxx Selected item", self.selectedIndex)
-    }*/
-    
- 
+
     // UITabBarControllerDelegate
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
         

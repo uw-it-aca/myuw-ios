@@ -78,8 +78,7 @@ class SearchWebView: WebViewController, UISearchBarDelegate {
         // override navigation title by getting the navigated webview's page title
         self.navigationItem.title = webView.title!.replacingOccurrences(of: "MyUW: ", with: "")
         
-        // dynamically inject css file into webview
-
+        // EXAMPLE: dynamically inject css file into webview
         guard let path = Bundle.main.path(forResource: "search", ofType: "css") else { return }
         let css = try! String(contentsOfFile: path).replacingOccurrences(of: "\\n", with: "", options: .regularExpression)
         let js = "var style = document.createElement('style'); style.innerHTML = '\(css)'; document.head.appendChild(style);"

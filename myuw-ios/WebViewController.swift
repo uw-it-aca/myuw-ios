@@ -24,20 +24,7 @@ class WebViewController: UIViewController, WKNavigationDelegate {
     
     var webView: WKWebView!
     var activityIndicator: UIActivityIndicatorView!
-    
-    //Set true when we have to update navigationBar height in viewLayoutMarginsDidChange()
-    var didChange = false
-    
-    // TODO: - this is the stackoverflow fix for the large title/webview issues
-    // FYI: - this seems to work on all views EXCEPT teaching and academics tabs
-    override func viewLayoutMarginsDidChange() {
-        if didChange {
-            // set NavigationBar Height here
-            self.navigationController!.navigationBar.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 96.0)
-            didChange = false
-        }
-    }
-    
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -92,17 +79,22 @@ class WebViewController: UIViewController, WKNavigationDelegate {
         // assign refreshControl for the webview
         webView.scrollView.refreshControl = refreshControl
         
+        // MARK: - fixes the large title/webview shrink issue
+        // https://stackoverflow.com/questions/51686968/preferslargettitles-collapses-automatically-after-loading-wkwebview-webpage
+        // set webview scrollview to automatic
+        webView.scrollView.contentInsetAdjustmentBehavior = .never
+        
     }
     
     // signout
     @objc func signOut() {
         
-        os_log("Perform sign out", log: .auth, type: .info)
+        os_log("Perform webview sign out", log: .webview, type: .info)
         
         // dismiss the profile webview in case it is trying to load in the background
         self.dismiss(animated: true, completion: nil)
         
-        os_log("Signing user out of webview", log: .auth, type: .info)
+        os_log("Signing user out of webview", log: .webview, type: .info)
         
         // visit /logout to perform webview signout
         webView.load("\(appHost)/logout/")
@@ -133,9 +125,7 @@ class WebViewController: UIViewController, WKNavigationDelegate {
     
     // webview navigation handlers
     func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
-        
         os_log("didStartProvisionalNavigation", log: .webview, type: .info)
-        didChange = true
     }
     
     private func webView(webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: NSError)
@@ -149,7 +139,6 @@ class WebViewController: UIViewController, WKNavigationDelegate {
             let navController = UINavigationController(rootViewController: errorController)
             appDelegate.window!.rootViewController = navController
             
-            
         }
     }
     
@@ -158,8 +147,8 @@ class WebViewController: UIViewController, WKNavigationDelegate {
         activityIndicator.isHidden = true
         activityIndicator.stopAnimating()
         
-        didChange = true
-        
+        webView.scrollView.contentInsetAdjustmentBehavior = .automatic
+                
         let url = webView.url?.absoluteURL
         
         os_log("webview url: %@", log: .webview, type: .info, url!.absoluteString)
@@ -196,18 +185,11 @@ class WebViewController: UIViewController, WKNavigationDelegate {
             
             os_log("HTTP response: %@", log: .webview, type: .error, response.statusCode.description)
             
-            
             // handle 500 and 503
             if (response.statusCode == 500 || response.statusCode == 503) {
                 //os_log("HTTP response message: %@", log: .webview, type: .error, statusMessage)
+              
                 // show error controller
-                /*
-                let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                let errorController = ErrorController()
-                let navController = UINavigationController(rootViewController: errorController)
-                appDelegate.window!.rootViewController = navController
-                */
-                
                 UIApplication.shared.delegate?.window!?.rootViewController = UINavigationController(rootViewController: ErrorController())
                 
             }
@@ -223,13 +205,6 @@ class WebViewController: UIViewController, WKNavigationDelegate {
                 webView.stopLoading()
                 
                 //MARK: option #2 refresh tokens by going through appAuthController
-                /*
-                let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                let appAuthController = AppAuthController()
-                let navController = UINavigationController(rootViewController: appAuthController)
-                appDelegate.window!.rootViewController = navController
-                */
-                
                 UIApplication.shared.delegate?.window!?.rootViewController = UINavigationController(rootViewController: AppAuthController())
                 
             }

@@ -68,6 +68,7 @@ class ErrorController: UIViewController {
         signInButton.backgroundColor = uwPurple
         signInButton.layer.cornerRadius = 10
         
+        // check for network connection
         if (appDelegate.isConnectedToNetwork()) {
             headerText.text = "Unable to load page"
             bodyText.text = "A server error has occurred. We are aware of the issue and are working to resolve it. Please try again in a few minutes."
@@ -82,14 +83,6 @@ class ErrorController: UIViewController {
         os_log("Retry Button tapped", log: .ui, type: .info)
         
         // force use go through appAuth flow when foregrounding the app
-        /*
-        let appAuthController = AppAuthController()
-        let navController = UINavigationController(rootViewController: appAuthController)
-        
-        // set appAuth controller as rootViewController
-        appDelegate.window!.rootViewController = navController
-        */
-        
         UIApplication.shared.delegate?.window!?.rootViewController = UINavigationController(rootViewController: AppAuthController())
     }
     
