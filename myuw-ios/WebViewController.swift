@@ -81,7 +81,7 @@ class WebViewController: UIViewController, WKNavigationDelegate {
         
         // MARK: - fixes the large title/webview shrink issue
         // https://stackoverflow.com/questions/51686968/preferslargettitles-collapses-automatically-after-loading-wkwebview-webpage
-        // set webview scrollview to automatic
+        // set webview scrollview to never
         webView.scrollView.contentInsetAdjustmentBehavior = .never
         
     }
@@ -111,9 +111,11 @@ class WebViewController: UIViewController, WKNavigationDelegate {
         if (appDelegate.isConnectedToNetwork()) {
             activityIndicator.isHidden = false
             activityIndicator.startAnimating()
-                        
-            webView.reload()
             
+            // set webview scrollview to never
+            webView.scrollView.contentInsetAdjustmentBehavior = .never
+            
+            webView.reload()
             sender.endRefreshing()
         }
         else {
@@ -143,6 +145,8 @@ class WebViewController: UIViewController, WKNavigationDelegate {
     }
     
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+        
+        os_log("didFinish", log: .webview, type: .info)
         
         activityIndicator.isHidden = true
         activityIndicator.stopAnimating()
