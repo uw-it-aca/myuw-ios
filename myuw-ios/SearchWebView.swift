@@ -21,6 +21,8 @@ class SearchWebView: WebViewController, UISearchBarDelegate {
         // override navigation title (match UW page title)
         self.navigationItem.title = "Search the UW"
         
+        webView.scrollView.contentInsetAdjustmentBehavior = .never
+        
         // add a right button in navbar programatically
         let closeButton = UIBarButtonItem(title: "Close", style: .plain, target: self, action: #selector(dismissSearch))
         
@@ -77,6 +79,8 @@ class SearchWebView: WebViewController, UISearchBarDelegate {
         
         // override navigation title by getting the navigated webview's page title
         self.navigationItem.title = webView.title!.replacingOccurrences(of: "MyUW: ", with: "")
+        
+        webView.scrollView.contentInsetAdjustmentBehavior = .automatic
         
         // EXAMPLE: dynamically inject css file into webview
         guard let path = Bundle.main.path(forResource: "search", ofType: "css") else { return }
