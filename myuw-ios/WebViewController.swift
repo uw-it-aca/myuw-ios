@@ -119,9 +119,8 @@ class WebViewController: UIViewController, WKNavigationDelegate {
             sender.endRefreshing()
         }
         else {
-            let errorController = ErrorController()
-            let navController = UINavigationController(rootViewController: errorController)
-            appDelegate.window!.rootViewController = navController
+            // show error controller
+            UIApplication.shared.delegate?.window!?.rootViewController = UINavigationController(rootViewController: ErrorController())
         }
     }
     
@@ -134,12 +133,9 @@ class WebViewController: UIViewController, WKNavigationDelegate {
     {
         if(error.code == NSURLErrorNotConnectedToInternet) {
             os_log("HTTP request failed: %@", log: .webview, type: .error, error.localizedDescription)
-            
+                        
             // show error controller
-            let appDelegate = UIApplication.shared.delegate as! AppDelegate
-            let errorController = ErrorController()
-            let navController = UINavigationController(rootViewController: errorController)
-            appDelegate.window!.rootViewController = navController
+            UIApplication.shared.delegate?.window!?.rootViewController = UINavigationController(rootViewController: ErrorController())
             
         }
     }
@@ -159,18 +155,14 @@ class WebViewController: UIViewController, WKNavigationDelegate {
         
         // if user signed out... then clear authstate
         if url!.absoluteString.contains("/logout/") {
-            
-            // should we clear all cookies manually?
-            
+                        
             // call the appAuth signout method
             let appAuthController = AppAuthController()
             appAuthController.signOut()
-            
+    
             // show the appAuth controller
-            let navController = UINavigationController(rootViewController: appAuthController)
-            let appDelegate = UIApplication.shared.delegate as! AppDelegate
-            // set appAuth controller as rootViewController
-            appDelegate.window!.rootViewController = navController
+            UIApplication.shared.delegate?.window!?.rootViewController = UINavigationController(rootViewController: appAuthController)
+            
         }
         
         // display all cookies in WKWebsiteDataStore

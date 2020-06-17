@@ -350,13 +350,6 @@ extension AppAuthController {
         os_log("showError", log: .ui, type: .info)
         
         // show the error controller
-        /*
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let errorController = ErrorController()
-        let navController = UINavigationController(rootViewController: errorController)
-        appDelegate.window!.rootViewController = navController
-        */
-        
         UIApplication.shared.delegate?.window!?.rootViewController = UINavigationController(rootViewController: ErrorController())
     }
     
@@ -365,14 +358,6 @@ extension AppAuthController {
         os_log("showApplication", log: .ui, type: .info)
         
         // MARK: transition to appController (tabs)
-        /*
-        let appController = ApplicationController()
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        // set the main controller as the root controller on app load
-        appDelegate.window!.rootViewController = appController
-        */
-        
-        // root view controller
         UIApplication.shared.delegate?.window!?.rootViewController = ApplicationController()
     }
     
