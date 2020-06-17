@@ -127,6 +127,11 @@ class AppAuthController: UIViewController {
         
         // clear userAffiliations
         User.userAffiliations = []
+        
+        // show the sign-in content
+        headerText.isHidden = false
+        bodyText.isHidden = false
+        signInButton.isHidden = false
                     
     }
     
