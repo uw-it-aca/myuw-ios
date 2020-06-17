@@ -91,14 +91,14 @@ class AppAuthController: UIViewController {
         
         os_log("SignedOut: %@", log: .ui, type: .info, signedOut.description)
         
+        // set initial text for sign-in messaging
+        headerText.text = "Welcome"
+        bodyText.text = "Please sign in to continue."
+        
         if (signedOut) {
             // set auto sign-out messaging
             self.headerText.text = "Signed out"
             self.bodyText.text = "You have been signed out successfully. In some cases, you may be signed out because of an application error or prolonged inactivity. Sign in to continue."
-        } else {
-            // set initial text for sign-in messaging
-            headerText.text = "Welcome"
-            bodyText.text = "Please sign in to continue."
         }
         
         // get authstate
@@ -127,12 +127,7 @@ class AppAuthController: UIViewController {
         
         // clear userAffiliations
         User.userAffiliations = []
-                        
-        // show hidden messaging
-        self.headerText.isHidden = false
-        self.bodyText.isHidden = false
-        self.signInButton.isHidden = false
-    
+                    
     }
     
     func authWithAutoCodeExchange() {
