@@ -31,6 +31,13 @@ class VisitController: WebViewController {
         
         // set webview scrollview to automatic
         webView.scrollView.contentInsetAdjustmentBehavior = .automatic
+        
+        let url = webView.url?.absoluteURL
+        
+        if url!.absoluteString.contains("/academic_calendar/") {
+            // override navigation title
+            self.navigationItem.title = "Calendar"
+        }
                 
     }
         
