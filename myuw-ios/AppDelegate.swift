@@ -36,6 +36,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
+        os_log("didFinishLaunchingWithOptions", log: .appDelegate, type: .info)
+        
         // read in config
         if let path = Bundle.main.path(forResource: "myuw", ofType: "plist"), let config = NSDictionary(contentsOfFile: path) as? [String: AnyObject] {
             appHost = config["myuw_host"] as! String
@@ -65,25 +67,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.makeKeyAndVisible()
     
         if isConnectedToNetwork() {
-            /*
-            // force use go through appAuth flow when foregrounding the app
-            let appAuthController = AppAuthController()
-            let navController = UINavigationController(rootViewController: appAuthController)
-            // set appAuth controller as rootViewController
-            window!.rootViewController = navController
-            */
             
+            // force use go through appAuth flow when foregrounding the app
             UIApplication.shared.delegate?.window!?.rootViewController = UINavigationController(rootViewController: AppAuthController())
             
         } else {
             
-            /*
-            let errorController = ErrorController()
-            let navController = UINavigationController(rootViewController: errorController)
-            // set appAuth controller as rootViewController
-            window!.rootViewController = navController
-            */
-            
+            // show the error controller if no network connection
             UIApplication.shared.delegate?.window!?.rootViewController = UINavigationController(rootViewController: ErrorController())
         }
         
@@ -116,16 +106,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillEnterForeground(_ application: UIApplication) {
         // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
             
-        os_log("applicationWillEnterForeground", log: .ui, type: .info)
+        os_log("applicationWillEnterForeground", log: .appDelegate, type: .info)
         
         // force use go through appAuth flow when foregrounding the app
-        /*
-        let appAuthController = AppAuthController()
-        let navController = UINavigationController(rootViewController: appAuthController)
-        // set appAuth controller as rootViewController
-        window!.rootViewController = navController
-        */
-        
         UIApplication.shared.delegate?.window!?.rootViewController = UINavigationController(rootViewController: AppAuthController())
         
     }
@@ -217,4 +200,10 @@ extension UIColor {
 
         return nil
     }
+}
+
+extension OSLog {
+    // log setup
+    private static var subsystem = Bundle.main.bundleIdentifier!
+    static let appDelegate = OSLog(subsystem: subsystem, category: "AppDelegate")
 }

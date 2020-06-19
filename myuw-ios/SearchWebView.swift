@@ -55,7 +55,7 @@ class SearchWebView: WebViewController, UISearchBarDelegate {
     func searchBarSearchButtonClicked( _ searchBar: UISearchBar)
     {
         
-        os_log("Search bar clicked: %@", log: .ui, type: .info, searchBar.text!)
+        os_log("Search bar clicked: %@", log: .search, type: .info, searchBar.text!)
         
         // clean up the searchBar text before building the query param string for visitURL
         var returnStr: String = searchBar.text!
@@ -93,3 +93,9 @@ class SearchWebView: WebViewController, UISearchBarDelegate {
     
 }
 
+
+extension OSLog {
+    // log setup
+    private static var subsystem = Bundle.main.bundleIdentifier!
+    static let search = OSLog(subsystem: subsystem, category: "Search")
+}

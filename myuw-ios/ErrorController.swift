@@ -20,7 +20,7 @@ class ErrorController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        os_log("viewDidLoad", log: .ui, type: .info)
+        os_log("viewDidLoad", log: .error, type: .info)
         
         // MARK: - Large title display mode and preference
         self.navigationItem.largeTitleDisplayMode = .always
@@ -80,10 +80,16 @@ class ErrorController: UIViewController {
     }
     
     @objc private func retryNetwork() {
-        os_log("Retry Button tapped", log: .ui, type: .info)
+        os_log("Retry Button tapped", log: .error, type: .info)
         
         // force use go through appAuth flow when foregrounding the app
         UIApplication.shared.delegate?.window!?.rootViewController = UINavigationController(rootViewController: AppAuthController())
     }
     
+}
+
+extension OSLog {
+    // log setup
+    private static var subsystem = Bundle.main.bundleIdentifier!
+    static let error = OSLog(subsystem: subsystem, category: "Error")
 }

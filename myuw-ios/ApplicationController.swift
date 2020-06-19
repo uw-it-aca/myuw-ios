@@ -225,8 +225,7 @@ class ApplicationController: UITabBarController, UITabBarControllerDelegate, UIN
 }
 
 extension OSLog {
-    // subsystem
+    // log setup
     private static var subsystem = Bundle.main.bundleIdentifier!
-    // log categories
-    static let app = OSLog(subsystem: subsystem, category: "AppController")
+    static let app = OSLog(subsystem: subsystem, category: "Application")
 }

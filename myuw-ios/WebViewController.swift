@@ -327,9 +327,8 @@ extension WebViewController: WKScriptMessageHandler {
 }
 
 extension OSLog {
-    // subsystem
+    // log setup
     private static var subsystem = Bundle.main.bundleIdentifier!
-    // log categories
     static let webview = OSLog(subsystem: subsystem, category: "WebView")
     static let jsbridge = OSLog(subsystem: subsystem, category: "JSBridge")
 }
