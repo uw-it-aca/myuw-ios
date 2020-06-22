@@ -89,6 +89,9 @@ class AppAuthController: UIViewController {
         signInButton.backgroundColor = uwPurple
         signInButton.layer.cornerRadius = 10
         
+        // get authstate
+        self.loadState()
+        
         os_log("SignedOut: %@", log: .appAuth, type: .info, signedOut.description)
         
         // set initial text for sign-in messaging
@@ -101,9 +104,6 @@ class AppAuthController: UIViewController {
             self.bodyText.text = "You have been signed out successfully. In some cases, you may be signed out because of an application error or prolonged inactivity. Sign in to continue."
         }
         
-        // get authstate
-        self.loadState()
-                
     }
     
     @objc private func loginUser(){
@@ -288,6 +288,7 @@ extension AppAuthController {
         os_log("loadState", log: .appAuth, type: .info)
         
         guard let data = UserDefaults.standard.object(forKey: kAppAuthExampleAuthStateKey) as? Data else {
+            os_log("no authorization state", log: .appAuth, type: .info)
             return
         }
  
@@ -297,6 +298,8 @@ extension AppAuthController {
         
         if let authState = authState {
             os_log("authorization state has been loaded", log: .appAuth, type: .info)
+            // set signed out to true
+            signedOut = true
             self.setAuthState(authState)
         }
         
@@ -304,9 +307,9 @@ extension AppAuthController {
     
     func showState() {
         os_log("showState", log: .appAuth, type: .info)
-        //os_log("Access token: %@", log: .auth, type: .error, authState?.lastTokenResponse?.accessToken ?? "NONE")
+        //os_log("Access token: %@", log: .appAuth, type: .error, authState?.lastTokenResponse?.accessToken ?? "NONE")
         os_log("ID token: %@", log: .appAuth, type: .error, authState?.lastTokenResponse?.idToken ?? "NONE")
-        //os_log("Refresh token: %@", log: .auth, type: .error, authState?.lastTokenResponse?.refreshToken ?? "NONE")
+        os_log("Refresh token: %@", log: .appAuth, type: .error, authState?.lastTokenResponse?.refreshToken ?? "NONE")
     }
     
     func setAuthState(_ authState: OIDAuthState?) {
