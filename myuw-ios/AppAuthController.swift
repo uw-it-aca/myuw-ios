@@ -125,8 +125,8 @@ class AppAuthController: UIViewController {
         UserDefaults.standard.removeObject(forKey: kAppAuthExampleAuthStateKey)
         UserDefaults.standard.removeObject(forKey: "lastTabIndex")
         
-        // clear userAffiliations
-        User.userAffiliations = []
+        // remove all existing affiliations and start with fresh array
+        User.userAffiliations.removeAll()
         
         // show the sign-in content
         headerText.isHidden = false
@@ -289,6 +289,7 @@ extension AppAuthController {
         
         guard let data = UserDefaults.standard.object(forKey: kAppAuthExampleAuthStateKey) as? Data else {
             os_log("no authorization state", log: .appAuth, type: .info)
+            os_log("ID token: %@", log: .appAuth, type: .error, authState?.lastTokenResponse?.idToken ?? "NONE")
             return
         }
  
@@ -470,6 +471,7 @@ extension AppAuthController {
                 var urlRequest = URLRequest(url: affiliationURL!)
                 
                 // send id token in authorization header
+                os_log("ID token: %@", log: .appAuth, type: .error, self.authState?.lastTokenResponse?.idToken ?? "NONE")
                 urlRequest.setValue("Bearer \(self.authState?.lastTokenResponse?.idToken ?? "ID_TOKEN")", forHTTPHeaderField: "Authorization")
                 
                 // create a task to request affiliations from myuw endpoint
