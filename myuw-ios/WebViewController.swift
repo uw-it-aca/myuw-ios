@@ -286,6 +286,8 @@ extension WKWebView {
             // pass the authorization bearer token in request header
             request.setValue("Bearer \(ProcessPool.idToken)", forHTTPHeaderField: "Authorization")
             
+            os_log("webview urlrequest cookies: %@", log: .webview, type: .info, request.httpShouldHandleCookies.description)
+            
             // load the request
             os_log("loading request: %@", log: .webview, type: .info, url.absoluteString)
             os_log("loading headers: %@", log: .webview, type: .info, request.allHTTPHeaderFields!)

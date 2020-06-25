@@ -471,8 +471,12 @@ extension AppAuthController {
                 var urlRequest = URLRequest(url: affiliationURL!)
                 
                 // send id token in authorization header
-                os_log("ID token: %@", log: .appAuth, type: .error, self.authState?.lastTokenResponse?.idToken ?? "NONE")
+                os_log("ID token: %@", log: .appAuth, type: .info, self.authState?.lastTokenResponse?.idToken ?? "NONE")
                 urlRequest.setValue("Bearer \(self.authState?.lastTokenResponse?.idToken ?? "ID_TOKEN")", forHTTPHeaderField: "Authorization")
+                
+                // disable cookies for API requests - gets around session cookie issues with middleware
+                urlRequest.httpShouldHandleCookies = false
+                os_log("affiliation api urlrequest cookies: %@", log: .appAuth, type: .info, urlRequest.httpShouldHandleCookies.description)
                 
                 // create a task to request affiliations from myuw endpoint
                 let task = URLSession.shared.dataTask(with: urlRequest) {
@@ -566,7 +570,7 @@ extension AppAuthController {
                             os_log("userAffiliations: %{private}@", log: .appAuth, type: .info, User.userAffiliations)
                             
                         }
-                        
+                            
                         // transition to the main application controller
                         self.showApplication()
                         
