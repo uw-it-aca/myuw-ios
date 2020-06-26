@@ -29,11 +29,13 @@ class AppAuthController: UIViewController {
     let headerText = UILabel()
     let bodyText = UILabel()
     let signInButton = UIButton()
+    var activityIndicator: UIActivityIndicatorView!
+    var tabBarCont: UITabBarController?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        os_log("viewDidLoad", log: .ui, type: .info)
+        os_log("viewDidLoad", log: .appAuth, type: .info)
         
         // MARK: - Large title display mode and preference
         self.navigationItem.largeTitleDisplayMode = .always
@@ -44,6 +46,10 @@ class AppAuthController: UIViewController {
         
         // App title
         self.title = "MyUW"
+        
+        // create empty tabbar controller as a visual placeholder
+        tabBarCont = UITabBarController()
+        self.view.addSubview((tabBarCont?.view)!)
         
         headerText.font = UIFont.boldSystemFont(ofSize: 18)
         headerText.textAlignment = .left
@@ -83,29 +89,31 @@ class AppAuthController: UIViewController {
         signInButton.backgroundColor = uwPurple
         signInButton.layer.cornerRadius = 10
         
+        // get authstate
+        self.loadState()
+        
+        os_log("SignedOut: %@", log: .appAuth, type: .info, signedOut.description)
+        
+        // set initial text for sign-in messaging
+        headerText.text = "Welcome"
+        bodyText.text = "Please sign in to continue."
+        
         if (signedOut) {
             // set auto sign-out messaging
             self.headerText.text = "Signed out"
             self.bodyText.text = "You have been signed out successfully. In some cases, you may be signed out because of an application error or prolonged inactivity. Sign in to continue."
-        } else {
-            // set initial text for sign-in messaging
-            headerText.text = "Welcome"
-            bodyText.text = "Please sign in to continue."
         }
         
-        // get authstate
-        self.loadState()
-                
     }
     
     @objc private func loginUser(){
-        os_log("Sign in button tapped", log: .ui, type: .info)
+        os_log("Sign in button tapped", log: .appAuth, type: .info)
         authWithAutoCodeExchange()
     }
     
     @objc func signOut() {
         
-        os_log("Signing user out of native", log: .auth, type: .info)
+        os_log("Signing user out of native", log: .appAuth, type: .info)
         
         // set signed out to true
         signedOut = true
@@ -117,22 +125,22 @@ class AppAuthController: UIViewController {
         UserDefaults.standard.removeObject(forKey: kAppAuthExampleAuthStateKey)
         UserDefaults.standard.removeObject(forKey: "lastTabIndex")
         
-        // clear userAffiliations
-        User.userAffiliations = []
-                        
-        // show hidden messaging
-        self.headerText.isHidden = false
-        self.bodyText.isHidden = false
-        self.signInButton.isHidden = false
-    
+        // remove all existing affiliations and start with fresh array
+        User.userAffiliations.removeAll()
+        
+        // show the sign-in content
+        headerText.isHidden = false
+        bodyText.isHidden = false
+        signInButton.isHidden = false
+                    
     }
     
     func authWithAutoCodeExchange() {
         
-        os_log("authWithAutoCodeExchange", log: .ui, type: .info)
+        os_log("authWithAutoCodeExchange", log: .appAuth, type: .info)
         
         guard let issuer = URL(string: kIssuer) else {
-            os_log("Error creating URL for: %@", log: .auth, type: .error, kIssuer)
+            os_log("Error creating URL for: %@", log: .appAuth, type: .error, kIssuer)
             return
         }
         
@@ -140,12 +148,12 @@ class AppAuthController: UIViewController {
         OIDAuthorizationService.discoverConfiguration(forIssuer: issuer) { configuration, error in
             
             guard let config = configuration else {
-                os_log("Error retrieving discovery document: %@", log: .auth, type: .error, error?.localizedDescription ?? "DEFAULT_ERROR")
+                os_log("Error retrieving discovery document: %@", log: .appAuth, type: .error, error?.localizedDescription ?? "DEFAULT_ERROR")
                 self.setAuthState(nil)
                 return
             }
             
-            os_log("Got configuration: %@", log: .ui, type: .info, config)
+            os_log("Got configuration: %@", log: .appAuth, type: .info, config)
             
             if let clientId = kClientID {
                 self.doAuthWithAutoCodeExchange(configuration: config, clientID: clientId, clientSecret: nil)
@@ -154,7 +162,7 @@ class AppAuthController: UIViewController {
                 self.doClientRegistration(configuration: config) { configuration, response in
                     
                     guard let configuration = configuration, let clientID = response?.clientID else {
-                        os_log("Error retrieving configuration OR clientID", log: .auth, type: .error)
+                        os_log("Error retrieving configuration OR clientID", log: .appAuth, type: .error)
                         return
                     }
                     
@@ -169,10 +177,10 @@ class AppAuthController: UIViewController {
     
     func doClientRegistration(configuration: OIDServiceConfiguration, callback: @escaping PostRegistrationCallback) {
         
-        os_log("doClientRegistration", log: .auth, type: .info)
+        os_log("doClientRegistration", log: .appAuth, type: .info)
         
         guard let redirectURI = URL(string: kRedirectURI) else {
-            os_log("Error creating URL for: %@", log: .auth, type: .error, kRedirectURI)
+            os_log("Error creating URL for: %@", log: .appAuth, type: .error, kRedirectURI)
             return
         }
         
@@ -185,16 +193,16 @@ class AppAuthController: UIViewController {
                                                                      additionalParameters: nil)
         
         // performs registration request
-        os_log("Initiating registration request", log: .auth, type: .info)
+        os_log("Initiating registration request", log: .appAuth, type: .info)
         
         OIDAuthorizationService.perform(request) { response, error in
             
             if let regResponse = response {
                 self.setAuthState(OIDAuthState(registrationResponse: regResponse))
-                os_log("Got registration response: %@", log: .auth, type: .info, regResponse)
+                os_log("Got registration response: %@", log: .appAuth, type: .info, regResponse)
                 callback(configuration, regResponse)
             } else {
-                os_log("Registration error: %@", log: .auth, type: .error, error?.localizedDescription ?? "DEFAULT_ERROR")
+                os_log("Registration error: %@", log: .appAuth, type: .error, error?.localizedDescription ?? "DEFAULT_ERROR")
                 self.setAuthState(nil)
             }
         }
@@ -202,15 +210,15 @@ class AppAuthController: UIViewController {
     
     func doAuthWithAutoCodeExchange(configuration: OIDServiceConfiguration, clientID: String, clientSecret: String?) {
         
-        os_log("doAuthWithAutoCodeExchange", log: .auth, type: .info)
+        os_log("doAuthWithAutoCodeExchange", log: .appAuth, type: .info)
         
         guard let redirectURI = URL(string: kRedirectURI) else {
-            os_log("Error creating URL for: %@", log: .auth, type: .info, kRedirectURI)
+            os_log("Error creating URL for: %@", log: .appAuth, type: .info, kRedirectURI)
             return
         }
         
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-            os_log("Error accessing AppDelegate", log: .auth, type: .error)
+            os_log("Error accessing AppDelegate", log: .appAuth, type: .error)
             return
         }
         
@@ -224,14 +232,14 @@ class AppAuthController: UIViewController {
                                               additionalParameters: ["prompt":"login"])
         
         // performs authentication request
-        os_log("Initiating authorization request with scope: %@", log: .auth, type: .info, request.scope ?? "DEFAULT_SCOPE")
+        os_log("Initiating authorization request with scope: %@", log: .appAuth, type: .info, request.scope ?? "DEFAULT_SCOPE")
         
         appDelegate.currentAuthorizationFlow = OIDAuthState.authState(byPresenting: request, presenting: self) { authState, error in
             if let authState = authState {
                 self.setAuthState(authState)
-                os_log("Got authorization tokens. Access token: %@", log: .auth, type: .info, authState.lastTokenResponse?.accessToken ?? "DEFAULT_TOKEN")
+                os_log("Got authorization tokens. Access token: %@", log: .appAuth, type: .info, authState.lastTokenResponse?.accessToken ?? "DEFAULT_TOKEN")
             } else {
-                os_log("Authorization error: %@", log: .auth, type: .info, error?.localizedDescription ?? "DEFAULT_ERROR")
+                os_log("Authorization error: %@", log: .appAuth, type: .info, error?.localizedDescription ?? "DEFAULT_ERROR")
                 self.setAuthState(nil)
             }
         }
@@ -245,12 +253,12 @@ class AppAuthController: UIViewController {
 extension AppAuthController: OIDAuthStateChangeDelegate, OIDAuthStateErrorDelegate {
     
     func didChange(_ state: OIDAuthState) {
-        os_log("didChange", log: .auth, type: .info)
+        os_log("didChange", log: .appAuth, type: .info)
         self.stateChanged()
     }
     
     func authState(_ state: OIDAuthState, didEncounterAuthorizationError error: Error) {
-        os_log("Received authorization error: %@", log: .auth, type: .info, error.localizedDescription)
+        os_log("Received authorization error: %@", log: .appAuth, type: .info, error.localizedDescription)
     }
 }
 
@@ -260,7 +268,7 @@ extension AppAuthController {
     
     func saveState() {
         
-        os_log("saveState", log: .auth, type: .info)
+        os_log("saveState", log: .appAuth, type: .info)
         
         var data: Data? = nil
         
@@ -277,9 +285,11 @@ extension AppAuthController {
     
     func loadState() {
         
-        os_log("loadState", log: .auth, type: .info)
+        os_log("loadState", log: .appAuth, type: .info)
         
         guard let data = UserDefaults.standard.object(forKey: kAppAuthExampleAuthStateKey) as? Data else {
+            os_log("no authorization state", log: .appAuth, type: .info)
+            os_log("ID token: %@", log: .appAuth, type: .error, authState?.lastTokenResponse?.idToken ?? "NONE")
             return
         }
  
@@ -288,22 +298,24 @@ extension AppAuthController {
         authState = try! NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(data) as? OIDAuthState
         
         if let authState = authState {
-            os_log("authorization state has been loaded", log: .auth, type: .info)
+            os_log("authorization state has been loaded", log: .appAuth, type: .info)
+            // set signed out to true
+            signedOut = true
             self.setAuthState(authState)
         }
         
     }
     
     func showState() {
-        os_log("showState", log: .auth, type: .info)
-        //os_log("Access token: %@", log: .auth, type: .error, authState?.lastTokenResponse?.accessToken ?? "NONE")
-        os_log("ID token: %@", log: .auth, type: .error, authState?.lastTokenResponse?.idToken ?? "NONE")
-        //os_log("Refresh token: %@", log: .auth, type: .error, authState?.lastTokenResponse?.refreshToken ?? "NONE")
+        os_log("showState", log: .appAuth, type: .info)
+        //os_log("Access token: %@", log: .appAuth, type: .error, authState?.lastTokenResponse?.accessToken ?? "NONE")
+        os_log("ID token: %@", log: .appAuth, type: .error, authState?.lastTokenResponse?.idToken ?? "NONE")
+        os_log("Refresh token: %@", log: .appAuth, type: .error, authState?.lastTokenResponse?.refreshToken ?? "NONE")
     }
     
     func setAuthState(_ authState: OIDAuthState?) {
         
-        os_log("setAuthState", log: .auth, type: .info)
+        os_log("setAuthState", log: .appAuth, type: .info)
         
         if (self.authState == authState) {
             return;
@@ -315,7 +327,7 @@ extension AppAuthController {
     
     func updateUI() {
         
-        os_log("updateUI", log: .ui, type: .info)
+        os_log("updateUI", log: .appAuth, type: .info)
            
         // if user is signed-in...
         if self.authState != nil {
@@ -332,7 +344,7 @@ extension AppAuthController {
     }
     
     func stateChanged() {
-        os_log("stateChanged", log: .auth, type: .info)
+        os_log("stateChanged", log: .appAuth, type: .info)
         self.saveState()
         self.updateUI()
     }
@@ -344,38 +356,23 @@ extension AppAuthController {
     
     func showError() {
         
-        os_log("showError", log: .ui, type: .info)
+        os_log("showError", log: .appAuth, type: .info)
         
         // show the error controller
-        /*
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let errorController = ErrorController()
-        let navController = UINavigationController(rootViewController: errorController)
-        appDelegate.window!.rootViewController = navController
-        */
-        
         UIApplication.shared.delegate?.window!?.rootViewController = UINavigationController(rootViewController: ErrorController())
     }
     
     func showApplication() {
         
-        os_log("showApplication", log: .ui, type: .info)
+        os_log("showApplication", log: .appAuth, type: .info)
         
         // MARK: transition to appController (tabs)
-        /*
-        let appController = ApplicationController()
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        // set the main controller as the root controller on app load
-        appDelegate.window!.rootViewController = appController
-        */
-        
-        // root view controller
         UIApplication.shared.delegate?.window!?.rootViewController = ApplicationController()
     }
     
     func setupApplication() {
         
-        os_log("setupApplication", log: .ui, type: .info)
+        os_log("setupApplication", log: .appAuth, type: .info)
         
         // MARK: refresh access token before sending to myuw as authentication header
         //let currentAccessToken: String? = self.authState?.lastTokenResponse?.accessToken
@@ -384,7 +381,7 @@ extension AppAuthController {
         self.authState?.performAction() { (accessToken, idToken, error) in
             
             if error != nil  {
-                os_log("Error fetching fresh tokens: %@", log: .auth, type: .error, error?.localizedDescription ?? "ERROR")
+                os_log("Error fetching fresh tokens: %@", log: .appAuth, type: .error, error?.localizedDescription ?? "ERROR")
                 
                 // sign user out if unable to get fresh tokens (refresh token expired)
                 self.signOut()
@@ -392,7 +389,7 @@ extension AppAuthController {
             }
             
             guard let accessToken = accessToken else {
-                os_log("Error getting accessToken", log: .auth, type: .error)
+                os_log("Error getting accessToken", log: .appAuth, type: .error)
                 
                 // sign user out if unable to get access token
                 self.signOut()
@@ -409,7 +406,7 @@ extension AppAuthController {
             */
             
             guard let idToken = idToken else {
-                os_log("Error getting idToken", log: .auth, type: .error)
+                os_log("Error getting idToken", log: .appAuth, type: .error)
                 
                 // sign user out if unable to get id token
                 self.signOut()
@@ -418,12 +415,12 @@ extension AppAuthController {
             
             // log idToken freshness
             if currentIdToken != idToken {
-                os_log("ID token was refreshed automatically: %@ to %@", log: .auth, type: .info, currentIdToken ?? "CURRENT_ID_TOKEN", idToken)
+                os_log("ID token was refreshed automatically: %@ to %@", log: .appAuth, type: .info, currentIdToken ?? "CURRENT_ID_TOKEN", idToken)
             } else {
-                os_log("ID token was fresh and not updated: %@", log: .auth, type: .info, idToken)
+                os_log("ID token was fresh and not updated: %@", log: .appAuth, type: .info, idToken)
             }
             
-            os_log("checkTokenFreshness DONE... tokens updated", log: .ui, type: .info)
+            os_log("checkTokenFreshness DONE... tokens updated", log: .appAuth, type: .info)
             
             // update the tokens in the singleton process pool
             ProcessPool.accessToken = accessToken
@@ -433,7 +430,25 @@ extension AppAuthController {
             
             if User.userAffiliations.isEmpty {
                 
-                os_log("user IS empty....", log: .affiliations, type: .info)
+                os_log("user IS empty....", log: .appAuth, type: .info)
+                
+                // create activity indicator
+                let tabBarHeight = self.tabBarCont!.tabBar.frame.height
+                let indicatorView = UIActivityIndicatorView(style: .gray)
+                indicatorView.isHidden = false
+                indicatorView.translatesAutoresizingMaskIntoConstraints = true // default is true
+                indicatorView.startAnimating()
+                // center the indicator
+                indicatorView.center = CGPoint(x: self.view.bounds.midX, y: self.view.bounds.midY - tabBarHeight) // offset height of tabbar 83pt
+                indicatorView.autoresizingMask = [
+                    .flexibleLeftMargin,
+                    .flexibleRightMargin,
+                    .flexibleTopMargin,
+                    .flexibleBottomMargin
+                ]
+                // add to subview
+                self.view.addSubview(indicatorView)
+           
                 
                 // make sure lastTabIndex is cleared when getting new affiliations
                 UserDefaults.standard.removeObject(forKey: "lastTabIndex")
@@ -447,37 +462,42 @@ extension AppAuthController {
                 //os_log("claimsDictionary: %@", log: .auth, type: .info, claimsDictionary!)
                 
                 User.userNetID = claimsDictionary!["sub"] as! String? ?? ""
-                os_log("got user netid: %@", log: .ui, type: .info, User.userNetID)
+                os_log("got user netid: %@", log: .appAuth, type: .info, User.userNetID)
                 
                 
                 // MARK: get user affiliations from myuw endpoint
                 let affiliationURL = URL(string: "\(appHost)\(appAffiliationEndpoint)")
-                os_log("start affiliation request: %@", log: .affiliations, type: .info, affiliationURL!.absoluteString)
+                os_log("start affiliation request: %@", log: .appAuth, type: .info, affiliationURL!.absoluteString)
                 var urlRequest = URLRequest(url: affiliationURL!)
                 
                 // send id token in authorization header
+                os_log("ID token: %@", log: .appAuth, type: .info, self.authState?.lastTokenResponse?.idToken ?? "NONE")
                 urlRequest.setValue("Bearer \(self.authState?.lastTokenResponse?.idToken ?? "ID_TOKEN")", forHTTPHeaderField: "Authorization")
+                
+                // disable cookies for API requests - gets around session cookie issues with middleware
+                urlRequest.httpShouldHandleCookies = false
+                os_log("affiliation api urlrequest cookies: %@", log: .appAuth, type: .info, urlRequest.httpShouldHandleCookies.description)
                 
                 // create a task to request affiliations from myuw endpoint
                 let task = URLSession.shared.dataTask(with: urlRequest) {
                     data, response, error in DispatchQueue.main.async {
                         
                         guard error == nil else {
-                            os_log("HTTP request failed: %@", log: .affiliations, type: .error, error?.localizedDescription ?? "ERROR")
+                            os_log("HTTP request failed: %@", log: .appAuth, type: .error, error?.localizedDescription ?? "ERROR")
                             // show the error controller
                             self.showError()
                             return
                         }
                         
                         guard let response = response as? HTTPURLResponse else {
-                            os_log("Non-HTTP response", log: .affiliations, type: .info)
+                            os_log("Non-HTTP response", log: .appAuth, type: .info)
                             // show the error controller
                             self.showError()
                             return
                         }
                         
                         guard let data = data else {
-                            os_log("HTTP response data is empty", log: .affiliations, type: .info)
+                            os_log("HTTP response data is empty", log: .appAuth, type: .info)
                             // show the error controller
                             self.showError()
                             return
@@ -489,7 +509,7 @@ extension AppAuthController {
                         do {
                             json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
                         } catch {
-                            os_log("JSON Serialization Error", log: .affiliations, type: .error)
+                            os_log("JSON Serialization Error", log: .appAuth, type: .error)
                             // show the error controller
                             self.showError()
                         }
@@ -506,9 +526,9 @@ extension AppAuthController {
                                                                                                     errorResponse: json,
                                                                                                     underlyingError: error)
                                 self.authState?.update(withAuthorizationError: oauthError)
-                                os_log("Authorization Error: %@. Response: %@", log: .affiliations, type: .error, oauthError.localizedDescription, responseText!)
+                                os_log("Authorization Error: %@. Response: %@", log: .appAuth, type: .error, oauthError.localizedDescription, responseText!)
                             } else {
-                                os_log("HTTP: %@. Response: %@", log: .affiliations, type: .info, response.statusCode.description, responseText!)
+                                os_log("HTTP: %@. Response: %@", log: .appAuth, type: .info, response.statusCode.description, responseText!)
                             }
                             
                             return
@@ -547,10 +567,10 @@ extension AppAuthController {
                                 User.userAffiliations.append("seattle")
                             }
                             
-                            os_log("userAffiliations: %{private}@", log: .affiliations, type: .info, User.userAffiliations)
+                            os_log("userAffiliations: %{private}@", log: .appAuth, type: .info, User.userAffiliations)
                             
                         }
-                        
+                            
                         // transition to the main application controller
                         self.showApplication()
                         
@@ -561,8 +581,8 @@ extension AppAuthController {
                 
             } else {
                 
-                os_log("user is NOT empty....", log: .affiliations, type: .info)
-                
+                os_log("user is NOT empty....", log: .appAuth, type: .info)
+                                
                 // transition to the main application controller
                 self.showApplication()
                 
@@ -600,10 +620,7 @@ extension AppAuthController {
 }
 
 extension OSLog {
-    // subsystem
+    // log setup
     private static var subsystem = Bundle.main.bundleIdentifier!
-    // log categories
-    static let ui = OSLog(subsystem: subsystem, category: "UI")
-    static let auth = OSLog(subsystem: subsystem, category: "Authentication")
-    static let affiliations = OSLog(subsystem: subsystem, category: "Affiliations")
+    static let appAuth = OSLog(subsystem: subsystem, category: "AppAuth")
 }

@@ -20,7 +20,7 @@ class ErrorController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        os_log("viewDidLoad", log: .ui, type: .info)
+        os_log("viewDidLoad", log: .error, type: .info)
         
         // MARK: - Large title display mode and preference
         self.navigationItem.largeTitleDisplayMode = .always
@@ -68,6 +68,7 @@ class ErrorController: UIViewController {
         signInButton.backgroundColor = uwPurple
         signInButton.layer.cornerRadius = 10
         
+        // check for network connection
         if (appDelegate.isConnectedToNetwork()) {
             headerText.text = "Unable to load page"
             bodyText.text = "A server error has occurred. We are aware of the issue and are working to resolve it. Please try again in a few minutes."
@@ -79,18 +80,16 @@ class ErrorController: UIViewController {
     }
     
     @objc private func retryNetwork() {
-        os_log("Retry Button tapped", log: .ui, type: .info)
+        os_log("Retry Button tapped", log: .error, type: .info)
         
         // force use go through appAuth flow when foregrounding the app
-        /*
-        let appAuthController = AppAuthController()
-        let navController = UINavigationController(rootViewController: appAuthController)
-        
-        // set appAuth controller as rootViewController
-        appDelegate.window!.rootViewController = navController
-        */
-        
         UIApplication.shared.delegate?.window!?.rootViewController = UINavigationController(rootViewController: AppAuthController())
     }
     
+}
+
+extension OSLog {
+    // log setup
+    private static var subsystem = Bundle.main.bundleIdentifier!
+    static let error = OSLog(subsystem: subsystem, category: "Error")
 }

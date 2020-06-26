@@ -144,13 +144,7 @@ class ApplicationController: UITabBarController, UITabBarControllerDelegate, UIN
     }
     */
     
-    // UITabBarDelegate
-    /*
-    override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
-        print("xxxxx Selected item", self.selectedIndex)
-    }*/
-    
- 
+
     // UITabBarControllerDelegate
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
         
@@ -231,8 +225,7 @@ class ApplicationController: UITabBarController, UITabBarControllerDelegate, UIN
 }
 
 extension OSLog {
-    // subsystem
+    // log setup
     private static var subsystem = Bundle.main.bundleIdentifier!
-    // log categories
-    static let app = OSLog(subsystem: subsystem, category: "AppController")
+    static let app = OSLog(subsystem: subsystem, category: "Application")
 }

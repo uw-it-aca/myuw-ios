@@ -19,6 +19,7 @@ class TeachingWebView: WebViewController {
         
         // override navigation title
         self.navigationItem.title = "Teaching"
+        
     }
     
 }

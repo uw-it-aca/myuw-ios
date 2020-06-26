@@ -21,6 +21,8 @@ class SearchWebView: WebViewController, UISearchBarDelegate {
         // override navigation title (match UW page title)
         self.navigationItem.title = "Search the UW"
         
+        webView.scrollView.contentInsetAdjustmentBehavior = .never
+        
         // add a right button in navbar programatically
         let closeButton = UIBarButtonItem(title: "Close", style: .plain, target: self, action: #selector(dismissSearch))
         
@@ -53,7 +55,7 @@ class SearchWebView: WebViewController, UISearchBarDelegate {
     func searchBarSearchButtonClicked( _ searchBar: UISearchBar)
     {
         
-        os_log("Search bar clicked: %@", log: .ui, type: .info, searchBar.text!)
+        os_log("Search bar clicked: %@", log: .search, type: .info, searchBar.text!)
         
         // clean up the searchBar text before building the query param string for visitURL
         var returnStr: String = searchBar.text!
@@ -78,8 +80,9 @@ class SearchWebView: WebViewController, UISearchBarDelegate {
         // override navigation title by getting the navigated webview's page title
         self.navigationItem.title = webView.title!.replacingOccurrences(of: "MyUW: ", with: "")
         
-        // dynamically inject css file into webview
-
+        webView.scrollView.contentInsetAdjustmentBehavior = .automatic
+        
+        // EXAMPLE: dynamically inject css file into webview
         guard let path = Bundle.main.path(forResource: "search", ofType: "css") else { return }
         let css = try! String(contentsOfFile: path).replacingOccurrences(of: "\\n", with: "", options: .regularExpression)
         let js = "var style = document.createElement('style'); style.innerHTML = '\(css)'; document.head.appendChild(style);"
@@ -90,3 +93,9 @@ class SearchWebView: WebViewController, UISearchBarDelegate {
     
 }
 
+
+extension OSLog {
+    // log setup
+    private static var subsystem = Bundle.main.bundleIdentifier!
+    static let search = OSLog(subsystem: subsystem, category: "Search")
+}
