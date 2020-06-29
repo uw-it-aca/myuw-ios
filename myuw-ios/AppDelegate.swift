@@ -2,8 +2,8 @@
 //  AppDelegate.swift
 //  myuw-test
 //
-//  Created by Charlon Palacay on 7/30/19.
-//  Copyright © 2019 Charlon Palacay. All rights reserved.
+//  Created by University of Washington on 7/30/19.
+//  Copyright © 2019 University of Washington. All rights reserved.
 //
 
 import UIKit

@@ -2,8 +2,8 @@
 //  ErrorController.swift
 //  myuw-ios
 //
-//  Created by Charlon Palacay on 2/18/20.
-//  Copyright © 2020 Charlon Palacay. All rights reserved.
+//  Created by University of Washington on 2/18/20.
+//  Copyright © 2020 University of Washington. All rights reserved.
 //
 
 import AppAuth

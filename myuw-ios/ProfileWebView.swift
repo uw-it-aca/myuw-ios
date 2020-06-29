@@ -2,8 +2,8 @@
 //  ProfileWebView.swift
 //  myuw-test
 //
-//  Created by Charlon Palacay on 10/21/19.
-//  Copyright © 2019 Charlon Palacay. All rights reserved.
+//  Created by University of Washington on 10/21/19.
+//  Copyright © 2019 University of Washington. All rights reserved.
 //
 
 import UIKit
