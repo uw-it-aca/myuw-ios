@@ -1,0 +1,5 @@
+/* override myuw styling for native */
+
+.myuw-thin-bar { display: none !important; }
+.myuw-navigation { display: none !important; }
+#app_footer { display: none !important; }
