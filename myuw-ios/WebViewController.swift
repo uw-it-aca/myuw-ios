@@ -2,8 +2,8 @@
 //  WebViewController.swift
 //  myuw-ios
 //
-//  Created by Charlon Palacay on 11/15/19.
-//  Copyright © 2019 Charlon Palacay. All rights reserved.
+//  Created by University of Washington on 11/15/19.
+//  Copyright © 2019 University of Washington. All rights reserved.
 //
 
 import UIKit
