@@ -18,8 +18,6 @@
 		854EE0AE22F0F9A30042381A /* myuw_iosUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 854EE0AD22F0F9A30042381A /* myuw_iosUITests.swift */; };
 		8555688D23FC5B5900E01DB1 /* ErrorController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8555688C23FC5B5900E01DB1 /* ErrorController.swift */; };
 		85A7541A23C508CD003C8380 /* AppAuthController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A7541923C508CD003C8380 /* AppAuthController.swift */; };
-		85A7542023C650A8003C8380 /* AppAuth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 85A7541F23C650A8003C8380 /* AppAuth.framework */; };
-		85A7542123C650A8003C8380 /* AppAuth.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 85A7541F23C650A8003C8380 /* AppAuth.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		85B147A22368CB0700DE3BFA /* ApplicationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B147A12368CB0700DE3BFA /* ApplicationController.swift */; };
 		85B147A42368CC6500DE3BFA /* AccountsWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B147A32368CC6500DE3BFA /* AccountsWebView.swift */; };
 		85B147A62368CCF200DE3BFA /* CalendarWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B147A52368CCF200DE3BFA /* CalendarWebView.swift */; };
@@ -32,6 +30,7 @@
 		85CC31A02375F7FC00F38903 /* myuw.css in Resources */ = {isa = PBXBuildFile; fileRef = 85CC319F2375F7FC00F38903 /* myuw.css */; };
 		85CDD4E323723A4900A3CBBA /* VisitController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85CDD4E223723A4900A3CBBA /* VisitController.swift */; };
 		85DFFA6723DB965A008D0C9D /* myuw.plist in Resources */ = {isa = PBXBuildFile; fileRef = 85DFFA6623DB965A008D0C9D /* myuw.plist */; };
+		85E382F224AB9E4800D96C81 /* AppAuth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 85A7541F23C650A8003C8380 /* AppAuth.framework */; };
 		85F901A7235E34AE00DA0083 /* ProfileWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F901A6235E34AE00DA0083 /* ProfileWebView.swift */; };
 /* End PBXBuildFile section */
 
@@ -51,20 +50,6 @@
 			remoteInfo = "myuw-test";
 		};
 /* End PBXContainerItemProxy section */
-
-/* Begin PBXCopyFilesBuildPhase section */
-		85A7541E23C6508A003C8380 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				85A7542123C650A8003C8380 /* AppAuth.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		852EB76D237C956A002A2357 /* HuskyExpWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HuskyExpWebView.swift; sourceTree = "<group>"; };
@@ -106,7 +91,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				85A7542023C650A8003C8380 /* AppAuth.framework in Frameworks */,
+				85E382F224AB9E4800D96C81 /* AppAuth.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -215,7 +200,7 @@
 				854EE08622F0F9A20042381A /* Sources */,
 				854EE08722F0F9A20042381A /* Frameworks */,
 				854EE08822F0F9A20042381A /* Resources */,
-				85A7541E23C6508A003C8380 /* Embed Frameworks */,
+				85E382F524AB9E6500D96C81 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -334,6 +319,27 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		85E382F524AB9E6500D96C81 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/Carthage/Build/iOS/AppAuth.framework",
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n/usr/local/bin/carthage copy-frameworks\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		854EE08622F0F9A20042381A /* Sources */ = {
