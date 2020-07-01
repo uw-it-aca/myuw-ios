@@ -1,49 +1,49 @@
 {
   "images" : [
     {
-      "filename" : "myuwapp-40.png",
+      "filename" : "myuwapp-v2-40.png",
       "idiom" : "iphone",
       "scale" : "2x",
       "size" : "20x20"
     },
     {
-      "filename" : "myuwapp-60.png",
+      "filename" : "myuwapp-v2-60.png",
       "idiom" : "iphone",
       "scale" : "3x",
       "size" : "20x20"
     },
     {
-      "filename" : "myuwapp-58.png",
+      "filename" : "myuwapp-v2-58.png",
       "idiom" : "iphone",
       "scale" : "2x",
       "size" : "29x29"
     },
     {
-      "filename" : "myuwapp-87.png",
+      "filename" : "myuwapp-v2-87.png",
       "idiom" : "iphone",
       "scale" : "3x",
       "size" : "29x29"
     },
     {
-      "filename" : "myuwapp-80.png",
+      "filename" : "myuwapp-v2-80.png",
       "idiom" : "iphone",
       "scale" : "2x",
       "size" : "40x40"
     },
     {
-      "filename" : "myuwapp-120.png",
+      "filename" : "myuwapp-v2-121.png",
       "idiom" : "iphone",
       "scale" : "3x",
       "size" : "40x40"
     },
     {
-      "filename" : "myuwapp-121.png",
+      "filename" : "myuwapp-v2-120.png",
       "idiom" : "iphone",
       "scale" : "2x",
       "size" : "60x60"
     },
     {
-      "filename" : "myuwapp-180.png",
+      "filename" : "myuwapp-v2-180.png",
       "idiom" : "iphone",
       "scale" : "3x",
       "size" : "60x60"
