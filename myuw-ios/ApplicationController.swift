@@ -103,14 +103,14 @@ class ApplicationController: UITabBarController, UITabBarControllerDelegate, UIN
             controllers.insert(tabAcademics, at: 1)
         }
         
-        // insert teaching tab for instructor
-        if User.userAffiliations.contains("instructor") {
-            controllers.insert(tabTeaching, at: 1)
-        }
-        
         // insert husky exp tab for seattle undergrad
         if (User.userAffiliations.contains("undergrad") && User.userAffiliations.contains("seattle")) || User.userAffiliations.contains("hxt_viewer") {
-            controllers.insert(tabHuskyExp, at: 2)
+            controllers.insert(tabHuskyExp, at: 1)
+        }
+        
+        // insert teaching tab for instructor
+        if User.userAffiliations.contains("instructor") {
+            controllers.insert(tabTeaching, at: 2)
         }
         
         // insert notices tab for student
