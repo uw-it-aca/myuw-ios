@@ -176,6 +176,9 @@ class ApplicationController: UITabBarController, UITabBarControllerDelegate, UIN
         case tabAccounts:
             os_log("Clicked tabAccounts, index: %d", log: .app, type: .info, selectedIndex)
             UserDefaults.standard.set(selectedIndex, forKey: "lastTabIndex")
+        case tabProfile:
+            os_log("Clicked tabProfile, index: %d", log: .app, type: .info, selectedIndex)
+            UserDefaults.standard.set(selectedIndex, forKey: "lastTabIndex")
         case tabNotices:
             os_log("Clicked tabNotices, index: %d", log: .app, type: .info, selectedIndex)
             UserDefaults.standard.set(selectedIndex, forKey: "lastTabIndex")
@@ -197,7 +200,7 @@ class ApplicationController: UITabBarController, UITabBarControllerDelegate, UIN
 
         // remove the more "edit" button
         self.moreNavigationController.tabBarController?.customizableViewControllers = []
-        self.moreNavigationController.navigationBar.topItem?.rightBarButtonItem = nil
+        //self.moreNavigationController.navigationBar.topItem?.rightBarButtonItem = nil
         self.moreNavigationController.tabBarController?.customizableViewControllers?.removeAll()
         
         let selectedVC = self.selectedViewController
@@ -207,6 +210,9 @@ class ApplicationController: UITabBarController, UITabBarControllerDelegate, UIN
             switch (selectedVC) {
             case tabNotices:
                 os_log("Clicked tabNotices, index: %d", log: .app, type: .info, selectedIndex)
+                UserDefaults.standard.set(selectedIndex, forKey: "lastTabIndex")
+            case tabProfile:
+                os_log("Clicked tabProfile, index: %d", log: .app, type: .info, selectedIndex)
                 UserDefaults.standard.set(selectedIndex, forKey: "lastTabIndex")
             case tabCalendar:
                 os_log("Clicked tabCalendar, index: %d", log: .app, type: .info, selectedIndex)
