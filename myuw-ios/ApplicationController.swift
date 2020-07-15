@@ -17,7 +17,7 @@ class ApplicationController: UITabBarController, UITabBarControllerDelegate, UIN
     let tabAcademics = UINavigationController(rootViewController: AcademicsWebView())
     let tabHuskyExp = UINavigationController(rootViewController: HuskyExpWebView())
     let tabTeaching = UINavigationController(rootViewController: TeachingWebView())
-    var tabAccounts = UINavigationController(rootViewController: AccountsWebView())
+    let tabAccounts = UINavigationController(rootViewController: AccountsWebView())
     let tabNotices = UINavigationController(rootViewController: NoticesWebView())
     let tabCalendar = UINavigationController(rootViewController: CalendarWebView())
     let tabResources = UINavigationController(rootViewController: ResourcesWebView())

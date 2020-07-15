@@ -55,6 +55,7 @@ class HomeWebView: WebViewController {
     
     @objc func showProfile() {
         
+        /*
         let profileWebView = UINavigationController(rootViewController: ProfileWebView())
         
         // set style of how view controller is to be presented
@@ -67,7 +68,14 @@ class HomeWebView: WebViewController {
                 
         // present the profile view controller
         present(profileWebView, animated: true, completion: nil)
+        */
         
+        // programatically click on a tab
+        //let blah = ApplicationController()
+        if let tabbarController = UIApplication.shared.delegate?.window!?.rootViewController as? ApplicationController {
+            //tabbarController.selectedIndex = 3
+            tabbarController.selectedViewController = tabbarController.tabHuskyExp
+        }
     }
     
     @objc func showSearch() {
