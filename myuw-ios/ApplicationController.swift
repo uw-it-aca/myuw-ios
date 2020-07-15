@@ -155,7 +155,7 @@ class ApplicationController: UITabBarController, UITabBarControllerDelegate, UIN
         
         // remove the more "edit" button
         self.moreNavigationController.tabBarController?.customizableViewControllers = []
-        self.moreNavigationController.navigationBar.topItem?.rightBarButtonItem = nil
+        //self.moreNavigationController.navigationBar.topItem?.rightBarButtonItem = nil
         self.moreNavigationController.tabBarController?.customizableViewControllers?.removeAll()
         
         let selectedVC = self.selectedViewController

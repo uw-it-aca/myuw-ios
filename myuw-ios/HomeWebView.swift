@@ -54,24 +54,9 @@ class HomeWebView: WebViewController {
     }
     
     @objc func showProfile() {
-        
-        /*
-        let profileWebView = UINavigationController(rootViewController: ProfileWebView())
-        
-        // set style of how view controller is to be presented
-        if #available(iOS 13.0, *) {
-            profileWebView.modalPresentationStyle = .automatic
-        } else {
-            // fallback on earlier versions
-            profileWebView.modalPresentationStyle = .formSheet
-        }
                 
-        // present the profile view controller
-        present(profileWebView, animated: true, completion: nil)
-        */
-        
         // programatically click on a tab
-        //let blah = ApplicationController()
+
         if let tabbarController = UIApplication.shared.delegate?.window!?.rootViewController as? ApplicationController {
             //tabbarController.selectedIndex = 3
             tabbarController.selectedViewController = tabbarController.tabProfile
