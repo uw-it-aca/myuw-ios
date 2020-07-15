@@ -18,6 +18,7 @@ class ApplicationController: UITabBarController, UITabBarControllerDelegate, UIN
     let tabHuskyExp = UINavigationController(rootViewController: HuskyExpWebView())
     let tabTeaching = UINavigationController(rootViewController: TeachingWebView())
     let tabAccounts = UINavigationController(rootViewController: AccountsWebView())
+    let tabProfile = UINavigationController(rootViewController: ProfileWebView())
     let tabNotices = UINavigationController(rootViewController: NoticesWebView())
     let tabCalendar = UINavigationController(rootViewController: CalendarWebView())
     let tabResources = UINavigationController(rootViewController: ResourcesWebView())
@@ -65,6 +66,10 @@ class ApplicationController: UITabBarController, UITabBarControllerDelegate, UIN
         let tabAccountsBarItem = UITabBarItem(title: "Accounts", image: UIImage(named: "ic_accounts"), selectedImage: UIImage(named: "selectedImage2.png"))
         tabAccounts.tabBarItem = tabAccountsBarItem
         
+        // Profile tab
+        let tabProfileBarItem = UITabBarItem(title: "Profile", image: UIImage(named: "ic_person"), selectedImage: UIImage(named: "selectedImage2.png"))
+        tabProfile.tabBarItem = tabProfileBarItem
+        
         // Notices tab
         let tabNoticesBarItem = UITabBarItem(title: "Notices", image: UIImage(named: "ic_warning"), selectedImage: UIImage(named: "selectedImage2.png"))
         tabNotices.tabBarItem = tabNoticesBarItem
@@ -91,7 +96,7 @@ class ApplicationController: UITabBarController, UITabBarControllerDelegate, UIN
         // MARK: - Tab View Controllers
         
         // build bottom tab navigation based on user affiliations
-        var controllers = [tabHome, tabAccounts, tabCalendar, tabResources]
+        var controllers = [tabHome, tabAccounts, tabProfile, tabCalendar, tabResources]
         
         // insert academics tab for students or applicant
         if User.userAffiliations.contains("student") || User.userAffiliations.contains("applicant") {

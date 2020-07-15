@@ -36,8 +36,8 @@ class ProfileWebView: WebViewController {
 
         let signOutButtonItem = UIBarButtonItem(customView: signOutButton)
         
-        self.navigationItem.leftBarButtonItem = signOutButtonItem
-        self.navigationItem.rightBarButtonItem = closeButton
+        //self.navigationItem.leftBarButtonItem = signOutButtonItem
+        self.navigationItem.rightBarButtonItem = signOutButtonItem
         
     }
     

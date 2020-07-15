@@ -74,7 +74,7 @@ class HomeWebView: WebViewController {
         //let blah = ApplicationController()
         if let tabbarController = UIApplication.shared.delegate?.window!?.rootViewController as? ApplicationController {
             //tabbarController.selectedIndex = 3
-            tabbarController.selectedViewController = tabbarController.tabHuskyExp
+            tabbarController.selectedViewController = tabbarController.tabProfile
         }
     }
     
