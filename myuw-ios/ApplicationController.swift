@@ -95,7 +95,7 @@ class ApplicationController: UITabBarController, UITabBarControllerDelegate, UIN
         // MARK: - Tab View Controllers
         
         // build bottom tab navigation based on user affiliations
-        var controllers = [tabHome, tabAccounts, tabCalendar, tabProfile, tabResources]
+        var controllers = [tabHome, tabAccounts, tabProfile, tabCalendar, tabResources]
         
         // insert academics tab for students or applicant
         if User.userAffiliations.contains("student") || User.userAffiliations.contains("applicant") {
