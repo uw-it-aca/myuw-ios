@@ -90,13 +90,12 @@ class ApplicationController: UITabBarController, UITabBarControllerDelegate, UIN
         
         // remove the more "edit" button
         self.moreNavigationController.tabBarController?.customizableViewControllers = []
-        self.moreNavigationController.navigationBar.topItem?.rightBarButtonItem = nil
         self.moreNavigationController.tabBarController?.customizableViewControllers?.removeAll()
         
         // MARK: - Tab View Controllers
         
         // build bottom tab navigation based on user affiliations
-        var controllers = [tabHome, tabAccounts, tabProfile, tabCalendar, tabResources]
+        var controllers = [tabHome, tabAccounts, tabCalendar, tabProfile, tabResources]
         
         // insert academics tab for students or applicant
         if User.userAffiliations.contains("student") || User.userAffiliations.contains("applicant") {
@@ -131,7 +130,6 @@ class ApplicationController: UITabBarController, UITabBarControllerDelegate, UIN
         if self.selectedViewController == moreNavigationController {
             // remove the more "edit" button
             self.moreNavigationController.tabBarController?.customizableViewControllers = []
-            self.moreNavigationController.navigationBar.topItem?.rightBarButtonItem = nil
             self.moreNavigationController.tabBarController?.customizableViewControllers?.removeAll()
         }
         
@@ -155,7 +153,6 @@ class ApplicationController: UITabBarController, UITabBarControllerDelegate, UIN
         
         // remove the more "edit" button
         self.moreNavigationController.tabBarController?.customizableViewControllers = []
-        //self.moreNavigationController.navigationBar.topItem?.rightBarButtonItem = nil
         self.moreNavigationController.tabBarController?.customizableViewControllers?.removeAll()
         
         let selectedVC = self.selectedViewController
@@ -200,7 +197,6 @@ class ApplicationController: UITabBarController, UITabBarControllerDelegate, UIN
 
         // remove the more "edit" button
         self.moreNavigationController.tabBarController?.customizableViewControllers = []
-        //self.moreNavigationController.navigationBar.topItem?.rightBarButtonItem = nil
         self.moreNavigationController.tabBarController?.customizableViewControllers?.removeAll()
         
         let selectedVC = self.selectedViewController
@@ -211,9 +207,11 @@ class ApplicationController: UITabBarController, UITabBarControllerDelegate, UIN
             case tabNotices:
                 os_log("Clicked tabNotices, index: %d", log: .app, type: .info, selectedIndex)
                 UserDefaults.standard.set(selectedIndex, forKey: "lastTabIndex")
+                prevIndex = selectedIndex
             case tabProfile:
                 os_log("Clicked tabProfile, index: %d", log: .app, type: .info, selectedIndex)
                 UserDefaults.standard.set(selectedIndex, forKey: "lastTabIndex")
+                prevIndex = selectedIndex
             case tabCalendar:
                 os_log("Clicked tabCalendar, index: %d", log: .app, type: .info, selectedIndex)
                 UserDefaults.standard.set(selectedIndex, forKey: "lastTabIndex")
