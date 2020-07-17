@@ -29,6 +29,8 @@ class AppAuthController: UIViewController {
     let headerText = UILabel()
     let bodyText = UILabel()
     let signInButton = UIButton()
+    let eulaButton = UIButton()
+    
     var activityIndicator: UIActivityIndicatorView!
     var tabBarCont: UITabBarController?
     
@@ -89,6 +91,23 @@ class AppAuthController: UIViewController {
         signInButton.backgroundColor = uwPurple
         signInButton.layer.cornerRadius = 10
         
+        //eulaButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 15)
+        eulaButton.titleLabel?.font = UIFont.systemFont(ofSize: 15)
+        eulaButton.setTitleColor(uwPurple, for: .normal)
+        eulaButton.setTitle("Read the End User License Agreement", for: .normal)
+        eulaButton.contentEdgeInsets = UIEdgeInsets(top: 13,left: 5,bottom: 13,right: 5)
+        eulaButton.addTarget(self, action: #selector(showEULA), for: .touchUpInside)
+        eulaButton.sizeToFit()
+        view.addSubview(eulaButton)
+        // autolayout contraints
+        eulaButton.translatesAutoresizingMaskIntoConstraints = false
+        eulaButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
+        eulaButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
+        // set topanchor of label equal to bottomanchor of textview
+        eulaButton.topAnchor.constraint(equalTo: signInButton.bottomAnchor, constant: 10).isActive = true
+        eulaButton.backgroundColor = .white
+        eulaButton.layer.cornerRadius = 10
+        
         // get authstate
         self.loadState()
         
@@ -106,9 +125,14 @@ class AppAuthController: UIViewController {
         
     }
     
-    @objc private func loginUser(){
+    @objc private func loginUser() {
         os_log("Sign in button tapped", log: .appAuth, type: .info)
         authWithAutoCodeExchange()
+    }
+    
+    @objc private func showEULA(sender: AnyObject) {
+        os_log("EULA button tapped", log: .appAuth, type: .info)
+        UIApplication.shared.open(NSURL(string: "http://www.google.com")! as URL)
     }
     
     @objc func signOut() {
