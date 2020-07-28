@@ -21,7 +21,7 @@ let kAppAuthExampleAuthStateKey: String = "authState";
 
 var signedOut = false
 
-class AppAuthController: UIViewController {
+class AppAuthController: UIViewController, UIWebViewDelegate {
         
     // property of the containing class
     private var authState: OIDAuthState?
@@ -93,8 +93,10 @@ class AppAuthController: UIViewController {
         
         //eulaButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 15)
         eulaButton.titleLabel?.font = UIFont.systemFont(ofSize: 15)
+        eulaButton.titleLabel?.lineBreakMode = .byWordWrapping
+                    
         eulaButton.setTitleColor(uwPurple, for: .normal)
-        eulaButton.setTitle("Read the End User License Agreement", for: .normal)
+        eulaButton.setTitle("By signing in, you agree to the UW Terms of Service and Privacy Policy", for: .normal)
         eulaButton.contentEdgeInsets = UIEdgeInsets(top: 13,left: 5,bottom: 13,right: 5)
         eulaButton.addTarget(self, action: #selector(showEULA), for: .touchUpInside)
         eulaButton.sizeToFit()
@@ -108,6 +110,7 @@ class AppAuthController: UIViewController {
         eulaButton.backgroundColor = .white
         eulaButton.layer.cornerRadius = 10
         
+
         // get authstate
         self.loadState()
         
@@ -131,8 +134,8 @@ class AppAuthController: UIViewController {
     }
     
     @objc private func showEULA(sender: AnyObject) {
-        os_log("EULA button tapped", log: .appAuth, type: .info)
-        UIApplication.shared.open(NSURL(string: "http://www.google.com")! as URL)
+        os_log("ToS button tapped", log: .appAuth, type: .info)
+        UIApplication.shared.open(NSURL(string: "https://www.washington.edu/online/terms/")! as URL)
     }
     
     @objc func signOut() {
