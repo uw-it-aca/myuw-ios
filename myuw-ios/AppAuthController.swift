@@ -96,7 +96,7 @@ class AppAuthController: UIViewController, UIWebViewDelegate {
         eulaButton.titleLabel?.lineBreakMode = .byWordWrapping
                     
         eulaButton.setTitleColor(uwPurple, for: .normal)
-        eulaButton.setTitle("By signing in, you agree to the UW Terms of Service and Privacy Policy", for: .normal)
+        eulaButton.setTitle("By clicking 'Sign in', you agree to the items detailed in our Terms of Service", for: .normal)
         eulaButton.contentEdgeInsets = UIEdgeInsets(top: 13,left: 5,bottom: 13,right: 5)
         eulaButton.addTarget(self, action: #selector(showEULA), for: .touchUpInside)
         eulaButton.sizeToFit()
@@ -159,6 +159,7 @@ class AppAuthController: UIViewController, UIWebViewDelegate {
         headerText.isHidden = false
         bodyText.isHidden = false
         signInButton.isHidden = false
+        eulaButton.isHidden = false
                     
     }
     
@@ -363,6 +364,7 @@ extension AppAuthController {
             headerText.isHidden = true
             bodyText.isHidden = true
             signInButton.isHidden = true
+            eulaButton.isHidden = true
             
             // setup application data to build main app controller
             self.setupApplication()
