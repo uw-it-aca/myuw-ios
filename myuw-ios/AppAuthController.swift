@@ -196,12 +196,12 @@ class AppAuthController: UIViewController, UIWebViewDelegate {
     }
     
     @objc private func showEULA(sender: AnyObject) {
-        os_log("ToS button tapped", log: .appAuth, type: .info)
+        os_log("EULA button tapped", log: .appAuth, type: .info)
         UIApplication.shared.open(NSURL(string: linkEULA)! as URL)
     }
     
     @objc private func showPrivacy(sender: AnyObject) {
-        os_log("ToS button tapped", log: .appAuth, type: .info)
+        os_log("Privacy button tapped", log: .appAuth, type: .info)
         UIApplication.shared.open(NSURL(string: linkPrivacy)! as URL)
     }
     
