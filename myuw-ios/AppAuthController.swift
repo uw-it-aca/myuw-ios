@@ -228,7 +228,10 @@ class AppAuthController: UIViewController, UIWebViewDelegate {
         headerText.isHidden = false
         bodyText.isHidden = false
         signInButton.isHidden = false
+        disclosureText.isHidden = false
         eulaButton.isHidden = false
+        privacyButton.isHidden = false
+        termsButton.isHidden = false
                     
     }
     
@@ -433,7 +436,10 @@ extension AppAuthController {
             headerText.isHidden = true
             bodyText.isHidden = true
             signInButton.isHidden = true
+            disclosureText.isHidden = true
             eulaButton.isHidden = true
+            privacyButton.isHidden = true
+            termsButton.isHidden = true
             
             // setup application data to build main app controller
             self.setupApplication()
