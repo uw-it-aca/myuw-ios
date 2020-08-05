@@ -197,17 +197,17 @@ class AppAuthController: UIViewController, UIWebViewDelegate {
     
     @objc private func showEULA(sender: AnyObject) {
         os_log("ToS button tapped", log: .appAuth, type: .info)
-        UIApplication.shared.open(NSURL(string: "https://www.washington.edu/")! as URL)
+        UIApplication.shared.open(NSURL(string: linkEULA)! as URL)
     }
     
     @objc private func showPrivacy(sender: AnyObject) {
         os_log("ToS button tapped", log: .appAuth, type: .info)
-        UIApplication.shared.open(NSURL(string: "https://www.washington.edu/online/privacy/")! as URL)
+        UIApplication.shared.open(NSURL(string: linkPrivacy)! as URL)
     }
     
     @objc private func showTerms(sender: AnyObject) {
         os_log("ToS button tapped", log: .appAuth, type: .info)
-        UIApplication.shared.open(NSURL(string: "https://www.washington.edu/online/terms/")! as URL)
+        UIApplication.shared.open(NSURL(string: linkTerms)! as URL)
     }
     
     @objc func signOut() {
