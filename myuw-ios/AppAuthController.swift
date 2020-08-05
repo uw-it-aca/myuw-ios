@@ -58,7 +58,7 @@ class AppAuthController: UIViewController, UIWebViewDelegate {
         tabBarCont = UITabBarController()
         self.view.addSubview((tabBarCont?.view)!)
         
-        headerText.font = UIFont.boldSystemFont(ofSize: 18)
+        headerText.font = UIFont.boldSystemFont(ofSize: 19)
         headerText.textAlignment = .left
         headerText.sizeToFit()
         view.addSubview(headerText)
@@ -68,7 +68,7 @@ class AppAuthController: UIViewController, UIWebViewDelegate {
         headerText.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
         headerText.topAnchor.constraint(equalTo: view.topAnchor, constant: 30).isActive = true
         
-        bodyText.font = UIFont.systemFont(ofSize: 14)
+        bodyText.font = UIFont.systemFont(ofSize: 16)
         bodyText.textAlignment = .left
         bodyText.numberOfLines = 0
         bodyText.frame.size.height = 200.0
@@ -80,6 +80,22 @@ class AppAuthController: UIViewController, UIWebViewDelegate {
         bodyText.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
         bodyText.topAnchor.constraint(equalTo: headerText.bottomAnchor, constant: 15).isActive = true
         
+        // disclosure text
+        disclosureText.font = UIFont.systemFont(ofSize: 14)
+        disclosureText.textAlignment = .left
+        disclosureText.numberOfLines = 0
+        disclosureText.frame.size.height = 200.0
+        disclosureText.sizeToFit()
+        view.addSubview(disclosureText)
+        // autolayout contraints
+        disclosureText.translatesAutoresizingMaskIntoConstraints = false
+        disclosureText.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
+        disclosureText.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
+        // set topanchor
+        disclosureText.topAnchor.constraint(equalTo: bodyText.bottomAnchor, constant: 30).isActive = true
+        disclosureText.textColor = .gray
+        
+        // signin button
         signInButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 15)
         signInButton.setTitleColor(.white, for: .normal)
         signInButton.setTitle("Sign in", for: .normal)
@@ -92,24 +108,11 @@ class AppAuthController: UIViewController, UIWebViewDelegate {
         signInButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
         signInButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
         // set topanchor of label equal to bottomanchor of textview
-        signInButton.topAnchor.constraint(equalTo: bodyText.bottomAnchor, constant: 50).isActive = true
+        signInButton.topAnchor.constraint(equalTo: disclosureText.bottomAnchor, constant: 30).isActive = true
         signInButton.backgroundColor = uwPurple
         signInButton.layer.cornerRadius = 10
         
         
-        disclosureText.font = UIFont.systemFont(ofSize: 14)
-        disclosureText.textAlignment = .left
-        disclosureText.numberOfLines = 0
-        disclosureText.frame.size.height = 200.0
-        disclosureText.sizeToFit()
-        view.addSubview(disclosureText)
-        // autolayout contraints
-        disclosureText.translatesAutoresizingMaskIntoConstraints = false
-        disclosureText.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
-        disclosureText.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
-        // set topanchor
-        disclosureText.topAnchor.constraint(equalTo: signInButton.bottomAnchor, constant: 20).isActive = true
-        disclosureText.textColor = .darkGray
         
         //eulaButton
         eulaButton.titleLabel?.font = UIFont.systemFont(ofSize: 15)
@@ -126,7 +129,7 @@ class AppAuthController: UIViewController, UIWebViewDelegate {
         eulaButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
         eulaButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
         // set topanchor of label equal to bottomanchor of textview
-        eulaButton.topAnchor.constraint(equalTo: disclosureText.bottomAnchor, constant: 20).isActive = true
+        eulaButton.topAnchor.constraint(equalTo: signInButton.bottomAnchor, constant: 30).isActive = true
         eulaButton.backgroundColor = .white
         eulaButton.layer.cornerRadius = 0
         
@@ -177,7 +180,7 @@ class AppAuthController: UIViewController, UIWebViewDelegate {
         headerText.text = "Welcome"
         bodyText.text = "Please sign in to continue."
         
-        disclosureText.text = "Please read the End-User License Agreement (the \"EULA\" or \"Agreement\") carefully before signing in.\n\nThe Agreement governs Your download and use of the MyUW application (\"Software\") provided by the University of Washington (the \"University\").\n\nYour use of the Software constitutes Your acceptance of the terms of the Agreement and is subject to the Privacy Policy and Terms of Service of University."
+        disclosureText.text = "Please read the End-User License Agreement (the \"EULA\" or \"Agreement\") carefully before signing in.\n\nThe Agreement governs Your download and use of the MyUW application (\"Software\") provided by the University of Washington (the \"University\"). Your use of the Software constitutes Your acceptance of the terms of the Agreement and is subject to the Privacy Policy and Terms of Service of University."
         
         if (signedOut) {
             // set auto sign-out messaging
