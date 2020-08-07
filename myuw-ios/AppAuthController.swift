@@ -21,7 +21,7 @@ let kAppAuthExampleAuthStateKey: String = "authState";
 
 var signedOut = false
 
-class AppAuthController: UIViewController {
+class AppAuthController: UIViewController, UIWebViewDelegate {
         
     // property of the containing class
     private var authState: OIDAuthState?
@@ -29,6 +29,13 @@ class AppAuthController: UIViewController {
     let headerText = UILabel()
     let bodyText = UILabel()
     let signInButton = UIButton()
+    
+    let disclosureText = UILabel()
+    
+    let eulaButton = UIButton()
+    let privacyButton = UIButton()
+    let termsButton = UIButton()
+    
     var activityIndicator: UIActivityIndicatorView!
     var tabBarCont: UITabBarController?
     
@@ -51,7 +58,7 @@ class AppAuthController: UIViewController {
         tabBarCont = UITabBarController()
         self.view.addSubview((tabBarCont?.view)!)
         
-        headerText.font = UIFont.boldSystemFont(ofSize: 18)
+        headerText.font = UIFont.boldSystemFont(ofSize: 19)
         headerText.textAlignment = .left
         headerText.sizeToFit()
         view.addSubview(headerText)
@@ -61,7 +68,7 @@ class AppAuthController: UIViewController {
         headerText.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
         headerText.topAnchor.constraint(equalTo: view.topAnchor, constant: 30).isActive = true
         
-        bodyText.font = UIFont.systemFont(ofSize: 14)
+        bodyText.font = UIFont.systemFont(ofSize: 16)
         bodyText.textAlignment = .left
         bodyText.numberOfLines = 0
         bodyText.frame.size.height = 200.0
@@ -73,6 +80,22 @@ class AppAuthController: UIViewController {
         bodyText.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
         bodyText.topAnchor.constraint(equalTo: headerText.bottomAnchor, constant: 15).isActive = true
         
+        // disclosure text
+        disclosureText.font = UIFont.systemFont(ofSize: 14)
+        disclosureText.textAlignment = .left
+        disclosureText.numberOfLines = 0
+        disclosureText.frame.size.height = 200.0
+        disclosureText.sizeToFit()
+        view.addSubview(disclosureText)
+        // autolayout contraints
+        disclosureText.translatesAutoresizingMaskIntoConstraints = false
+        disclosureText.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
+        disclosureText.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
+        // set topanchor
+        disclosureText.topAnchor.constraint(equalTo: bodyText.bottomAnchor, constant: 30).isActive = true
+        disclosureText.textColor = .gray
+        
+        // signin button
         signInButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 15)
         signInButton.setTitleColor(.white, for: .normal)
         signInButton.setTitle("Sign in", for: .normal)
@@ -85,9 +108,68 @@ class AppAuthController: UIViewController {
         signInButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
         signInButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
         // set topanchor of label equal to bottomanchor of textview
-        signInButton.topAnchor.constraint(equalTo: bodyText.bottomAnchor, constant: 50).isActive = true
+        signInButton.topAnchor.constraint(equalTo: disclosureText.bottomAnchor, constant: 30).isActive = true
         signInButton.backgroundColor = uwPurple
         signInButton.layer.cornerRadius = 10
+        
+        
+        
+        //eulaButton
+        eulaButton.titleLabel?.font = UIFont.systemFont(ofSize: 15)
+        eulaButton.titleLabel?.lineBreakMode = .byWordWrapping
+                            
+        eulaButton.setTitleColor(uwPurple, for: .normal)
+        eulaButton.setTitle("End-User License Agreement (EULA)", for: .normal)
+        eulaButton.contentEdgeInsets = UIEdgeInsets(top: -1, left: 0, bottom: 0, right: 0)
+        eulaButton.addTarget(self, action: #selector(showEULA), for: .touchUpInside)
+        eulaButton.sizeToFit()
+        view.addSubview(eulaButton)
+        // autolayout contraints
+        eulaButton.translatesAutoresizingMaskIntoConstraints = false
+        eulaButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
+        eulaButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
+        // set topanchor of label equal to bottomanchor of textview
+        eulaButton.topAnchor.constraint(equalTo: signInButton.bottomAnchor, constant: 30).isActive = true
+        eulaButton.backgroundColor = .white
+        eulaButton.layer.cornerRadius = 0
+        
+        //privacyButton
+        privacyButton.titleLabel?.font = UIFont.systemFont(ofSize: 15)
+        privacyButton.titleLabel?.lineBreakMode = .byWordWrapping
+                    
+        privacyButton.setTitleColor(uwPurple, for: .normal)
+        privacyButton.setTitle("Privacy Policy", for: .normal)
+        privacyButton.contentEdgeInsets = UIEdgeInsets(top: -1, left: 0, bottom: 0, right: 0)
+        privacyButton.addTarget(self, action: #selector(showPrivacy), for: .touchUpInside)
+        privacyButton.sizeToFit()
+        view.addSubview(privacyButton)
+        // autolayout contraints
+        privacyButton.translatesAutoresizingMaskIntoConstraints = false
+        privacyButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
+        privacyButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
+        // set topanchor of label equal to bottomanchor of textview
+        privacyButton.topAnchor.constraint(equalTo: eulaButton.bottomAnchor, constant: 3).isActive = true
+        privacyButton.backgroundColor = .white
+        privacyButton.layer.cornerRadius = 0
+        
+        //termsButton
+        termsButton.titleLabel?.font = UIFont.systemFont(ofSize: 15)
+        termsButton.titleLabel?.lineBreakMode = .byWordWrapping
+                    
+        termsButton.setTitleColor(uwPurple, for: .normal)
+        termsButton.setTitle("Terms of Service", for: .normal)
+        termsButton.contentEdgeInsets = UIEdgeInsets(top: -1, left: 0, bottom: 0, right: 0)
+        termsButton.addTarget(self, action: #selector(showTerms), for: .touchUpInside)
+        termsButton.sizeToFit()
+        view.addSubview(termsButton)
+        // autolayout contraints
+        termsButton.translatesAutoresizingMaskIntoConstraints = false
+        termsButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
+        termsButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
+        // set topanchor of label equal to bottomanchor of textview
+        termsButton.topAnchor.constraint(equalTo: privacyButton.bottomAnchor, constant: 3).isActive = true
+        termsButton.backgroundColor = .white
+        termsButton.layer.cornerRadius = 0
         
         // get authstate
         self.loadState()
@@ -98,6 +180,8 @@ class AppAuthController: UIViewController {
         headerText.text = "Welcome"
         bodyText.text = "Please sign in to continue."
         
+        disclosureText.text = "Please read the End-User License Agreement (the \"EULA\" or \"Agreement\") carefully before signing in.\n\nThe Agreement governs Your download and use of the MyUW application (\"Software\") provided by the University of Washington (the \"University\"). Your use of the Software constitutes Your acceptance of the terms of the Agreement and is subject to the Privacy Policy and Terms of Service of University."
+        
         if (signedOut) {
             // set auto sign-out messaging
             self.headerText.text = "Signed out"
@@ -106,9 +190,24 @@ class AppAuthController: UIViewController {
         
     }
     
-    @objc private func loginUser(){
+    @objc private func loginUser() {
         os_log("Sign in button tapped", log: .appAuth, type: .info)
         authWithAutoCodeExchange()
+    }
+    
+    @objc private func showEULA(sender: AnyObject) {
+        os_log("EULA button tapped", log: .appAuth, type: .info)
+        UIApplication.shared.open(NSURL(string: linkEULA)! as URL)
+    }
+    
+    @objc private func showPrivacy(sender: AnyObject) {
+        os_log("Privacy button tapped", log: .appAuth, type: .info)
+        UIApplication.shared.open(NSURL(string: linkPrivacy)! as URL)
+    }
+    
+    @objc private func showTerms(sender: AnyObject) {
+        os_log("ToS button tapped", log: .appAuth, type: .info)
+        UIApplication.shared.open(NSURL(string: linkTerms)! as URL)
     }
     
     @objc func signOut() {
@@ -132,6 +231,10 @@ class AppAuthController: UIViewController {
         headerText.isHidden = false
         bodyText.isHidden = false
         signInButton.isHidden = false
+        disclosureText.isHidden = false
+        eulaButton.isHidden = false
+        privacyButton.isHidden = false
+        termsButton.isHidden = false
                     
     }
     
@@ -336,6 +439,10 @@ extension AppAuthController {
             headerText.isHidden = true
             bodyText.isHidden = true
             signInButton.isHidden = true
+            disclosureText.isHidden = true
+            eulaButton.isHidden = true
+            privacyButton.isHidden = true
+            termsButton.isHidden = true
             
             // setup application data to build main app controller
             self.setupApplication()

@@ -16,6 +16,9 @@ var appHost = ""
 var appAffiliationEndpoint = ""
 var clientID = ""
 var clientIssuer = ""
+var linkEULA = ""
+var linkPrivacy = ""
+var linkTerms = ""
 
 struct User {
     // From Shibboleth iDP via OIDC
@@ -44,6 +47,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             appAffiliationEndpoint = config["myuw_affiliation"] as! String
             clientIssuer = config["oidc_issuer"] as! String
             clientID = config["oidc_clientid"] as! String
+            linkEULA = config["link_eula"] as! String
+            linkPrivacy = config["link_privacy"] as! String
+            linkTerms = config["link_terms"] as! String
         }
         
         // setup navbar appearance globally

@@ -3,12 +3,18 @@
 <plist version="1.0">
 <dict>
 	<key>oidc_issuer</key>
-	<string>https://accounts.google.com</string>
+	<string>https://idp.example.com</string>
 	<key>oidc_clientid</key>
 	<string>someclientid</string>
 	<key>myuw_host</key>
 	<string>http://localhost:8000</string>
 	<key>myuw_affiliation</key>
 	<string>/my/affiliation/endpoint</string>
+	<key>link_terms</key>
+	<string>https://www.washington.edu/online/terms/</string>
+	<key>link_privacy</key>
+	<string>https://www.washington.edu/online/privacy/</string>
+	<key>link_eula</key>
+	<string>https://itconnect.uw.edu/learn/tools/myuw-help-center/native-apps-eula/</string>
 </dict>
 </plist>
