@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>oidc_issuer</key>
-	<string>https://idp.u.washington.edu</string>
+	<string>https://idp.example.com</string>
 	<key>oidc_clientid</key>
 	<string>someclientid</string>
 	<key>myuw_host</key>
