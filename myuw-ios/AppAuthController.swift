@@ -178,9 +178,9 @@ class AppAuthController: UIViewController, UIWebViewDelegate {
         
         // set initial text for sign-in messaging
         headerText.text = "Welcome"
-        bodyText.text = "Please sign in to continue."
+        bodyText.text = "The MyUW app is designed to keep you signed in to MyUW for convenience. Here are some tips to keep your UW NetID and personal information safe:\n\n\u{2022} Use a strong password\n\u{2022} Configure your device to require a passcode, biometric factor, or other security measure to unlock it\n\u{2022} Make sure your device is locked when not in use\n\u{2022} Report a lost or stolen device to help@uw.edu\n\nPlease sign in to continue."
         
-        disclosureText.text = "Please read the End-User License Agreement (the \"EULA\" or \"Agreement\") carefully before signing in.\n\nThe Agreement governs Your download and use of the MyUW application (\"Software\") provided by the University of Washington (the \"University\"). Your use of the Software constitutes Your acceptance of the terms of the Agreement and is subject to the Privacy Policy and Terms of Service of University."
+        disclosureText.text = "Please read the End-User License Agreement (the \"EULA\" or \"Agreement\") carefully before signing in. The Agreement governs Your download and use of the MyUW application (\"Software\") provided by the University of Washington (the \"University\"). Your use of the Software constitutes Your acceptance of the terms of the Agreement and is also subject to the Privacy Policy and Terms of Service of University."
         
         if (signedOut) {
             // set auto sign-out messaging
