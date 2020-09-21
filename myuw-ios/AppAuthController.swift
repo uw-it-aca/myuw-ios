@@ -208,9 +208,9 @@ class AppAuthController: UIViewController, UIWebViewDelegate {
         //problemButton
         problemButton.titleLabel?.font = UIFont.systemFont(ofSize: 15)
         problemButton.titleLabel?.lineBreakMode = .byWordWrapping
-        
+        problemButton.titleLabel?.textAlignment = .center
         problemButton.setTitleColor(uwPurple, for: .normal)
-        problemButton.setTitle("Report a problem help@uw.edu", for: .normal)
+        problemButton.setTitle("Report a problem\nhelp@uw.edu", for: .normal)
         problemButton.contentEdgeInsets = UIEdgeInsets(top: 10, left: 0, bottom: 0, right: 0)
         problemButton.addTarget(self, action: #selector(reportProblem), for: .touchUpInside)
         problemButton.sizeToFit()
