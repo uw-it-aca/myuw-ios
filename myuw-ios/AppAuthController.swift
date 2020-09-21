@@ -262,18 +262,30 @@ class AppAuthController: UIViewController, UIWebViewDelegate {
     }
     
     @objc private func showEULA(sender: AnyObject) {
-        os_log("EULA button tapped", log: .appAuth, type: .info)
-        UIApplication.shared.open(URL(string: linkEULA)!)
+        os_log("EULA button tapped", log: .appAuth, type: .info)        
+        if #available(iOS 10.0, *) {
+            UIApplication.shared.open(URL(string: linkEULA)!, options: [:], completionHandler: nil)
+        } else {
+            UIApplication.shared.openURL(URL(string: linkEULA)!)
+        }
     }
     
     @objc private func showPrivacy(sender: AnyObject) {
         os_log("Privacy button tapped", log: .appAuth, type: .info)
-        UIApplication.shared.open(URL(string: linkPrivacy)!)
+        if #available(iOS 10.0, *) {
+            UIApplication.shared.open(URL(string: linkPrivacy)!, options: [:], completionHandler: nil)
+        } else {
+            UIApplication.shared.openURL(URL(string: linkPrivacy)!)
+        }
     }
     
     @objc private func showTerms(sender: AnyObject) {
         os_log("ToS button tapped", log: .appAuth, type: .info)
-        UIApplication.shared.open(URL(string: linkTerms)!)
+        if #available(iOS 10.0, *) {
+            UIApplication.shared.open(URL(string: linkTerms)!, options: [:], completionHandler: nil)
+        } else {
+            UIApplication.shared.openURL(URL(string: linkTerms)!)
+        }
     }
     
     @objc private func reportProblem(sender: AnyObject) {
