@@ -35,7 +35,8 @@ class AppAuthController: UIViewController, UIWebViewDelegate {
     let eulaButton = UIButton()
     let privacyButton = UIButton()
     let termsButton = UIButton()
-    
+    let problemButton = UIButton()
+        
     var activityIndicator: UIActivityIndicatorView!
     var tabBarCont: UITabBarController?
     
@@ -49,7 +50,7 @@ class AppAuthController: UIViewController, UIWebViewDelegate {
         self.navigationController?.navigationBar.prefersLargeTitles = true
         self.navigationController?.navigationBar.isTranslucent = false
         
-        view.backgroundColor = .white
+        view.backgroundColor = .red
         
         // App title
         self.title = "MyUW"
@@ -61,7 +62,7 @@ class AppAuthController: UIViewController, UIWebViewDelegate {
         headerText.font = UIFont.boldSystemFont(ofSize: 19)
         headerText.textAlignment = .left
         headerText.sizeToFit()
-        view.addSubview(headerText)
+        
         // autolayout contraints
         headerText.translatesAutoresizingMaskIntoConstraints = false
         headerText.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
@@ -197,6 +198,25 @@ class AppAuthController: UIViewController, UIWebViewDelegate {
         termsButton.backgroundColor = .white
         termsButton.layer.cornerRadius = 0
         
+        //problemButton
+        problemButton.titleLabel?.font = UIFont.systemFont(ofSize: 15)
+        problemButton.titleLabel?.lineBreakMode = .byWordWrapping
+                    
+        problemButton.setTitleColor(uwPurple, for: .normal)
+        problemButton.setTitle("Report a problem help@uw.edu", for: .normal)
+        problemButton.contentEdgeInsets = UIEdgeInsets(top: 10, left: 0, bottom: 0, right: 0)
+        problemButton.addTarget(self, action: #selector(reportProblem), for: .touchUpInside)
+        problemButton.sizeToFit()
+        view.addSubview(problemButton)
+        // autolayout contraints
+        problemButton.translatesAutoresizingMaskIntoConstraints = false
+        problemButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
+        problemButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
+        // set topanchor of label equal to bottomanchor of textview
+        problemButton.topAnchor.constraint(equalTo: termsButton.bottomAnchor, constant: 3).isActive = true
+        problemButton.backgroundColor = .white
+        problemButton.layer.cornerRadius = 0
+        
         // get authstate
         self.loadState()
         
@@ -210,7 +230,7 @@ class AppAuthController: UIViewController, UIWebViewDelegate {
             "Use a strong password",
             "Configure your device to require a passcode, biometric factor, or other security measure to unlock it",
             "Make sure your device is locked when not in use",
-            "Report a lost or stolen device to help@uw.edu"
+            "Report a lost or stolen device"
         ]
         
         bulletText.attributedText = NSAttributedStringHelper.createBulletedList(fromStringArray: bulletArray, font: UIFont.systemFont(ofSize: 16))
@@ -225,6 +245,7 @@ class AppAuthController: UIViewController, UIWebViewDelegate {
             self.continueText.text = "You have been signed out successfully. In some cases, you may be signed out because of an application error or prolonged inactivity. Sign in to continue."
         }
         
+ 
     }
     
     @objc private func loginUser() {
@@ -245,6 +266,11 @@ class AppAuthController: UIViewController, UIWebViewDelegate {
     @objc private func showTerms(sender: AnyObject) {
         os_log("ToS button tapped", log: .appAuth, type: .info)
         UIApplication.shared.open(NSURL(string: linkTerms)! as URL)
+    }
+    
+    @objc private func reportProblem(sender: AnyObject) {
+        os_log("Problem button tapped", log: .appAuth, type: .info)
+        UIApplication.shared.open(NSURL(string: linkProblem)! as URL)
     }
     
     @objc func signOut() {
@@ -274,7 +300,7 @@ class AppAuthController: UIViewController, UIWebViewDelegate {
         eulaButton.isHidden = false
         privacyButton.isHidden = false
         termsButton.isHidden = false
-                    
+        problemButton.isHidden = false
     }
     
     func authWithAutoCodeExchange() {
@@ -484,6 +510,7 @@ extension AppAuthController {
             eulaButton.isHidden = true
             privacyButton.isHidden = true
             termsButton.isHidden = true
+            problemButton.isHidden = true
             
             // setup application data to build main app controller
             self.setupApplication()
