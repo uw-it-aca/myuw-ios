@@ -44,7 +44,7 @@ class AppAuthController: UIViewController, UIWebViewDelegate {
     var tabBarCont: UITabBarController?
     
     let scrollView = UIScrollView()
-    let contentView = UIView()
+    let containerView = UIView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -61,6 +61,9 @@ class AppAuthController: UIViewController, UIWebViewDelegate {
         // App title
         self.title = "MyUW"
         
+        // create empty tabbar controller as a visual placeholder
+        tabBarCont = UITabBarController()
+        view.addSubview((tabBarCont?.view)!)
         
         //Add and setup scroll view
         view.addSubview(scrollView)
@@ -71,8 +74,12 @@ class AppAuthController: UIViewController, UIWebViewDelegate {
         scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true;
         scrollView.topAnchor.constraint(equalTo: view.topAnchor, constant: 20).isActive = true;
         scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true;
-        scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -80).isActive = true;
+        scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -20).isActive = true;
         
+        // Do any additional setup after loading the view.
+        //scrollView.contentSize = CGSize(width: view.frame.width - 40, height: 1000)
+        //scrollView.contentOffset = CGPoint(x: 50, y: 50 )
+        scrollView.isScrollEnabled = true
         
         headerText.font = UIFont.boldSystemFont(ofSize: 19)
         headerText.textAlignment = .left
@@ -235,9 +242,7 @@ class AppAuthController: UIViewController, UIWebViewDelegate {
         problemButton.layer.cornerRadius = 0
     
         
-        // create empty tabbar controller as a visual placeholder
-        //tabBarCont = UITabBarController()
-        //view.addSubview((tabBarCont?.view)!)
+        
         
         // get authstate
         self.loadState()
