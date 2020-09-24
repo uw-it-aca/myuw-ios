@@ -289,19 +289,15 @@ class AppAuthController: UIViewController, UIWebViewDelegate {
     func setupViews(){
         
         contentView.addSubview(label1)
-        //label1.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
-        //label1.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
-        //label1.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 3/4).isActive = true
-        
         label1.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20).isActive = true
         label1.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20).isActive = true
         label1.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 30).isActive = true
         
         
         contentView.addSubview(label2)
-        label2.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
+        label2.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20).isActive = true
+        label2.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20).isActive = true
         label2.topAnchor.constraint(equalTo: label1.bottomAnchor, constant: 25).isActive = true
-        label2.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 3/4).isActive = true
         label2.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
     }
     
@@ -310,17 +306,17 @@ class AppAuthController: UIViewController, UIWebViewDelegate {
         label.text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborumLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborumLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.............."
         label.numberOfLines = 0
         label.sizeToFit()
-        label.textColor = UIColor.white
+        label.textColor = .black
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     let label2: UILabel = {
         let label = UILabel()
-        label.text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+        label.text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
         label.numberOfLines = 0
         label.sizeToFit()
-        label.textColor = UIColor.white
+        label.textColor = .black
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
