@@ -44,7 +44,7 @@ class AppAuthController: UIViewController, UIWebViewDelegate {
     var tabBarCont: UITabBarController?
     
     let scrollView = UIScrollView()
-    let containerView = UIView()
+    let contentView = UIView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -62,30 +62,23 @@ class AppAuthController: UIViewController, UIWebViewDelegate {
         self.title = "MyUW"
         
         // create empty tabbar controller as a visual placeholder
-        tabBarCont = UITabBarController()
-        view.addSubview((tabBarCont?.view)!)
+        //tabBarCont = UITabBarController()
+        //view.addSubview((tabBarCont?.view)!)
         
-        //Add and setup scroll view
-        view.addSubview(scrollView)
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
-        scrollView.backgroundColor = .green
+        setupScrollView()
+        setupViews()
         
-        //Constrain scroll view
-        scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true;
-        scrollView.topAnchor.constraint(equalTo: view.topAnchor, constant: 20).isActive = true;
-        scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true;
-        scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -20).isActive = true;
-        scrollView.contentSize = CGSize(width: view.frame.size.width - 40, height: view.frame.size.height)
-        
+        /*
+
         headerText.font = UIFont.boldSystemFont(ofSize: 19)
         headerText.textAlignment = .left
         headerText.sizeToFit()
-        scrollView.addSubview(headerText)
+        contentView.addSubview(headerText)
         // autolayout contraints
         headerText.translatesAutoresizingMaskIntoConstraints = false
-        headerText.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
-        headerText.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
-        headerText.topAnchor.constraint(equalTo: view.topAnchor, constant: 30).isActive = true
+        headerText.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20).isActive = true
+        headerText.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20).isActive = true
+        headerText.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 30).isActive = true
         
    
         // intro text
@@ -94,7 +87,7 @@ class AppAuthController: UIViewController, UIWebViewDelegate {
         introText.numberOfLines = 0
         introText.frame.size.height = 200.0
         introText.sizeToFit()
-        scrollView.addSubview(introText)
+        contentView.addSubview(introText)
         // autolayout contraints
         introText.translatesAutoresizingMaskIntoConstraints = false
         introText.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
@@ -107,7 +100,7 @@ class AppAuthController: UIViewController, UIWebViewDelegate {
         bulletText.numberOfLines = 0
         bulletText.frame.size.height = 200.0
         bulletText.sizeToFit()
-        scrollView.addSubview(bulletText)
+        contentView.addSubview(bulletText)
         // autolayout contraints
         bulletText.translatesAutoresizingMaskIntoConstraints = false
         bulletText.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
@@ -120,7 +113,7 @@ class AppAuthController: UIViewController, UIWebViewDelegate {
         continueText.numberOfLines = 0
         continueText.frame.size.height = 200.0
         continueText.sizeToFit()
-        scrollView.addSubview(continueText)
+        contentView.addSubview(continueText)
         // autolayout contraints
         continueText.translatesAutoresizingMaskIntoConstraints = false
         continueText.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
@@ -134,7 +127,7 @@ class AppAuthController: UIViewController, UIWebViewDelegate {
         signInButton.contentEdgeInsets = UIEdgeInsets(top: 13,left: 5,bottom: 13,right: 5)
         signInButton.addTarget(self, action: #selector(loginUser), for: .touchUpInside)
         signInButton.sizeToFit()
-        scrollView.addSubview(signInButton)
+        contentView.addSubview(signInButton)
 
         // autolayout contraints
         signInButton.translatesAutoresizingMaskIntoConstraints = false
@@ -151,7 +144,7 @@ class AppAuthController: UIViewController, UIWebViewDelegate {
         disclosureText.numberOfLines = 0
         disclosureText.frame.size.height = 200.0
         disclosureText.sizeToFit()
-        scrollView.addSubview(disclosureText)
+        contentView.addSubview(disclosureText)
         // autolayout contraints
         disclosureText.translatesAutoresizingMaskIntoConstraints = false
         disclosureText.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
@@ -170,7 +163,7 @@ class AppAuthController: UIViewController, UIWebViewDelegate {
         eulaButton.contentEdgeInsets = UIEdgeInsets(top: -1, left: 0, bottom: 0, right: 0)
         eulaButton.addTarget(self, action: #selector(showEULA), for: .touchUpInside)
         eulaButton.sizeToFit()
-        scrollView.addSubview(eulaButton)
+        contentView.addSubview(eulaButton)
         // autolayout contraints
         eulaButton.translatesAutoresizingMaskIntoConstraints = false
         eulaButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
@@ -189,7 +182,7 @@ class AppAuthController: UIViewController, UIWebViewDelegate {
         privacyButton.contentEdgeInsets = UIEdgeInsets(top: -1, left: 0, bottom: 0, right: 0)
         privacyButton.addTarget(self, action: #selector(showPrivacy), for: .touchUpInside)
         privacyButton.sizeToFit()
-        scrollView.addSubview(privacyButton)
+        contentView.addSubview(privacyButton)
         // autolayout contraints
         privacyButton.translatesAutoresizingMaskIntoConstraints = false
         privacyButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
@@ -208,7 +201,7 @@ class AppAuthController: UIViewController, UIWebViewDelegate {
         termsButton.contentEdgeInsets = UIEdgeInsets(top: -1, left: 0, bottom: 0, right: 0)
         termsButton.addTarget(self, action: #selector(showTerms), for: .touchUpInside)
         termsButton.sizeToFit()
-        scrollView.addSubview(termsButton)
+        contentView.addSubview(termsButton)
         // autolayout contraints
         termsButton.translatesAutoresizingMaskIntoConstraints = false
         termsButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
@@ -227,7 +220,7 @@ class AppAuthController: UIViewController, UIWebViewDelegate {
         problemButton.contentEdgeInsets = UIEdgeInsets(top: 10, left: 0, bottom: 0, right: 0)
         problemButton.addTarget(self, action: #selector(reportProblem), for: .touchUpInside)
         problemButton.sizeToFit()
-        scrollView.addSubview(problemButton)
+        contentView.addSubview(problemButton)
         // autolayout contraints
         problemButton.translatesAutoresizingMaskIntoConstraints = false
         problemButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
@@ -236,7 +229,7 @@ class AppAuthController: UIViewController, UIWebViewDelegate {
         problemButton.topAnchor.constraint(equalTo: termsButton.bottomAnchor, constant: 3).isActive = true
         problemButton.backgroundColor = .white
         problemButton.layer.cornerRadius = 0
-    
+        */
         
         
         
@@ -272,6 +265,65 @@ class AppAuthController: UIViewController, UIWebViewDelegate {
         }
         
     }
+    
+    func setupScrollView(){
+        
+        scrollView.backgroundColor = .green
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        contentView.translatesAutoresizingMaskIntoConstraints = false
+        
+        view.addSubview(scrollView)
+        scrollView.addSubview(contentView)
+        
+        scrollView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        scrollView.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
+        scrollView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        
+        contentView.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
+        contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
+        contentView.topAnchor.constraint(equalTo: scrollView.topAnchor).isActive = true
+        contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor).isActive = true
+    }
+    
+    func setupViews(){
+        
+        contentView.addSubview(label1)
+        //label1.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
+        //label1.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
+        //label1.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 3/4).isActive = true
+        
+        label1.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20).isActive = true
+        label1.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20).isActive = true
+        label1.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 30).isActive = true
+        
+        
+        contentView.addSubview(label2)
+        label2.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
+        label2.topAnchor.constraint(equalTo: label1.bottomAnchor, constant: 25).isActive = true
+        label2.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 3/4).isActive = true
+        label2.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
+    }
+    
+    let label1: UILabel = {
+        let label = UILabel()
+        label.text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborumLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborumLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.............."
+        label.numberOfLines = 0
+        label.sizeToFit()
+        label.textColor = UIColor.white
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    let label2: UILabel = {
+        let label = UILabel()
+        label.text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+        label.numberOfLines = 0
+        label.sizeToFit()
+        label.textColor = UIColor.white
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
     
     @objc private func loginUser() {
         os_log("Sign in button tapped", log: .appAuth, type: .info)
