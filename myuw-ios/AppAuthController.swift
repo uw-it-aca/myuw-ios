@@ -75,11 +75,7 @@ class AppAuthController: UIViewController, UIWebViewDelegate {
         scrollView.topAnchor.constraint(equalTo: view.topAnchor, constant: 20).isActive = true;
         scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true;
         scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -20).isActive = true;
-        
-        // Do any additional setup after loading the view.
-        //scrollView.contentSize = CGSize(width: view.frame.width - 40, height: 1000)
-        //scrollView.contentOffset = CGPoint(x: 50, y: 50 )
-        scrollView.isScrollEnabled = true
+        scrollView.contentSize = CGSize(width: view.frame.size.width - 40, height: view.frame.size.height)
         
         headerText.font = UIFont.boldSystemFont(ofSize: 19)
         headerText.textAlignment = .left
