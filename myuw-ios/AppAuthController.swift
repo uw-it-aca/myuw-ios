@@ -61,8 +61,9 @@ class AppAuthController: UIViewController, UIWebViewDelegate {
         // App title
         self.title = "MyUW"
         
+        
         //Add and setup scroll view
-        //view.addSubview(scrollView)
+        view.addSubview(scrollView)
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.backgroundColor = .green
         
@@ -70,13 +71,13 @@ class AppAuthController: UIViewController, UIWebViewDelegate {
         scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true;
         scrollView.topAnchor.constraint(equalTo: view.topAnchor, constant: 20).isActive = true;
         scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true;
-        scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -20).isActive = true;
+        scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -80).isActive = true;
         
         
         headerText.font = UIFont.boldSystemFont(ofSize: 19)
         headerText.textAlignment = .left
         headerText.sizeToFit()
-        view.addSubview(headerText)
+        scrollView.addSubview(headerText)
         // autolayout contraints
         headerText.translatesAutoresizingMaskIntoConstraints = false
         headerText.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
@@ -90,7 +91,7 @@ class AppAuthController: UIViewController, UIWebViewDelegate {
         introText.numberOfLines = 0
         introText.frame.size.height = 200.0
         introText.sizeToFit()
-        view.addSubview(introText)
+        scrollView.addSubview(introText)
         // autolayout contraints
         introText.translatesAutoresizingMaskIntoConstraints = false
         introText.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
@@ -103,7 +104,7 @@ class AppAuthController: UIViewController, UIWebViewDelegate {
         bulletText.numberOfLines = 0
         bulletText.frame.size.height = 200.0
         bulletText.sizeToFit()
-        view.addSubview(bulletText)
+        scrollView.addSubview(bulletText)
         // autolayout contraints
         bulletText.translatesAutoresizingMaskIntoConstraints = false
         bulletText.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
@@ -116,7 +117,7 @@ class AppAuthController: UIViewController, UIWebViewDelegate {
         continueText.numberOfLines = 0
         continueText.frame.size.height = 200.0
         continueText.sizeToFit()
-        view.addSubview(continueText)
+        scrollView.addSubview(continueText)
         // autolayout contraints
         continueText.translatesAutoresizingMaskIntoConstraints = false
         continueText.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
@@ -147,7 +148,7 @@ class AppAuthController: UIViewController, UIWebViewDelegate {
         disclosureText.numberOfLines = 0
         disclosureText.frame.size.height = 200.0
         disclosureText.sizeToFit()
-        view.addSubview(disclosureText)
+        scrollView.addSubview(disclosureText)
         // autolayout contraints
         disclosureText.translatesAutoresizingMaskIntoConstraints = false
         disclosureText.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
@@ -166,7 +167,7 @@ class AppAuthController: UIViewController, UIWebViewDelegate {
         eulaButton.contentEdgeInsets = UIEdgeInsets(top: -1, left: 0, bottom: 0, right: 0)
         eulaButton.addTarget(self, action: #selector(showEULA), for: .touchUpInside)
         eulaButton.sizeToFit()
-        view.addSubview(eulaButton)
+        scrollView.addSubview(eulaButton)
         // autolayout contraints
         eulaButton.translatesAutoresizingMaskIntoConstraints = false
         eulaButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
@@ -185,7 +186,7 @@ class AppAuthController: UIViewController, UIWebViewDelegate {
         privacyButton.contentEdgeInsets = UIEdgeInsets(top: -1, left: 0, bottom: 0, right: 0)
         privacyButton.addTarget(self, action: #selector(showPrivacy), for: .touchUpInside)
         privacyButton.sizeToFit()
-        view.addSubview(privacyButton)
+        scrollView.addSubview(privacyButton)
         // autolayout contraints
         privacyButton.translatesAutoresizingMaskIntoConstraints = false
         privacyButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
@@ -204,7 +205,7 @@ class AppAuthController: UIViewController, UIWebViewDelegate {
         termsButton.contentEdgeInsets = UIEdgeInsets(top: -1, left: 0, bottom: 0, right: 0)
         termsButton.addTarget(self, action: #selector(showTerms), for: .touchUpInside)
         termsButton.sizeToFit()
-        view.addSubview(termsButton)
+        scrollView.addSubview(termsButton)
         // autolayout contraints
         termsButton.translatesAutoresizingMaskIntoConstraints = false
         termsButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
@@ -223,7 +224,7 @@ class AppAuthController: UIViewController, UIWebViewDelegate {
         problemButton.contentEdgeInsets = UIEdgeInsets(top: 10, left: 0, bottom: 0, right: 0)
         problemButton.addTarget(self, action: #selector(reportProblem), for: .touchUpInside)
         problemButton.sizeToFit()
-        view.addSubview(problemButton)
+        scrollView.addSubview(problemButton)
         // autolayout contraints
         problemButton.translatesAutoresizingMaskIntoConstraints = false
         problemButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
@@ -233,13 +234,15 @@ class AppAuthController: UIViewController, UIWebViewDelegate {
         problemButton.backgroundColor = .white
         problemButton.layer.cornerRadius = 0
     
-        // create empty tabbar controller as a visual placeholder
-        tabBarCont = UITabBarController()
-        self.view.addSubview((tabBarCont?.view)!)
         
+        // create empty tabbar controller as a visual placeholder
+        //tabBarCont = UITabBarController()
+        //view.addSubview((tabBarCont?.view)!)
         
         // get authstate
         self.loadState()
+        
+        
         
         os_log("SignedOut: %@", log: .appAuth, type: .info, signedOut.description)
         
