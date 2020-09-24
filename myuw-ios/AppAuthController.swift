@@ -43,6 +43,9 @@ class AppAuthController: UIViewController, UIWebViewDelegate {
     var activityIndicator: UIActivityIndicatorView!
     var tabBarCont: UITabBarController?
     
+    let scrollView = UIScrollView()
+    let contentView = UIView()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -58,9 +61,17 @@ class AppAuthController: UIViewController, UIWebViewDelegate {
         // App title
         self.title = "MyUW"
         
-        // create empty tabbar controller as a visual placeholder
-        tabBarCont = UITabBarController()
-        self.view.addSubview((tabBarCont?.view)!)
+        //Add and setup scroll view
+        //view.addSubview(scrollView)
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.backgroundColor = .green
+        
+        //Constrain scroll view
+        scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true;
+        scrollView.topAnchor.constraint(equalTo: view.topAnchor, constant: 20).isActive = true;
+        scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true;
+        scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -20).isActive = true;
+        
         
         headerText.font = UIFont.boldSystemFont(ofSize: 19)
         headerText.textAlignment = .left
@@ -72,7 +83,7 @@ class AppAuthController: UIViewController, UIWebViewDelegate {
         headerText.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
         headerText.topAnchor.constraint(equalTo: view.topAnchor, constant: 30).isActive = true
         
-        
+   
         // intro text
         introText.font = UIFont.systemFont(ofSize: 16)
         introText.textAlignment = .left
@@ -85,8 +96,6 @@ class AppAuthController: UIViewController, UIWebViewDelegate {
         introText.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
         introText.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
         introText.topAnchor.constraint(equalTo: headerText.bottomAnchor, constant: 15).isActive = true
-        
-        
         
         // bullet text
         //bulletText.font = UIFont.systemFont(ofSize: 16)
@@ -114,7 +123,6 @@ class AppAuthController: UIViewController, UIWebViewDelegate {
         continueText.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
         continueText.topAnchor.constraint(equalTo: bulletText.bottomAnchor, constant: 15).isActive = true
         
-        
         // signin button
         signInButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 15)
         signInButton.setTitleColor(.white, for: .normal)
@@ -122,7 +130,8 @@ class AppAuthController: UIViewController, UIWebViewDelegate {
         signInButton.contentEdgeInsets = UIEdgeInsets(top: 13,left: 5,bottom: 13,right: 5)
         signInButton.addTarget(self, action: #selector(loginUser), for: .touchUpInside)
         signInButton.sizeToFit()
-        view.addSubview(signInButton)
+        scrollView.addSubview(signInButton)
+
         // autolayout contraints
         signInButton.translatesAutoresizingMaskIntoConstraints = false
         signInButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
@@ -131,7 +140,7 @@ class AppAuthController: UIViewController, UIWebViewDelegate {
         signInButton.topAnchor.constraint(equalTo: continueText.bottomAnchor, constant: 30).isActive = true
         signInButton.backgroundColor = uwPurple
         signInButton.layer.cornerRadius = 10
-        
+
         // disclosure text
         disclosureText.font = UIFont.systemFont(ofSize: 14)
         disclosureText.textAlignment = .left
@@ -223,6 +232,10 @@ class AppAuthController: UIViewController, UIWebViewDelegate {
         problemButton.topAnchor.constraint(equalTo: termsButton.bottomAnchor, constant: 3).isActive = true
         problemButton.backgroundColor = .white
         problemButton.layer.cornerRadius = 0
+    
+        // create empty tabbar controller as a visual placeholder
+        tabBarCont = UITabBarController()
+        self.view.addSubview((tabBarCont?.view)!)
         
         
         // get authstate
