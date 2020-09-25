@@ -58,18 +58,26 @@ class AppAuthController: UIViewController, UIWebViewDelegate {
         self.loadState()
         
         os_log("SignedOut: %@", log: .appAuth, type: .info, signedOut.description)
-                
+        
+    
         if (signedOut) {
             // set auto sign-out messaging
-            self.headerText.text = "Signed out"
-            self.continueText.text = "You have been signed out successfully. In some cases, you may be signed out because of an application error or prolonged inactivity. Sign in to continue."
+            headerText.text = "Signed out"
+            
+            // hide ciso intro
+            introText.isHidden = true
+            bulletText.isHidden = true
+            
+            // update continue text and reposition below signed out header
+            continueText.topAnchor.constraint(equalTo: headerText.bottomAnchor, constant: 30).isActive = true
+            continueText.text = "You have been signed out successfully. In some cases, you may be signed out because of an application error or prolonged inactivity. Sign in to continue."
         }
         
     }
     
     func setupScrollView(){
         
-        scrollView.backgroundColor = .green
+        scrollView.backgroundColor = .white
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         contentView.translatesAutoresizingMaskIntoConstraints = false
         
@@ -177,7 +185,11 @@ class AppAuthController: UIViewController, UIWebViewDelegate {
         label.attributedText = NSAttributedStringHelper.createBulletedList(fromStringArray: bulletArray, font: UIFont.systemFont(ofSize: 16))
         label.textAlignment = .left
         label.numberOfLines = 0
-        label.frame.size.height = 200.0
+        if (label.isHidden) {
+            label.frame.size.height = 0
+        } else {
+            label.frame.size.height = 200.0
+        }
         label.sizeToFit()
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -653,7 +665,8 @@ extension AppAuthController {
                 os_log("user IS empty....", log: .appAuth, type: .info)
                 
                 // create activity indicator
-                let tabBarHeight = self.tabBarCont!.tabBar.frame.height
+                //let tabBarHeight = self.tabBarCont!.tabBar.frame.height
+                let tabBarHeight = 80 as CGFloat
                 let indicatorView = UIActivityIndicatorView(style: .gray)
                 indicatorView.isHidden = false
                 indicatorView.translatesAutoresizingMaskIntoConstraints = true // default is true
