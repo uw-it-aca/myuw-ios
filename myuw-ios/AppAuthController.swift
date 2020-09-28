@@ -22,22 +22,15 @@ let kAppAuthExampleAuthStateKey: String = "authState";
 var signedOut = false
 
 class AppAuthController: UIViewController, UIWebViewDelegate {
-        
+    
     // property of the containing class
     private var authState: OIDAuthState?
-    
-    let headerText = UILabel()
-    let bodyText = UILabel()
-    let signInButton = UIButton()
-    
-    let disclosureText = UILabel()
-    
-    let eulaButton = UIButton()
-    let privacyButton = UIButton()
-    let termsButton = UIButton()
-    
+        
     var activityIndicator: UIActivityIndicatorView!
     var tabBarCont: UITabBarController?
+    
+    let scrollView = UIScrollView()
+    let contentView = UIView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -55,140 +48,244 @@ class AppAuthController: UIViewController, UIWebViewDelegate {
         self.title = "MyUW"
         
         // create empty tabbar controller as a visual placeholder
-        tabBarCont = UITabBarController()
-        self.view.addSubview((tabBarCont?.view)!)
-        
-        headerText.font = UIFont.boldSystemFont(ofSize: 19)
-        headerText.textAlignment = .left
-        headerText.sizeToFit()
-        view.addSubview(headerText)
-        // autolayout contraints
-        headerText.translatesAutoresizingMaskIntoConstraints = false
-        headerText.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
-        headerText.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
-        headerText.topAnchor.constraint(equalTo: view.topAnchor, constant: 30).isActive = true
-        
-        bodyText.font = UIFont.systemFont(ofSize: 16)
-        bodyText.textAlignment = .left
-        bodyText.numberOfLines = 0
-        bodyText.frame.size.height = 200.0
-        bodyText.sizeToFit()
-        view.addSubview(bodyText)
-        // autolayout contraints
-        bodyText.translatesAutoresizingMaskIntoConstraints = false
-        bodyText.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
-        bodyText.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
-        bodyText.topAnchor.constraint(equalTo: headerText.bottomAnchor, constant: 15).isActive = true
-        
-        // disclosure text
-        disclosureText.font = UIFont.systemFont(ofSize: 14)
-        disclosureText.textAlignment = .left
-        disclosureText.numberOfLines = 0
-        disclosureText.frame.size.height = 200.0
-        disclosureText.sizeToFit()
-        view.addSubview(disclosureText)
-        // autolayout contraints
-        disclosureText.translatesAutoresizingMaskIntoConstraints = false
-        disclosureText.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
-        disclosureText.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
-        // set topanchor
-        disclosureText.topAnchor.constraint(equalTo: bodyText.bottomAnchor, constant: 30).isActive = true
-        disclosureText.textColor = .gray
-        
-        // signin button
-        signInButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 15)
-        signInButton.setTitleColor(.white, for: .normal)
-        signInButton.setTitle("Sign in", for: .normal)
-        signInButton.contentEdgeInsets = UIEdgeInsets(top: 13,left: 5,bottom: 13,right: 5)
-        signInButton.addTarget(self, action: #selector(loginUser), for: .touchUpInside)
-        signInButton.sizeToFit()
-        view.addSubview(signInButton)
-        // autolayout contraints
-        signInButton.translatesAutoresizingMaskIntoConstraints = false
-        signInButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
-        signInButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
-        // set topanchor of label equal to bottomanchor of textview
-        signInButton.topAnchor.constraint(equalTo: disclosureText.bottomAnchor, constant: 30).isActive = true
-        signInButton.backgroundColor = uwPurple
-        signInButton.layer.cornerRadius = 10
-        
-        
-        
-        //eulaButton
-        eulaButton.titleLabel?.font = UIFont.systemFont(ofSize: 15)
-        eulaButton.titleLabel?.lineBreakMode = .byWordWrapping
-                            
-        eulaButton.setTitleColor(uwPurple, for: .normal)
-        eulaButton.setTitle("End-User License Agreement (EULA)", for: .normal)
-        eulaButton.contentEdgeInsets = UIEdgeInsets(top: -1, left: 0, bottom: 0, right: 0)
-        eulaButton.addTarget(self, action: #selector(showEULA), for: .touchUpInside)
-        eulaButton.sizeToFit()
-        view.addSubview(eulaButton)
-        // autolayout contraints
-        eulaButton.translatesAutoresizingMaskIntoConstraints = false
-        eulaButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
-        eulaButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
-        // set topanchor of label equal to bottomanchor of textview
-        eulaButton.topAnchor.constraint(equalTo: signInButton.bottomAnchor, constant: 30).isActive = true
-        eulaButton.backgroundColor = .white
-        eulaButton.layer.cornerRadius = 0
-        
-        //privacyButton
-        privacyButton.titleLabel?.font = UIFont.systemFont(ofSize: 15)
-        privacyButton.titleLabel?.lineBreakMode = .byWordWrapping
-                    
-        privacyButton.setTitleColor(uwPurple, for: .normal)
-        privacyButton.setTitle("Privacy Policy", for: .normal)
-        privacyButton.contentEdgeInsets = UIEdgeInsets(top: -1, left: 0, bottom: 0, right: 0)
-        privacyButton.addTarget(self, action: #selector(showPrivacy), for: .touchUpInside)
-        privacyButton.sizeToFit()
-        view.addSubview(privacyButton)
-        // autolayout contraints
-        privacyButton.translatesAutoresizingMaskIntoConstraints = false
-        privacyButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
-        privacyButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
-        // set topanchor of label equal to bottomanchor of textview
-        privacyButton.topAnchor.constraint(equalTo: eulaButton.bottomAnchor, constant: 3).isActive = true
-        privacyButton.backgroundColor = .white
-        privacyButton.layer.cornerRadius = 0
-        
-        //termsButton
-        termsButton.titleLabel?.font = UIFont.systemFont(ofSize: 15)
-        termsButton.titleLabel?.lineBreakMode = .byWordWrapping
-                    
-        termsButton.setTitleColor(uwPurple, for: .normal)
-        termsButton.setTitle("Terms of Service", for: .normal)
-        termsButton.contentEdgeInsets = UIEdgeInsets(top: -1, left: 0, bottom: 0, right: 0)
-        termsButton.addTarget(self, action: #selector(showTerms), for: .touchUpInside)
-        termsButton.sizeToFit()
-        view.addSubview(termsButton)
-        // autolayout contraints
-        termsButton.translatesAutoresizingMaskIntoConstraints = false
-        termsButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
-        termsButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
-        // set topanchor of label equal to bottomanchor of textview
-        termsButton.topAnchor.constraint(equalTo: privacyButton.bottomAnchor, constant: 3).isActive = true
-        termsButton.backgroundColor = .white
-        termsButton.layer.cornerRadius = 0
+        //tabBarCont = UITabBarController()
+        //view.addSubview((tabBarCont?.view)!)
+                
+        setupScrollView()
+        setupViews()
         
         // get authstate
         self.loadState()
         
         os_log("SignedOut: %@", log: .appAuth, type: .info, signedOut.description)
         
-        // set initial text for sign-in messaging
-        headerText.text = "Welcome"
-        bodyText.text = "Please sign in to continue."
-        
-        disclosureText.text = "Please read the End-User License Agreement (the \"EULA\" or \"Agreement\") carefully before signing in.\n\nThe Agreement governs Your download and use of the MyUW application (\"Software\") provided by the University of Washington (the \"University\"). Your use of the Software constitutes Your acceptance of the terms of the Agreement and is subject to the Privacy Policy and Terms of Service of University."
-        
+    
         if (signedOut) {
             // set auto sign-out messaging
-            self.headerText.text = "Signed out"
-            self.bodyText.text = "You have been signed out successfully. In some cases, you may be signed out because of an application error or prolonged inactivity. Sign in to continue."
+            headerText.text = "Signed out"
+            
+            // hide ciso intro
+            introText.isHidden = true
+            bulletText.isHidden = true
+            
+            // update continue text and reposition below signed out header
+            continueText.topAnchor.constraint(equalTo: headerText.bottomAnchor, constant: 30).isActive = true
+            continueText.text = "You have been signed out successfully. In some cases, you may be signed out because of an application error or prolonged inactivity. Sign in to continue."
         }
         
     }
+    
+    func setupScrollView(){
+        
+        scrollView.backgroundColor = .white
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        contentView.translatesAutoresizingMaskIntoConstraints = false
+        
+        view.addSubview(scrollView)
+        scrollView.addSubview(contentView)
+        
+        scrollView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        scrollView.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
+        scrollView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        
+        contentView.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
+        contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
+        contentView.topAnchor.constraint(equalTo: scrollView.topAnchor).isActive = true
+        contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor).isActive = true
+    }
+    
+    func setupViews(){
+        
+        contentView.addSubview(headerText)
+        headerText.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20).isActive = true
+        headerText.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20).isActive = true
+        // anchor first element to top of contentView
+        headerText.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 30).isActive = true
+        
+        contentView.addSubview(introText)
+        introText.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20).isActive = true
+        introText.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20).isActive = true
+        introText.topAnchor.constraint(equalTo: headerText.bottomAnchor, constant: 30).isActive = true
+        
+        contentView.addSubview(bulletText)
+        bulletText.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20).isActive = true
+        bulletText.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20).isActive = true
+        bulletText.topAnchor.constraint(equalTo: introText.bottomAnchor, constant: 30).isActive = true
+        
+        contentView.addSubview(continueText)
+        continueText.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20).isActive = true
+        continueText.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20).isActive = true
+        continueText.topAnchor.constraint(equalTo: bulletText.bottomAnchor, constant: 30).isActive = true
+        
+        contentView.addSubview(signInButton)
+        signInButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20).isActive = true
+        signInButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20).isActive = true
+        signInButton.topAnchor.constraint(equalTo: continueText.bottomAnchor, constant: 30).isActive = true
+        
+        contentView.addSubview(disclosureText)
+        disclosureText.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20).isActive = true
+        disclosureText.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20).isActive = true
+        disclosureText.topAnchor.constraint(equalTo: signInButton.bottomAnchor, constant: 30).isActive = true
+        
+        contentView.addSubview(eulaButton)
+        eulaButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20).isActive = true
+        eulaButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20).isActive = true
+        eulaButton.topAnchor.constraint(equalTo: disclosureText.bottomAnchor, constant: 30).isActive = true
+        
+        contentView.addSubview(privacyButton)
+        privacyButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20).isActive = true
+        privacyButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20).isActive = true
+        privacyButton.topAnchor.constraint(equalTo: eulaButton.bottomAnchor, constant: 3).isActive = true
+        
+        contentView.addSubview(termsButton)
+        termsButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20).isActive = true
+        termsButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20).isActive = true
+        termsButton.topAnchor.constraint(equalTo: privacyButton.bottomAnchor, constant: 3).isActive = true
+        
+        contentView.addSubview(problemButton)
+        problemButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20).isActive = true
+        problemButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20).isActive = true
+        problemButton.topAnchor.constraint(equalTo: termsButton.bottomAnchor, constant: 30).isActive = true
+        // // anchor last element to bottom of contentView, add 100 pixels to preserve scrolling bounce
+        problemButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -100).isActive = true
+        
+    }
+    
+    let headerText: UILabel = {
+        let label = UILabel()
+        label.text = "Welcome"
+        label.font = UIFont.boldSystemFont(ofSize: 19)
+        label.textAlignment = .left
+        label.sizeToFit()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    let introText: UILabel = {
+        let label = UILabel()
+        label.text = "The MyUW app is designed to keep you signed in to MyUW for convenience. Here are some tips to keep your UW NetID and personal information safe:"
+        label.font = UIFont.systemFont(ofSize: 16)
+        label.textAlignment = .left
+        label.numberOfLines = 0
+        label.frame.size.height = 200.0
+        label.sizeToFit()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    let bulletText: UILabel = {
+        let label = UILabel()
+        let bulletArray = [
+            "Use a strong password",
+            "Configure your device to require a passcode, biometric factor, or other security measure to unlock it",
+            "Make sure your device is locked when not in use",
+            "Report a lost or stolen device"
+        ]
+        label.attributedText = NSAttributedStringHelper.createBulletedList(fromStringArray: bulletArray, font: UIFont.systemFont(ofSize: 16))
+        label.textAlignment = .left
+        label.numberOfLines = 0
+        if (label.isHidden) {
+            label.frame.size.height = 0
+        } else {
+            label.frame.size.height = 200.0
+        }
+        label.sizeToFit()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    let continueText: UILabel = {
+        let label = UILabel()
+        label.text = "Please sign in to continue."
+        label.font = UIFont.systemFont(ofSize: 16)
+        label.textAlignment = .left
+        label.numberOfLines = 0
+        label.frame.size.height = 200.0
+        label.sizeToFit()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    let signInButton: UIButton = {
+        let button = UIButton()
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 15)
+        button.setTitleColor(.white, for: .normal)
+        button.setTitle("Sign in", for: .normal)
+        button.backgroundColor = uwPurple
+        button.layer.cornerRadius = 10
+        button.contentEdgeInsets = UIEdgeInsets(top: 13,left: 5,bottom: 13,right: 5)
+        button.addTarget(self, action: #selector(loginUser), for: .touchUpInside)
+        button.sizeToFit()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
+    let disclosureText: UILabel = {
+        let label = UILabel()
+        label.text = "Please read the End-User License Agreement (the \"EULA\" or \"Agreement\") carefully before signing in. The Agreement governs Your download and use of the MyUW application (\"Software\") provided by the University of Washington (the \"University\"). Your use of the Software constitutes Your acceptance of the terms of the Agreement and is also subject to the Privacy Policy and Terms of Service of University."
+        label.font = UIFont.systemFont(ofSize: 14)
+        label.textColor = .gray
+        label.textAlignment = .left
+        label.numberOfLines = 0
+        label.frame.size.height = 200.0
+        label.sizeToFit()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    let eulaButton: UIButton = {
+        let button = UIButton()
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 15)
+        button.titleLabel?.lineBreakMode = .byWordWrapping
+        button.setTitleColor(uwPurple, for: .normal)
+        button.setTitle("End-User License Agreement (EULA)", for: .normal)
+        button.contentEdgeInsets = UIEdgeInsets(top: -1, left: 0, bottom: 0, right: 0)
+        button.addTarget(self, action: #selector(showEULA), for: .touchUpInside)
+        button.sizeToFit()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
+    let privacyButton: UIButton = {
+        let button = UIButton()
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 15)
+        button.titleLabel?.lineBreakMode = .byWordWrapping
+        button.setTitleColor(uwPurple, for: .normal)
+        button.setTitle("Privacy Policy", for: .normal)
+        button.contentEdgeInsets = UIEdgeInsets(top: -1, left: 0, bottom: 0, right: 0)
+        button.addTarget(self, action: #selector(showPrivacy), for: .touchUpInside)
+        button.sizeToFit()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
+    let termsButton: UIButton = {
+        let button = UIButton()
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 15)
+        button.titleLabel?.lineBreakMode = .byWordWrapping
+        button.setTitleColor(uwPurple, for: .normal)
+        button.setTitle("Terms of Service", for: .normal)
+        button.contentEdgeInsets = UIEdgeInsets(top: -1, left: 0, bottom: 0, right: 0)
+        button.addTarget(self, action: #selector(showTerms), for: .touchUpInside)
+        button.sizeToFit()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
+    let problemButton: UIButton = {
+        let button = UIButton()
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 15)
+        button.titleLabel?.lineBreakMode = .byWordWrapping
+        button.titleLabel?.textAlignment = .center
+        button.setTitleColor(uwPurple, for: .normal)
+        button.setTitle("Report a problem: help@uw.edu", for: .normal)
+        button.contentEdgeInsets = UIEdgeInsets(top: 10, left: 0, bottom: 0, right: 0)
+        button.addTarget(self, action: #selector(reportProblem), for: .touchUpInside)
+        button.sizeToFit()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
     
     @objc private func loginUser() {
         os_log("Sign in button tapped", log: .appAuth, type: .info)
@@ -196,18 +293,40 @@ class AppAuthController: UIViewController, UIWebViewDelegate {
     }
     
     @objc private func showEULA(sender: AnyObject) {
-        os_log("EULA button tapped", log: .appAuth, type: .info)
-        UIApplication.shared.open(NSURL(string: linkEULA)! as URL)
+        os_log("EULA button tapped", log: .appAuth, type: .info)        
+        if #available(iOS 10.0, *) {
+            UIApplication.shared.open(URL(string: linkEULA)!, options: [:], completionHandler: nil)
+        } else {
+            UIApplication.shared.openURL(URL(string: linkEULA)!)
+        }
     }
     
     @objc private func showPrivacy(sender: AnyObject) {
         os_log("Privacy button tapped", log: .appAuth, type: .info)
-        UIApplication.shared.open(NSURL(string: linkPrivacy)! as URL)
+        if #available(iOS 10.0, *) {
+            UIApplication.shared.open(URL(string: linkPrivacy)!, options: [:], completionHandler: nil)
+        } else {
+            UIApplication.shared.openURL(URL(string: linkPrivacy)!)
+        }
     }
     
     @objc private func showTerms(sender: AnyObject) {
         os_log("ToS button tapped", log: .appAuth, type: .info)
-        UIApplication.shared.open(NSURL(string: linkTerms)! as URL)
+        if #available(iOS 10.0, *) {
+            UIApplication.shared.open(URL(string: linkTerms)!, options: [:], completionHandler: nil)
+        } else {
+            UIApplication.shared.openURL(URL(string: linkTerms)!)
+        }
+    }
+    
+    @objc private func reportProblem(sender: AnyObject) {
+        os_log("Report problem button tapped", log: .appAuth, type: .info)
+
+        if #available(iOS 10.0, *) {
+            UIApplication.shared.open(URL(string: linkHelp)!, options: [:], completionHandler: nil)
+        } else {
+            UIApplication.shared.openURL(URL(string: linkHelp)!)
+        }
     }
     
     @objc func signOut() {
@@ -229,13 +348,16 @@ class AppAuthController: UIViewController, UIWebViewDelegate {
         
         // show the sign-in content
         headerText.isHidden = false
-        bodyText.isHidden = false
+        introText.isHidden = false
+        bulletText.isHidden = false
+        continueText.isHidden = false
         signInButton.isHidden = false
         disclosureText.isHidden = false
         eulaButton.isHidden = false
         privacyButton.isHidden = false
         termsButton.isHidden = false
-                    
+        problemButton.isHidden = false
+        
     }
     
     func authWithAutoCodeExchange() {
@@ -395,9 +517,9 @@ extension AppAuthController {
             os_log("ID token: %@", log: .appAuth, type: .error, authState?.lastTokenResponse?.idToken ?? "NONE")
             return
         }
- 
+        
         var authState: OIDAuthState? = nil
-                
+        
         authState = try! NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(data) as? OIDAuthState
         
         if let authState = authState {
@@ -431,18 +553,21 @@ extension AppAuthController {
     func updateUI() {
         
         os_log("updateUI", log: .appAuth, type: .info)
-           
+        
         // if user is signed-in...
         if self.authState != nil {
             
             // hide the sign-in content
             headerText.isHidden = true
-            bodyText.isHidden = true
+            introText.isHidden = true
+            bulletText.isHidden = true
+            continueText.isHidden = true
             signInButton.isHidden = true
             disclosureText.isHidden = true
             eulaButton.isHidden = true
             privacyButton.isHidden = true
             termsButton.isHidden = true
+            problemButton.isHidden = true
             
             // setup application data to build main app controller
             self.setupApplication()
@@ -505,12 +630,12 @@ extension AppAuthController {
             
             // log accessToken freshness
             /*
-            if currentAccessToken != accessToken {
-                os_log("Access token was refreshed automatically: %@ to %@", log: .auth, type: .info, currentAccessToken ?? "CURRENT_ACCESS_TOKEN", accessToken)
-            } else {
-                os_log("Access token was fresh and not updated: %@", log: .auth, type: .info, accessToken)
-            }
-            */
+             if currentAccessToken != accessToken {
+             os_log("Access token was refreshed automatically: %@ to %@", log: .auth, type: .info, currentAccessToken ?? "CURRENT_ACCESS_TOKEN", accessToken)
+             } else {
+             os_log("Access token was fresh and not updated: %@", log: .auth, type: .info, accessToken)
+             }
+             */
             
             guard let idToken = idToken else {
                 os_log("Error getting idToken", log: .appAuth, type: .error)
@@ -540,7 +665,8 @@ extension AppAuthController {
                 os_log("user IS empty....", log: .appAuth, type: .info)
                 
                 // create activity indicator
-                let tabBarHeight = self.tabBarCont!.tabBar.frame.height
+                //let tabBarHeight = self.tabBarCont!.tabBar.frame.height
+                let tabBarHeight = 80 as CGFloat
                 let indicatorView = UIActivityIndicatorView(style: .gray)
                 indicatorView.isHidden = false
                 indicatorView.translatesAutoresizingMaskIntoConstraints = true // default is true
@@ -555,7 +681,7 @@ extension AppAuthController {
                 ]
                 // add to subview
                 self.view.addSubview(indicatorView)
-           
+                
                 
                 // make sure lastTabIndex is cleared when getting new affiliations
                 UserDefaults.standard.removeObject(forKey: "lastTabIndex")
@@ -677,19 +803,19 @@ extension AppAuthController {
                             os_log("userAffiliations: %{private}@", log: .appAuth, type: .info, User.userAffiliations)
                             
                         }
-                            
+                        
                         // transition to the main application controller
                         self.showApplication()
                         
                     }
-                    
+                
                 }
                 task.resume()
                 
             } else {
                 
                 os_log("user is NOT empty....", log: .appAuth, type: .info)
-                                
+                
                 // transition to the main application controller
                 self.showApplication()
                 
@@ -730,4 +856,44 @@ extension OSLog {
     // log setup
     private static var subsystem = Bundle.main.bundleIdentifier!
     static let appAuth = OSLog(subsystem: subsystem, category: "AppAuth")
+}
+
+// class helper for bulleted list
+class NSAttributedStringHelper {
+    static func createBulletedList(fromStringArray strings: [String], font: UIFont? = nil) -> NSAttributedString {
+        
+        let fullAttributedString = NSMutableAttributedString()
+        let attributesDictionary: [NSAttributedString.Key: Any]
+        
+        if font != nil {
+            attributesDictionary = [NSAttributedString.Key.font: font!]
+        } else {
+            attributesDictionary = [NSAttributedString.Key: Any]()
+        }
+        
+        for index in 0..<strings.count {
+            let bulletPoint: String = "\u{2022}"
+            var formattedString: String = "\(bulletPoint) \(strings[index])"
+            
+            if index < strings.count - 1 {
+                formattedString = "\(formattedString)\n"
+            }
+            
+            let attributedString: NSMutableAttributedString = NSMutableAttributedString(string: formattedString, attributes: attributesDictionary)
+            let paragraphStyle = NSAttributedStringHelper.createParagraphAttribute()
+            attributedString.addAttributes([NSAttributedString.Key.paragraphStyle: paragraphStyle], range: NSMakeRange(0, attributedString.length))
+            fullAttributedString.append(attributedString)
+        }
+        
+        return fullAttributedString
+    }
+    
+    private static func createParagraphAttribute() -> NSParagraphStyle {
+        let paragraphStyle: NSMutableParagraphStyle = NSParagraphStyle.default.mutableCopy() as! NSMutableParagraphStyle
+        paragraphStyle.tabStops = [NSTextTab(textAlignment: .left, location: 15, options: NSDictionary() as! [NSTextTab.OptionKey : Any])]
+        paragraphStyle.defaultTabInterval = 15
+        paragraphStyle.firstLineHeadIndent = 20
+        paragraphStyle.headIndent = 31
+        return paragraphStyle
+    }
 }

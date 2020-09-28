@@ -19,6 +19,7 @@ var clientIssuer = ""
 var linkEULA = ""
 var linkPrivacy = ""
 var linkTerms = ""
+var linkHelp = ""
 
 struct User {
     // From Shibboleth iDP via OIDC
@@ -50,6 +51,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             linkEULA = config["link_eula"] as! String
             linkPrivacy = config["link_privacy"] as! String
             linkTerms = config["link_terms"] as! String
+            linkHelp = config["link_help"] as! String
         }
         
         // setup navbar appearance globally
