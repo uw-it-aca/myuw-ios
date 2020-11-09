@@ -177,7 +177,6 @@ class AppAuthController: UIViewController, UIWebViewDelegate {
     let bulletText: UILabel = {
         let label = UILabel()
         let bulletArray = [
-            "Use a strong password",
             "Configure your device to require a passcode, biometric factor, or other security measure to unlock it",
             "Make sure your device is locked when not in use",
             "Report a lost or stolen device"
