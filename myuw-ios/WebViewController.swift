@@ -217,10 +217,13 @@ class WebViewController: UIViewController, WKNavigationDelegate {
         if navigationAction.navigationType == .linkActivated  {
             
             let url = navigationAction.request.url
-            os_log("navi url: %@", log: .webview, type: .info, url!.absoluteString)
+            os_log("navi url: %@", log: .webview, type: .info, url!.absoluteString as CVarArg)
             
             // check to see if the url is NOT my-test.s.uw.edu (myuw)
             if !url!.absoluteString.contains("\(appHost)"), UIApplication.shared.canOpenURL(url!) {
+                
+                //let outbound = URL(string: uParam!)
+                os_log("navi outbound: %@", log: .webview, type: .info, url!.absoluteString)
                 
                 // open outbound url in safari
                 UIApplication.shared.open(url!)
@@ -232,11 +235,13 @@ class WebViewController: UIViewController, WKNavigationDelegate {
             else if (url?.absoluteString.contains("out?u="))! {
                 // get the outbound url from the u param
                 let uParam = getQueryStringParameter(url: url!.absoluteString, param: "u")
-                // convert string back to url type
-                let outbound = URL(string: uParam!)
-                
+                // strip out "double-quotes" from the url param
+                let outbound = uParam!.replacingOccurrences(of: "\"", with: "", options: NSString.CompareOptions.literal, range: nil)
+                // re-form the outURL as URL type
+                let outURL = URL(string: outbound)
+                os_log("navi out: %@", log: .webview, type: .info, outURL! as CVarArg)
                 // open outbound url in safari
-                UIApplication.shared.open(outbound!)
+                UIApplication.shared.open(outURL!)
                 os_log("navi: redirect to safari", log: .webview, type: .info)
                 decisionHandler(.cancel)
                 
