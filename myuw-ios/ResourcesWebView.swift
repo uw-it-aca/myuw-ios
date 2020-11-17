@@ -18,7 +18,7 @@ class ResourcesWebView: WebViewController {
         webView.load("\(appHost)/resources/")
         
         // override navigation title
-        self.navigationItem.title = "Resources"
+        self.navigationItem.title = "UW Resources"
     }
 
 }
