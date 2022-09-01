@@ -33,7 +33,6 @@
 		85F901A7235E34AE00DA0083 /* ProfileWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F901A6235E34AE00DA0083 /* ProfileWebView.swift */; };
 		893FA6E128C03A3C00E2FA36 /* AppAuth.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 893FA6E028C03A3C00E2FA36 /* AppAuth.xcframework */; };
 		893FA6E228C03A3C00E2FA36 /* AppAuth.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 893FA6E028C03A3C00E2FA36 /* AppAuth.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		893FA6E528C03A4000E2FA36 /* AppAuthCore.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 893FA6E428C03A4000E2FA36 /* AppAuthCore.xcframework */; };
 		893FA6E628C03A4000E2FA36 /* AppAuthCore.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 893FA6E428C03A4000E2FA36 /* AppAuthCore.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
@@ -111,7 +110,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				893FA6E528C03A4000E2FA36 /* AppAuthCore.xcframework in Frameworks */,
 				893FA6E128C03A3C00E2FA36 /* AppAuth.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -569,6 +567,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = "edu.uw.myuw-ios";
 				PRODUCT_NAME = MyUW;
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -596,6 +595,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = "edu.uw.myuw-ios";
 				PRODUCT_NAME = MyUW;
 				PROVISIONING_PROFILE_SPECIFIER = "";
