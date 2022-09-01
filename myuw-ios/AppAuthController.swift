@@ -214,7 +214,7 @@ class AppAuthController: UIViewController, UIWebViewDelegate {
         button.backgroundColor = uwPurple
         button.layer.cornerRadius = 10
         button.contentEdgeInsets = UIEdgeInsets(top: 13,left: 5,bottom: 13,right: 5)
-        button.addTarget(self, action: #selector(loginUser), for: .touchUpInside)
+        button.addTarget(AppAuthController.self, action: #selector(loginUser), for: .touchUpInside)
         button.sizeToFit()
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -240,7 +240,7 @@ class AppAuthController: UIViewController, UIWebViewDelegate {
         button.setTitleColor(uwPurple, for: .normal)
         button.setTitle("End-User License Agreement (EULA)", for: .normal)
         button.contentEdgeInsets = UIEdgeInsets(top: -1, left: 0, bottom: 0, right: 0)
-        button.addTarget(self, action: #selector(showEULA), for: .touchUpInside)
+        button.addTarget(AppAuthController.self, action: #selector(showEULA), for: .touchUpInside)
         button.sizeToFit()
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -253,7 +253,7 @@ class AppAuthController: UIViewController, UIWebViewDelegate {
         button.setTitleColor(uwPurple, for: .normal)
         button.setTitle("Privacy Policy", for: .normal)
         button.contentEdgeInsets = UIEdgeInsets(top: -1, left: 0, bottom: 0, right: 0)
-        button.addTarget(self, action: #selector(showPrivacy), for: .touchUpInside)
+        button.addTarget(AppAuthController.self, action: #selector(showPrivacy), for: .touchUpInside)
         button.sizeToFit()
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -266,7 +266,7 @@ class AppAuthController: UIViewController, UIWebViewDelegate {
         button.setTitleColor(uwPurple, for: .normal)
         button.setTitle("Terms of Service", for: .normal)
         button.contentEdgeInsets = UIEdgeInsets(top: -1, left: 0, bottom: 0, right: 0)
-        button.addTarget(self, action: #selector(showTerms), for: .touchUpInside)
+        button.addTarget(AppAuthController.self, action: #selector(showTerms), for: .touchUpInside)
         button.sizeToFit()
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -280,7 +280,7 @@ class AppAuthController: UIViewController, UIWebViewDelegate {
         button.setTitleColor(uwPurple, for: .normal)
         button.setTitle("Report a problem: help@uw.edu", for: .normal)
         button.contentEdgeInsets = UIEdgeInsets(top: 10, left: 0, bottom: 0, right: 0)
-        button.addTarget(self, action: #selector(reportProblem), for: .touchUpInside)
+        button.addTarget(AppAuthController.self, action: #selector(reportProblem), for: .touchUpInside)
         button.sizeToFit()
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
