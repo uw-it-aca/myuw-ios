@@ -15,7 +15,7 @@
 	<key>link_privacy</key>
 	<string>https://www.washington.edu/online/privacy/</string>
 	<key>link_eula</key>
-	<string>https://itconnect.uw.edu/learn/tools/myuw-help-center/native-apps-eula/</string>
+	<string>https://itconnect.uw.edu/tools-services-support/academic-planning/myuw-help-center/myuw-mobile-apps/ios-eula/</string>
 	<key>link_help</key>
 	<string>mailto:help@uw.edu</string>
 </dict>
