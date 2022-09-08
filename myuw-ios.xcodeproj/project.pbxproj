@@ -86,7 +86,6 @@
 		854EE0AF22F0F9A30042381A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8555688C23FC5B5900E01DB1 /* ErrorController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorController.swift; sourceTree = "<group>"; };
 		85A7541923C508CD003C8380 /* AppAuthController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppAuthController.swift; sourceTree = "<group>"; };
-		85A7541F23C650A8003C8380 /* AppAuth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppAuth.framework; path = Carthage/Build/iOS/AppAuth.framework; sourceTree = "<group>"; };
 		85B147A12368CB0700DE3BFA /* ApplicationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationController.swift; sourceTree = "<group>"; };
 		85B147A32368CC6500DE3BFA /* AccountsWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountsWebView.swift; sourceTree = "<group>"; };
 		85B147A52368CCF200DE3BFA /* CalendarWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarWebView.swift; sourceTree = "<group>"; };
@@ -206,7 +205,6 @@
 			children = (
 				893FA6E428C03A4000E2FA36 /* AppAuthCore.xcframework */,
 				893FA6E028C03A3C00E2FA36 /* AppAuth.xcframework */,
-				85A7541F23C650A8003C8380 /* AppAuth.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
