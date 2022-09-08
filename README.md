@@ -1,8 +1,8 @@
 ## Installing MyUW iOS
 
-Xcode 8 and Swift 2.3
+Xcode 13.4.1 and Swift 5.6.1
 
-Install Carthage (latest 0.34)
+Install Carthage (latest 0.38.0)
 ```
 https://github.com/Carthage/Carthage
 ```
@@ -10,7 +10,7 @@ https://github.com/Carthage/Carthage
 
 Clone this repository
 ```
-$ git clone https://github.com/uw-it-aca/myuw-ios
+$ git clone git@github.com:uw-it-aca/myuw-ios.git
 $ cd myuw-ios
 $ git checkout develop
 ```
@@ -25,7 +25,7 @@ $ cp myuw-ios/sample.myuw.plist myuw-ios/myuw.plist
 
 Bootstrap Carthage
 ```
-$ carthage bootstrap --platform iOS
+$ carthage bootstrap --platform iOS --use-xcframeworks
 ```
 
 Open the 'myuw-ios.xcodeproj' in Xcode.
