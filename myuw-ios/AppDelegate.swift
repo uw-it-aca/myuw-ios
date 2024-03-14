@@ -116,8 +116,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
         os_log("applicationWillEnterForeground", log: .appDelegate, type: .info)
         
-        // force use go through appAuth flow when foregrounding the app
-        UIApplication.shared.delegate?.window!?.rootViewController = UINavigationController(rootViewController: AppAuthController())
+        // force user to go through appAuth flow when foregrounding the app
+        // UIApplication.shared.delegate?.window!?.rootViewController = UINavigationController(rootViewController: AppAuthController())
         
     }
 
