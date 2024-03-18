@@ -37,6 +37,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     // property of the app's AppDelegate (appAuth)
     var currentAuthorizationFlow: OIDExternalUserAgentSession?
+    
+    // timer variables
+    var timer: Timer?
+    var timeAway = 0
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
@@ -97,9 +101,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
        }
 
        return false
-   }
+    }
     
-
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
@@ -109,6 +112,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
         
+        os_log("applicationDidEnterBackground", log: .appDelegate, type: .info)
+        
+        // TODO: start a timer when user puts app in background to handle duo 2fa (allow 1min)
+        self.timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.calculateSeconds), userInfo: nil, repeats: true)
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
@@ -116,8 +123,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
         os_log("applicationWillEnterForeground", log: .appDelegate, type: .info)
         
-        // force use go through appAuth flow when foregrounding the app
-        UIApplication.shared.delegate?.window!?.rootViewController = UINavigationController(rootViewController: AppAuthController())
+        // TODO: check how long the user has been away from the app (gone to DUO 2FA?)
+        if (self.timeAway > 30) {
+            // force user to go through appAuth flow when foregrounding the app if they have been away longer than 30sec
+            UIApplication.shared.delegate?.window!?.rootViewController = UINavigationController(rootViewController: AppAuthController())
+            // reset timer
+            self.timeAway = 0
+            self.timer?.invalidate()
+            self.timer = nil
+        }
         
     }
 
@@ -175,6 +189,10 @@ extension AppDelegate {
                 SCNetworkReachabilityCreateWithAddress(nil, $0)
             }
         })
+    }
+    
+    @objc func calculateSeconds() {
+        self.timeAway += 1
     }
 
 }
