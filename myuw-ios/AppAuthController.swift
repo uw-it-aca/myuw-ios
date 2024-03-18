@@ -519,7 +519,7 @@ extension AppAuthController {
         
         var authState: OIDAuthState? = nil
         
-        authState = try! NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(data) as? OIDAuthState
+        authState = try! NSKeyedUnarchiver.unarchiveObject(with: data) as? OIDAuthState
         
         if let authState = authState {
             os_log("authorization state has been loaded", log: .appAuth, type: .info)
