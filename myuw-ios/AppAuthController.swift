@@ -517,7 +517,6 @@ extension AppAuthController {
         
         os_log("loadState", log: .appAuth, type: .info)
         
-
         guard let data = UserDefaults.standard.object(forKey: kAppAuthExampleAuthStateKey) as? Data else {
             os_log("no authorization state", log: .appAuth, type: .info)
             os_log("ID token: %@", log: .appAuth, type: .error, authState?.lastTokenResponse?.idToken ?? "NONE")
@@ -533,7 +532,6 @@ extension AppAuthController {
             signingOut = true
             self.setAuthState(authState)
         }
-        
         
     }
     
