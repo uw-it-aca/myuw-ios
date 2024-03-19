@@ -207,7 +207,7 @@ class AppAuthController: UIViewController, UIWebViewDelegate {
         return label
     }()
     
-    let signInButton: UIButton = {
+    private lazy var signInButton: UIButton = {
         let button = UIButton()
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 15)
         button.setTitleColor(.white, for: .normal)
@@ -234,7 +234,7 @@ class AppAuthController: UIViewController, UIWebViewDelegate {
         return label
     }()
     
-    let eulaButton: UIButton = {
+    private lazy var eulaButton: UIButton = {
         let button = UIButton()
         button.titleLabel?.font = UIFont.systemFont(ofSize: 15)
         button.titleLabel?.lineBreakMode = .byWordWrapping
@@ -247,7 +247,7 @@ class AppAuthController: UIViewController, UIWebViewDelegate {
         return button
     }()
     
-    let privacyButton: UIButton = {
+    private lazy var privacyButton: UIButton = {
         let button = UIButton()
         button.titleLabel?.font = UIFont.systemFont(ofSize: 15)
         button.titleLabel?.lineBreakMode = .byWordWrapping
@@ -260,7 +260,7 @@ class AppAuthController: UIViewController, UIWebViewDelegate {
         return button
     }()
     
-    let termsButton: UIButton = {
+    private lazy var termsButton: UIButton = {
         let button = UIButton()
         button.titleLabel?.font = UIFont.systemFont(ofSize: 15)
         button.titleLabel?.lineBreakMode = .byWordWrapping
@@ -273,7 +273,7 @@ class AppAuthController: UIViewController, UIWebViewDelegate {
         return button
     }()
     
-    let problemButton: UIButton = {
+    private lazy var problemButton: UIButton = {
         let button = UIButton()
         button.titleLabel?.font = UIFont.systemFont(ofSize: 15)
         button.titleLabel?.lineBreakMode = .byWordWrapping
