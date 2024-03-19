@@ -19,7 +19,8 @@ let kClientID: String? = clientID
 let kRedirectURI: String = "myuwapp://oauth2redirect";
 let kAppAuthExampleAuthStateKey: String = "authState";
 
-var signedOut = false
+var signingOut = false
+public var signingIn = false
 
 class AppAuthController: UIViewController, UIWebViewDelegate {
     
@@ -56,11 +57,11 @@ class AppAuthController: UIViewController, UIWebViewDelegate {
         
         // get authstate
         self.loadState()
-        
-        os_log("SignedOut: %@", log: .appAuth, type: .info, signedOut.description)
+   
+        os_log("signingOut: %@", log: .appAuth, type: .info, signingOut.description)
         
     
-        if (signedOut) {
+        if (signingOut) {
             // set auto sign-out messaging
             headerText.text = "Signed out"
             
@@ -288,6 +289,9 @@ class AppAuthController: UIViewController, UIWebViewDelegate {
     
     @objc private func loginUser() {
         os_log("Sign in button tapped", log: .appAuth, type: .info)
+        
+        // set signing in flag true
+        signingIn = true
         authWithAutoCodeExchange()
     }
     
@@ -333,7 +337,7 @@ class AppAuthController: UIViewController, UIWebViewDelegate {
         os_log("Signing user out of native", log: .appAuth, type: .info)
         
         // set signed out to true
-        signedOut = true
+        signingOut = true
         
         // clear authstate to signout user
         setAuthState(nil)
@@ -511,6 +515,7 @@ extension AppAuthController {
         
         os_log("loadState", log: .appAuth, type: .info)
         
+
         guard let data = UserDefaults.standard.object(forKey: kAppAuthExampleAuthStateKey) as? Data else {
             os_log("no authorization state", log: .appAuth, type: .info)
             os_log("ID token: %@", log: .appAuth, type: .error, authState?.lastTokenResponse?.idToken ?? "NONE")
@@ -524,9 +529,10 @@ extension AppAuthController {
         if let authState = authState {
             os_log("authorization state has been loaded", log: .appAuth, type: .info)
             // set signed out to true
-            signedOut = true
+            signingOut = true
             self.setAuthState(authState)
         }
+        
         
     }
     
@@ -571,6 +577,9 @@ extension AppAuthController {
             // setup application data to build main app controller
             self.setupApplication()
             
+            // set signingIn back to false
+            os_log("signingIn: %@", log: .appAuth, type: .info, signingIn.description)
+            signingIn = false
         }
     }
     
