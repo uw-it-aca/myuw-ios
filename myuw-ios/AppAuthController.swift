@@ -524,8 +524,9 @@ extension AppAuthController {
             return
         }
         
-        if let authState = NSKeyedUnarchiver.unarchiveObject(with: data) as? OIDAuthState {
-            
+        // fixes with: data deprecation warning
+        if let authState = try? NSKeyedUnarchiver.unarchivedObject(ofClass: OIDAuthState.self, from: data) {
+        
             os_log("authorization state has been loaded", log: .appAuth, type: .info)
             
             // set signed out to true
