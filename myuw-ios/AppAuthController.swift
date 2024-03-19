@@ -292,6 +292,8 @@ class AppAuthController: UIViewController, UIWebViewDelegate {
         
         // set signing in flag true
         signingIn = true
+        
+        // authorize oidc with auto code exchange
         authWithAutoCodeExchange()
     }
     
@@ -528,6 +530,7 @@ extension AppAuthController {
         
         if let authState = authState {
             os_log("authorization state has been loaded", log: .appAuth, type: .info)
+            
             // set signed out to true
             signingOut = true
             self.setAuthState(authState)
@@ -576,10 +579,6 @@ extension AppAuthController {
             
             // setup application data to build main app controller
             self.setupApplication()
-            
-            // set signingIn back to false
-            os_log("signingIn: %@", log: .appAuth, type: .info, signingIn.description)
-            signingIn = false
         }
     }
     
@@ -603,6 +602,10 @@ extension AppAuthController {
     }
     
     func showApplication() {
+        
+        // set signingIn back to false before showing the application
+        os_log("signingIn: %@", log: .appAuth, type: .info, signingIn.description)
+        signingIn = false
         
         os_log("showApplication", log: .appAuth, type: .info)
         
