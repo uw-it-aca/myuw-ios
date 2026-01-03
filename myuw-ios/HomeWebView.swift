@@ -22,8 +22,8 @@ class HomeWebView: WebViewController {
         
         let userButton = UIButton(type: .system)
         userButton.setImage(UIImage(named: "ic_person"), for: .normal)
-        userButton.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        userButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 5)
+        userButton.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 10)
+        userButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         userButton.setTitle(User.userNetID, for: .normal)
         userButton.titleLabel?.font = UIFont.systemFont(ofSize: 17)
         userButton.sizeToFit()
@@ -40,8 +40,8 @@ class HomeWebView: WebViewController {
             // define custom search button
             let searchButton = UIButton(type: .system)
             searchButton.setImage(UIImage(named: "ic_search_18"), for: .normal)
-            searchButton.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0);
-            searchButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 5);
+            searchButton.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 10);
+            searchButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0);
             searchButton.setTitle("Search", for: .normal)
             searchButton.titleLabel?.font = UIFont.systemFont(ofSize: 17)
             searchButton.sizeToFit()
