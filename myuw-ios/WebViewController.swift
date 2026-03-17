@@ -29,7 +29,7 @@ class WebViewController: UIViewController, WKNavigationDelegate {
         super.viewDidLoad()
         
         // MARK: - Large title display mode and preference
-        self.navigationItem.largeTitleDisplayMode = .never
+        self.navigationItem.largeTitleDisplayMode = .automatic
         self.navigationController?.navigationBar.prefersLargeTitles = true
         
         // MARK: - WKWebView setup and configuration
