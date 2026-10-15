@@ -15,7 +15,6 @@ class ApplicationController: UITabBarController, UITabBarControllerDelegate, UIN
     // global tab setup
     let tabHome = UINavigationController(rootViewController: HomeWebView())
     let tabAcademics = UINavigationController(rootViewController: AcademicsWebView())
-    let tabHuskyExp = UINavigationController(rootViewController: HuskyExpWebView())
     let tabTeaching = UINavigationController(rootViewController: TeachingWebView())
     let tabAccounts = UINavigationController(rootViewController: AccountsWebView())
     let tabProfile = UINavigationController(rootViewController: ProfileWebView())
@@ -53,10 +52,6 @@ class ApplicationController: UITabBarController, UITabBarControllerDelegate, UIN
         // Academics tab
         let tabAcademicsBarItem = UITabBarItem(title: "Academics", image: UIImage(named: "ic_academics"), selectedImage: UIImage(named: "selectedImage2.png"))
         tabAcademics.tabBarItem = tabAcademicsBarItem
-        
-        // Husky Experience tab
-        let tabHuskyExpBarItem = UITabBarItem(title: "Husky Exp", image: UIImage(named: "ic_paw"), selectedImage: UIImage(named: "selectedImage2.png"))
-        tabHuskyExp.tabBarItem = tabHuskyExpBarItem
         
         // Teaching tab
         let tabTeachingBarItem = UITabBarItem(title: "Teaching", image: UIImage(named: "ic_teaching"), selectedImage: UIImage(named: "selectedImage2.png"))
@@ -100,11 +95,6 @@ class ApplicationController: UITabBarController, UITabBarControllerDelegate, UIN
         // insert academics tab for students or applicant
         if User.userAffiliations.contains("student") || User.userAffiliations.contains("applicant") {
             controllers.insert(tabAcademics, at: 1)
-        }
-        
-        // insert husky exp tab for seattle undergrad
-        if (User.userAffiliations.contains("undergrad") && User.userAffiliations.contains("seattle")) || User.userAffiliations.contains("hxt_viewer") {
-            controllers.insert(tabHuskyExp, at: 1)
         }
         
         // insert teaching tab for instructor
@@ -166,9 +156,6 @@ class ApplicationController: UITabBarController, UITabBarControllerDelegate, UIN
             UserDefaults.standard.set(selectedIndex, forKey: "lastTabIndex")
         case tabTeaching:
             os_log("Clicked tabTeaching, index: %d", log: .app, type: .info, selectedIndex)
-            UserDefaults.standard.set(selectedIndex, forKey: "lastTabIndex")
-        case tabHuskyExp:
-            os_log("Clicked tabHuskyExp, index: %d", log: .app, type: .info, selectedIndex)
             UserDefaults.standard.set(selectedIndex, forKey: "lastTabIndex")
         case tabAccounts:
             os_log("Clicked tabAccounts, index: %d", log: .app, type: .info, selectedIndex)
