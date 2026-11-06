@@ -21,6 +21,9 @@ class SearchWebView: WebViewController, UISearchBarDelegate {
         // override navigation title (match UW page title)
         self.navigationItem.title = "Search the UW"
         
+        //never instead of automatic - auto would only show the first letter of the search when "Showing results for"
+        self.navigationItem.largeTitleDisplayMode = .never
+
         webView.scrollView.contentInsetAdjustmentBehavior = .never
         
         // add a right button in navbar programatically
@@ -78,7 +81,9 @@ class SearchWebView: WebViewController, UISearchBarDelegate {
         activityIndicator.stopAnimating()
         
         // override navigation title by getting the navigated webview's page title
-        self.navigationItem.title = webView.title!.replacingOccurrences(of: "MyUW: ", with: "")
+        if let pageTitle = webView.title, !pageTitle.isEmpty {
+            self.navigationItem.title = pageTitle.replacingOccurrences(of: "MyUW: ", with: "")
+        }
         
         webView.scrollView.contentInsetAdjustmentBehavior = .automatic
         
