@@ -3,11 +3,10 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		852EB76E237C956A002A2357 /* HuskyExpWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 852EB76D237C956A002A2357 /* HuskyExpWebView.swift */; };
 		852EB770237C97C7002A2357 /* NoticesWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 852EB76F237C97C7002A2357 /* NoticesWebView.swift */; };
 		8534DCDA237F27E100914045 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8534DCD9237F27E100914045 /* WebViewController.swift */; };
 		8534DD1D239847CA00914045 /* sample.myuw.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8534DD1C239847CA00914045 /* sample.myuw.plist */; };
@@ -69,7 +68,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		852EB76D237C956A002A2357 /* HuskyExpWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HuskyExpWebView.swift; sourceTree = "<group>"; };
 		852EB76F237C97C7002A2357 /* NoticesWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticesWebView.swift; sourceTree = "<group>"; };
 		8534DCD9237F27E100914045 /* WebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
 		8534DD1C239847CA00914045 /* sample.myuw.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = sample.myuw.plist; sourceTree = "<group>"; };
@@ -167,7 +165,6 @@
 				85F901A6235E34AE00DA0083 /* ProfileWebView.swift */,
 				85B147AD2368CE7600DE3BFA /* HomeWebView.swift */,
 				85B147A32368CC6500DE3BFA /* AccountsWebView.swift */,
-				852EB76D237C956A002A2357 /* HuskyExpWebView.swift */,
 				852EB76F237C97C7002A2357 /* NoticesWebView.swift */,
 				85B147A52368CCF200DE3BFA /* CalendarWebView.swift */,
 				85B147A72368CD3800DE3BFA /* TeachingWebView.swift */,
@@ -379,7 +376,6 @@
 				85CC319C2375E38D00F38903 /* SearchWebView.swift in Sources */,
 				85B147A82368CD3800DE3BFA /* TeachingWebView.swift in Sources */,
 				85B147AC2368CDF200DE3BFA /* ResourcesWebView.swift in Sources */,
-				852EB76E237C956A002A2357 /* HuskyExpWebView.swift in Sources */,
 				85F901A7235E34AE00DA0083 /* ProfileWebView.swift in Sources */,
 				8555688D23FC5B5900E01DB1 /* ErrorController.swift in Sources */,
 				854EE08E22F0F9A20042381A /* AppDelegate.swift in Sources */,
