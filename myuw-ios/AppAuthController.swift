@@ -456,7 +456,7 @@ class AppAuthController: UIViewController, UIWebViewDelegate {
         let request = OIDAuthorizationRequest(configuration: configuration,
                                               clientId: clientID,
                                               clientSecret: clientSecret,
-                                              scopes: ["openid profile offline_access"],
+                                              scopes: [OIDScopeOpenID, OIDScopeProfile, "offline_access"],
                                               redirectURL: redirectURI,
                                               responseType: OIDResponseTypeCode,
                                               additionalParameters: ["prompt":"login"])

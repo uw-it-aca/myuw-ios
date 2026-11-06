@@ -595,7 +595,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/myuw-ios.app/myuw-ios";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MyUW.app/MyUW";
 			};
 			name = Debug;
 		};
@@ -615,7 +615,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/myuw-ios.app/myuw-ios";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MyUW.app/MyUW";
 			};
 			name = Release;
 		};

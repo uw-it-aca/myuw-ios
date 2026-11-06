@@ -26,30 +26,21 @@ class myuw_iosUITests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
 
-    func testWeblogin() {
-        // Use recording to get started writing UI tests.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-        
+    func testWelcomeScreen() {
         let app = XCUIApplication()
-        app.launch()
-        
-        // TEST: weblogin is displayed on initial load... prompting user to sign in
-        let userNetidString = app.staticTexts["usernetid"]
-        let exists = NSPredicate(format: "exists == 1")
-        expectation(for: exists, evaluatedWith: userNetidString, handler: nil)
 
-        waitForExpectations(timeout: 5, handler: nil)
-        
-        let fullScreenshot = XCUIScreen.main.screenshot()
-        let screenshot = XCTAttachment(screenshot: fullScreenshot)
-        screenshot.lifetime = .keepAlways
+        // TEST: signed-out users see the native Welcome screen prompting them to sign in
+        let welcomeText = app.staticTexts["Welcome"]
+        XCTAssertTrue(welcomeText.waitForExistence(timeout: 5), "Welcome text not shown on launch")
+
+        let signInButton = app.buttons["Sign in"]
+        XCTAssertTrue(signInButton.exists, "Sign in button not shown on launch")
+        XCTAssertTrue(signInButton.isHittable, "Sign in button is not tappable")
+
+        let screenshot = XCTAttachment(screenshot: XCUIScreen.main.screenshot())
         // if we don't set lifetime to .keepAlways, Xcode will delete the image if the test passes.
-
+        screenshot.lifetime = .keepAlways
         add(screenshot)
-        
-        XCTAssert(userNetidString.exists)
-        
-        
     }
 
 }

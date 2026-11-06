@@ -41,3 +41,17 @@ $ cp myuw-ios/sample.myuw.plist myuw-ios/myuw.plist
 ```
 
 Open the 'myuw-ios.xcodeproj' in Xcode.
+
+## Tests and code coverage
+
+Code coverage is enabled in the shared `MyUW` scheme and is collected for the app target (`MyUW.app`) only.
+
+In Xcode, run tests with Product > Test (⌘U), then open the Report navigator (⌘9) and select the Coverage report.
+
+From the command line:
+```
+$ xcodebuild test -project myuw-ios.xcodeproj -scheme MyUW \
+    -destination 'platform=iOS Simulator,name=iPhone 15 Pro' \
+    -resultBundlePath TestResults.xcresult
+$ xcrun xccov view --report --only-targets TestResults.xcresult
+```
