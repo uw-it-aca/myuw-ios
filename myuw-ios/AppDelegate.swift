@@ -91,12 +91,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // handle appauth
     func application(_ application: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
 
-       if let authorizationFlow = self.currentAuthorizationFlow, authorizationFlow.resumeExternalUserAgentFlow(with: url) {
-           self.currentAuthorizationFlow = nil
-           return true
+       guard let authorizationFlow = self.currentAuthorizationFlow else {
+           return false
        }
 
-       return false
+       do {
+           try authorizationFlow.resumeExternalUserAgentFlow(url)
+           self.currentAuthorizationFlow = nil
+           return true
+       } catch {
+           os_log("resumeExternalUserAgentFlow failed: %{public}@", log: .appDelegate, type: .error, error.localizedDescription)
+           return false
+       }
     }
     
     func applicationWillResignActive(_ application: UIApplication) {

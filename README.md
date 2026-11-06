@@ -1,12 +1,29 @@
 ## Installing MyUW iOS
 
-Xcode 13.4.1 and Swift 5.6.1
+Requirements
+- Xcode 27 (iOS 27 SDK)
+- Minimum deployment target: iOS 15.0
 
-Install Carthage (latest 0.38.0)
+## Dependencies
+
+Dependencies are managed with Swift Package Manager (SPM). No separate install step is needed; Xcode downloads them the first time the project is opened.
+
+| Package | Version |
+|---|---|
+| [AppAuth-iOS](https://github.com/openid/AppAuth-iOS) | 3.0.x (up to next major) |
+
+Exact versions are pinned in `myuw-ios.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved`. Commit this file whenever it changes.
+
+Update dependencies: in Xcode, choose File > Packages > Update to Latest Package Versions, then commit the updated `Package.resolved`.
+
+Resolve dependencies from the command line (e.g. CI):
 ```
-https://github.com/Carthage/Carthage
+$ xcodebuild -resolvePackageDependencies -project myuw-ios.xcodeproj
 ```
 
+If packages fail to resolve, choose File > Packages > Reset Package Caches.
+
+## Setup
 
 Clone this repository
 ```
@@ -21,11 +38,6 @@ $ cp myuw-ios/sample.myuw.plist myuw-ios/myuw.plist
 
  change the value for 'myuw_host' 
 
-```
-
-Bootstrap Carthage
-```
-$ carthage bootstrap --platform iOS --use-xcframeworks
 ```
 
 Open the 'myuw-ios.xcodeproj' in Xcode.
