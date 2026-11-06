@@ -798,11 +798,7 @@ extension AppAuthController {
                             if json["undergrad"] as! Bool == true {
                                 User.userAffiliations.append("undergrad")
                             }
-                            
-                            if json["hxt_viewer"] as! Bool == true {
-                                User.userAffiliations.append("hxt_viewer")
-                            }
-                            
+
                             if json["seattle"] as! Bool == true {
                                 User.userAffiliations.append("seattle")
                             }
